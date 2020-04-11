@@ -5,6 +5,9 @@
 ## Build Setup
 
 ```bash
+# yarn install
+[yarn install](https://classic.yarnpkg.com/ja/docs/install/#mac-stable)
+
 # install dependencies
 $ yarn install
 
