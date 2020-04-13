@@ -9,6 +9,7 @@
         <!-- Main Contents -->
         <div class="col-xl-10 col-lg-9 md-8 col-sm-8">
           <FeatureProduct />
+          <Carousel :products="products" />
 
           <div class="col-12">
             <div class="btn-group btn-group-sm pull-right">
@@ -57,13 +58,16 @@
 <script>
 import { mapGetters } from 'vuex'
 import FeatureProduct from '~/components/FaetureProduct'
+import Carousel from '~/components/Carousel'
 import ListProduct from '~/components/ListProduct'
 import GridProduct from '~/components/GridProduct'
+
 export default {
   components: {
     FeatureProduct,
     ListProduct,
-    GridProduct
+    GridProduct,
+    Carousel
   },
   data() {
     return {
