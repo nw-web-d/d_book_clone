@@ -51,8 +51,7 @@ export const state = () => ({
     {
       id: 'NQ==',
       title: 'Steve Jobs (Litterature & Documents)',
-      detail:
-        '巨人がすべてを支配する世界。巨人の餌と化した人類は、巨大な壁を築き、壁外への自由と引き換えに侵略を防いでいた。だが、名ばかりの平和は壁を越える大巨人の出現により崩れ、絶望の闘いが始まってしまう。\n「地鳴らし」を発動させるべく、ついに兵団に刃を向けた「イェーガー派」。彼らはザックレー総統を殺害し、兵団の要人を拘束。ジークのもとへ向かう。一方ジークを見張るリヴァイは、死闘の末に再びジークを捕らえる。そこで明かされるジークの真の計画とは……。',
+      detail: '',
       thumbnail_url:
         'https://m.media-amazon.com/images/I/71mmowWE5iL._AC_UY218_ML3_.jpg',
       owner: {
@@ -74,6 +73,10 @@ export const state = () => ({
       owner: {
         name: '諫山創'
       },
+      book_info: {
+        series: '進撃の巨人',
+        magazine: 'マガジン'
+      },
       price: 462
     },
     {
@@ -85,6 +88,10 @@ export const state = () => ({
         'https://images-fe.ssl-images-amazon.com/images/I/81s0phu5NDL.SR160,240_BG243,243,243.jpg',
       owner: {
         name: '諫山創'
+      },
+      book_info: {
+        series: '進撃の巨人',
+        magazine: 'マガジン'
       },
       price: 462
     },

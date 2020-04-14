@@ -1232,7 +1232,7 @@ ul li.a-breadcrumb-divider {
 .a-spacing-top-small{
     margin-top: 10px!important;
 }
-..a-spacing-extra-large{
+.a-spacing-extra-large{
     margin-bottom: 26px!important;
 }
 .smallAuthorImageContainer{
@@ -2465,7 +2465,7 @@ button, input, textarea {
 }
 .review-body{
     margin-bottom: 10px!important;
-    margin-top: 10px !important
+    margin-top: 10px !important;
     font-size: 13px!important;
     line-height: 19px!important;
 }
@@ -2671,7 +2671,7 @@ button, input, textarea {
   line-height: 15px;
   margin: 0;
   padding-left: 20px;
-  padding-right: 20px;.
+  padding-right: 20px;
   color: #000;
   font-size: 13px;
   text-align: center;
