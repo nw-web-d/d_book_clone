@@ -11,8 +11,8 @@
           :autoplay-timeout="4000"
           :navigation-enabled="true"
           :speed="1000"
-          navigation-next-label="<button class='vue-navigation rightnav'>&#8250;</button>"
-          navigation-prev-label="<button class='vue-navigation leftnav'>&#8249;</button>"
+          navigation-next-label="<button class='vue-navigation round rightnav'>&#8250;</button>"
+          navigation-prev-label="<button class='vue-navigation round leftnav'>&#8249;</button>"
         >
           <slide v-for="product in products" :key="product.id">
             <!-- Image -->
@@ -39,7 +39,13 @@ export default {
     Carousel,
     Slide
   },
-  props: { products: {} }
+  props: {
+    products: {
+      type: Array,
+      required: true,
+      default: () => []
+    }
+  }
 }
 </script>
 
@@ -55,9 +61,13 @@ button:hover {
   color: black;
 }
 
-.VueCarousel-navigation-button {
+.vue-navigation {
   background-color: #4caf50;
   color: white;
+  border-radius: 50%;
+}
+
+.round {
   border-radius: 50%;
 }
 </style>

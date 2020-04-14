@@ -14,7 +14,8 @@ export const state = () => ({
         series: '',
         magazine: ''
       },
-      price: 999.9
+      price: 999.9,
+      everyone_rating: '1.0'
     },
     {
       id: 'Mg==',
@@ -30,7 +31,8 @@ export const state = () => ({
         series: '',
         magazine: ''
       },
-      price: 1199.9
+      price: 1199.9,
+      everyone_rating: '3.4'
     },
     {
       id: 'Mw==',
@@ -46,13 +48,13 @@ export const state = () => ({
       photo: '/product-images/harry_potter.jpg',
       thumbnail_url:
         'https://m.media-amazon.com/images/I/41yBw4ZuxKL._AC_UY218_ML3_.jpg',
-      price: 1800
+      price: 1800,
+      everyone_rating: '3.2'
     },
     {
       id: 'NQ==',
       title: 'Steve Jobs (Litterature & Documents)',
-      detail:
-        '巨人がすべてを支配する世界。巨人の餌と化した人類は、巨大な壁を築き、壁外への自由と引き換えに侵略を防いでいた。だが、名ばかりの平和は壁を越える大巨人の出現により崩れ、絶望の闘いが始まってしまう。\n「地鳴らし」を発動させるべく、ついに兵団に刃を向けた「イェーガー派」。彼らはザックレー総統を殺害し、兵団の要人を拘束。ジークのもとへ向かう。一方ジークを見張るリヴァイは、死闘の末に再びジークを捕らえる。そこで明かされるジークの真の計画とは……。',
+      detail: '',
       thumbnail_url:
         'https://m.media-amazon.com/images/I/71mmowWE5iL._AC_UY218_ML3_.jpg',
       owner: {
@@ -62,7 +64,8 @@ export const state = () => ({
         series: '',
         magazine: ''
       },
-      price: 1000
+      price: 1000,
+      everyone_rating: '2.4'
     },
     {
       id: 'sg_29',
@@ -74,7 +77,12 @@ export const state = () => ({
       owner: {
         name: '諫山創'
       },
-      price: 462
+      book_info: {
+        series: '進撃の巨人',
+        magazine: 'マガジン'
+      },
+      price: 462,
+      everyone_rating: '4.3'
     },
     {
       id: 'sg_30',
@@ -86,7 +94,12 @@ export const state = () => ({
       owner: {
         name: '諫山創'
       },
-      price: 462
+      book_info: {
+        series: '進撃の巨人',
+        magazine: 'マガジン'
+      },
+      price: 462,
+      everyone_rating: '3.3'
     },
     {
       id: 'sg_28',
@@ -102,7 +115,8 @@ export const state = () => ({
         series: '進撃の巨人',
         magazine: 'マガジン'
       },
-      price: 462
+      price: 462,
+      everyone_rating: '3.4'
     },
     {
       id: 'sg_27',
@@ -118,7 +132,8 @@ export const state = () => ({
         series: '進撃の巨人',
         magazine: 'マガジン'
       },
-      price: 462
+      price: 462,
+      everyone_rating: '3.2'
     },
     {
       id: 'sg_26',
@@ -132,7 +147,8 @@ export const state = () => ({
         series: '進撃の巨人',
         magazine: 'マガジン'
       },
-      price: 462
+      price: 462,
+      everyone_rating: '3.5'
     },
     {
       id: 'sg_25',
@@ -148,7 +164,8 @@ export const state = () => ({
         series: '進撃の巨人',
         magazine: 'マガジン'
       },
-      price: 462
+      price: 462,
+      everyone_rating: '3.6'
     },
     {
       id: 'sg_24',
@@ -164,7 +181,8 @@ export const state = () => ({
         series: '進撃の巨人',
         magazine: 'マガジン'
       },
-      price: 462
+      price: 462,
+      everyone_rating: '4.1'
     },
     {
       id: 'sg_23',
@@ -180,7 +198,8 @@ export const state = () => ({
         series: '進撃の巨人',
         magazine: 'マガジン'
       },
-      price: 462
+      price: 462,
+      everyone_rating: '1.4'
     },
     {
       id: 'sg_22',
@@ -196,7 +215,8 @@ export const state = () => ({
         series: '進撃の巨人',
         magazine: 'マガジン'
       },
-      price: 462
+      price: 462,
+      everyone_rating: '3.2'
     },
     {
       id: 'sg_21',
@@ -212,7 +232,8 @@ export const state = () => ({
         series: '進撃の巨人',
         magazine: 'マガジン'
       },
-      price: 462
+      price: 462,
+      everyone_rating: '2.5'
     },
     {
       id: 'sg_31',
@@ -228,7 +249,8 @@ export const state = () => ({
         series: '進撃の巨人',
         magazine: 'マガジン'
       },
-      price: 462
+      price: 462,
+      everyone_rating: '2.9'
     },
     {
       id: 'j_csm_1',
@@ -244,7 +266,8 @@ export const state = () => ({
         series: 'チェンソーマン',
         magazine: 'ジャンプ'
       },
-      price: 460
+      price: 460,
+      everyone_rating: '3.9'
     },
     {
       id: 'j_csm_4',
@@ -260,7 +283,8 @@ export const state = () => ({
         series: 'チェンソーマン',
         magazine: 'ジャンプ'
       },
-      price: 460
+      price: 460,
+      everyone_rating: '2.5'
     },
     {
       id: 'j_csm_6',
@@ -276,7 +300,8 @@ export const state = () => ({
         series: 'チェンソーマン',
         magazine: 'ジャンプ'
       },
-      price: 460
+      price: 460,
+      everyone_rating: '1.6'
     },
     {
       id: 'j_csm_2',
@@ -292,7 +317,8 @@ export const state = () => ({
         series: 'チェンソーマン',
         magazine: 'ジャンプ'
       },
-      price: 460
+      price: 460,
+      everyone_rating: '3.6'
     },
     {
       id: 'j_csm_5',
@@ -308,7 +334,8 @@ export const state = () => ({
         series: 'チェンソーマン',
         magazine: 'ジャンプ'
       },
-      price: 460
+      price: 460,
+      everyone_rating: '4.3'
     },
     {
       id: 'j_csm_1',
@@ -323,7 +350,8 @@ export const state = () => ({
         series: 'ファイアパンチ',
         magazine: 'ジャンプ'
       },
-      price: 418
+      price: 418,
+      everyone_rating: '3.6'
     },
     {
       id: 'j_csm_2',
@@ -339,7 +367,8 @@ export const state = () => ({
         series: 'ファイアパンチ',
         magazine: 'ジャンプ'
       },
-      price: 418
+      price: 418,
+      everyone_rating: '1.5'
     },
     {
       id: 'j_csm_3',
@@ -355,7 +384,8 @@ export const state = () => ({
         series: 'ファイアパンチ',
         magazine: 'ジャンプ'
       },
-      price: 418
+      price: 418,
+      everyone_rating: '4.5'
     },
     {
       id: 'j_wt_1',
@@ -371,7 +401,8 @@ export const state = () => ({
         series: 'ワールドトリガー',
         magazine: 'ジャンプ'
       },
-      price: 460
+      price: 460,
+      everyone_rating: '4.4'
     },
     {
       id: 'j_wt_21',
@@ -387,7 +418,8 @@ export const state = () => ({
         series: 'ワールドトリガー',
         magazine: 'ジャンプ'
       },
-      price: 460
+      price: 460,
+      everyone_rating: '3.5'
     },
     {
       id: 'j_wt_20',
@@ -403,7 +435,8 @@ export const state = () => ({
         series: 'ワールドトリガー',
         magazine: 'ジャンプ'
       },
-      price: 460
+      price: 460,
+      everyone_rating: '4.7'
     }
   ]
 })

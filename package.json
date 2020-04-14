@@ -20,7 +20,9 @@
     "bootstrap-vue": "^2.0.0",
     "core-js": "2",
     "nuxt": "^2.0.0",
-    "vue-carousel": "^0.18.0"
+    "vue-carousel": "^0.18.0",
+    "vue-rate": "^2.2.0",
+    "vue-star-rating": "^1.6.1"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^2.0.0",

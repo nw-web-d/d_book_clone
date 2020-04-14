@@ -1,3 +1,5 @@
+import { FormRadioPlugin } from 'bootstrap-vue'
+
 export default {
   mode: 'universal',
   /*
@@ -31,7 +33,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [{ src: '~/plugins/star-raing', mode: 'client' }],
   /*
    ** Nuxt.js dev-modules
    */
