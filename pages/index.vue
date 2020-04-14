@@ -58,7 +58,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import FeatureProduct from '~/components/FaetureProduct'
-import Carousel from '~/components/Carousel'
+import Carousel from '~/components/common/Carousel'
 import ListProduct from '~/components/ListProduct'
 import GridProduct from '~/components/GridProduct'
 

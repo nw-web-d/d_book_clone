@@ -84,6 +84,12 @@
                     >Free with Audible trial</span
                   >
                 </div>
+                <div>
+                  <StarRating
+                    :rating="product.everyone_rating"
+                    :star-size="15"
+                  />
+                </div>
                 <hr />
 
                 <!-- Other Formats -->
@@ -111,7 +117,17 @@
 </template>
 
 <script>
+import StarRating from '~/components/common/StarRating'
 export default {
-  props: ['product']
+  components: {
+    StarRating
+  },
+  props: {
+    product: {
+      type: Object,
+      required: true,
+      default: () => {}
+    }
+  }
 }
 </script>

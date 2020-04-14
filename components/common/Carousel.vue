@@ -39,7 +39,13 @@ export default {
     Carousel,
     Slide
   },
-  props: { products: {} }
+  props: {
+    products: {
+      type: Array,
+      required: true,
+      default: () => []
+    }
+  }
 }
 </script>
 

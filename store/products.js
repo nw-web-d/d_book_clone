@@ -14,7 +14,8 @@ export const state = () => ({
         series: '',
         magazine: ''
       },
-      price: 999.9
+      price: 999.9,
+      everyone_rating: '1.0'
     },
     {
       id: 'Mg==',
@@ -30,7 +31,8 @@ export const state = () => ({
         series: '',
         magazine: ''
       },
-      price: 1199.9
+      price: 1199.9,
+      everyone_rating: '3.4'
     },
     {
       id: 'Mw==',
@@ -46,7 +48,8 @@ export const state = () => ({
       photo: '/product-images/harry_potter.jpg',
       thumbnail_url:
         'https://m.media-amazon.com/images/I/41yBw4ZuxKL._AC_UY218_ML3_.jpg',
-      price: 1800
+      price: 1800,
+      everyone_rating: '3.2'
     },
     {
       id: 'NQ==',
@@ -61,7 +64,8 @@ export const state = () => ({
         series: '',
         magazine: ''
       },
-      price: 1000
+      price: 1000,
+      everyone_rating: '2.4'
     },
     {
       id: 'sg_29',
@@ -77,7 +81,8 @@ export const state = () => ({
         series: '進撃の巨人',
         magazine: 'マガジン'
       },
-      price: 462
+      price: 462,
+      everyone_rating: '4.3'
     },
     {
       id: 'sg_30',
@@ -93,7 +98,8 @@ export const state = () => ({
         series: '進撃の巨人',
         magazine: 'マガジン'
       },
-      price: 462
+      price: 462,
+      everyone_rating: '3.3'
     },
     {
       id: 'sg_28',
@@ -109,7 +115,8 @@ export const state = () => ({
         series: '進撃の巨人',
         magazine: 'マガジン'
       },
-      price: 462
+      price: 462,
+      everyone_rating: '3.4'
     },
     {
       id: 'sg_27',
@@ -125,7 +132,8 @@ export const state = () => ({
         series: '進撃の巨人',
         magazine: 'マガジン'
       },
-      price: 462
+      price: 462,
+      everyone_rating: '3.2'
     },
     {
       id: 'sg_26',
@@ -139,7 +147,8 @@ export const state = () => ({
         series: '進撃の巨人',
         magazine: 'マガジン'
       },
-      price: 462
+      price: 462,
+      everyone_rating: '3.5'
     },
     {
       id: 'sg_25',
@@ -155,7 +164,8 @@ export const state = () => ({
         series: '進撃の巨人',
         magazine: 'マガジン'
       },
-      price: 462
+      price: 462,
+      everyone_rating: '3.6'
     },
     {
       id: 'sg_24',
@@ -171,7 +181,8 @@ export const state = () => ({
         series: '進撃の巨人',
         magazine: 'マガジン'
       },
-      price: 462
+      price: 462,
+      everyone_rating: '4.1'
     },
     {
       id: 'sg_23',
@@ -187,7 +198,8 @@ export const state = () => ({
         series: '進撃の巨人',
         magazine: 'マガジン'
       },
-      price: 462
+      price: 462,
+      everyone_rating: '1.4'
     },
     {
       id: 'sg_22',
@@ -203,7 +215,8 @@ export const state = () => ({
         series: '進撃の巨人',
         magazine: 'マガジン'
       },
-      price: 462
+      price: 462,
+      everyone_rating: '3.2'
     },
     {
       id: 'sg_21',
@@ -219,7 +232,8 @@ export const state = () => ({
         series: '進撃の巨人',
         magazine: 'マガジン'
       },
-      price: 462
+      price: 462,
+      everyone_rating: '2.5'
     },
     {
       id: 'sg_31',
@@ -235,7 +249,8 @@ export const state = () => ({
         series: '進撃の巨人',
         magazine: 'マガジン'
       },
-      price: 462
+      price: 462,
+      everyone_rating: '2.9'
     },
     {
       id: 'j_csm_1',
@@ -251,7 +266,8 @@ export const state = () => ({
         series: 'チェンソーマン',
         magazine: 'ジャンプ'
       },
-      price: 460
+      price: 460,
+      everyone_rating: '3.9'
     },
     {
       id: 'j_csm_4',
@@ -267,7 +283,8 @@ export const state = () => ({
         series: 'チェンソーマン',
         magazine: 'ジャンプ'
       },
-      price: 460
+      price: 460,
+      everyone_rating: '2.5'
     },
     {
       id: 'j_csm_6',
@@ -283,7 +300,8 @@ export const state = () => ({
         series: 'チェンソーマン',
         magazine: 'ジャンプ'
       },
-      price: 460
+      price: 460,
+      everyone_rating: '1.6'
     },
     {
       id: 'j_csm_2',
@@ -299,7 +317,8 @@ export const state = () => ({
         series: 'チェンソーマン',
         magazine: 'ジャンプ'
       },
-      price: 460
+      price: 460,
+      everyone_rating: '3.6'
     },
     {
       id: 'j_csm_5',
@@ -315,7 +334,8 @@ export const state = () => ({
         series: 'チェンソーマン',
         magazine: 'ジャンプ'
       },
-      price: 460
+      price: 460,
+      everyone_rating: '4.3'
     },
     {
       id: 'j_csm_1',
@@ -330,7 +350,8 @@ export const state = () => ({
         series: 'ファイアパンチ',
         magazine: 'ジャンプ'
       },
-      price: 418
+      price: 418,
+      everyone_rating: '3.6'
     },
     {
       id: 'j_csm_2',
@@ -346,7 +367,8 @@ export const state = () => ({
         series: 'ファイアパンチ',
         magazine: 'ジャンプ'
       },
-      price: 418
+      price: 418,
+      everyone_rating: '1.5'
     },
     {
       id: 'j_csm_3',
@@ -362,7 +384,8 @@ export const state = () => ({
         series: 'ファイアパンチ',
         magazine: 'ジャンプ'
       },
-      price: 418
+      price: 418,
+      everyone_rating: '4.5'
     },
     {
       id: 'j_wt_1',
@@ -378,7 +401,8 @@ export const state = () => ({
         series: 'ワールドトリガー',
         magazine: 'ジャンプ'
       },
-      price: 460
+      price: 460,
+      everyone_rating: '4.4'
     },
     {
       id: 'j_wt_21',
@@ -394,7 +418,8 @@ export const state = () => ({
         series: 'ワールドトリガー',
         magazine: 'ジャンプ'
       },
-      price: 460
+      price: 460,
+      everyone_rating: '3.5'
     },
     {
       id: 'j_wt_20',
@@ -410,7 +435,8 @@ export const state = () => ({
         series: 'ワールドトリガー',
         magazine: 'ジャンプ'
       },
-      price: 460
+      price: 460,
+      everyone_rating: '4.7'
     }
   ]
 })
