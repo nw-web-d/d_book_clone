@@ -1,5 +1,3 @@
-import { FormRadioPlugin } from 'bootstrap-vue'
-
 export default {
   mode: 'universal',
   /*

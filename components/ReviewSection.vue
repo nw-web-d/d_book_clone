@@ -339,8 +339,8 @@
           <div class="review-footer">
             <div class="a-row">
               <span
-                class="a-button a-button-base writeReviewButton"
                 id="a-autoid-15"
+                class="a-button a-button-base writeReviewButton"
               >
                 <span class="a-button-inner">
                   <a href="#" class="a-button-text" role="button"
