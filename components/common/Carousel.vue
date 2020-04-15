@@ -62,7 +62,7 @@ button:hover {
 }
 
 .vue-navigation {
-  background-color: #4caf50;
+  background-color: silver;
   color: white;
   border-radius: 50%;
 }
