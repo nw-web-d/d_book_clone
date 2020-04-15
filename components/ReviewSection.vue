@@ -33,7 +33,10 @@
                 <div>
                   <a href="#">
                     <div class="a-meter 5star">
-                      <div class="a-meter-bar a-meter-filled" style="width: 64%;"></div>
+                      <div
+                        class="a-meter-bar a-meter-filled"
+                        style="width: 64%;"
+                      ></div>
                     </div>
                   </a>
                 </div>
@@ -56,7 +59,10 @@
                 <div>
                   <a href="#">
                     <div class="a-meter 5star">
-                      <div class="a-meter-bar a-meter-filled" style="width: 14%;"></div>
+                      <div
+                        class="a-meter-bar a-meter-filled"
+                        style="width: 14%;"
+                      ></div>
                     </div>
                   </a>
                 </div>
@@ -79,7 +85,10 @@
                 <div>
                   <a href="#">
                     <div class="a-meter 5star">
-                      <div class="a-meter-bar a-meter-filled" style="width: 4%;"></div>
+                      <div
+                        class="a-meter-bar a-meter-filled"
+                        style="width: 4%;"
+                      ></div>
                     </div>
                   </a>
                 </div>
@@ -102,7 +111,10 @@
                 <div>
                   <a href="#">
                     <div class="a-meter 5star">
-                      <div class="a-meter-bar a-meter-filled" style="width: 0%;"></div>
+                      <div
+                        class="a-meter-bar a-meter-filled"
+                        style="width: 0%;"
+                      ></div>
                     </div>
                   </a>
                 </div>
@@ -125,7 +137,10 @@
                 <div>
                   <a href="#">
                     <div class="a-meter 5star">
-                      <div class="a-meter-bar a-meter-filled" style="width: 4%;"></div>
+                      <div
+                        class="a-meter-bar a-meter-filled"
+                        style="width: 4%;"
+                      ></div>
                     </div>
                   </a>
                 </div>
@@ -144,7 +159,9 @@
             </div>
           </div>
           <h3 class="a-spacing-micro">Review this product</h3>
-          <div class="a-row a-spacing-large">Share your thoughts with other customers</div>
+          <div class="a-row a-spacing-large">
+            Share your thoughts with other customers
+          </div>
           <div class="a-row">
             <!-- Link to another Review page -->
             <span class="a-button-base writeReviewButton cm-cr-button-wide">
@@ -301,7 +318,9 @@
                 </div>
                 <div class="review-comments">
                   <div class="a-spacing-small">
-                    <span class="a-size-base a-color-tertiary">60 people found this helpful</span>
+                    <span class="a-size-base a-color-tertiary"
+                      >60 people found this helpful</span
+                    >
                   </div>
                   <div class="cr-helpful-button">
                     <span class="a-button-base">
@@ -319,9 +338,14 @@
           </div>
           <div class="review-footer">
             <div class="a-row">
-              <span class="a-button a-button-base writeReviewButton" id="a-autoid-15">
+              <span
+                class="a-button a-button-base writeReviewButton"
+                id="a-autoid-15"
+              >
                 <span class="a-button-inner">
-                  <a href="#" class="a-button-text" role="button">Write a customer review</a>
+                  <a href="#" class="a-button-text" role="button"
+                    >Write a customer review</a
+                  >
                 </span>
               </span>
             </div>
@@ -334,5 +358,5 @@
 </template>
 
 <script>
-export default {};
+export default {}
 </script>
