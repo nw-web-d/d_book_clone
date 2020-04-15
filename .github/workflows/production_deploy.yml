@@ -5,6 +5,7 @@ name: production_deploy
 
 on:
   pull_request:
+    types: [reopened]
     branches: [master]
 
 jobs:
