@@ -20,7 +20,7 @@ on:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: npm install, generate
+    - name: yarn install, generate
       run: |
            yarn install
            yarn generate --if-present
