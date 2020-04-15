@@ -7,7 +7,6 @@ on:
 
  jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -30,3 +29,4 @@ on:
         args: deploy
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        
