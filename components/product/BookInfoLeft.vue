@@ -82,9 +82,7 @@
           </li>
 
           <li>ISBN：978-4-06-518689-3</li>
-          <!-- ul.stItemData-->
         </ul>
-        <!-- /.stExtra-->
       </div>
     </div>
   </div>

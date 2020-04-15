@@ -58,12 +58,12 @@
           </div>
 
           <span class="a-size-medium a-text-normal"> あわせて読みたい本</span>
-          <Carousel :products="products" />
+          <Carousel :products="magazineProducts()" />
 
           <span class="a-size-medium a-text-normal">
             このシリーズの商品ラインナップ</span
           >
-          <Carousel :products="products" />
+          <Carousel :products="seriesProducts()" />
 
           <div class="row">
             <div col-md-12>
@@ -80,55 +80,28 @@
               <span class="a-size-medium a-text-normal">
                 この著者・アーティストの他の商品</span
               >
-              <Carousel :products="products" />
+              <Carousel :products="ownerProducts()" />
             </div>
           </div>
         </div>
         <div class="col-md-1"></div>
       </div>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="list-group">
-            <a href="#" class="list-group-item list-group-item-action active"
-              >Home</a
-            >
-            <div class="list-group-item">
-              List header
-            </div>
-            <div class="list-group-item">
-              <h4 class="list-group-item-heading">
-                List group item heading
-              </h4>
-              <p class="list-group-item-text">
-                ...
-              </p>
-            </div>
-            <div class="list-group-item justify-content-between">
-              Help <span class="badge badge-secondary badge-pill">14</span>
-            </div>
-            <a
-              href="#"
-              class="list-group-item list-group-item-action active justify-content-between"
-              >Home <span class="badge badge-light badge-pill">14</span></a
-            >
-          </div>
+      <div>
+        <div>
+          <ReviewSection :product="product" />
         </div>
       </div>
+      <div class="clearfix">
+        <div class="float-left">
+          <hr class="a-spacing-large" />
+        </div>
+      </div>
+
       <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-10">
-          <h2>
-            Heading
-          </h2>
-          <p>
-            Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
-            tellus ac cursus commodo, tortor mauris condimentum nibh, ut
-            fermentum massa justo sit amet risus. Etiam porta sem malesuada
-            magna mollis euismod. Donec sed odio dui.
-          </p>
-          <p>
-            <a class="btn" href="#">View details »</a>
-          </p>
+          <span class="a-size-medium a-text-normal"> ランキング</span>
+          <Carousel :products="products" />
         </div>
         <div class="col-md-1"></div>
       </div>
@@ -138,7 +111,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-// import StarRating from '~/components/common/StarRating'
+import ReviewSection from '~/components/product/ReviewSection'
 import BookInfoLeft from '~/components/product/BookInfoLeft'
 import BookInfoCenter from '~/components/product/BookInfoCenter'
 import BookInfoRight from '~/components/product/BookInfoRight'
@@ -149,11 +122,8 @@ export default {
     BookInfoLeft,
     BookInfoCenter,
     BookInfoRight,
-    Carousel
-    // StarRating
-  },
-  data() {
-    return {}
+    Carousel,
+    ReviewSection
   },
   computed: {
     ...mapGetters({
@@ -170,6 +140,38 @@ export default {
         }
       }
       return {}
+    }
+  },
+  methods: {
+    seriesProducts() {
+      const series = this.product.book_info.series
+      if (series) {
+        const filterArr = this.products.filter((product) => {
+          return product.book_info.series === series
+        })
+        return filterArr
+      }
+      return []
+    },
+    magazineProducts() {
+      const magazine = this.product.book_info.magazine
+      if (magazine) {
+        const filterArr = this.products.filter((product) => {
+          return product.book_info.magazine === magazine
+        })
+        return filterArr
+      }
+      return []
+    },
+    ownerProducts() {
+      const ownerName = this.product.owner.name
+      if (ownerName) {
+        const filterArr = this.products.filter((product) => {
+          return product.owner.name === ownerName
+        })
+        return filterArr
+      }
+      return []
     }
   }
 }

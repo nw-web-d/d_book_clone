@@ -1,11 +1,11 @@
 <template>
   <div>
-    <StarRating :rating="1" :star-size="30" />
+    <ReviewSectionOrigin />
   </div>
 </template>
 <script>
-import StarRating from '~/components/common/StarRating'
+import ReviewSectionOrigin from '~/components/product/ReviewSectionOrigin'
 export default {
-  components: { StarRating }
+  components: { ReviewSectionOrigin }
 }
 </script>
