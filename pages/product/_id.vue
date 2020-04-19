@@ -175,6 +175,7 @@ export default {
       ownerProducts: resOwner.owners_list
     }
   },
+  data() {},
   computed: {
     ...mapGetters({
       products: 'products/products'
