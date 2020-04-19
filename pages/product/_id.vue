@@ -126,6 +126,7 @@ export default {
     Carousel,
     ReviewSection
   },
+  data() {},
   async asyncData({ $axios, params }) {
     // 書籍情報
     let resProduct = {}
