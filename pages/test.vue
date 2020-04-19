@@ -14,9 +14,6 @@ import Carousel from '~/components/common/Carousel'
 import GridProduct from '~/components/GridProduct'
 export default {
   components: { Carousel, GridProduct },
-  data() {
-    return { products: [] }
-  },
   async asyncData({ $axios }) {
     // 書籍情報
     let resProduct = {}
