@@ -22,7 +22,6 @@ export default {
     } catch (err) {
       console.log(err)
     }
-
     return {
       products: resProduct.book_info_list
     }
