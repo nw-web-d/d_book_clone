@@ -58,12 +58,12 @@
           </div>
 
           <span class="a-size-medium a-text-normal"> あわせて読みたい本</span>
-          <Carousel :products="magazineProducts" />
+          <Carousel :products="magazineProducts()" />
 
           <span class="a-size-medium a-text-normal">
             このシリーズの商品ラインナップ</span
           >
-          <Carousel :products="seriesProducts" />
+          <Carousel :products="seriesProducts()" />
 
           <div class="row">
             <div col-md-12>
@@ -80,7 +80,7 @@
               <span class="a-size-medium a-text-normal">
                 この著者・アーティストの他の商品</span
               >
-              <Carousel :products="ownerProducts" />
+              <Carousel :products="ownerProducts()" />
             </div>
           </div>
         </div>
@@ -110,7 +110,6 @@
 </template>
 
 <script>
-// import axios from 'axios'
 import { mapGetters } from 'vuex'
 import ReviewSection from '~/components/product/ReviewSection'
 import BookInfoLeft from '~/components/product/BookInfoLeft'
@@ -126,60 +125,54 @@ export default {
     Carousel,
     ReviewSection
   },
-  async asyncData({ $axios, params }) {
-    // 書籍情報
-    let resProduct = {}
-    try {
-      resProduct = await $axios.$get('/v1/product/' + params.id)
-    } catch (err) {
-      console.log(err)
-    }
-
-    // シリーズ情報
-    let resSeries = []
-    const series = resProduct.product.book_info.series
-    try {
-      resSeries = await $axios.$get(
-        '/v1/product/list/series/' + encodeURI(series)
-      )
-    } catch (err) {
-      console.log(err)
-    }
-
-    // 同雑誌情報
-    let resMagazine = []
-    const magazine = resProduct.product.book_info.magazine
-    try {
-      resMagazine = await $axios.$get(
-        '/v1/product/list/magazine/' + encodeURI(magazine)
-      )
-    } catch (err) {
-      console.log(err)
-    }
-
-    // 著者情報
-    let resOwner = []
-    const ownerName = resProduct.product.owner.name
-    try {
-      resOwner = await $axios.$get(
-        '/v1/product/list/owner/' + encodeURI(ownerName)
-      )
-    } catch (err) {
-      console.log(err)
-    }
-
-    return {
-      product: resProduct.product,
-      seriesProducts: resSeries.series_list,
-      magazineProducts: resMagazine.magazine_list,
-      ownerProducts: resOwner.owners_list
-    }
-  },
   computed: {
     ...mapGetters({
       products: 'products/products'
-    })
+    }),
+    product() {
+      const id = this.$route.params.id
+      if (id) {
+        const filterArr = this.products.filter((product) => {
+          return product.id === id
+        })
+        if (filterArr.length > 0) {
+          return filterArr[0]
+        }
+      }
+      return {}
+    }
   },
-  methods: {}
+  methods: {
+    seriesProducts() {
+      const series = this.product.book_info.series
+      if (series) {
+        const filterArr = this.products.filter((product) => {
+          return product.book_info.series === series
+        })
+        return filterArr
+      }
+      return []
+    },
+    magazineProducts() {
+      const magazine = this.product.book_info.magazine
+      if (magazine) {
+        const filterArr = this.products.filter((product) => {
+          return product.book_info.magazine === magazine
+        })
+        return filterArr
+      }
+      return []
+    },
+    ownerProducts() {
+      const ownerName = this.product.owner.name
+      if (ownerName) {
+        const filterArr = this.products.filter((product) => {
+          return product.owner.name === ownerName
+        })
+        return filterArr
+      }
+      return []
+    }
+  }
 }
 </script>
