@@ -10,10 +10,10 @@
   </div>
 </template>
 <script>
-import Carousel from '~/components/common/Carousel'
+// import Carousel from '~/components/common/Carousel'
 import GridProduct from '~/components/GridProduct'
 export default {
-  components: { Carousel, GridProduct },
+  components: { GridProduct },
   async asyncData({ $axios }) {
     // 書籍情報
     let resProduct = {}
