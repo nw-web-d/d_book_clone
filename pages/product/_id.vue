@@ -126,7 +126,6 @@ export default {
     Carousel,
     ReviewSection
   },
-  data() {},
   async asyncData({ $axios, params }) {
     // 書籍情報
     let resProduct = {}
@@ -176,6 +175,7 @@ export default {
       ownerProducts: resOwner.owners_list
     }
   },
+  data() {},
   computed: {
     ...mapGetters({
       products: 'products/products'
