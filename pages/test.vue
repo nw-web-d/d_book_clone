@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Carousel :products="products" />
+    <!-- <Carousel :products="products" /> -->
 
     <GridProduct
       v-for="product in products"
