@@ -47,7 +47,7 @@ export default {
     'bootstrap-vue/nuxt',
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    // '@nuxtjs/pwa',
+    '@nuxtjs/pwa',
     // Doc: https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv'
   ],
@@ -56,9 +56,9 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    proxy: true,
-    https: true,
-    baseURL: 'https://bff-rest-for-express.web.app'
+    // proxy: true,
+    // https: true,
+    // baseURL: 'https://bff-rest-for-express.web.app'
   },
   /*
    ** Build configuration
