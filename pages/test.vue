@@ -21,7 +21,9 @@ export default {
     // 書籍情報
     let resProduct = {}
     try {
-      resProduct = await $axios.$get('/v1/product/list')
+      resProduct = await $axios.$get(
+        'https://bff-rest-for-express.web.app/v1/product/list'
+      )
     } catch (err) {
       console.log(err)
     }

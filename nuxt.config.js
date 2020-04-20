@@ -56,9 +56,9 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    proxy: true,
-    https: true,
-    baseURL: 'https://bff-rest-for-express.web.app'
+    // proxy: true,
+    // https: true,
+    // baseURL: 'https://bff-rest-for-express.web.app'
   },
   /*
    ** Build configuration
