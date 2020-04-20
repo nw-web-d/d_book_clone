@@ -130,7 +130,9 @@ export default {
     // 書籍情報
     let resProduct = {}
     try {
-      resProduct = await $axios.$get('/v1/product/' + params.id)
+      resProduct = await $axios.$get(
+        'https://bff-rest-for-express.web.app/v1/product/' + params.id
+      )
     } catch (err) {
       console.log(err)
     }
@@ -138,9 +140,11 @@ export default {
     // シリーズ情報
     let resSeries = []
     const series = resProduct.product.book_info.series
+    console.log(series)
     try {
       resSeries = await $axios.$get(
-        '/v1/product/list/series/' + encodeURI(series)
+        'https://bff-rest-for-express.web.app/v1/product/list/series/' +
+          encodeURI(series)
       )
     } catch (err) {
       console.log(err)
@@ -149,9 +153,11 @@ export default {
     // 同雑誌情報
     let resMagazine = []
     const magazine = resProduct.product.book_info.magazine
+    console.log(magazine)
     try {
       resMagazine = await $axios.$get(
-        '/v1/product/list/magazine/' + encodeURI(magazine)
+        'https://bff-rest-for-express.web.app/v1/product/list/magazine/' +
+          encodeURI(magazine)
       )
     } catch (err) {
       console.log(err)
@@ -160,9 +166,11 @@ export default {
     // 著者情報
     let resOwner = []
     const ownerName = resProduct.product.owner.name
+    console.log(ownerName)
     try {
       resOwner = await $axios.$get(
-        '/v1/product/list/owner/' + encodeURI(ownerName)
+        'https://bff-rest-for-express.web.app/v1/product/list/owner/' +
+          encodeURI(ownerName)
       )
     } catch (err) {
       console.log(err)

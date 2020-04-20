@@ -5,6 +5,8 @@ name: deploy
 
 on:
   push
+  # 最終的にはmasterにマージしたときにデプロイするようにする
+  # on:
   # push:
   # branches:
   #   - master
