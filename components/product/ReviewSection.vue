@@ -291,7 +291,7 @@
         </div>
         <hr />
         <div
-          v-for="review_l in review().review_list"
+          v-for="review_l in review.review_list"
           :key="review_l.id"
           class="cr-widget-focalreviews"
         >
@@ -339,7 +339,7 @@
                 <!-- Review Body -->
                 <div class="review-body">
                   <span style="white-space:pre-wrap; word-wrap:break-word;">{{
-                    review_l.bodoy
+                    review_l.body
                   }}</span>
                 </div>
                 <div class="review-comments">
@@ -369,7 +369,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import StarRating from '~/components/common/StarRating'
 export default {
   components: {
@@ -380,25 +379,11 @@ export default {
       type: Object,
       required: true,
       default: () => {}
-    }
-  },
-  computed: {
-    ...mapGetters({
-      reviews: 'reviews/reviews'
-    })
-  },
-  methods: {
-    review() {
-      const id = this.product.id
-      if (id) {
-        const filterArr = this.reviews.filter((review) => {
-          return review.id === id
-        })
-        if (filterArr.length > 0) {
-          return filterArr[0]
-        }
-      }
-      return {}
+    },
+    review: {
+      type: Object,
+      required: true,
+      default: () => {}
     }
   }
 }

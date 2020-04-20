@@ -1,6 +1,6 @@
 <template>
   <main class="listingPage">
-    <h1><nuxt-link to="/test">テストページ</nuxt-link></h1>
+    <h3><nuxt-link to="/test">テストページ</nuxt-link></h3>
     <div class="container-fluid">
       <div class="row">
         <div class="col-xl-2 col-lg-3 md-4 col-sm-4">
@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+// import { mapGetters } from 'vuex'
 import FeatureProduct from '~/components/FaetureProduct'
 import Carousel from '~/components/common/Carousel'
 import ListProduct from '~/components/ListProduct'
@@ -70,16 +70,23 @@ export default {
     GridProduct,
     Carousel
   },
+  async asyncData({ $axios }) {
+    let resProducts = []
+    try {
+      resProducts = await $axios.$get(
+        'https://bff-rest-for-express.web.app/v1/product/list'
+      )
+    } catch (err) {
+      console.log(err)
+    }
+    return {
+      products: resProducts.product_list
+    }
+  },
   data() {
     return {
       displayList: true
     }
-  },
-  computed: {
-    ...mapGetters({
-      products: 'products/products',
-      isProductLoading: 'products/isProductLoading'
-    })
   },
   methods: {
     changeDisplay(isList) {

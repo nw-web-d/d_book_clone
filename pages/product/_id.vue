@@ -57,7 +57,7 @@
             </div>
           </div>
 
-          <span class="a-size-medium a-text-normal"> あわせて読みたい本</span>
+          <span class="a-size-medium a-text-normal">あわせて読みたい本</span>
           <Carousel :products="magazineProducts" />
 
           <span class="a-size-medium a-text-normal">
@@ -88,7 +88,7 @@
       </div>
       <div>
         <div>
-          <ReviewSection :product="product" />
+          <ReviewSection :product="product" :review="review" />
         </div>
       </div>
       <div class="clearfix">
@@ -100,8 +100,8 @@
       <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-10">
-          <span class="a-size-medium a-text-normal"> ランキング</span>
-          <Carousel :products="products" />
+          <span class="a-size-medium a-text-normal">ランキング</span>
+          <Carousel :products="rankingProducts" />
         </div>
         <div class="col-md-1"></div>
       </div>
@@ -110,8 +110,7 @@
 </template>
 
 <script>
-// import axios from 'axios'
-import { mapGetters } from 'vuex'
+// import { mapGetters } from 'vuex'
 import ReviewSection from '~/components/product/ReviewSection'
 import BookInfoLeft from '~/components/product/BookInfoLeft'
 import BookInfoCenter from '~/components/product/BookInfoCenter'
@@ -140,7 +139,6 @@ export default {
     // シリーズ情報
     let resSeries = []
     const series = resProduct.product.book_info.series
-    console.log(series)
     try {
       resSeries = await $axios.$get(
         'https://bff-rest-for-express.web.app/v1/product/list/series/' +
@@ -153,7 +151,6 @@ export default {
     // 同雑誌情報
     let resMagazine = []
     const magazine = resProduct.product.book_info.magazine
-    console.log(magazine)
     try {
       resMagazine = await $axios.$get(
         'https://bff-rest-for-express.web.app/v1/product/list/magazine/' +
@@ -166,7 +163,6 @@ export default {
     // 著者情報
     let resOwner = []
     const ownerName = resProduct.product.owner.name
-    console.log(ownerName)
     try {
       resOwner = await $axios.$get(
         'https://bff-rest-for-express.web.app/v1/product/list/owner/' +
@@ -176,18 +172,39 @@ export default {
       console.log(err)
     }
 
+    // ランキング情報
+    let resRanking = []
+    try {
+      resRanking = await $axios.$get(
+        'https://bff-rest-for-express.web.app/v1/product/list'
+      )
+    } catch (err) {
+      console.log(err)
+    }
+
+    // レビュー情報
+    let resReview = {}
+    try {
+      resReview = await $axios.$get(
+        'https://bff-rest-for-express.web.app/v1/review/info/' + params.id
+      )
+    } catch (err) {
+      console.log(err)
+    }
+
     return {
       product: resProduct.product,
       seriesProducts: resSeries.series_list,
       magazineProducts: resMagazine.magazine_list,
-      ownerProducts: resOwner.owners_list
+      ownerProducts: resOwner.owners_list,
+      rankingProducts: resRanking.product_list,
+      review: resReview.review_info
     }
   },
-  data() {},
   computed: {
-    ...mapGetters({
-      products: 'products/products'
-    })
+    // ...mapGetters({
+    //   products: 'products/products'
+    // })
   },
   methods: {}
 }

@@ -3,7 +3,7 @@
     <ul v-for="product in products" :key="product.id" :product="product">
       <li>{{ product.id }}</li>
     </ul>
-    <!-- <Carousel :products="products" /> -->
+    <Carousel :products="products" />
 
     <GridProduct
       v-for="product in products"
@@ -13,7 +13,6 @@
   </div>
 </template>
 <script>
-// import Carousel from '~/components/common/Carousel'
 import GridProduct from '~/components/GridProduct'
 export default {
   components: { GridProduct },
