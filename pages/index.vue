@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+// import { mapGetters } from 'vuex'
 import FeatureProduct from '~/components/FaetureProduct'
 import Carousel from '~/components/common/Carousel'
 import ListProduct from '~/components/ListProduct'
@@ -70,11 +70,6 @@ export default {
     GridProduct,
     Carousel
   },
-  data() {
-    return {
-      displayList: true
-    }
-  },
   async asyncData({ $axios }) {
     let resProducts = []
     try {
@@ -84,9 +79,13 @@ export default {
     } catch (err) {
       console.log(err)
     }
-
     return {
       products: resProducts.product_list
+    }
+  },
+  data() {
+    return {
+      displayList: true
     }
   },
   methods: {

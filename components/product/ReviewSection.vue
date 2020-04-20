@@ -369,7 +369,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import StarRating from '~/components/common/StarRating'
 export default {
   components: {

@@ -110,8 +110,7 @@
 </template>
 
 <script>
-// import axios from 'axios'
-import { mapGetters } from 'vuex'
+// import { mapGetters } from 'vuex'
 import ReviewSection from '~/components/product/ReviewSection'
 import BookInfoLeft from '~/components/product/BookInfoLeft'
 import BookInfoCenter from '~/components/product/BookInfoCenter'
