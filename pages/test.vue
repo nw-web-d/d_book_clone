@@ -1,5 +1,8 @@
 <template>
   <div>
+    <ul v-for="product in products" :key="product.id" :product="product">
+      <li>{{ product.id }}</li>
+    </ul>
     <!-- <Carousel :products="products" /> -->
 
     <GridProduct

@@ -4,10 +4,11 @@
 name: deploy
 
 on:
-  push:
-    branches:
-      - master
-      - release/*
+  push
+  # push:
+  # branches:
+  #   - master
+  #   - release/*
 
 jobs:
   build:
