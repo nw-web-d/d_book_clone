@@ -129,9 +129,7 @@ export default {
     // 書籍情報
     let resProduct = {}
     try {
-      resProduct = await $axios.$get(
-        'https://bff-rest-for-express.web.app/v1/product/' + params.id
-      )
+      resProduct = await $axios.$get('/v1/product/' + params.id)
     } catch (err) {
       console.log(err)
     }
@@ -141,8 +139,7 @@ export default {
     const series = resProduct.product.book_info.series
     try {
       resSeries = await $axios.$get(
-        'https://bff-rest-for-express.web.app/v1/product/list/series/' +
-          encodeURI(series)
+        '/v1/product/list/series/' + encodeURI(series)
       )
     } catch (err) {
       console.log(err)
@@ -153,8 +150,7 @@ export default {
     const magazine = resProduct.product.book_info.magazine
     try {
       resMagazine = await $axios.$get(
-        'https://bff-rest-for-express.web.app/v1/product/list/magazine/' +
-          encodeURI(magazine)
+        '/v1/product/list/magazine/' + encodeURI(magazine)
       )
     } catch (err) {
       console.log(err)
@@ -165,8 +161,7 @@ export default {
     const ownerName = resProduct.product.owner.name
     try {
       resOwner = await $axios.$get(
-        'https://bff-rest-for-express.web.app/v1/product/list/owner/' +
-          encodeURI(ownerName)
+        '/v1/product/list/owner/' + encodeURI(ownerName)
       )
     } catch (err) {
       console.log(err)
@@ -175,9 +170,7 @@ export default {
     // ランキング情報
     let resRanking = []
     try {
-      resRanking = await $axios.$get(
-        'https://bff-rest-for-express.web.app/v1/product/list'
-      )
+      resRanking = await $axios.$get('/v1/product/list')
     } catch (err) {
       console.log(err)
     }
@@ -185,9 +178,7 @@ export default {
     // レビュー情報
     let resReview = {}
     try {
-      resReview = await $axios.$get(
-        'https://bff-rest-for-express.web.app/v1/review/info/' + params.id
-      )
+      resReview = await $axios.$get('/v1/review/info/' + params.id)
     } catch (err) {
       console.log(err)
     }

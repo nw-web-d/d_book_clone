@@ -7,9 +7,9 @@
         <!-- Logo -->
         <div class="col-sm-2">
           <div class="logo-area">
-            <a href="#">
-              <img src="/img/logo.png" alt="Logo" class="img-fluid" />
-            </a>
+            <nuxt-link to="/"
+              ><img src="/img/logo.png" alt="Logo" class="img-fluid"
+            /></nuxt-link>
           </div>
         </div>
 
@@ -86,21 +86,33 @@
               </span>
             </a>
             <span class="icp-nav-link-border"></span>
-            <nuxt-link
-              id="nav-link-account-list"
-              to="/register"
-              class="nav-a nav-a-2"
-              tabindex="0"
-            >
-              <span class="nav-line-1">Hello Sing in</span>
-              <span class="nav-line-2">
-                Account &nbsp; Lists
-                <span
-                  class="nav-icon nav-arrow"
-                  style="visibillity: visible"
-                ></span>
-              </span>
-            </nuxt-link>
+            <template v-if="$auth.$state.loggedIn">
+              <nuxt-link
+                id="nav-link-account-list"
+                to="/auth/profile"
+                class="nav-a nav-a-2"
+                tabindex="0"
+                ><span class="nav-line-1">Hello,</span>
+                <span class="nav-line-2">{{ $auth.$state.user.name }}</span>
+              </nuxt-link>
+            </template>
+            <template v-else>
+              <nuxt-link
+                id="nav-link-account-list"
+                to="/auth/signup"
+                class="nav-a nav-a-2"
+                tabindex="0"
+              >
+                <span class="nav-line-1">Hello Sing in</span>
+                <span class="nav-line-2">
+                  Account &nbsp; Lists
+                  <span
+                    class="nav-icon nav-arrow"
+                    style="visibillity: visible"
+                  ></span>
+                </span>
+              </nuxt-link>
+            </template>
           </div>
         </div>
       </div>
