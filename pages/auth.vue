@@ -20,18 +20,6 @@ export default {
       return this.$store.getters['user/displayName']
     }
   },
-  methods: {
-    logout() {
-      this.$store.dispatch('user/logout')
-      const firebase = require('firebase')
-      firebase
-        .auth()
-        .signOut()
-        .then(() => {
-          console.log('ログアウトしました')
-        })
-    }
-  },
   mounted() {
     const firebaseui = require('firebaseui')
     require('firebaseui/dist/firebaseui.css')
@@ -55,6 +43,18 @@ export default {
     firebase.auth().onAuthStateChanged((user) => {
       this.$store.dispatch('user/login', user)
     })
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch('user/logout')
+      const firebase = require('firebase')
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          console.log('ログアウトしました')
+        })
+    }
   }
 }
 </script>

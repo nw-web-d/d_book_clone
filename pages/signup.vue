@@ -17,10 +17,10 @@
             <div class="a-row a-pspacing-base">
               <label for="ap_customer" class="a-form-label">Your name</label>
               <input
-                type="text"
                 id="ap_customer_name"
-                class="a-input-text form-contral auth-autofocus auth-required-field auth-contact-verification-request-info"
                 v-model="name"
+                type="text"
+                class="a-input-text form-contral auth-autofocus auth-required-field auth-contact-verification-request-info"
               />
             </div>
 
@@ -28,10 +28,10 @@
             <div class="a-row a-pspacing-base">
               <label for="ap_customer" class="a-form-label">Email</label>
               <input
-                type="email"
                 id="ap_customer_name"
-                class="a-input-text form-contral auth-autofocus auth-required-field auth-contact-verification-request-info"
                 v-model="email"
+                type="email"
+                class="a-input-text form-contral auth-autofocus auth-required-field auth-contact-verification-request-info"
               />
             </div>
 
@@ -39,10 +39,10 @@
             <div class="a-row a-pspacing-base">
               <label for="ap_customer" class="a-form-label">Password</label>
               <input
-                type="password"
                 id="ap_customer_name"
-                class="a-input-text form-contral auth-autofocus auth-required-field auth-contact-verification-request-info"
                 v-model="password"
+                type="password"
+                class="a-input-text form-contral auth-autofocus auth-required-field auth-contact-verification-request-info"
               />
               <div class="a-alert-container">
                 <div class="a-alert-content">
@@ -99,12 +99,12 @@ export default {
   methods: {
     async onSignup() {
       try {
-        let data = {
+        const data = {
           name: this.name,
           email: this.email,
           password: this.password
         }
-        let response = await this.$axios.$post('/api/auth/signup', data)
+        const response = await this.$axios.$post('/api/auth/signup', data)
         console.log(response)
         if (response.success) {
           this.$auth.loginWith('local', {

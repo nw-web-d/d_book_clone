@@ -1,23 +1,23 @@
 export const strict = false
 
 export const state = () => ({
-  user: null,
+  user: null
 })
 
 export const mutations = {
-  setUser (state, payload) {
+  setUser(state, payload) {
     state.user = payload
   }
 }
 
 export const actions = {
-  setUser ({ commit }, payload) {
+  setUser({ commit }, payload) {
     commit('setUser', payload)
   }
 }
 
 export const getters = {
-  isAuthenticated (state) {
+  isAuthenticated(state) {
     return !!state.user
   }
 }

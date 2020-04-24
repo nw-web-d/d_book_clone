@@ -3,23 +3,23 @@
     <!-- ログイン中に表示される画面 -->
     <div v-if="isAuthenticated">
       {{ user.email }}でログイン中です<br />
-      <button v-on:click="logout">ログアウト</button><br />
+      <button @click="logout">ログアウト</button><br />
       <a href="/member-page">メンバーページへ</a>
     </div>
     <!-- ログインしていない時に表示される画面 -->
     <div v-else>
       メール<br />
-      <input type="text" v-model="email" /><br />
+      <input v-model="email" type="text" /><br />
       パスワード<br />
-      <input type="password" v-model="password" /><br />
-      <button v-on:click="login">ログイン</button>
+      <input v-model="password" type="password" /><br />
+      <button @click="login">ログイン</button>
     </div>
   </div>
 </template>
 
 <script>
-import firebase from '~/plugins/firebase'
 import { mapActions, mapState, mapGetters } from 'vuex'
+import firebase from '~/plugins/firebase'
 export default {
   data() {
     return {

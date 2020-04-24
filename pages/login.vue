@@ -18,10 +18,10 @@
             <div class="a-row a-pspacing-base">
               <label for="ap_customer" class="a-form-label">Email</label>
               <input
-                type="email"
                 id="ap_customer_name"
-                class="a-input-text form-contral auth-autofocus auth-required-field auth-contact-verification-request-info"
                 v-model="email"
+                type="email"
+                class="a-input-text form-contral auth-autofocus auth-required-field auth-contact-verification-request-info"
               />
             </div>
 
@@ -29,10 +29,10 @@
             <div class="a-row a-pspacing-base">
               <label for="ap_customer" class="a-form-label">Password</label>
               <input
-                type="password"
                 id="ap_customer_name"
-                class="a-input-text form-contral auth-autofocus auth-required-field auth-contact-verification-request-info"
                 v-model="password"
+                type="password"
+                class="a-input-text form-contral auth-autofocus auth-required-field auth-contact-verification-request-info"
               />
               <div class="a-alert-container">
                 <div class="a-alert-content">
@@ -87,7 +87,7 @@ export default {
     }
   },
   methods: {
-    async onLogin() {
+    onLogin() {
       try {
         this.$auth.loginWith('local', {
           data: {
