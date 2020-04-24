@@ -1,3 +1,5 @@
+const URL = 'https://us-central1-bff-rest-for-express.cloudfunctions.net/app'
+// const URL = 'http://localhost:3000'
 export default {
   mode: 'universal',
   /*
@@ -31,7 +33,10 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [{ src: '~/plugins/star-raing', mode: 'client' }],
+  plugins: [
+    { src: '~/plugins/star-raing', mode: 'client' },
+    { src: '~/plugins/firebase', mode: 'client' }
+  ],
   /*
    ** Nuxt.js dev-modules
    */
@@ -49,16 +54,35 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
     // Doc: https://github.com/nuxt-community/dotenv-module
-    '@nuxtjs/dotenv'
+    '@nuxtjs/dotenv',
+    '@nuxtjs/auth'
+    // '@nuxtjs/proxy'
   ],
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {
-    // proxy: true,
-    // https: true,
-    // baseURL: 'https://bff-rest-for-express.web.app'
+  axios: { proxy: false, baseURL: URL },
+  proxy: {
+    '/api': URL
+    // '/api': {
+    //   target: URL,
+    //   pathRewrite: {
+    //     '^/api/': '/v1/'
+    //   }
+    // }
+  },
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            propertyName: 'token'
+          },
+          logout: true
+        }
+      }
+    }
   },
   /*
    ** Build configuration

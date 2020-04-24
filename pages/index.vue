@@ -73,9 +73,7 @@ export default {
   async asyncData({ $axios }) {
     let resProducts = []
     try {
-      resProducts = await $axios.$get(
-        'https://bff-rest-for-express.web.app/v1/product/list'
-      )
+      resProducts = await $axios.$get('/v1/product/list')
     } catch (err) {
       console.log(err)
     }
