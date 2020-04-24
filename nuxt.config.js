@@ -1,5 +1,5 @@
-const URL = 'https://us-central1-bff-rest-for-express.cloudfunctions.net/app'
-// const URL = 'http://localhost:3000'
+// const URL = 'https://us-central1-bff-rest-for-express.cloudfunctions.net/app'
+const URL = 'http://localhost:3000'
 export default {
   mode: 'universal',
   /*

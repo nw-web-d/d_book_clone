@@ -11,8 +11,18 @@
         <dev class="a-box a-spacing-extra-large">
           <div class="a-box-inner">
             <h1 class="a-spacing-small">
-              Sign In
+              Create account
             </h1>
+            <!--Your Name-->
+            <div class="a-row a-pspacing-base">
+              <label for="ap_customer" class="a-form-label">Your name</label>
+              <input
+                id="ap_customer_name"
+                v-model="name"
+                type="text"
+                class="a-input-text form-contral auth-autofocus auth-required-field auth-contact-verification-request-info"
+              />
+            </div>
 
             <!--Email-->
             <div class="a-row a-pspacing-base">
@@ -45,8 +55,8 @@
             <div class="a-row a-spacing-extra-large md-4">
               <span class="a-button-primary">
                 <span class="a-button-inner">
-                  <span class="a-button-text" @click="onLogin">
-                    Continue
+                  <span class="a-button-text" @click="onSignup">
+                    Create your Amazon account
                   </span>
                 </span>
               </span>
@@ -61,9 +71,9 @@
             <hr />
             <div class="a-row">
               <b>
-                Don't have an account?
-                <nuxt-link to="/signup" class="a-link-emphasis"
-                  >Signup</nuxt-link
+                Already have an account?
+                <nuxt-link to="/auth/login" class="a-link-emphasis"
+                  >Sign in</nuxt-link
                 >
               </b>
             </div>
@@ -71,7 +81,6 @@
         </dev>
       </form>
     </div>
-    <a href="#" @click="onLogout()">Logout</a>
   </div>
 </template>
 
@@ -82,27 +91,34 @@ export default {
   layout: 'none',
   data() {
     return {
+      name: '',
       email: '',
       password: ''
     }
   },
   methods: {
-    onLogin() {
+    async onSignup() {
       try {
-        this.$auth.loginWith('local', {
-          data: {
-            email: this.email,
-            password: this.password
-          }
-        })
-        this.$router.push('/')
+        const data = {
+          name: this.name,
+          email: this.email,
+          password: this.password
+        }
+        const response = await this.$axios.$post('/api/auth/signup', data)
+        console.log(response)
+        if (response.success) {
+          this.$auth.loginWith('local', {
+            data: {
+              email: this.email,
+              password: this.password
+            }
+          })
+          this.$router.push('/')
+        }
       } catch (err) {
         console.log(err)
       }
     }
-  },
-  async onLogout() {
-    await this.$auth.logout
   }
 }
 </script>
