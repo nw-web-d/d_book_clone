@@ -14,9 +14,9 @@
               <label for="ap_customer" class="a-form-label">name</label>
               <input
                 id="ap_customer_name"
+                v-model="name"
                 type="text"
                 class="a-input-text form-contral auth-autofocus auth-required-field auth-contact-verification-request-info"
-                v-model="name"
                 :placeholder="$auth.$state.user.name"
               />
             </div>
@@ -26,9 +26,9 @@
               <label for="ap_customer" class="a-form-label">Email</label>
               <input
                 id="ap_customer_name"
+                v-model="email"
                 type="email"
                 class="a-input-text form-contral auth-autofocus auth-required-field auth-contact-verification-request-info"
-                v-model="email"
                 :placeholder="$auth.$state.user.email"
               />
             </div>
@@ -38,9 +38,9 @@
               <label for="ap_customer" class="a-form-label">Password</label>
               <input
                 id="ap_customer_name"
+                v-model="password"
                 type="password"
                 class="a-input-text form-contral auth-autofocus auth-required-field auth-contact-verification-request-info"
-                v-model="password"
               />
               <div class="a-alert-container">
                 <div class="a-alert-content">
@@ -76,13 +76,13 @@ export default {
   },
   methods: {
     async onUpdateProfile() {
-      let data = {
+      const data = {
         name: this.name,
         email: this.email,
         password: this.password
       }
       try {
-        let response = await this.$axios.$put('/api/auth/user', data)
+        const response = await this.$axios.$put('/api/auth/user', data)
         if (response.success) {
           this.name = ''
           this.email = ''

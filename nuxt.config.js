@@ -1,5 +1,9 @@
-const URL = 'https://us-central1-bff-rest-for-express.cloudfunctions.net/app'
-// const URL = 'http://localhost:3000'
+const environment = process.env.NODE_ENV || 'development'
+const URL =
+  environment === 'local'
+    ? 'http://localhost:3000'
+    : 'https://us-central1-bff-rest-for-express.cloudfunctions.net/app'
+
 export default {
   mode: 'universal',
   /*
