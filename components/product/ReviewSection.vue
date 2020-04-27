@@ -15,16 +15,24 @@
                 <a href="#" class="a-color-base">
                   <h2>みんなのレビュー 1,354</h2>
                 </a>
-                <div class="a-row">
-                  <!-- Link to another Review page -->
-                  <span
-                    class="a-button-base writeReviewButton cm-cr-button-wide"
-                  >
-                    <span class="a-button-inner">
-                      <a href="#" class="a-button-text">レビューを書く</a>
+                <template v-if="$auth.$state.loggedIn">
+                  <div class="a-row">
+                    <!-- Link to another Review page -->
+                    <span
+                      class="a-button-base writeReviewButton cm-cr-button-wide"
+                    >
+                      <span class="a-button-inner">
+                        <nuxt-link
+                          :to="{
+                            name: 'review-id',
+                            params: { id: product.id }
+                          }"
+                          >レビューを書く</nuxt-link
+                        >
+                      </span>
                     </span>
-                  </span>
-                </div>
+                  </div>
+                </template>
               </div>
 
               <div class="col-6">
@@ -291,8 +299,8 @@
         </div>
         <hr />
         <div
-          v-for="review_l in review.review_list"
-          :key="review_l.id"
+          v-for="review in reviews"
+          :key="review._id"
           class="cr-widget-focalreviews"
         >
           <div class="row">
@@ -309,9 +317,7 @@
                     </div>
                     <!-- Review Owner -->
                     <div class="profile-content">
-                      <span class="a-profile-name">{{
-                        review_l.reviewer.name
-                      }}</span>
+                      <span class="a-profile-name">{{ review.user_name }}</span>
                     </div>
                   </a>
                 </div>
@@ -319,12 +325,12 @@
                   <div class="row">
                     <div class="col-1">
                       <!-- Review Star -->
-                      <StarRating :rating="review_l.rating" :star-size="15" />
+                      <StarRating :rating="review.rating" :star-size="15" />
                     </div>
                     <div class="col-11" style="padding-left: 0px;">
                       <!-- <span class="a-letter-space"></span> -->
                       <!-- Review Headline -->
-                      <a href="#" class="review-title">{{ review_l.title }}</a>
+                      <a href="#" class="review-title">{{ review.headline }}</a>
                     </div>
                   </div>
                 </div>
@@ -338,8 +344,9 @@
                 </div>
                 <!-- Review Body -->
                 <div class="review-body">
+                  <!-- white-space:pre-wrap;注意！ -->
                   <span style="white-space:pre-wrap; word-wrap:break-word;">{{
-                    review_l.body
+                    review.body
                   }}</span>
                 </div>
                 <div class="review-comments">
@@ -380,10 +387,10 @@ export default {
       required: true,
       default: () => {}
     },
-    review: {
-      type: Object,
+    reviews: {
+      type: Array,
       required: true,
-      default: () => {}
+      default: () => []
     }
   }
 }
