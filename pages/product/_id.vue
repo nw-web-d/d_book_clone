@@ -88,7 +88,7 @@
       </div>
       <div>
         <div>
-          <ReviewSection :product="product" :review="review" />
+          <ReviewSection :product="product" :reviews="reviews" />
         </div>
       </div>
       <div class="clearfix">
@@ -178,7 +178,7 @@ export default {
     // レビュー情報
     let resReview = {}
     try {
-      resReview = await $axios.$get('/v1/review/info/' + params.id)
+      resReview = await $axios.$get(`/v2/review/reviews/${params.id}`)
     } catch (err) {
       console.log(err)
     }
@@ -189,7 +189,7 @@ export default {
       magazineProducts: resMagazine.magazine_list,
       ownerProducts: resOwner.owners_list,
       rankingProducts: resRanking.product_list,
-      review: resReview.review_info
+      reviews: resReview.review_info
     }
   },
   computed: {
