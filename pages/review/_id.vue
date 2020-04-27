@@ -52,20 +52,20 @@
               <div class="headline a-spacing-large">
                 <h2 class="a-spacing-base">Add a headline</h2>
                 <input
+                  v-model="headline"
                   type="text"
                   class="a-input-text"
                   style="width: 70%;"
                   placeholder="What's most important to know?"
-                  v-model="headline"
                 />
               </div>
               <!-- Body -->
               <div class="a-spacing-base">
                 <h2 class="a-spacing-base">Write your review</h2>
                 <textarea
+                  v-model="body"
                   placeholder="What do you like or dislike? What did you see this product for?"
                   style="height:6em; width: 100%;"
-                  v-model="body"
                 ></textarea>
               </div>
             </div>
@@ -153,7 +153,7 @@ export default {
     },
     async onAddReview() {
       try {
-        let data = {
+        const data = {
           headline: this.headline,
           body: this.body,
           rating: this.rating,
@@ -161,7 +161,9 @@ export default {
           user_id: this.$auth.$state.user._id
         }
 
-        let reponse = await this.$axios.$post(`/v2/review/add`, data)
+        const reponse = await this.$axios.$post(`/v2/review/add`, data)
+        if (!reponse.success) {
+        }
 
         this.$router.push(`/product/${this.id}`)
       } catch (err) {
