@@ -23,7 +23,9 @@
                   </li>
                 </ul>
               </div>
-              <h1 class="a-spacing-medium a-spacing-top-medium">Your Addresses</h1>
+              <h1 class="a-spacing-medium a-spacing-top-medium">
+                Your Addresses
+              </h1>
               <!-- Message from Server -->
               <div class="a-section a-spacing-none a-spacing-top-small">
                 <b>Message from Server</b>
@@ -46,7 +48,9 @@
                   </div>
                   <!-- Address -->
                   <div class="col-lg-4 col-md-4 col-sm-12 pl-md-0 pb-2">
-                    <div class="a-box a-spacing-none normal-desktop-address-tile">
+                    <div
+                      class="a-box a-spacing-none normal-desktop-address-tile"
+                    >
                       <div class="a-box-inner a-padding-none">
                         <div class="address-section-no-default">
                           <div class="a-spacing-small">
@@ -92,6 +96,3 @@
   </main>
   <!--/MAIN-->
 </template>
-
-
-

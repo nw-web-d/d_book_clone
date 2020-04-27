@@ -122,7 +122,7 @@
             </nuxt-link>
 
             <!-- cart -->
-            <nuxt-link to="/cart" class="nav-a nav-a-2" id="nav-cart">
+            <nuxt-link id="nav-cart" to="/cart" class="nav-a nav-a-2">
               <span aria-hidden="true" class="nav-line-1"></span>
               <span aria-hidden="true" class="nav-line-2">Cart</span>
               <span class="nav-cart-icon nav-sprite"></span>

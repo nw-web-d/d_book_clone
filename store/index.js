@@ -27,7 +27,7 @@ export const mutations = {
 
   incrementProductQty(state, product) {
     product.quantity++
-    let indexOfProduct = state.cart.indexOf(product)
+    const indexOfProduct = state.cart.indexOf(product)
     state.cart.splice(indexOfProduct, 1, product)
   },
 

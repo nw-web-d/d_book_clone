@@ -49,7 +49,7 @@
                   <!-- Country / Region -->
                   <div class="a-spacing-top-medium">
                     <label style="margin-bottom: 0px;">Country/Region</label>
-                    <select class="a-select-option" v-model="country">
+                    <select v-model="country" class="a-select-option">
                       <option
                         v-for="country in countries"
                         :key="country.code"
@@ -63,39 +63,39 @@
                   <div class="a-spacing-top-medium">
                     <label style="margin-bottom: 0px;">Full Name</label>
                     <input
+                      v-model="fullName"
                       type="text"
                       class="a-input-text"
                       style="width: 100%;"
-                      v-model="fullName"
                     />
                   </div>
                   <!-- Street Address -->
                   <div class="a-spacing-top-medium">
                     <label style="margin-bottom: 0px;">Street Address</label>
                     <input
+                      v-model="streetAddress1"
                       type="text"
                       class="a-input-text"
                       style="width: 100%;"
                       placeholder="Street and number, P.O. box, c/o."
-                      v-model="streetAddress1"
                     />
                     <!-- Street Address 2 -->
                     <input
+                      v-model="streetAddress2"
                       type="text"
                       class="a-input-text a-spacing-top-small"
                       style="width: 100%;"
                       placeholder="Apartment, suite, unit, building, floor, etc."
-                      v-model="streetAddress2"
                     />
                   </div>
                   <!-- City -->
                   <div class="a-spacing-top-medium">
                     <label style="margin-bottom: 0px;">City</label>
                     <input
+                      v-model="city"
                       type="text"
                       class="a-input-text"
                       style="width: 100%;"
-                      v-model="city"
                     />
                   </div>
                   <!-- State -->
@@ -104,30 +104,30 @@
                       >State / Province / Region</label
                     >
                     <input
+                      v-model="state"
                       type="text"
                       class="a-input-text"
                       style="width: 100%;"
-                      v-model="state"
                     />
                   </div>
                   <!-- Zip Code -->
                   <div class="a-spacing-top-medium">
                     <label style="margin-bottom: 0px;">Zip Code</label>
                     <input
+                      v-model="zipCode"
                       type="text"
                       class="a-input-text"
                       style="width: 100%;"
-                      v-model="zipCode"
                     />
                   </div>
                   <!-- Phone Number -->
                   <div class="a-spacing-top-medium">
                     <label style="margin-bottom: 0px;">Phone Number</label>
                     <input
+                      v-model="phoneNumber"
                       type="text"
                       class="a-input-text"
                       style="width: 100%;"
-                      v-model="phoneNumber"
                     />
                     <div class="a-section a-spacing-none a-spacing-top-micro">
                       <span class="a-size-mini"
@@ -145,9 +145,9 @@
                       address?</label
                     >
                     <textarea
+                      v-model="deliveryInstructions"
                       placeholder="Provide details such as building description, a nearby landmark, or other navigation instructions"
                       style="height:6em; width: 100%;"
-                      v-model="deliveryInstructions"
                     ></textarea>
                   </div>
                   <!-- Security code -->
@@ -157,11 +157,11 @@
                       this building?</label
                     >
                     <input
+                      v-model="securityCode"
                       type="text"
                       class="a-input-text"
                       style="width: 100%;"
                       placeholder="1234"
-                      v-model="securityCode"
                     />
                   </div>
                   <div class="a-spacing-top-medium">
@@ -245,7 +245,7 @@ export default {
   methods: {
     async onAddAddress() {
       try {
-        let data = {
+        const data = {
           country: this.country,
           full_name: this.fullName,
           street_address: this.streetAddress1 + ' ' + this.streetAddress2,
@@ -257,7 +257,7 @@ export default {
           security_code: this.securityCode,
           user_id: this.$auth.$state.user._id
         }
-        let response = await this.$axios.$post(`/v2/address/add`, data)
+        const response = await this.$axios.$post(`/v2/address/add`, data)
         if (response.success) {
           this.$router.push('/')
         }
