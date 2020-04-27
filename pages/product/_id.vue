@@ -110,7 +110,6 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
 import ReviewSection from '~/components/product/ReviewSection'
 import BookInfoLeft from '~/components/product/BookInfoLeft'
 import BookInfoCenter from '~/components/product/BookInfoCenter'
@@ -196,7 +195,6 @@ export default {
     // ...mapGetters({
     //   products: 'products/products'
     // })
-  },
-  methods: {}
+  }
 }
 </script>
