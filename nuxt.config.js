@@ -40,7 +40,7 @@ export default {
   plugins: [
     { src: '~/plugins/star-raing', mode: 'client' },
     { src: '~/plugins/firebase', mode: 'client' },
-    { src: '~/plugins/persistedstate', ssr: false }
+    { src: '~/plugins/localStorage', ssr: false }
   ],
   /*
    ** Nuxt.js dev-modules
