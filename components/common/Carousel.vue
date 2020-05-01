@@ -16,7 +16,9 @@
         >
           <slide v-for="product in products" :key="product._id">
             <!-- Image -->
-            <nuxt-link :to="{ name: 'product-id', params: { id: product._id } }">
+            <nuxt-link
+              :to="{ name: 'product-id', params: { id: product._id } }"
+            >
               <img
                 :src="product.photo_url"
                 style="width: 100px;"

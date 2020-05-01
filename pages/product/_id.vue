@@ -138,7 +138,7 @@ export default {
       const seriesId = resProduct.product.series._id
       const authorId = resProduct.product.author._id
       pRes = await Promise.all([
-        $axios.$get(`/v2/product/series/${seriesId}`), //シリーズ
+        $axios.$get(`/v2/product/series/${seriesId}`), // シリーズ
         $axios.$get(
           '/v2/product/magazine/' + encodeURI(resProduct.product.magazine)
         ), // 同雑誌情報
