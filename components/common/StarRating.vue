@@ -1,8 +1,8 @@
 <template>
   <div>
     <star-rating
-      :rating="rating"
-      :star-size="starSize"
+      :rating="String(rating)"
+      :star-size="String(starSize)"
       :read-only="readOnly"
       :show-rating="false"
       :increment="0.2"
@@ -16,9 +16,9 @@
 export default {
   props: {
     rating: {
-      type: String,
+      type: Number,
       required: true,
-      default: '0'
+      default: 0
     },
     starSize: {
       type: Number,

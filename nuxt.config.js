@@ -22,7 +22,7 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: '/css/all.css' },
+      { rel: 'stylesheet', href: '/css/font-awesome/css/all.css' },
       { rel: 'stylesheet', href: '/css/default.css' }
     ]
   },
@@ -39,7 +39,8 @@ export default {
    */
   plugins: [
     { src: '~/plugins/star-raing', mode: 'client' },
-    { src: '~/plugins/firebase', mode: 'client' }
+    { src: '~/plugins/firebase', mode: 'client' },
+    { src: '~/plugins/localStorage', ssr: false }
   ],
   /*
    ** Nuxt.js dev-modules

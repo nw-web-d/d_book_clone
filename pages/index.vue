@@ -1,11 +1,24 @@
 <template>
   <main class="listingPage">
-    <h4><nuxt-link to="/test">テストページ</nuxt-link></h4>
-    <h4><nuxt-link to="/auth/login">Login</nuxt-link></h4>
     <div class="container-fluid">
       <div class="row">
         <div class="col-xl-2 col-lg-3 md-4 col-sm-4">
           <!-- Sidebar -->
+          <ul>
+            <li>
+              バグはこちらにお願いします
+              <a href="https://github.com/nw-web-d/d_book_clone/issues"
+                >https://github.com/nw-web-d/d_book_clone/issues</a
+              >
+            </li>
+            <hr />
+            <li>
+              <h4><nuxt-link to="/admin">管理画面</nuxt-link></h4>
+            </li>
+            <li>
+              <h3><nuxt-link to="/auth/login">Login</nuxt-link></h3>
+            </li>
+          </ul>
         </div>
 
         <!-- Main Contents -->
@@ -36,7 +49,7 @@
               <ul class="s-result-list">
                 <ListProduct
                   v-for="product in products"
-                  :key="product.id"
+                  :key="product._id"
                   :product="product"
                 />
               </ul>
@@ -45,7 +58,7 @@
               <div class="row">
                 <GridProduct
                   v-for="product in products"
-                  :key="product.id"
+                  :key="product._id"
                   :product="product"
                 />
               </div>
@@ -58,7 +71,6 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
 import FeatureProduct from '~/components/FaetureProduct'
 import Carousel from '~/components/common/Carousel'
 import ListProduct from '~/components/ListProduct'
@@ -74,12 +86,12 @@ export default {
   async asyncData({ $axios }) {
     let resProducts = []
     try {
-      resProducts = await $axios.$get('/v1/product/list')
+      resProducts = await $axios.$get('/v2/product')
     } catch (err) {
       console.log(err)
     }
     return {
-      products: resProducts.product_list
+      products: resProducts.products
     }
   },
   data() {
