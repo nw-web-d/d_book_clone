@@ -12,9 +12,11 @@
         <div class="row">
           <!-- Image -->
           <div class="col-sm-3 text-center">
-            <nuxt-link :to="{ name: 'product-id', params: { id: product.id } }">
+            <nuxt-link
+              :to="{ name: 'product-id', params: { id: product._id } }"
+            >
               <img
-                :src="product.thumbnail_url"
+                :src="product.photo_url"
                 style="width: 150px;"
                 class="img-fluid"
               />
@@ -26,7 +28,7 @@
               <!-- Titel and Date -->
               <nuxt-link
                 class="a-link-normal"
-                :to="{ name: 'product-id', params: { id: product.id } }"
+                :to="{ name: 'product-id', params: { id: product._id } }"
               >
                 <h2 class="a-size-medium">
                   {{ product.title }}
@@ -43,7 +45,7 @@
               <span class="a-size-small a-color-secondary">by</span>
               <span class="a-size-small a-color-secondary">
                 <a href="#" class="a-link-normal a-text-nomal">{{
-                  product.owner.name
+                  product.author.name
                 }}</a>
               </span>
             </div>
@@ -65,9 +67,8 @@
                     <span class="a-offscreen">${{ product.price }}</span>
                     <span class="a-color-base sx-zero-spacing">
                       <span class="sx-price sx-price-large">
-                        <sup class="sx-price-currency">$</sup>
                         <span class="sx-price-whole">{{ product.price }}</span>
-                        <sup class="sx-price-fractional">00</sup>
+                        <sup class="sx-price-currency">円</sup>
                       </span>
                     </span>
                   </a>
@@ -85,10 +86,7 @@
                   >
                 </div>
                 <div>
-                  <StarRating
-                    :rating="product.everyone_rating"
-                    :star-size="15"
-                  />
+                  <StarRating :rating="product.rating" :star-size="15" />
                 </div>
                 <hr />
 

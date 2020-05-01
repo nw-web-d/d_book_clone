@@ -87,7 +87,7 @@
               </span>
             </a>
             <span class="icp-nav-link-border"></span>
-            <template v-if="$auth.$state.loggedIn">
+            <template v-if="loggedIn">
               <nuxt-link
                 id="nav-link-account-list"
                 to="/auth/profile"
@@ -147,7 +147,11 @@ export default {
     Search
   },
   computed: {
-    ...mapGetters(['getCartLength'])
+    ...mapGetters(['getCartLength']),
+    loggedIn() {
+      // ログインするとtrue
+      return this.$store.state.auth.loggedIn
+    }
   }
 }
 </script>

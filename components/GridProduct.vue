@@ -7,10 +7,10 @@
             <!-- Image -->
             <div class="col-sm-12 text-center">
               <nuxt-link
-                :to="{ name: 'product-id', params: { id: product.id } }"
+                :to="{ name: 'product-id', params: { id: product._id } }"
               >
                 <img
-                  :src="product.thumbnail_url"
+                  :src="product.photo_url"
                   style="width: 150px;"
                   class="img-fluid"
                 />

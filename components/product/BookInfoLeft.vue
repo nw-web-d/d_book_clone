@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="margin:auto;text-align:center;padding-bottom: 10px;">
-      <img :src="product.thumbnail_url" width="250px" class="img-fluid" />
+      <img :src="product.photo_url" width="250px" class="img-fluid" />
     </div>
 
     <div class="a-section">
@@ -35,7 +35,7 @@
         みんなの評価
       </div>
       <div class="col-8">
-        <StarRating :rating="product.everyone_rating" :star-size="15" />
+        <StarRating :rating="product.rating" :star-size="15" />
       </div>
     </div>
     <div class="row">
@@ -46,7 +46,7 @@
         あなたの評価
       </div>
       <div class="col-8">
-        <StarRating :rating="'0'" :star-size="15" :read-only="false" />
+        <StarRating :rating="0" :star-size="15" :read-only="false" />
       </div>
     </div>
     <div class="row">

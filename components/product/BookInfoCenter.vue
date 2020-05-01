@@ -17,7 +17,7 @@
       <div class="bylineinfo">
         著者&nbsp;
         <a href="#" class="authorName">
-          {{ product.owner.name }}
+          {{ product.author.name }}
         </a>
       </div>
       <div class="bylineinfo">

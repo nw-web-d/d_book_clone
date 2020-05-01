@@ -14,7 +14,7 @@
               <div class="row">
                 <!-- Product Photo -->
                 <div class="col-md-2 col-sm-3 col-3">
-                  <img :src="product.thumbnail_url" style="width:  100px" />
+                  <img :src="product.photo_url" style="width:  100px" />
                 </div>
                 <!-- Product Title -->
                 <div class="col-md-10 col-sm-9 col-9 m-auto">
@@ -128,7 +128,7 @@ export default {
     // 書籍情報
     let resProduct = {}
     try {
-      resProduct = await $axios.$get(`/v1/product/${params.id}`)
+      resProduct = await $axios.$get(`/v2/product/${params.id}`)
     } catch (err) {
       console.log(err)
     }

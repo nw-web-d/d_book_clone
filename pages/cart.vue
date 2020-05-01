@@ -19,7 +19,7 @@
                 <!-- List of the item -->
                 <div
                   v-for="product in getCart"
-                  :key="product.id"
+                  :key="product._id"
                   class="sc-list-body"
                 >
                   <div class="sc-list-item-border">
@@ -29,7 +29,7 @@
                         <div class="col-sm-2 col-2">
                           <a href="#" class="a-link-normal">
                             <img
-                              :src="product.thumbnail_url"
+                              :src="product.photo_url"
                               class="img-fluid w-100"
                             />
                           </a>
@@ -45,7 +45,7 @@
                             >
                             <!-- Product's Owner name -->
                             <span class="a-size-base sc-product-creator">{{
-                              product.owner.name
+                              product.author.name
                             }}</span>
                           </div>
                           <div>

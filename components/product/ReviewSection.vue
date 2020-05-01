@@ -25,7 +25,7 @@
                         <nuxt-link
                           :to="{
                             name: 'review-id',
-                            params: { id: product.id }
+                            params: { id: product._id }
                           }"
                           >レビューを書く</nuxt-link
                         >
@@ -40,7 +40,7 @@
                   <div class="row">
                     <div class="col-3">
                       <StarRating
-                        :rating="product.everyone_rating"
+                        :rating="product.rating"
                         :star-size="25"
                       />
                     </div>

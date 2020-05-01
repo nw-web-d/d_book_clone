@@ -44,7 +44,7 @@
               <div class="col-sm-5">
                 <div class="bx-root">
                   <a href="#" class="a-size-medium">{{
-                    product.book_info.series
+                    product.series.series
                   }}</a>
                   <span clsass="a-color-secondary">税込価格：</span>
 
@@ -75,14 +75,14 @@
             <br />
           </div>
 
-          <div class="row">
-            <div col-md-12>
-              <span class="a-size-medium a-text-normal">
-                この著者・アーティストの他の商品</span
-              >
-              <Carousel :products="ownerProducts" />
-            </div>
-          </div>
+          <!-- <div class="row">
+            <div col-md-12> -->
+          <span class="a-size-medium a-text-normal">
+            この著者・アーティストの他の商品</span
+          >
+          <Carousel :products="authorProducts" />
+          <!-- </div>
+          </div> -->
         </div>
         <div class="col-md-1"></div>
       </div>
@@ -128,67 +128,34 @@ export default {
     // 書籍情報
     let resProduct = {}
     try {
-      resProduct = await $axios.$get('/v1/product/' + params.id)
+      resProduct = await $axios.$get(`/v2/product/${params.id}`)
     } catch (err) {
       console.log(err)
     }
 
-    // シリーズ情報
-    let resSeries = []
-    const series = resProduct.product.book_info.series
+    let pRes = []
     try {
-      resSeries = await $axios.$get(
-        '/v1/product/list/series/' + encodeURI(series)
-      )
+      const seriesId = resProduct.product.series._id
+      const authorId = resProduct.product.author._id
+      pRes = await Promise.all([
+        $axios.$get(`/v2/product/series/${seriesId}`), //シリーズ
+        $axios.$get(
+          '/v2/product/magazine/' + encodeURI(resProduct.product.magazine)
+        ), // 同雑誌情報
+        $axios.$get(`/v2/product/author/${authorId}`), // 著者情報
+        $axios.$get(`/v2/review/reviews/${params.id}`), // レビュー情報
+        $axios.$get('/v2/product') // ランキング情報
+      ])
     } catch (err) {
       console.log(err)
     }
-
-    // 同雑誌情報
-    let resMagazine = []
-    const magazine = resProduct.product.book_info.magazine
-    try {
-      resMagazine = await $axios.$get(
-        '/v1/product/list/magazine/' + encodeURI(magazine)
-      )
-    } catch (err) {
-      console.log(err)
-    }
-
-    // 著者情報
-    let resOwner = []
-    const ownerName = resProduct.product.owner.name
-    try {
-      resOwner = await $axios.$get(
-        '/v1/product/list/owner/' + encodeURI(ownerName)
-      )
-    } catch (err) {
-      console.log(err)
-    }
-
-    // ランキング情報
-    let resRanking = []
-    try {
-      resRanking = await $axios.$get('/v1/product/list')
-    } catch (err) {
-      console.log(err)
-    }
-
-    // レビュー情報
-    let resReview = {}
-    try {
-      resReview = await $axios.$get(`/v2/review/reviews/${params.id}`)
-    } catch (err) {
-      console.log(err)
-    }
-
     return {
       product: resProduct.product,
-      seriesProducts: resSeries.series_list,
-      magazineProducts: resMagazine.magazine_list,
-      ownerProducts: resOwner.owners_list,
-      rankingProducts: resRanking.product_list,
-      reviews: resReview.review_info
+      seriesProducts: pRes[0].series_list,
+      magazineProducts: pRes[1].magazine_list,
+      authorProducts: pRes[2].author_list,
+      reviews: pRes[3].review_info,
+      rankingProducts: pRes[4].products
     }
   },
   computed: {

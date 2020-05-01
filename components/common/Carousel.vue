@@ -14,11 +14,11 @@
           navigation-next-label="<button class='vue-navigation round rightnav'>&#8250;</button>"
           navigation-prev-label="<button class='vue-navigation round leftnav'>&#8249;</button>"
         >
-          <slide v-for="product in products" :key="product.id">
+          <slide v-for="product in products" :key="product._id">
             <!-- Image -->
-            <nuxt-link :to="{ name: 'product-id', params: { id: product.id } }">
+            <nuxt-link :to="{ name: 'product-id', params: { id: product._id } }">
               <img
-                :src="product.thumbnail_url"
+                :src="product.photo_url"
                 style="width: 100px;"
                 class="img-fluid"
               />

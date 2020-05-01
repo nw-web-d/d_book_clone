@@ -5,8 +5,7 @@ export const state = () => ({
 
 export const actions = {
   addProductToCart({ state, commit }, product) {
-    const cartProduct = state.cart.find((prod) => prod.id === product.id)
-    // const cartProduct = state.cart.find(prod => prod._id === product._id);
+    const cartProduct = state.cart.find((prod) => prod._id === product._id)
 
     if (!cartProduct) {
       commit('pushProductToCart', product)
@@ -45,7 +44,7 @@ export const mutations = {
    * 4.replace the old product with the update the product
    **/
   changeQty(state, { product, qty }) {
-    const cartProduct = state.cart.find((prod) => prod.id === product.id)
+    const cartProduct = state.cart.find((prod) => prod._id === product._id)
     cartProduct.quantity = parseInt(qty)
 
     state.cartLength = 0

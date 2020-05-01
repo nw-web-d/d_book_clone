@@ -1,13 +1,13 @@
 <template>
   <div>
-    <ul v-for="product in products" :key="product.id" :product="product">
-      <li>{{ product.id }}</li>
+    <ul v-for="product in products" :key="product._id" :product="product">
+      <li>{{ product._id }}</li>
     </ul>
     <Carousel :products="products" />
 
     <GridProduct
       v-for="product in products"
-      :key="product.id"
+      :key="product._id"
       :product="product"
     />
   </div>
