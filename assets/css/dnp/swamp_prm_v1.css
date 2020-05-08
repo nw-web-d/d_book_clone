@@ -1,0 +1,49 @@
+.optPcHdNav,
+.optSpHdNav {
+  background-color: rgb(133, 202, 208);
+  transition: opacity 0.2s;
+}
+.optPcHdNav:hover {
+  opacity: 0.8;
+}
+.optSpHdNavInnr {
+  margin: 0 auto 4px;
+  text-align: center;
+}
+.optSpHdNavInnr a {
+  display: block;
+  color: #fff;
+  font-size: 1.3rem;
+  line-height: 1.75;
+}
+.optSpHdNavInnr a img {
+  width: 320px;
+}
+
+.optPcHdNavInnr {
+  margin: 0 auto 10px;
+  text-align: center;
+  background-color: rgb(133, 202, 208);
+}
+.optPcHdNavInnr a {
+  display: block;
+  color: #fff;
+  font-size: 1.3rem;
+  line-height: 1.75;
+}
+@media screen and (min-width: 1025px) {
+  .optPcHdNavInnr {
+    min-width: 1024px !important;
+    max-width: 1468px !important;
+  }
+  .optPcHdNavInnr.optGrtop {
+    width: 76% !important;
+  }
+}
+@media screen and (max-width: 1025px) {
+  .optPcHdNavInnr {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    min-width: auto;
+  }
+}

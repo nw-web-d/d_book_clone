@@ -25,6 +25,19 @@
 
           <div class="col-sm-9">
             <div class="a-row a-spacing-small">
+              <!-- honto -->
+              <nuxt-link
+                class="a-link-normal"
+                :to="{
+                  name: 'product_honto_like-id',
+                  params: { id: product._id }
+                }"
+              >
+                <h1 class="a-size-medium">hontoページ</h1>
+              </nuxt-link>
+            </div>
+
+            <div class="a-row a-spacing-small">
               <!-- Titel and Date -->
               <nuxt-link
                 class="a-link-normal"
