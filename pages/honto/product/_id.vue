@@ -565,25 +565,35 @@ export default {
     try {
       const seriesId = resProduct.product.series._id
       const authorId = resProduct.product.author._id
+      console.log(seriesId)
+      console.log(authorId)
       pRes = await Promise.all([
-        $axios.$get(`/v2/product/series/${seriesId}`), // シリーズ
-        $axios.$get(
-          '/v2/product/magazine/' + encodeURI(resProduct.product.magazine)
-        ), // 同雑誌情報
-        $axios.$get(`/v2/product/author/${authorId}`), // 著者情報
-        $axios.$get(`/v2/review/reviews/${params.id}`), // レビュー情報
-        $axios.$get('/v2/product') // ランキング情報
+        // $axios.$get(`/v2/product/series/${seriesId}`), // シリーズ
+        // $axios.$get(
+        //   '/v2/product/magazine/' + encodeURI(resProduct.product.magazine)
+        // ), // 同雑誌情報
+        // $axios.$get(`/v2/product/author/${authorId}`), // 著者情報
+        $axios.$get(`/v2/review/reviews/${params.id}`) // レビュー情報
+        // $axios.$get('/v2/product') // ランキング情報
       ])
     } catch (err) {
       console.log(err)
     }
+    // return {
+    //   product: resProduct.product,
+    //   seriesProducts: pRes[0].series_list,
+    //   magazineProducts: pRes[1].magazine_list,
+    //   authorProducts: pRes[2].author_list,
+    //   reviews: pRes[3].review_info,
+    //   rankingProducts: pRes[4].products
+    // }
     return {
       product: resProduct.product,
-      seriesProducts: pRes[0].series_list,
-      magazineProducts: pRes[1].magazine_list,
-      authorProducts: pRes[2].author_list,
-      reviews: pRes[3].review_info,
-      rankingProducts: pRes[4].products
+      // seriesProducts: pRes[0].series_list,
+      // magazineProducts: pRes[1].magazine_list,
+      // authorProducts: pRes[2].author_list,
+      reviews: pRes[0].review_info
+      // rankingProducts: pRes[4].products
     }
   }
 }
