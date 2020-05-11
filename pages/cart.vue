@@ -241,6 +241,7 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
+  layout: 'honto',
   computed: {
     ...mapGetters(['getCart', 'getTotalPrice', 'getCartLength'])
   },

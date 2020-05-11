@@ -193,7 +193,7 @@
               </div>
 
               <!-- レビュー -->
-              <ReviewSelection />
+              <ReviewSelection :product="product" :reviews="reviews" />
 
               <div class="pbNested pbNestedWrapper" id="pbBlock2641078">
                 <!-- StBoxCarousel014 -->
@@ -519,14 +519,14 @@
 </template>
 <script>
 import TopicPath from '~/components/honto/TopicPath'
-import StTopicPath from '~/components/honto/StTopicPath'
-import ProductLeftArea from '~/components/honto/ProductLeftArea'
-import ProductMainArea from '~/components/honto/ProductMainArea'
-import ProductRightArea from '~/components/honto/ProductRightArea'
-import ProductInfomation01 from '~/components/honto/ProductInfomation01'
-import ProductInfomation011 from '~/components/honto/ProductInfomation011'
-import ProductInfomation012 from '~/components/honto/ProductInfomation012'
-import ReviewSelection from '~/components/honto/ReviewSelection'
+import StTopicPath from '~/components/honto/product/StTopicPath'
+import ProductLeftArea from '~/components/honto/product/ProductLeftArea'
+import ProductMainArea from '~/components/honto/product/ProductMainArea'
+import ProductRightArea from '~/components/honto/product/ProductRightArea'
+import ProductInfomation01 from '~/components/honto/product/ProductInfomation01'
+import ProductInfomation011 from '~/components/honto/product/ProductInfomation011'
+import ProductInfomation012 from '~/components/honto/product/ProductInfomation012'
+import ReviewSelection from '~/components/honto/product/ReviewSelection'
 import StBookTreeCarousel03 from '~/components/honto/carousel/StBookTreeCarousel03'
 import StBoxCarousel01 from '~/components/honto/carousel/StBoxCarousel01'
 import StBoxCarousel011 from '~/components/honto/carousel/StBoxCarousel011'
@@ -556,35 +556,34 @@ export default {
     // 書籍情報
     let resProduct = {}
     try {
-      console.log('もしかして。。。。' + params.id)
       resProduct = await $axios.$get(`/v2/product/${params.id}`)
     } catch (err) {
       console.log(err)
     }
 
-    // let pRes = []
-    // try {
-    //   const seriesId = resProduct.product.series._id
-    //   const authorId = resProduct.product.author._id
-    //   pRes = await Promise.all([
-    //     $axios.$get(`/v2/product/series/${seriesId}`), // シリーズ
-    //     $axios.$get(
-    //       '/v2/product/magazine/' + encodeURI(resProduct.product.magazine)
-    //     ), // 同雑誌情報
-    //     $axios.$get(`/v2/product/author/${authorId}`), // 著者情報
-    //     $axios.$get(`/v2/review/reviews/${params.id}`), // レビュー情報
-    //     $axios.$get('/v2/product') // ランキング情報
-    //   ])
-    // } catch (err) {
-    //   console.log(err)
-    // }
+    let pRes = []
+    try {
+      const seriesId = resProduct.product.series._id
+      const authorId = resProduct.product.author._id
+      pRes = await Promise.all([
+        $axios.$get(`/v2/product/series/${seriesId}`), // シリーズ
+        $axios.$get(
+          '/v2/product/magazine/' + encodeURI(resProduct.product.magazine)
+        ), // 同雑誌情報
+        $axios.$get(`/v2/product/author/${authorId}`), // 著者情報
+        $axios.$get(`/v2/review/reviews/${params.id}`), // レビュー情報
+        $axios.$get('/v2/product') // ランキング情報
+      ])
+    } catch (err) {
+      console.log(err)
+    }
     return {
-      product: resProduct.product
-      // seriesProducts: pRes[0].series_list,
-      // magazineProducts: pRes[1].magazine_list,
-      // authorProducts: pRes[2].author_list,
-      // reviews: pRes[3].review_info,
-      // rankingProducts: pRes[4].products
+      product: resProduct.product,
+      seriesProducts: pRes[0].series_list,
+      magazineProducts: pRes[1].magazine_list,
+      authorProducts: pRes[2].author_list,
+      reviews: pRes[3].review_info,
+      rankingProducts: pRes[4].products
     }
   }
 }

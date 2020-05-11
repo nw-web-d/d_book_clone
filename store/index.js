@@ -32,7 +32,7 @@ export const mutations = {
     state.cartLength = 0
     if (state.cart.length > 0) {
       state.cart.map((product) => {
-        state.cartLength += parseInt(product.quantity)
+        state.cartLength += parseInt(product.quantity) || 1
       })
     }
   },

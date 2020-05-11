@@ -66,13 +66,17 @@
               <span class="stPoint"><em>4</em>pt</span>
             </div>
           </div>
-          <div class="stContents" style="height: auto;">
+          <div
+            class="stContents"
+            style="height: auto;"
+            @click="addProductToCart(product)"
+          >
             <div class="stBlockInner">
               <div class="ebook-button-wrapper" style="text-decoration: none;">
                 <div class="ebook-cart-wrapper">
                   <p id="dy_put_cart_25914816">
                     <a
-                      href="javascript:void(0);"
+                      href="#"
                       style="
                                         text-decoration: none;
                                         display: inline-block;
@@ -80,10 +84,10 @@
                                         position: relative;
                                         height: 62px;
                                       "
+                      name="submit.add-to-cart"
                       ><span
                         class="stBtn stCart stSizeL stEbBtn ebook-cart__button"
                         id="dy_put_cart_img_25914816"
-                        onclick="putCart.put(&#39;3324204&#39;,&#39;&#39;,&#39;25914816&#39;,&#39;&#39;,&#39;https://honto.jp/reg/cart-eb.html&#39;,&#39;pcDetailEbk&#39;,&#39;0&#39;,&#39;1&#39;);"
                         ><span>電子書籍を</span>カートに入れる</span
                       ></a
                     >
@@ -352,7 +356,7 @@
               </p>
 
               <form action="https://honto.jp/reg/cart-ns.html" method="GET">
-                <p id="dy_put_cart_25643629">
+                <p id="dy_put_cart_25643629" @click="addProductToCart(product)">
                   <a
                     href="javascript:void(0);"
                     style="
@@ -365,7 +369,7 @@
                     ><span
                       class="stBtn stCart stSizeL stNsBtn"
                       id="dy_put_cart_img_25643629"
-                      onclick="putCart.put(&#39;3324204&#39;,&#39;&#39;,&#39;25643629&#39;,&#39;&#39;,&#39;https://honto.jp/reg/cart-ns.html&#39;,&#39;pcDetail&#39;,&#39;0&#39;,&#39;2&#39;);"
+                      name="submit.add-to-cart"
                       ><span>紙の本を</span>カートに入れる</span
                     ></a
                   >
@@ -539,6 +543,7 @@
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex'
 import StarRating from '~/components/common/StarRating'
 export default {
   components: {
@@ -550,6 +555,9 @@ export default {
       required: true,
       default: () => {}
     }
+  },
+  methods: {
+    ...mapActions(['addProductToCart'])
   }
 }
 </script>

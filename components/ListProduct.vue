@@ -28,10 +28,7 @@
               <!-- honto -->
               <nuxt-link
                 class="a-link-normal"
-                :to="{
-                  name: 'product_honto_like-id',
-                  params: { id: product._id }
-                }"
+                :to="`honto/product/${product._id}`"
               >
                 <h1 class="a-size-medium">hontoページ</h1>
               </nuxt-link>

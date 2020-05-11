@@ -416,9 +416,9 @@
                         <em>カート</em>
                         <p class="stEb">
                           <a href="https://honto.jp/reg/cart-eb.html"
-                            >電子<span class="dy_ebookCartItemCount stNum"
-                              >0</span
-                            ></a
+                            >電子<span class="dy_ebookCartItemCount stNum">{{
+                              getCartLength
+                            }}</span></a
                           >
                         </p>
                         <p class="stNs">
@@ -431,21 +431,21 @@
                         <div class="stHdCartDetail01">
                           <ul>
                             <li>
-                              <a
-                                href="https://honto.jp/reg/cart-eb.html"
+                              <nuxt-link
+                                to="/honto/cart"
                                 style="
-                                          text-decoration: none;
-                                          display: inline-block;
-                                          vertical-align: bottom;
-                                          position: relative;
-                                          height: 52px;
-                                        "
-                                ><span class="stBtn stCart stSizeM stEbBtn"
+                                text-decoration: none;
+                                display: inline-block;
+                                vertical-align: bottom;position: relative;
+                                height: 52px;
+                                "
+                              >
+                                <span class="stBtn stCart stSizeM stEbBtn"
                                   ><span>電子書籍の</span>カートを見る (<span
                                     class="dy_ebookCartItemCount stNum"
-                                    >0</span
+                                    >{{ getCartLength }}</span
                                   >)</span
-                                ></a
+                                ></nuxt-link
                               >
                             </li>
                             <li>
@@ -469,7 +469,6 @@
                           </ul>
                         </div>
                       </li>
-
                       <li class="stMyMenu">
                         <a href="https://honto.jp/my.html"
                           ><em>Myメニュー</em></a
@@ -483,6 +482,13 @@
                                 ><span>ポイント</span>
                               </dd>
                             </dl>
+                            <template v-if="loggedIn">
+                              <dl>
+                                <dt>
+                                  <span>{{ $auth.$state.user.name }}</span>
+                                </dt>
+                              </dl>
+                            </template>
                             <ul>
                               <li>
                                 <a
@@ -570,16 +576,19 @@
                   <nav class="stHdLoginNav">
                     <ul>
                       <li>
-                        <a href="https://honto.jp/reg.html?cid=ip_hb_hm_05"
-                          ><span class="stHdBtn stHd stJoin"
-                            >新規会員登録</span
-                          ></a
+                        <nuxt-link
+                          id="nav-link-account-list"
+                          to="/auth/signup"
+                          tabindex="0"
                         >
+                          <span class="stHdBtn stHd stJoin">新規会員登録</span>
+                        </nuxt-link>
                       </li>
                       <li>
-                        <a
-                          href="https://honto.jp/reg/login.html?cid=ip_hb_hm_06"
-                          ><span class="stHdBtn stHd stLogin">ログイン</span></a
+                        <nuxt-link to="/auth/login"
+                          ><span class="stHdBtn stHd stLogin"
+                            >ログイン</span
+                          ></nuxt-link
                         >
                       </li>
                     </ul>
@@ -736,4 +745,3 @@ export default {
   }
 }
 </script>
->
