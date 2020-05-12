@@ -123,7 +123,7 @@
                     <span class="a-color-price a-text-bold">
                       <!-- Cart Total Price -->
                       <span class="a-size-medium a-color-price"
-                        >{{ getTotalPrice }}円</span
+                        >{{ getCartTotalPrice }}円</span
                       >
                     </span>
                   </p>
@@ -143,7 +143,7 @@
                         <span class="a-color-price a-text-bold">
                           <!-- Cart Total Price  -->
                           <span class="a-size-medium a-color-price"
-                            >{{ getTotalPrice }}円</span
+                            >{{ getCartTotalPrice }}円</span
                           >
                         </span>
                       </span>
@@ -241,8 +241,9 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
+  layout: 'honto',
   computed: {
-    ...mapGetters(['getCart', 'getTotalPrice', 'getCartLength'])
+    ...mapGetters(['getCart', 'getCartTotalPrice', 'getCartLength'])
   },
   methods: {
     onChangeQuantity(event, product) {

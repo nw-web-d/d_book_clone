@@ -6,6 +6,7 @@ const URL =
 
 export default {
   mode: 'universal',
+
   /*
    ** Headers of the page
    */
@@ -18,7 +19,19 @@ export default {
         hid: 'description',
         name: 'description',
         content: process.env.npm_package_description || ''
-      }
+      }, // honto
+      { 'http-equiv': 'Content-Type', content: 'text/html; charset=UTF-8' },
+      { 'http-equiv': 'Content-Style-Type', content: 'text/css' },
+      {
+        'http-equiv': 'x-xrds-location',
+        content: 'https://honto.jp/honto.xrds'
+      },
+      { 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' }
+    ],
+    script: [
+      { src: '~/assets/js/dnp/lib/jquery.js' },
+      { src: '~/assets/js/dnp/honto/honto.js' },
+      { src: '~/assets/js/dnp/honto/run.js' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -33,7 +46,7 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: ['@/assets/css/dnp/import.css'],
   /*
    ** Plugins to load before mounting the App
    */

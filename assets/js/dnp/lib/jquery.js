@@ -1,0 +1,5366 @@
+/*! jQuery v1.7.2 jquery.com | jquery.org/license */
+;(function(a, b) {
+  function cy(a) {
+    return f.isWindow(a)
+      ? a
+      : a.nodeType === 9
+      ? a.defaultView || a.parentWindow
+      : !1
+  }
+  function cu(a) {
+    if (!cj[a]) {
+      const b = c.body
+      let d = f('<' + a + '>').appendTo(b)
+      let e = d.css('display')
+      d.remove()
+      if (e === 'none' || e === '') {
+        ck ||
+          ((ck = c.createElement('iframe')),
+          (ck.frameBorder = ck.width = ck.height = 0)),
+          b.appendChild(ck)
+        if (!cl || !ck.createElement)
+          (cl = (ck.contentWindow || ck.contentDocument).document),
+            cl.write(
+              (f.support.boxModel ? '<!doctype html>' : '') + '<html><body>'
+            ),
+            cl.close()
+        ;(d = cl.createElement(a)),
+          cl.body.appendChild(d),
+          (e = f.css(d, 'display')),
+          b.removeChild(ck)
+      }
+      cj[a] = e
+    }
+    return cj[a]
+  }
+  function ct(a, b) {
+    const c = {}
+    f.each(cp.concat.apply([], cp.slice(0, b)), function() {
+      c[this] = a
+    })
+    return c
+  }
+  function cs() {
+    cq = b
+  }
+  function cr() {
+    setTimeout(cs, 0)
+    return (cq = f.now())
+  }
+  function ci() {
+    try {
+      return new a.ActiveXObject('Microsoft.XMLHTTP')
+    } catch (b) {}
+  }
+  function ch() {
+    try {
+      return new a.XMLHttpRequest()
+    } catch (b) {}
+  }
+  function cb(a, c) {
+    a.dataFilter && (c = a.dataFilter(c, a.dataType))
+    const d = a.dataTypes
+    const e = {}
+    let g
+    let h
+    const i = d.length
+    let j
+    let k = d[0]
+    let l
+    let m
+    let n
+    let o
+    let p
+    for (g = 1; g < i; g++) {
+      if (g === 1)
+        for (h in a.converters)
+          typeof h === 'string' && (e[h.toLowerCase()] = a.converters[h])
+      ;(l = k), (k = d[g])
+      if (k === '*') k = l
+      else if (l !== '*' && l !== k) {
+        ;(m = l + ' ' + k), (n = e[m] || e['* ' + k])
+        if (!n) {
+          p = b
+          for (o in e) {
+            j = o.split(' ')
+            if (j[0] === l || j[0] === '*') {
+              p = e[j[1] + ' ' + k]
+              if (p) {
+                ;(o = e[o]), o === !0 ? (n = p) : p === !0 && (n = o)
+                break
+              }
+            }
+          }
+        }
+        !n && !p && f.error('No conversion from ' + m.replace(' ', ' to ')),
+          n !== !0 && (c = n ? n(c) : p(o(c)))
+      }
+    }
+    return c
+  }
+  function ca(a, c, d) {
+    const e = a.contents
+    const f = a.dataTypes
+    const g = a.responseFields
+    let h
+    let i
+    let j
+    let k
+    for (i in g) i in d && (c[g[i]] = d[i])
+    while (f[0] === '*')
+      f.shift(),
+        h === b && (h = a.mimeType || c.getResponseHeader('content-type'))
+    if (h)
+      for (i in e)
+        if (e[i] && e[i].test(h)) {
+          f.unshift(i)
+          break
+        }
+    if (f[0] in d) j = f[0]
+    else {
+      for (i in d) {
+        if (!f[0] || a.converters[i + ' ' + f[0]]) {
+          j = i
+          break
+        }
+        k || (k = i)
+      }
+      j = j || k
+    }
+    if (j) {
+      j !== f[0] && f.unshift(j)
+      return d[j]
+    }
+  }
+  function b_(a, b, c, d) {
+    if (f.isArray(b))
+      f.each(b, function(b, e) {
+        c || bD.test(a)
+          ? d(a, e)
+          : b_(a + '[' + (typeof e === 'object' ? b : '') + ']', e, c, d)
+      })
+    else if (!c && f.type(b) === 'object')
+      for (const e in b) b_(a + '[' + e + ']', b[e], c, d)
+    else d(a, b)
+  }
+  function b$(a, c) {
+    let d
+    let e
+    const g = f.ajaxSettings.flatOptions || {}
+    for (d in c) c[d] !== b && ((g[d] ? a : e || (e = {}))[d] = c[d])
+    e && f.extend(!0, a, e)
+  }
+  function bZ(a, c, d, e, f, g) {
+    ;(f = f || c.dataTypes[0]), (g = g || {}), (g[f] = !0)
+    const h = a[f]
+    let i = 0
+    const j = h ? h.length : 0
+    const k = a === bS
+    let l
+    for (; i < j && (k || !l); i++)
+      (l = h[i](c, d, e)),
+        typeof l === 'string' &&
+          (!k || g[l]
+            ? (l = b)
+            : (c.dataTypes.unshift(l), (l = bZ(a, c, d, e, l, g))))
+    ;(k || !l) && !g['*'] && (l = bZ(a, c, d, e, '*', g))
+    return l
+  }
+  function bY(a) {
+    return function(b, c) {
+      typeof b !== 'string' && ((c = b), (b = '*'))
+      if (f.isFunction(c)) {
+        const d = b.toLowerCase().split(bO)
+        let e = 0
+        const g = d.length
+        let h
+        let i
+        let j
+        for (; e < g; e++)
+          (h = d[e]),
+            (j = /^\+/.test(h)),
+            j && (h = h.substr(1) || '*'),
+            (i = a[h] = a[h] || []),
+            i[j ? 'unshift' : 'push'](c)
+      }
+    }
+  }
+  function bB(a, b, c) {
+    let d = b === 'width' ? a.offsetWidth : a.offsetHeight
+    let e = b === 'width' ? 1 : 0
+    const g = 4
+    if (d > 0) {
+      if (c !== 'border')
+        for (; e < g; e += 2)
+          c || (d -= parseFloat(f.css(a, 'padding' + bx[e])) || 0),
+            c === 'margin'
+              ? (d += parseFloat(f.css(a, c + bx[e])) || 0)
+              : (d -= parseFloat(f.css(a, 'border' + bx[e] + 'Width')) || 0)
+      return d + 'px'
+    }
+    d = by(a, b)
+    if (d < 0 || d == null) d = a.style[b]
+    if (bt.test(d)) return d
+    d = parseFloat(d) || 0
+    if (c)
+      for (; e < g; e += 2)
+        (d += parseFloat(f.css(a, 'padding' + bx[e])) || 0),
+          c !== 'padding' &&
+            (d += parseFloat(f.css(a, 'border' + bx[e] + 'Width')) || 0),
+          c === 'margin' && (d += parseFloat(f.css(a, c + bx[e])) || 0)
+    return d + 'px'
+  }
+  function bo(a) {
+    const b = c.createElement('div')
+    bh.appendChild(b), (b.innerHTML = a.outerHTML)
+    return b.firstChild
+  }
+  function bn(a) {
+    const b = (a.nodeName || '').toLowerCase()
+    b === 'input'
+      ? bm(a)
+      : b !== 'script' &&
+        typeof a.getElementsByTagName !== 'undefined' &&
+        f.grep(a.getElementsByTagName('input'), bm)
+  }
+  function bm(a) {
+    if (a.type === 'checkbox' || a.type === 'radio')
+      a.defaultChecked = a.checked
+  }
+  function bl(a) {
+    return typeof a.getElementsByTagName !== 'undefined'
+      ? a.getElementsByTagName('*')
+      : typeof a.querySelectorAll !== 'undefined'
+      ? a.querySelectorAll('*')
+      : []
+  }
+  function bk(a, b) {
+    let c
+    b.nodeType === 1 &&
+      (b.clearAttributes && b.clearAttributes(),
+      b.mergeAttributes && b.mergeAttributes(a),
+      (c = b.nodeName.toLowerCase()),
+      c === 'object'
+        ? (b.outerHTML = a.outerHTML)
+        : c !== 'input' || (a.type !== 'checkbox' && a.type !== 'radio')
+        ? c === 'option'
+          ? (b.selected = a.defaultSelected)
+          : c === 'input' || c === 'textarea'
+          ? (b.defaultValue = a.defaultValue)
+          : c === 'script' && b.text !== a.text && (b.text = a.text)
+        : (a.checked && (b.defaultChecked = b.checked = a.checked),
+          b.value !== a.value && (b.value = a.value)),
+      b.removeAttribute(f.expando),
+      b.removeAttribute('_submit_attached'),
+      b.removeAttribute('_change_attached'))
+  }
+  function bj(a, b) {
+    if (b.nodeType === 1 && !!f.hasData(a)) {
+      let c
+      let d
+      let e
+      const g = f._data(a)
+      const h = f._data(b, g)
+      const i = g.events
+      if (i) {
+        delete h.handle, (h.events = {})
+        for (c in i)
+          for (d = 0, e = i[c].length; d < e; d++) f.event.add(b, c, i[c][d])
+      }
+      h.data && (h.data = f.extend({}, h.data))
+    }
+  }
+  function bi(a, b) {
+    return f.nodeName(a, 'table')
+      ? a.getElementsByTagName('tbody')[0] ||
+          a.appendChild(a.ownerDocument.createElement('tbody'))
+      : a
+  }
+  function U(a) {
+    const b = V.split('|')
+    const c = a.createDocumentFragment()
+    if (c.createElement) while (b.length) c.createElement(b.pop())
+    return c
+  }
+  function T(a, b, c) {
+    b = b || 0
+    if (f.isFunction(b))
+      return f.grep(a, function(a, d) {
+        const e = !!b.call(a, d, a)
+        return e === c
+      })
+    if (b.nodeType)
+      return f.grep(a, function(a, d) {
+        return (a === b) === c
+      })
+    if (typeof b === 'string') {
+      const d = f.grep(a, function(a) {
+        return a.nodeType === 1
+      })
+      if (O.test(b)) return f.filter(b, d, !c)
+      b = f.filter(b, d)
+    }
+    return f.grep(a, function(a, d) {
+      return f.inArray(a, b) >= 0 === c
+    })
+  }
+  function S(a) {
+    return !a || !a.parentNode || a.parentNode.nodeType === 11
+  }
+  function K() {
+    return !0
+  }
+  function J() {
+    return !1
+  }
+  function n(a, b, c) {
+    const d = b + 'defer'
+    const e = b + 'queue'
+    const g = b + 'mark'
+    const h = f._data(a, d)
+    h &&
+      (c === 'queue' || !f._data(a, e)) &&
+      (c === 'mark' || !f._data(a, g)) &&
+      setTimeout(function() {
+        !f._data(a, e) && !f._data(a, g) && (f.removeData(a, d, !0), h.fire())
+      }, 0)
+  }
+  function m(a) {
+    for (const b in a) {
+      if (b === 'data' && f.isEmptyObject(a[b])) continue
+      if (b !== 'toJSON') return !1
+    }
+    return !0
+  }
+  function l(a, c, d) {
+    if (d === b && a.nodeType === 1) {
+      const e = 'data-' + c.replace(k, '-$1').toLowerCase()
+      d = a.getAttribute(e)
+      if (typeof d === 'string') {
+        try {
+          d =
+            d === 'true'
+              ? !0
+              : d === 'false'
+              ? !1
+              : d === 'null'
+              ? null
+              : f.isNumeric(d)
+              ? +d
+              : j.test(d)
+              ? f.parseJSON(d)
+              : d
+        } catch (g) {}
+        f.data(a, c, d)
+      } else d = b
+    }
+    return d
+  }
+  function h(a) {
+    const b = (g[a] = {})
+    let c
+    let d
+    a = a.split(/\s+/)
+    for (c = 0, d = a.length; c < d; c++) b[a[c]] = !0
+    return b
+  }
+  var c = a.document
+  const d = a.navigator
+  const e = a.location
+  var f = (function() {
+    function J() {
+      if (!e.isReady) {
+        try {
+          c.documentElement.doScroll('left')
+        } catch (a) {
+          setTimeout(J, 1)
+          return
+        }
+        e.ready()
+      }
+    }
+    var e = function(a, b) {
+      return new e.fn.init(a, b, h)
+    }
+    const f = a.jQuery
+    const g = a.$
+    let h
+    const i = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/
+    const j = /\S/
+    let k = /^\s+/
+    let l = /\s+$/
+    const m = /^<(\w+)\s*\/?>(?:<\/\1>)?$/
+    const n = /^[\],:{}\s]*$/
+    const o = /\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g
+    const p = /"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g
+    const q = /(?:^|:|,)(?:\s*\[)+/g
+    const r = /(webkit)[ \/]([\w.]+)/
+    const s = /(opera)(?:.*version)?[ \/]([\w.]+)/
+    const t = /(msie) ([\w.]+)/
+    const u = /(mozilla)(?:.*? rv:([\w.]+))?/
+    const v = /-([a-z]|[0-9])/gi
+    const w = /^-ms-/
+    const x = function(a, b) {
+      return (b + '').toUpperCase()
+    }
+    const y = d.userAgent
+    let z
+    let A
+    let B
+    const C = Object.prototype.toString
+    const D = Object.prototype.hasOwnProperty
+    const E = Array.prototype.push
+    const F = Array.prototype.slice
+    const G = String.prototype.trim
+    const H = Array.prototype.indexOf
+    const I = {}
+    ;(e.fn = e.prototype = {
+      constructor: e,
+      init(a, d, f) {
+        let g, h, j, k
+        if (!a) return this
+        if (a.nodeType) {
+          ;(this.context = this[0] = a), (this.length = 1)
+          return this
+        }
+        if (a === 'body' && !d && c.body) {
+          ;(this.context = c),
+            (this[0] = c.body),
+            (this.selector = a),
+            (this.length = 1)
+          return this
+        }
+        if (typeof a === 'string') {
+          a.charAt(0) !== '<' || a.charAt(a.length - 1) !== '>' || a.length < 3
+            ? (g = i.exec(a))
+            : (g = [null, a, null])
+          if (g && (g[1] || !d)) {
+            if (g[1]) {
+              ;(d = d instanceof e ? d[0] : d),
+                (k = d ? d.ownerDocument || d : c),
+                (j = m.exec(a)),
+                j
+                  ? e.isPlainObject(d)
+                    ? ((a = [c.createElement(j[1])]), e.fn.attr.call(a, d, !0))
+                    : (a = [k.createElement(j[1])])
+                  : ((j = e.buildFragment([g[1]], [k])),
+                    (a = (j.cacheable ? e.clone(j.fragment) : j.fragment)
+                      .childNodes))
+              return e.merge(this, a)
+            }
+            h = c.getElementById(g[2])
+            if (h && h.parentNode) {
+              if (h.id !== g[2]) return f.find(a)
+              ;(this.length = 1), (this[0] = h)
+            }
+            ;(this.context = c), (this.selector = a)
+            return this
+          }
+          return !d || d.jquery ? (d || f).find(a) : this.constructor(d).find(a)
+        }
+        if (e.isFunction(a)) return f.ready(a)
+        a.selector !== b &&
+          ((this.selector = a.selector), (this.context = a.context))
+        return e.makeArray(a, this)
+      },
+      selector: '',
+      jquery: '1.7.2',
+      length: 0,
+      size() {
+        return this.length
+      },
+      toArray() {
+        return F.call(this, 0)
+      },
+      get(a) {
+        return a == null
+          ? this.toArray()
+          : a < 0
+          ? this[this.length + a]
+          : this[a]
+      },
+      pushStack(a, b, c) {
+        const d = this.constructor()
+        e.isArray(a) ? E.apply(d, a) : e.merge(d, a),
+          (d.prevObject = this),
+          (d.context = this.context),
+          b === 'find'
+            ? (d.selector = this.selector + (this.selector ? ' ' : '') + c)
+            : b && (d.selector = this.selector + '.' + b + '(' + c + ')')
+        return d
+      },
+      each(a, b) {
+        return e.each(this, a, b)
+      },
+      ready(a) {
+        e.bindReady(), A.add(a)
+        return this
+      },
+      eq(a) {
+        a = +a
+        return a === -1 ? this.slice(a) : this.slice(a, a + 1)
+      },
+      first() {
+        return this.eq(0)
+      },
+      last() {
+        return this.eq(-1)
+      },
+      slice() {
+        return this.pushStack(
+          F.apply(this, arguments),
+          'slice',
+          F.call(arguments).join(',')
+        )
+      },
+      map(a) {
+        return this.pushStack(
+          e.map(this, function(b, c) {
+            return a.call(b, c, b)
+          })
+        )
+      },
+      end() {
+        return this.prevObject || this.constructor(null)
+      },
+      push: E,
+      sort: [].sort,
+      splice: [].splice
+    }),
+      (e.fn.init.prototype = e.fn),
+      (e.extend = e.fn.extend = function() {
+        let a
+        let c
+        let d
+        let f
+        let g
+        let h
+        let i = arguments[0] || {}
+        let j = 1
+        const k = arguments.length
+        let l = !1
+        typeof i === 'boolean' && ((l = i), (i = arguments[1] || {}), (j = 2)),
+          typeof i !== 'object' && !e.isFunction(i) && (i = {}),
+          k === j && ((i = this), --j)
+        for (; j < k; j++)
+          if ((a = arguments[j]) != null)
+            for (c in a) {
+              ;(d = i[c]), (f = a[c])
+              if (i === f) continue
+              l && f && (e.isPlainObject(f) || (g = e.isArray(f)))
+                ? (g
+                    ? ((g = !1), (h = d && e.isArray(d) ? d : []))
+                    : (h = d && e.isPlainObject(d) ? d : {}),
+                  (i[c] = e.extend(l, h, f)))
+                : f !== b && (i[c] = f)
+            }
+        return i
+      }),
+      e.extend({
+        noConflict(b) {
+          a.$ === e && (a.$ = g), b && a.jQuery === e && (a.jQuery = f)
+          return e
+        },
+        isReady: !1,
+        readyWait: 1,
+        holdReady(a) {
+          a ? e.readyWait++ : e.ready(!0)
+        },
+        ready(a) {
+          if ((a === !0 && !--e.readyWait) || (a !== !0 && !e.isReady)) {
+            if (!c.body) return setTimeout(e.ready, 1)
+            e.isReady = !0
+            if (a !== !0 && --e.readyWait > 0) return
+            A.fireWith(c, [e]),
+              e.fn.trigger &&
+                e(c)
+                  .trigger('ready')
+                  .off('ready')
+          }
+        },
+        bindReady() {
+          if (!A) {
+            A = e.Callbacks('once memory')
+            if (c.readyState === 'complete') return setTimeout(e.ready, 1)
+            if (c.addEventListener)
+              c.addEventListener('DOMContentLoaded', B, !1),
+                a.addEventListener('load', e.ready, !1)
+            else if (c.attachEvent) {
+              c.attachEvent('onreadystatechange', B),
+                a.attachEvent('onload', e.ready)
+              let b = !1
+              try {
+                b = a.frameElement == null
+              } catch (d) {}
+              c.documentElement.doScroll && b && J()
+            }
+          }
+        },
+        isFunction(a) {
+          return e.type(a) === 'function'
+        },
+        isArray:
+          Array.isArray ||
+          function(a) {
+            return e.type(a) === 'array'
+          },
+        isWindow(a) {
+          return a != null && a == a.window
+        },
+        isNumeric(a) {
+          return !isNaN(parseFloat(a)) && isFinite(a)
+        },
+        type(a) {
+          return a == null ? String(a) : I[C.call(a)] || 'object'
+        },
+        isPlainObject(a) {
+          if (!a || e.type(a) !== 'object' || a.nodeType || e.isWindow(a))
+            return !1
+          try {
+            if (
+              a.constructor &&
+              !D.call(a, 'constructor') &&
+              !D.call(a.constructor.prototype, 'isPrototypeOf')
+            )
+              return !1
+          } catch (c) {
+            return !1
+          }
+          let d
+          for (d in a);
+          return d === b || D.call(a, d)
+        },
+        isEmptyObject(a) {
+          for (const b in a) return !1
+          return !0
+        },
+        error(a) {
+          throw new Error(a)
+        },
+        parseJSON(b) {
+          if (typeof b !== 'string' || !b) return null
+          b = e.trim(b)
+          if (a.JSON && a.JSON.parse) return a.JSON.parse(b)
+          if (
+            n.test(
+              b
+                .replace(o, '@')
+                .replace(p, ']')
+                .replace(q, '')
+            )
+          )
+            return new Function('return ' + b)()
+          e.error('Invalid JSON: ' + b)
+        },
+        parseXML(c) {
+          if (typeof c !== 'string' || !c) return null
+          let d, f
+          try {
+            a.DOMParser
+              ? ((f = new DOMParser()), (d = f.parseFromString(c, 'text/xml')))
+              : ((d = new ActiveXObject('Microsoft.XMLDOM')),
+                (d.async = 'false'),
+                d.loadXML(c))
+          } catch (g) {
+            d = b
+          }
+          ;(!d ||
+            !d.documentElement ||
+            d.getElementsByTagName('parsererror').length) &&
+            e.error('Invalid XML: ' + c)
+          return d
+        },
+        noop() {},
+        globalEval(b) {
+          b &&
+            j.test(b) &&
+            (
+              a.execScript ||
+              function(b) {
+                a.eval.call(a, b)
+              }
+            )(b)
+        },
+        camelCase(a) {
+          return a.replace(w, 'ms-').replace(v, x)
+        },
+        nodeName(a, b) {
+          return a.nodeName && a.nodeName.toUpperCase() === b.toUpperCase()
+        },
+        each(a, c, d) {
+          let f
+          let g = 0
+          const h = a.length
+          const i = h === b || e.isFunction(a)
+          if (d) {
+            if (i) {
+              for (f in a) if (c.apply(a[f], d) === !1) break
+            } else for (; g < h; ) if (c.apply(a[g++], d) === !1) break
+          } else if (i) {
+            for (f in a) if (c.call(a[f], f, a[f]) === !1) break
+          } else for (; g < h; ) if (c.call(a[g], g, a[g++]) === !1) break
+          return a
+        },
+        trim: G
+          ? function(a) {
+              return a == null ? '' : G.call(a)
+            }
+          : function(a) {
+              return a == null ? '' : (a + '').replace(k, '').replace(l, '')
+            },
+        makeArray(a, b) {
+          const c = b || []
+          if (a != null) {
+            const d = e.type(a)
+            a.length == null ||
+            d === 'string' ||
+            d === 'function' ||
+            d === 'regexp' ||
+            e.isWindow(a)
+              ? E.call(c, a)
+              : e.merge(c, a)
+          }
+          return c
+        },
+        inArray(a, b, c) {
+          let d
+          if (b) {
+            if (H) return H.call(b, a, c)
+            ;(d = b.length), (c = c ? (c < 0 ? Math.max(0, d + c) : c) : 0)
+            for (; c < d; c++) if (c in b && b[c] === a) return c
+          }
+          return -1
+        },
+        merge(a, c) {
+          let d = a.length
+          let e = 0
+          if (typeof c.length === 'number')
+            for (let f = c.length; e < f; e++) a[d++] = c[e]
+          else while (c[e] !== b) a[d++] = c[e++]
+          a.length = d
+          return a
+        },
+        grep(a, b, c) {
+          const d = []
+          let e
+          c = !!c
+          for (let f = 0, g = a.length; f < g; f++)
+            (e = !!b(a[f], f)), c !== e && d.push(a[f])
+          return d
+        },
+        map(a, c, d) {
+          let f
+          let g
+          const h = []
+          let i = 0
+          const j = a.length
+          const k =
+            a instanceof e ||
+            (j !== b &&
+              typeof j === 'number' &&
+              ((j > 0 && a[0] && a[j - 1]) || j === 0 || e.isArray(a)))
+          if (k)
+            for (; i < j; i++)
+              (f = c(a[i], i, d)), f != null && (h[h.length] = f)
+          else for (g in a) (f = c(a[g], g, d)), f != null && (h[h.length] = f)
+          return h.concat.apply([], h)
+        },
+        guid: 1,
+        proxy(a, c) {
+          if (typeof c === 'string') {
+            const d = a[c]
+            ;(c = a), (a = d)
+          }
+          if (!e.isFunction(a)) return b
+          const f = F.call(arguments, 2)
+          const g = function() {
+            return a.apply(c, f.concat(F.call(arguments)))
+          }
+          g.guid = a.guid = a.guid || g.guid || e.guid++
+          return g
+        },
+        access(a, c, d, f, g, h, i) {
+          let j
+          const k = d == null
+          let l = 0
+          const m = a.length
+          if (d && typeof d === 'object') {
+            for (l in d) e.access(a, c, l, d[l], 1, h, f)
+            g = 1
+          } else if (f !== b) {
+            ;(j = i === b && e.isFunction(f)),
+              k &&
+                (j
+                  ? ((j = c),
+                    (c = function(a, b, c) {
+                      return j.call(e(a), c)
+                    }))
+                  : (c.call(a, f), (c = null)))
+            if (c)
+              for (; l < m; l++)
+                c(a[l], d, j ? f.call(a[l], l, c(a[l], d)) : f, i)
+            g = 1
+          }
+          return g ? a : k ? c.call(a) : m ? c(a[0], d) : h
+        },
+        now() {
+          return new Date().getTime()
+        },
+        uaMatch(a) {
+          a = a.toLowerCase()
+          const b =
+            r.exec(a) ||
+            s.exec(a) ||
+            t.exec(a) ||
+            (!a.includes('compatible') && u.exec(a)) ||
+            []
+          return { browser: b[1] || '', version: b[2] || '0' }
+        },
+        sub() {
+          function a(b, c) {
+            return new a.fn.init(b, c)
+          }
+          e.extend(!0, a, this),
+            (a.superclass = this),
+            (a.fn = a.prototype = this()),
+            (a.fn.constructor = a),
+            (a.sub = this.sub),
+            (a.fn.init = function(d, f) {
+              f && f instanceof e && !(f instanceof a) && (f = a(f))
+              return e.fn.init.call(this, d, f, b)
+            }),
+            (a.fn.init.prototype = a.fn)
+          var b = a(c)
+          return a
+        },
+        browser: {}
+      }),
+      e.each(
+        'Boolean Number String Function Array Date RegExp Object'.split(' '),
+        function(a, b) {
+          I['[object ' + b + ']'] = b.toLowerCase()
+        }
+      ),
+      (z = e.uaMatch(y)),
+      z.browser &&
+        ((e.browser[z.browser] = !0), (e.browser.version = z.version)),
+      e.browser.webkit && (e.browser.safari = !0),
+      j.test(' ') && ((k = /^[\s\xA0]+/), (l = /[\s\xA0]+$/)),
+      (h = e(c)),
+      c.addEventListener
+        ? (B = function() {
+            c.removeEventListener('DOMContentLoaded', B, !1), e.ready()
+          })
+        : c.attachEvent &&
+          (B = function() {
+            c.readyState === 'complete' &&
+              (c.detachEvent('onreadystatechange', B), e.ready())
+          })
+    return e
+  })()
+  var g = {}
+  f.Callbacks = function(a) {
+    a = a ? g[a] || h(a) : {}
+    let c = []
+    let d = []
+    let e
+    let i
+    let j
+    let k
+    let l
+    let m
+    var n = function(b) {
+      let d, e, g, h, i
+      for (d = 0, e = b.length; d < e; d++)
+        (g = b[d]),
+          (h = f.type(g)),
+          h === 'array'
+            ? n(g)
+            : h === 'function' && (!a.unique || !p.has(g)) && c.push(g)
+    }
+    const o = function(b, f) {
+      ;(f = f || []),
+        (e = !a.memory || [b, f]),
+        (i = !0),
+        (j = !0),
+        (m = k || 0),
+        (k = 0),
+        (l = c.length)
+      for (; c && m < l; m++)
+        if (c[m].apply(b, f) === !1 && a.stopOnFalse) {
+          e = !0
+          break
+        }
+      ;(j = !1),
+        c &&
+          (a.once
+            ? e === !0
+              ? p.disable()
+              : (c = [])
+            : d && d.length && ((e = d.shift()), p.fireWith(e[0], e[1])))
+    }
+    var p = {
+      add() {
+        if (c) {
+          const a = c.length
+          n(arguments),
+            j ? (l = c.length) : e && e !== !0 && ((k = a), o(e[0], e[1]))
+        }
+        return this
+      },
+      remove() {
+        if (c) {
+          const b = arguments
+          let d = 0
+          const e = b.length
+          for (; d < e; d++)
+            for (let f = 0; f < c.length; f++)
+              if (b[d] === c[f]) {
+                j && f <= l && (l--, f <= m && m--), c.splice(f--, 1)
+                if (a.unique) break
+              }
+        }
+        return this
+      },
+      has(a) {
+        if (c) {
+          let b = 0
+          const d = c.length
+          for (; b < d; b++) if (a === c[b]) return !0
+        }
+        return !1
+      },
+      empty() {
+        c = []
+        return this
+      },
+      disable() {
+        c = d = e = b
+        return this
+      },
+      disabled() {
+        return !c
+      },
+      lock() {
+        ;(d = b), (!e || e === !0) && p.disable()
+        return this
+      },
+      locked() {
+        return !d
+      },
+      fireWith(b, c) {
+        d && (j ? a.once || d.push([b, c]) : (!a.once || !e) && o(b, c))
+        return this
+      },
+      fire() {
+        p.fireWith(this, arguments)
+        return this
+      },
+      fired() {
+        return !!i
+      }
+    }
+    return p
+  }
+  const i = [].slice
+  f.extend({
+    Deferred(a) {
+      const b = f.Callbacks('once memory')
+      const c = f.Callbacks('once memory')
+      const d = f.Callbacks('memory')
+      let e = 'pending'
+      const g = { resolve: b, reject: c, notify: d }
+      var h = {
+        done: b.add,
+        fail: c.add,
+        progress: d.add,
+        state() {
+          return e
+        },
+        isResolved: b.fired,
+        isRejected: c.fired,
+        then(a, b, c) {
+          i.done(a)
+            .fail(b)
+            .progress(c)
+          return this
+        },
+        always() {
+          i.done.apply(i, arguments).fail.apply(i, arguments)
+          return this
+        },
+        pipe(a, b, c) {
+          return f
+            .Deferred(function(d) {
+              f.each(
+                {
+                  done: [a, 'resolve'],
+                  fail: [b, 'reject'],
+                  progress: [c, 'notify']
+                },
+                function(a, b) {
+                  const c = b[0]
+                  const e = b[1]
+                  let g
+                  f.isFunction(c)
+                    ? i[a](function() {
+                        ;(g = c.apply(this, arguments)),
+                          g && f.isFunction(g.promise)
+                            ? g.promise().then(d.resolve, d.reject, d.notify)
+                            : d[e + 'With'](this === i ? d : this, [g])
+                      })
+                    : i[a](d[e])
+                }
+              )
+            })
+            .promise()
+        },
+        promise(a) {
+          if (a == null) a = h
+          else for (const b in h) a[b] = h[b]
+          return a
+        }
+      }
+      var i = h.promise({})
+      let j
+      for (j in g) (i[j] = g[j].fire), (i[j + 'With'] = g[j].fireWith)
+      i
+        .done(
+          function() {
+            e = 'resolved'
+          },
+          c.disable,
+          d.lock
+        )
+        .fail(
+          function() {
+            e = 'rejected'
+          },
+          b.disable,
+          d.lock
+        ),
+        a && a.call(i, i)
+      return i
+    },
+    when(a) {
+      function m(a) {
+        return function(b) {
+          ;(e[a] = arguments.length > 1 ? i.call(arguments, 0) : b),
+            j.notifyWith(k, e)
+        }
+      }
+      function l(a) {
+        return function(c) {
+          ;(b[a] = arguments.length > 1 ? i.call(arguments, 0) : c),
+            --g || j.resolveWith(j, b)
+        }
+      }
+      var b = i.call(arguments, 0)
+      let c = 0
+      const d = b.length
+      var e = Array(d)
+      var g = d
+      const h = d
+      var j = d <= 1 && a && f.isFunction(a.promise) ? a : f.Deferred()
+      var k = j.promise()
+      if (d > 1) {
+        for (; c < d; c++)
+          b[c] && b[c].promise && f.isFunction(b[c].promise)
+            ? b[c].promise().then(l(c), j.reject, m(c))
+            : --g
+        g || j.resolveWith(j, b)
+      } else j !== a && j.resolveWith(j, d ? [a] : [])
+      return k
+    }
+  }),
+    (f.support = (function() {
+      let b
+      let d
+      let e
+      let g
+      let h
+      let i
+      let j
+      let k
+      let l
+      let m
+      let n
+      let o
+      let p = c.createElement('div')
+      const q = c.documentElement
+      p.setAttribute('className', 't'),
+        (p.innerHTML =
+          "   <link/><table></table><a href='/a' style='top:1px;float:left;opacity:.55;'>a</a><input type='checkbox'/>"),
+        (d = p.getElementsByTagName('*')),
+        (e = p.getElementsByTagName('a')[0])
+      if (!d || !d.length || !e) return {}
+      ;(g = c.createElement('select')),
+        (h = g.appendChild(c.createElement('option'))),
+        (i = p.getElementsByTagName('input')[0]),
+        (b = {
+          leadingWhitespace: p.firstChild.nodeType === 3,
+          tbody: !p.getElementsByTagName('tbody').length,
+          htmlSerialize: !!p.getElementsByTagName('link').length,
+          style: /top/.test(e.getAttribute('style')),
+          hrefNormalized: e.getAttribute('href') === '/a',
+          opacity: /^0.55/.test(e.style.opacity),
+          cssFloat: !!e.style.cssFloat,
+          checkOn: i.value === 'on',
+          optSelected: h.selected,
+          getSetAttribute: p.className !== 't',
+          enctype: !!c.createElement('form').enctype,
+          html5Clone:
+            c.createElement('nav').cloneNode(!0).outerHTML !== '<:nav></:nav>',
+          submitBubbles: !0,
+          changeBubbles: !0,
+          focusinBubbles: !1,
+          deleteExpando: !0,
+          noCloneEvent: !0,
+          inlineBlockNeedsLayout: !1,
+          shrinkWrapBlocks: !1,
+          reliableMarginRight: !0,
+          pixelMargin: !0
+        }),
+        (f.boxModel = b.boxModel = c.compatMode === 'CSS1Compat'),
+        (i.checked = !0),
+        (b.noCloneChecked = i.cloneNode(!0).checked),
+        (g.disabled = !0),
+        (b.optDisabled = !h.disabled)
+      try {
+        delete p.test
+      } catch (r) {
+        b.deleteExpando = !1
+      }
+      !p.addEventListener &&
+        p.attachEvent &&
+        p.fireEvent &&
+        (p.attachEvent('onclick', function() {
+          b.noCloneEvent = !1
+        }),
+        p.cloneNode(!0).fireEvent('onclick')),
+        (i = c.createElement('input')),
+        (i.value = 't'),
+        i.setAttribute('type', 'radio'),
+        (b.radioValue = i.value === 't'),
+        i.setAttribute('checked', 'checked'),
+        i.setAttribute('name', 't'),
+        p.appendChild(i),
+        (j = c.createDocumentFragment()),
+        j.appendChild(p.lastChild),
+        (b.checkClone = j.cloneNode(!0).cloneNode(!0).lastChild.checked),
+        (b.appendChecked = i.checked),
+        j.removeChild(i),
+        j.appendChild(p)
+      if (p.attachEvent)
+        for (n in { submit: 1, change: 1, focusin: 1 })
+          (m = 'on' + n),
+            (o = m in p),
+            o ||
+              (p.setAttribute(m, 'return;'), (o = typeof p[m] === 'function')),
+            (b[n + 'Bubbles'] = o)
+      j.removeChild(p),
+        (j = g = h = p = i = null),
+        f(function() {
+          let d
+          let e
+          let g
+          let h
+          let i
+          let j
+          let l
+          let m
+          let n
+          let q
+          let r
+          let s
+          let t
+          const u = c.getElementsByTagName('body')[0]
+          !u ||
+            ((m = 1),
+            (t = 'padding:0;margin:0;border:'),
+            (r = 'position:absolute;top:0;left:0;width:1px;height:1px;'),
+            (s = t + '0;visibility:hidden;'),
+            (n = "style='" + r + t + '5px solid #000;'),
+            (q =
+              '<div ' +
+              n +
+              "display:block;'><div style='" +
+              t +
+              "0;display:block;overflow:hidden;'></div></div>" +
+              '<table ' +
+              n +
+              "' cellpadding='0' cellspacing='0'>" +
+              '<tr><td></td></tr></table>'),
+            (d = c.createElement('div')),
+            (d.style.cssText =
+              s +
+              'width:0;height:0;position:static;top:0;margin-top:' +
+              m +
+              'px'),
+            u.insertBefore(d, u.firstChild),
+            (p = c.createElement('div')),
+            d.appendChild(p),
+            (p.innerHTML =
+              "<table><tr><td style='" +
+              t +
+              "0;display:none'></td><td>t</td></tr></table>"),
+            (k = p.getElementsByTagName('td')),
+            (o = k[0].offsetHeight === 0),
+            (k[0].style.display = ''),
+            (k[1].style.display = 'none'),
+            (b.reliableHiddenOffsets = o && k[0].offsetHeight === 0),
+            a.getComputedStyle &&
+              ((p.innerHTML = ''),
+              (l = c.createElement('div')),
+              (l.style.width = '0'),
+              (l.style.marginRight = '0'),
+              (p.style.width = '2px'),
+              p.appendChild(l),
+              (b.reliableMarginRight =
+                (parseInt(
+                  (a.getComputedStyle(l, null) || { marginRight: 0 })
+                    .marginRight,
+                  10
+                ) || 0) === 0)),
+            typeof p.style.zoom !== 'undefined' &&
+              ((p.innerHTML = ''),
+              (p.style.width = p.style.padding = '1px'),
+              (p.style.border = 0),
+              (p.style.overflow = 'hidden'),
+              (p.style.display = 'inline'),
+              (p.style.zoom = 1),
+              (b.inlineBlockNeedsLayout = p.offsetWidth === 3),
+              (p.style.display = 'block'),
+              (p.style.overflow = 'visible'),
+              (p.innerHTML = "<div style='width:5px;'></div>"),
+              (b.shrinkWrapBlocks = p.offsetWidth !== 3)),
+            (p.style.cssText = r + s),
+            (p.innerHTML = q),
+            (e = p.firstChild),
+            (g = e.firstChild),
+            (i = e.nextSibling.firstChild.firstChild),
+            (j = {
+              doesNotAddBorder: g.offsetTop !== 5,
+              doesAddBorderForTableAndCells: i.offsetTop === 5
+            }),
+            (g.style.position = 'fixed'),
+            (g.style.top = '20px'),
+            (j.fixedPosition = g.offsetTop === 20 || g.offsetTop === 15),
+            (g.style.position = g.style.top = ''),
+            (e.style.overflow = 'hidden'),
+            (e.style.position = 'relative'),
+            (j.subtractsBorderForOverflowNotVisible = g.offsetTop === -5),
+            (j.doesNotIncludeMarginInBodyOffset = u.offsetTop !== m),
+            a.getComputedStyle &&
+              ((p.style.marginTop = '1%'),
+              (b.pixelMargin =
+                (a.getComputedStyle(p, null) || { marginTop: 0 }).marginTop !==
+                '1%')),
+            typeof d.style.zoom !== 'undefined' && (d.style.zoom = 1),
+            u.removeChild(d),
+            (l = p = d = null),
+            f.extend(b, j))
+        })
+      return b
+    })())
+  var j = /^(?:\{.*\}|\[.*\])$/
+  var k = /([A-Z])/g
+  f.extend({
+    cache: {},
+    uuid: 0,
+    expando: 'jQuery' + (f.fn.jquery + Math.random()).replace(/\D/g, ''),
+    noData: {
+      embed: !0,
+      object: 'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000',
+      applet: !0
+    },
+    hasData(a) {
+      a = a.nodeType ? f.cache[a[f.expando]] : a[f.expando]
+      return !!a && !m(a)
+    },
+    data(a, c, d, e) {
+      if (f.acceptData(a)) {
+        let g
+        let h
+        let i
+        const j = f.expando
+        const k = typeof c === 'string'
+        const l = a.nodeType
+        const m = l ? f.cache : a
+        let n = l ? a[j] : a[j] && j
+        const o = c === 'events'
+        if ((!n || !m[n] || (!o && !e && !m[n].data)) && k && d === b) return
+        n || (l ? (a[j] = n = ++f.uuid) : (n = j)),
+          m[n] || ((m[n] = {}), l || (m[n].toJSON = f.noop))
+        if (typeof c === 'object' || typeof c === 'function')
+          e ? (m[n] = f.extend(m[n], c)) : (m[n].data = f.extend(m[n].data, c))
+        ;(g = h = m[n]),
+          e || (h.data || (h.data = {}), (h = h.data)),
+          d !== b && (h[f.camelCase(c)] = d)
+        if (o && !h[c]) return g.events
+        k ? ((i = h[c]), i == null && (i = h[f.camelCase(c)])) : (i = h)
+        return i
+      }
+    },
+    removeData(a, b, c) {
+      if (f.acceptData(a)) {
+        let d
+        let e
+        let g
+        const h = f.expando
+        const i = a.nodeType
+        const j = i ? f.cache : a
+        const k = i ? a[h] : h
+        if (!j[k]) return
+        if (b) {
+          d = c ? j[k] : j[k].data
+          if (d) {
+            f.isArray(b) ||
+              (b in d
+                ? (b = [b])
+                : ((b = f.camelCase(b)),
+                  b in d ? (b = [b]) : (b = b.split(' '))))
+            for (e = 0, g = b.length; e < g; e++) delete d[b[e]]
+            if (!(c ? m : f.isEmptyObject)(d)) return
+          }
+        }
+        if (!c) {
+          delete j[k].data
+          if (!m(j[k])) return
+        }
+        f.support.deleteExpando || !j.setInterval ? delete j[k] : (j[k] = null),
+          i &&
+            (f.support.deleteExpando
+              ? delete a[h]
+              : a.removeAttribute
+              ? a.removeAttribute(h)
+              : (a[h] = null))
+      }
+    },
+    _data(a, b, c) {
+      return f.data(a, b, c, !0)
+    },
+    acceptData(a) {
+      if (a.nodeName) {
+        const b = f.noData[a.nodeName.toLowerCase()]
+        if (b) return b !== !0 && a.getAttribute('classid') === b
+      }
+      return !0
+    }
+  }),
+    f.fn.extend({
+      data(a, c) {
+        let d
+        let e
+        let g
+        let h
+        let i
+        const j = this[0]
+        let k = 0
+        let m = null
+        if (a === b) {
+          if (this.length) {
+            m = f.data(j)
+            if (j.nodeType === 1 && !f._data(j, 'parsedAttrs')) {
+              g = j.attributes
+              for (i = g.length; k < i; k++)
+                (h = g[k].name),
+                  h.indexOf('data-') === 0 &&
+                    ((h = f.camelCase(h.substring(5))), l(j, h, m[h]))
+              f._data(j, 'parsedAttrs', !0)
+            }
+          }
+          return m
+        }
+        if (typeof a === 'object')
+          return this.each(function() {
+            f.data(this, a)
+          })
+        ;(d = a.split('.', 2)),
+          (d[1] = d[1] ? '.' + d[1] : ''),
+          (e = d[1] + '!')
+        return f.access(
+          this,
+          function(c) {
+            if (c === b) {
+              ;(m = this.triggerHandler('getData' + e, [d[0]])),
+                m === b && j && ((m = f.data(j, a)), (m = l(j, a, m)))
+              return m === b && d[1] ? this.data(d[0]) : m
+            }
+            ;(d[1] = c),
+              this.each(function() {
+                const b = f(this)
+                b.triggerHandler('setData' + e, d),
+                  f.data(this, a, c),
+                  b.triggerHandler('changeData' + e, d)
+              })
+          },
+          null,
+          c,
+          arguments.length > 1,
+          null,
+          !1
+        )
+      },
+      removeData(a) {
+        return this.each(function() {
+          f.removeData(this, a)
+        })
+      }
+    }),
+    f.extend({
+      _mark(a, b) {
+        a &&
+          ((b = (b || 'fx') + 'mark'), f._data(a, b, (f._data(a, b) || 0) + 1))
+      },
+      _unmark(a, b, c) {
+        a !== !0 && ((c = b), (b = a), (a = !1))
+        if (b) {
+          c = c || 'fx'
+          const d = c + 'mark'
+          const e = a ? 0 : (f._data(b, d) || 1) - 1
+          e ? f._data(b, d, e) : (f.removeData(b, d, !0), n(b, c, 'mark'))
+        }
+      },
+      queue(a, b, c) {
+        let d
+        if (a) {
+          ;(b = (b || 'fx') + 'queue'),
+            (d = f._data(a, b)),
+            c &&
+              (!d || f.isArray(c)
+                ? (d = f._data(a, b, f.makeArray(c)))
+                : d.push(c))
+          return d || []
+        }
+      },
+      dequeue(a, b) {
+        b = b || 'fx'
+        const c = f.queue(a, b)
+        let d = c.shift()
+        const e = {}
+        d === 'inprogress' && (d = c.shift()),
+          d &&
+            (b === 'fx' && c.unshift('inprogress'),
+            f._data(a, b + '.run', e),
+            d.call(
+              a,
+              function() {
+                f.dequeue(a, b)
+              },
+              e
+            )),
+          c.length ||
+            (f.removeData(a, b + 'queue ' + b + '.run', !0), n(a, b, 'queue'))
+      }
+    }),
+    f.fn.extend({
+      queue(a, c) {
+        let d = 2
+        typeof a !== 'string' && ((c = a), (a = 'fx'), d--)
+        if (arguments.length < d) return f.queue(this[0], a)
+        return c === b
+          ? this
+          : this.each(function() {
+              const b = f.queue(this, a, c)
+              a === 'fx' && b[0] !== 'inprogress' && f.dequeue(this, a)
+            })
+      },
+      dequeue(a) {
+        return this.each(function() {
+          f.dequeue(this, a)
+        })
+      },
+      delay(a, b) {
+        ;(a = f.fx ? f.fx.speeds[a] || a : a), (b = b || 'fx')
+        return this.queue(b, function(b, c) {
+          const d = setTimeout(b, a)
+          c.stop = function() {
+            clearTimeout(d)
+          }
+        })
+      },
+      clearQueue(a) {
+        return this.queue(a || 'fx', [])
+      },
+      promise(a, c) {
+        function m() {
+          --h || d.resolveWith(e, [e])
+        }
+        typeof a !== 'string' && ((c = a), (a = b)), (a = a || 'fx')
+        var d = f.Deferred()
+        var e = this
+        let g = e.length
+        var h = 1
+        const i = a + 'defer'
+        const j = a + 'queue'
+        const k = a + 'mark'
+        let l
+        while (g--)
+          if (
+            (l =
+              f.data(e[g], i, b, !0) ||
+              ((f.data(e[g], j, b, !0) || f.data(e[g], k, b, !0)) &&
+                f.data(e[g], i, f.Callbacks('once memory'), !0)))
+          )
+            h++, l.add(m)
+        m()
+        return d.promise(c)
+      }
+    })
+  const o = /[\n\t\r]/g
+  const p = /\s+/
+  const q = /\r/g
+  const r = /^(?:button|input)$/i
+  const s = /^(?:button|input|object|select|textarea)$/i
+  const t = /^a(?:rea)?$/i
+  const u = /^(?:autofocus|autoplay|async|checked|controls|defer|disabled|hidden|loop|multiple|open|readonly|required|scoped|selected)$/i
+  const v = f.support.getSetAttribute
+  let w
+  let x
+  let y
+  f.fn.extend({
+    attr(a, b) {
+      return f.access(this, f.attr, a, b, arguments.length > 1)
+    },
+    removeAttr(a) {
+      return this.each(function() {
+        f.removeAttr(this, a)
+      })
+    },
+    prop(a, b) {
+      return f.access(this, f.prop, a, b, arguments.length > 1)
+    },
+    removeProp(a) {
+      a = f.propFix[a] || a
+      return this.each(function() {
+        try {
+          ;(this[a] = b), delete this[a]
+        } catch (c) {}
+      })
+    },
+    addClass(a) {
+      let b, c, d, e, g, h, i
+      if (f.isFunction(a))
+        return this.each(function(b) {
+          f(this).addClass(a.call(this, b, this.className))
+        })
+      if (a && typeof a === 'string') {
+        b = a.split(p)
+        for (c = 0, d = this.length; c < d; c++) {
+          e = this[c]
+          if (e.nodeType === 1)
+            if (!e.className && b.length === 1) e.className = a
+            else {
+              g = ' ' + e.className + ' '
+              for (h = 0, i = b.length; h < i; h++)
+                ~g.indexOf(' ' + b[h] + ' ') || (g += b[h] + ' ')
+              e.className = f.trim(g)
+            }
+        }
+      }
+      return this
+    },
+    removeClass(a) {
+      let c, d, e, g, h, i, j
+      if (f.isFunction(a))
+        return this.each(function(b) {
+          f(this).removeClass(a.call(this, b, this.className))
+        })
+      if ((a && typeof a === 'string') || a === b) {
+        c = (a || '').split(p)
+        for (d = 0, e = this.length; d < e; d++) {
+          g = this[d]
+          if (g.nodeType === 1 && g.className)
+            if (a) {
+              h = (' ' + g.className + ' ').replace(o, ' ')
+              for (i = 0, j = c.length; i < j; i++)
+                h = h.replace(' ' + c[i] + ' ', ' ')
+              g.className = f.trim(h)
+            } else g.className = ''
+        }
+      }
+      return this
+    },
+    toggleClass(a, b) {
+      const c = typeof a
+      const d = typeof b === 'boolean'
+      if (f.isFunction(a))
+        return this.each(function(c) {
+          f(this).toggleClass(a.call(this, c, this.className, b), b)
+        })
+      return this.each(function() {
+        if (c === 'string') {
+          let e
+          let g = 0
+          const h = f(this)
+          let i = b
+          const j = a.split(p)
+          while ((e = j[g++]))
+            (i = d ? i : !h.hasClass(e)), h[i ? 'addClass' : 'removeClass'](e)
+        } else if (c === 'undefined' || c === 'boolean') this.className && f._data(this, '__className__', this.className), (this.className = this.className || a === !1 ? '' : f._data(this, '__className__') || '')
+      })
+    },
+    hasClass(a) {
+      const b = ' ' + a + ' '
+      let c = 0
+      const d = this.length
+      for (; c < d; c++)
+        if (
+          this[c].nodeType === 1 &&
+          (' ' + this[c].className + ' ').replace(o, ' ').includes(b)
+        )
+          return !0
+      return !1
+    },
+    val(a) {
+      let c
+      let d
+      let e
+      const g = this[0]
+      {
+        if (arguments.length) {
+          e = f.isFunction(a)
+          return this.each(function(d) {
+            const g = f(this)
+            let h
+            if (this.nodeType === 1) {
+              e ? (h = a.call(this, d, g.val())) : (h = a),
+                h == null
+                  ? (h = '')
+                  : typeof h === 'number'
+                  ? (h += '')
+                  : f.isArray(h) &&
+                    (h = f.map(h, function(a) {
+                      return a == null ? '' : a + ''
+                    })),
+                (c =
+                  f.valHooks[this.type] ||
+                  f.valHooks[this.nodeName.toLowerCase()])
+              if (!c || !('set' in c) || c.set(this, h, 'value') === b)
+                this.value = h
+            }
+          })
+        }
+        if (g) {
+          c = f.valHooks[g.type] || f.valHooks[g.nodeName.toLowerCase()]
+          if (c && 'get' in c && (d = c.get(g, 'value')) !== b) return d
+          d = g.value
+          return typeof d === 'string' ? d.replace(q, '') : d == null ? '' : d
+        }
+      }
+    }
+  }),
+    f.extend({
+      valHooks: {
+        option: {
+          get(a) {
+            const b = a.attributes.value
+            return !b || b.specified ? a.value : a.text
+          }
+        },
+        select: {
+          get(a) {
+            let b
+            let c
+            let d
+            let e
+            const g = a.selectedIndex
+            const h = []
+            const i = a.options
+            const j = a.type === 'select-one'
+            if (g < 0) return null
+            ;(c = j ? g : 0), (d = j ? g + 1 : i.length)
+            for (; c < d; c++) {
+              e = i[c]
+              if (
+                e.selected &&
+                (f.support.optDisabled
+                  ? !e.disabled
+                  : e.getAttribute('disabled') === null) &&
+                (!e.parentNode.disabled ||
+                  !f.nodeName(e.parentNode, 'optgroup'))
+              ) {
+                b = f(e).val()
+                if (j) return b
+                h.push(b)
+              }
+            }
+            if (j && !h.length && i.length) return f(i[g]).val()
+            return h
+          },
+          set(a, b) {
+            const c = f.makeArray(b)
+            f(a)
+              .find('option')
+              .each(function() {
+                this.selected = f.inArray(f(this).val(), c) >= 0
+              }),
+              c.length || (a.selectedIndex = -1)
+            return c
+          }
+        }
+      },
+      attrFn: {
+        val: !0,
+        css: !0,
+        html: !0,
+        text: !0,
+        data: !0,
+        width: !0,
+        height: !0,
+        offset: !0
+      },
+      attr(a, c, d, e) {
+        let g
+        let h
+        let i
+        const j = a.nodeType
+        if (!!a && j !== 3 && j !== 8 && j !== 2) {
+          if (e && c in f.attrFn) return f(a)[c](d)
+          if (typeof a.getAttribute === 'undefined') return f.prop(a, c, d)
+          ;(i = j !== 1 || !f.isXMLDoc(a)),
+            i &&
+              ((c = c.toLowerCase()),
+              (h = f.attrHooks[c] || (u.test(c) ? x : w)))
+          if (d !== b) {
+            if (d === null) {
+              f.removeAttr(a, c)
+              return
+            }
+            if (h && 'set' in h && i && (g = h.set(a, d, c)) !== b) return g
+            a.setAttribute(c, '' + d)
+            return d
+          }
+          if (h && 'get' in h && i && (g = h.get(a, c)) !== null) return g
+          g = a.getAttribute(c)
+          return g === null ? b : g
+        }
+      },
+      removeAttr(a, b) {
+        let c
+        let d
+        let e
+        let g
+        let h
+        let i = 0
+        if (b && a.nodeType === 1) {
+          ;(d = b.toLowerCase().split(p)), (g = d.length)
+          for (; i < g; i++)
+            (e = d[i]),
+              e &&
+                ((c = f.propFix[e] || e),
+                (h = u.test(e)),
+                h || f.attr(a, e, ''),
+                a.removeAttribute(v ? e : c),
+                h && c in a && (a[c] = !1))
+        }
+      },
+      attrHooks: {
+        type: {
+          set(a, b) {
+            if (r.test(a.nodeName) && a.parentNode)
+              f.error("type property can't be changed")
+            else if (
+              !f.support.radioValue &&
+              b === 'radio' &&
+              f.nodeName(a, 'input')
+            ) {
+              const c = a.value
+              a.setAttribute('type', b), c && (a.value = c)
+              return b
+            }
+          }
+        },
+        value: {
+          get(a, b) {
+            if (w && f.nodeName(a, 'button')) return w.get(a, b)
+            return b in a ? a.value : null
+          },
+          set(a, b, c) {
+            if (w && f.nodeName(a, 'button')) return w.set(a, b, c)
+            a.value = b
+          }
+        }
+      },
+      propFix: {
+        tabindex: 'tabIndex',
+        readonly: 'readOnly',
+        for: 'htmlFor',
+        class: 'className',
+        maxlength: 'maxLength',
+        cellspacing: 'cellSpacing',
+        cellpadding: 'cellPadding',
+        rowspan: 'rowSpan',
+        colspan: 'colSpan',
+        usemap: 'useMap',
+        frameborder: 'frameBorder',
+        contenteditable: 'contentEditable'
+      },
+      prop(a, c, d) {
+        let e
+        let g
+        let h
+        const i = a.nodeType
+        if (!!a && i !== 3 && i !== 8 && i !== 2) {
+          ;(h = i !== 1 || !f.isXMLDoc(a)),
+            h && ((c = f.propFix[c] || c), (g = f.propHooks[c]))
+          return d !== b
+            ? g && 'set' in g && (e = g.set(a, d, c)) !== b
+              ? e
+              : (a[c] = d)
+            : g && 'get' in g && (e = g.get(a, c)) !== null
+            ? e
+            : a[c]
+        }
+      },
+      propHooks: {
+        tabIndex: {
+          get(a) {
+            const c = a.getAttributeNode('tabindex')
+            return c && c.specified
+              ? parseInt(c.value, 10)
+              : s.test(a.nodeName) || (t.test(a.nodeName) && a.href)
+              ? 0
+              : b
+          }
+        }
+      }
+    }),
+    (f.attrHooks.tabindex = f.propHooks.tabIndex),
+    (x = {
+      get(a, c) {
+        let d
+        const e = f.prop(a, c)
+        return e === !0 ||
+          (typeof e !== 'boolean' &&
+            (d = a.getAttributeNode(c)) &&
+            d.nodeValue !== !1)
+          ? c.toLowerCase()
+          : b
+      },
+      set(a, b, c) {
+        let d
+        b === !1
+          ? f.removeAttr(a, c)
+          : ((d = f.propFix[c] || c),
+            d in a && (a[d] = !0),
+            a.setAttribute(c, c.toLowerCase()))
+        return c
+      }
+    }),
+    v ||
+      ((y = { name: !0, id: !0, coords: !0 }),
+      (w = f.valHooks.button = {
+        get(a, c) {
+          let d
+          d = a.getAttributeNode(c)
+          return d && (y[c] ? d.nodeValue !== '' : d.specified)
+            ? d.nodeValue
+            : b
+        },
+        set(a, b, d) {
+          let e = a.getAttributeNode(d)
+          e || ((e = c.createAttribute(d)), a.setAttributeNode(e))
+          return (e.nodeValue = b + '')
+        }
+      }),
+      (f.attrHooks.tabindex.set = w.set),
+      f.each(['width', 'height'], function(a, b) {
+        f.attrHooks[b] = f.extend(f.attrHooks[b], {
+          set(a, c) {
+            if (c === '') {
+              a.setAttribute(b, 'auto')
+              return c
+            }
+          }
+        })
+      }),
+      (f.attrHooks.contenteditable = {
+        get: w.get,
+        set(a, b, c) {
+          b === '' && (b = 'false'), w.set(a, b, c)
+        }
+      })),
+    f.support.hrefNormalized ||
+      f.each(['href', 'src', 'width', 'height'], function(a, c) {
+        f.attrHooks[c] = f.extend(f.attrHooks[c], {
+          get(a) {
+            const d = a.getAttribute(c, 2)
+            return d === null ? b : d
+          }
+        })
+      }),
+    f.support.style ||
+      (f.attrHooks.style = {
+        get(a) {
+          return a.style.cssText.toLowerCase() || b
+        },
+        set(a, b) {
+          return (a.style.cssText = '' + b)
+        }
+      }),
+    f.support.optSelected ||
+      (f.propHooks.selected = f.extend(f.propHooks.selected, {
+        get(a) {
+          const b = a.parentNode
+          b && (b.selectedIndex, b.parentNode && b.parentNode.selectedIndex)
+          return null
+        }
+      })),
+    f.support.enctype || (f.propFix.enctype = 'encoding'),
+    f.support.checkOn ||
+      f.each(['radio', 'checkbox'], function() {
+        f.valHooks[this] = {
+          get(a) {
+            return a.getAttribute('value') === null ? 'on' : a.value
+          }
+        }
+      }),
+    f.each(['radio', 'checkbox'], function() {
+      f.valHooks[this] = f.extend(f.valHooks[this], {
+        set(a, b) {
+          if (f.isArray(b)) return (a.checked = f.inArray(f(a).val(), b) >= 0)
+        }
+      })
+    })
+  const z = /^(?:textarea|input|select)$/i
+  const A = /^([^\.]*)?(?:\.(.+))?$/
+  const B = /(?:^|\s)hover(\.\S+)?\b/
+  const C = /^key/
+  const D = /^(?:mouse|contextmenu)|click/
+  const E = /^(?:focusinfocus|focusoutblur)$/
+  const F = /^(\w*)(?:#([\w\-]+))?(?:\.([\w\-]+))?$/
+  const G = function(a) {
+    const b = F.exec(a)
+    b &&
+      ((b[1] = (b[1] || '').toLowerCase()),
+      (b[3] = b[3] && new RegExp('(?:^|\\s)' + b[3] + '(?:\\s|$)')))
+    return b
+  }
+  const H = function(a, b) {
+    const c = a.attributes || {}
+    return (
+      (!b[1] || a.nodeName.toLowerCase() === b[1]) &&
+      (!b[2] || (c.id || {}).value === b[2]) &&
+      (!b[3] || b[3].test((c.class || {}).value))
+    )
+  }
+  const I = function(a) {
+    return f.event.special.hover ? a : a.replace(B, 'mouseenter$1 mouseleave$1')
+  }
+  ;(f.event = {
+    add(a, c, d, e, g) {
+      let h, i, j, k, l, m, n, o, p, q, r, s
+      if (
+        !(a.nodeType === 3 || a.nodeType === 8 || !c || !d || !(h = f._data(a)))
+      ) {
+        d.handler && ((p = d), (d = p.handler), (g = p.selector)),
+          d.guid || (d.guid = f.guid++),
+          (j = h.events),
+          j || (h.events = j = {}),
+          (i = h.handle),
+          i ||
+            ((h.handle = i = function(a) {
+              return typeof f !== 'undefined' &&
+                (!a || f.event.triggered !== a.type)
+                ? f.event.dispatch.apply(i.elem, arguments)
+                : b
+            }),
+            (i.elem = a)),
+          (c = f.trim(I(c)).split(' '))
+        for (k = 0; k < c.length; k++) {
+          ;(l = A.exec(c[k]) || []),
+            (m = l[1]),
+            (n = (l[2] || '').split('.').sort()),
+            (s = f.event.special[m] || {}),
+            (m = (g ? s.delegateType : s.bindType) || m),
+            (s = f.event.special[m] || {}),
+            (o = f.extend(
+              {
+                type: m,
+                origType: l[1],
+                data: e,
+                handler: d,
+                guid: d.guid,
+                selector: g,
+                quick: g && G(g),
+                namespace: n.join('.')
+              },
+              p
+            )),
+            (r = j[m])
+          if (!r) {
+            ;(r = j[m] = []), (r.delegateCount = 0)
+            if (!s.setup || s.setup.call(a, e, n, i) === !1)
+              a.addEventListener
+                ? a.addEventListener(m, i, !1)
+                : a.attachEvent && a.attachEvent('on' + m, i)
+          }
+          s.add &&
+            (s.add.call(a, o), o.handler.guid || (o.handler.guid = d.guid)),
+            g ? r.splice(r.delegateCount++, 0, o) : r.push(o),
+            (f.event.global[m] = !0)
+        }
+        a = null
+      }
+    },
+    global: {},
+    remove(a, b, c, d, e) {
+      const g = f.hasData(a) && f._data(a)
+      let h
+      let i
+      let j
+      let k
+      let l
+      let m
+      let n
+      let o
+      let p
+      let q
+      let r
+      let s
+      if (!!g && !!(o = g.events)) {
+        b = f.trim(I(b || '')).split(' ')
+        for (h = 0; h < b.length; h++) {
+          ;(i = A.exec(b[h]) || []), (j = k = i[1]), (l = i[2])
+          if (!j) {
+            for (j in o) f.event.remove(a, j + b[h], c, d, !0)
+            continue
+          }
+          ;(p = f.event.special[j] || {}),
+            (j = (d ? p.delegateType : p.bindType) || j),
+            (r = o[j] || []),
+            (m = r.length),
+            (l = l
+              ? new RegExp(
+                  '(^|\\.)' +
+                    l
+                      .split('.')
+                      .sort()
+                      .join('\\.(?:.*\\.)?') +
+                    '(\\.|$)'
+                )
+              : null)
+          for (n = 0; n < r.length; n++)
+            (s = r[n]),
+              (e || k === s.origType) &&
+                (!c || c.guid === s.guid) &&
+                (!l || l.test(s.namespace)) &&
+                (!d || d === s.selector || (d === '**' && s.selector)) &&
+                (r.splice(n--, 1),
+                s.selector && r.delegateCount--,
+                p.remove && p.remove.call(a, s))
+          r.length === 0 &&
+            m !== r.length &&
+            ((!p.teardown || p.teardown.call(a, l) === !1) &&
+              f.removeEvent(a, j, g.handle),
+            delete o[j])
+        }
+        f.isEmptyObject(o) &&
+          ((q = g.handle),
+          q && (q.elem = null),
+          f.removeData(a, ['events', 'handle'], !0))
+      }
+    },
+    customEvent: { getData: !0, setData: !0, changeData: !0 },
+    trigger(c, d, e, g) {
+      if (!e || (e.nodeType !== 3 && e.nodeType !== 8)) {
+        let h = c.type || c
+        let i = []
+        let j
+        let k
+        let l
+        let m
+        let n
+        let o
+        let p
+        let q
+        let r
+        let s
+        if (E.test(h + f.event.triggered)) return
+        h.includes('!') && ((h = h.slice(0, -1)), (k = !0)),
+          h.includes('.') && ((i = h.split('.')), (h = i.shift()), i.sort())
+        if ((!e || f.event.customEvent[h]) && !f.event.global[h]) return
+        ;(c =
+          typeof c === 'object'
+            ? c[f.expando]
+              ? c
+              : new f.Event(h, c)
+            : new f.Event(h)),
+          (c.type = h),
+          (c.isTrigger = !0),
+          (c.exclusive = k),
+          (c.namespace = i.join('.')),
+          (c.namespace_re = c.namespace
+            ? new RegExp('(^|\\.)' + i.join('\\.(?:.*\\.)?') + '(\\.|$)')
+            : null),
+          (o = !h.includes(':') ? 'on' + h : '')
+        if (!e) {
+          j = f.cache
+          for (l in j)
+            j[l].events &&
+              j[l].events[h] &&
+              f.event.trigger(c, d, j[l].handle.elem, !0)
+          return
+        }
+        ;(c.result = b),
+          c.target || (c.target = e),
+          (d = d != null ? f.makeArray(d) : []),
+          d.unshift(c),
+          (p = f.event.special[h] || {})
+        if (p.trigger && p.trigger.apply(e, d) === !1) return
+        r = [[e, p.bindType || h]]
+        if (!g && !p.noBubble && !f.isWindow(e)) {
+          ;(s = p.delegateType || h),
+            (m = E.test(s + h) ? e : e.parentNode),
+            (n = null)
+          for (; m; m = m.parentNode) r.push([m, s]), (n = m)
+          n &&
+            n === e.ownerDocument &&
+            r.push([n.defaultView || n.parentWindow || a, s])
+        }
+        for (l = 0; l < r.length && !c.isPropagationStopped(); l++)
+          (m = r[l][0]),
+            (c.type = r[l][1]),
+            (q = (f._data(m, 'events') || {})[c.type] && f._data(m, 'handle')),
+            q && q.apply(m, d),
+            (q = o && m[o]),
+            q && f.acceptData(m) && q.apply(m, d) === !1 && c.preventDefault()
+        ;(c.type = h),
+          !g &&
+            !c.isDefaultPrevented() &&
+            (!p._default || p._default.apply(e.ownerDocument, d) === !1) &&
+            (h !== 'click' || !f.nodeName(e, 'a')) &&
+            f.acceptData(e) &&
+            o &&
+            e[h] &&
+            ((h !== 'focus' && h !== 'blur') || c.target.offsetWidth !== 0) &&
+            !f.isWindow(e) &&
+            ((n = e[o]),
+            n && (e[o] = null),
+            (f.event.triggered = h),
+            e[h](),
+            (f.event.triggered = b),
+            n && (e[o] = n))
+        return c.result
+      }
+    },
+    dispatch(c) {
+      c = f.event.fix(c || a.event)
+      const d = (f._data(this, 'events') || {})[c.type] || []
+      const e = d.delegateCount
+      const g = [].slice.call(arguments, 0)
+      const h = !c.exclusive && !c.namespace
+      const i = f.event.special[c.type] || {}
+      const j = []
+      let k
+      let l
+      let m
+      let n
+      let o
+      let p
+      let q
+      let r
+      let s
+      let t
+      let u
+      ;(g[0] = c), (c.delegateTarget = this)
+      if (!i.preDispatch || i.preDispatch.call(this, c) !== !1) {
+        if (e && (!c.button || c.type !== 'click')) {
+          ;(n = f(this)), (n.context = this.ownerDocument || this)
+          for (m = c.target; m != this; m = m.parentNode || this)
+            if (m.disabled !== !0) {
+              ;(p = {}), (r = []), (n[0] = m)
+              for (k = 0; k < e; k++)
+                (s = d[k]),
+                  (t = s.selector),
+                  p[t] === b && (p[t] = s.quick ? H(m, s.quick) : n.is(t)),
+                  p[t] && r.push(s)
+              r.length && j.push({ elem: m, matches: r })
+            }
+        }
+        d.length > e && j.push({ elem: this, matches: d.slice(e) })
+        for (k = 0; k < j.length && !c.isPropagationStopped(); k++) {
+          ;(q = j[k]), (c.currentTarget = q.elem)
+          for (
+            l = 0;
+            l < q.matches.length && !c.isImmediatePropagationStopped();
+            l++
+          ) {
+            s = q.matches[l]
+            if (
+              h ||
+              (!c.namespace && !s.namespace) ||
+              (c.namespace_re && c.namespace_re.test(s.namespace))
+            )
+              (c.data = s.data),
+                (c.handleObj = s),
+                (o = (
+                  (f.event.special[s.origType] || {}).handle || s.handler
+                ).apply(q.elem, g)),
+                o !== b &&
+                  ((c.result = o),
+                  o === !1 && (c.preventDefault(), c.stopPropagation()))
+          }
+        }
+        i.postDispatch && i.postDispatch.call(this, c)
+        return c.result
+      }
+    },
+    props: 'attrChange attrName relatedNode srcElement altKey bubbles cancelable ctrlKey currentTarget eventPhase metaKey relatedTarget shiftKey target timeStamp view which'.split(
+      ' '
+    ),
+    fixHooks: {},
+    keyHooks: {
+      props: 'char charCode key keyCode'.split(' '),
+      filter(a, b) {
+        a.which == null &&
+          (a.which = b.charCode != null ? b.charCode : b.keyCode)
+        return a
+      }
+    },
+    mouseHooks: {
+      props: 'button buttons clientX clientY fromElement offsetX offsetY pageX pageY screenX screenY toElement'.split(
+        ' '
+      ),
+      filter(a, d) {
+        let e
+        let f
+        let g
+        const h = d.button
+        const i = d.fromElement
+        a.pageX == null &&
+          d.clientX != null &&
+          ((e = a.target.ownerDocument || c),
+          (f = e.documentElement),
+          (g = e.body),
+          (a.pageX =
+            d.clientX +
+            ((f && f.scrollLeft) || (g && g.scrollLeft) || 0) -
+            ((f && f.clientLeft) || (g && g.clientLeft) || 0)),
+          (a.pageY =
+            d.clientY +
+            ((f && f.scrollTop) || (g && g.scrollTop) || 0) -
+            ((f && f.clientTop) || (g && g.clientTop) || 0))),
+          !a.relatedTarget &&
+            i &&
+            (a.relatedTarget = i === a.target ? d.toElement : i),
+          !a.which &&
+            h !== b &&
+            (a.which = h & 1 ? 1 : h & 2 ? 3 : h & 4 ? 2 : 0)
+        return a
+      }
+    },
+    fix(a) {
+      if (a[f.expando]) return a
+      let d
+      let e
+      const g = a
+      const h = f.event.fixHooks[a.type] || {}
+      const i = h.props ? this.props.concat(h.props) : this.props
+      a = f.Event(g)
+      for (d = i.length; d; ) (e = i[--d]), (a[e] = g[e])
+      a.target || (a.target = g.srcElement || c),
+        a.target.nodeType === 3 && (a.target = a.target.parentNode),
+        a.metaKey === b && (a.metaKey = a.ctrlKey)
+      return h.filter ? h.filter(a, g) : a
+    },
+    special: {
+      ready: { setup: f.bindReady },
+      load: { noBubble: !0 },
+      focus: { delegateType: 'focusin' },
+      blur: { delegateType: 'focusout' },
+      beforeunload: {
+        setup(a, b, c) {
+          f.isWindow(this) && (this.onbeforeunload = c)
+        },
+        teardown(a, b) {
+          this.onbeforeunload === b && (this.onbeforeunload = null)
+        }
+      }
+    },
+    simulate(a, b, c, d) {
+      const e = f.extend(new f.Event(), c, {
+        type: a,
+        isSimulated: !0,
+        originalEvent: {}
+      })
+      d ? f.event.trigger(e, null, b) : f.event.dispatch.call(b, e),
+        e.isDefaultPrevented() && c.preventDefault()
+    }
+  }),
+    (f.event.handle = f.event.dispatch),
+    (f.removeEvent = c.removeEventListener
+      ? function(a, b, c) {
+          a.removeEventListener && a.removeEventListener(b, c, !1)
+        }
+      : function(a, b, c) {
+          a.detachEvent && a.detachEvent('on' + b, c)
+        }),
+    (f.Event = function(a, b) {
+      if (!(this instanceof f.Event)) return new f.Event(a, b)
+      a && a.type
+        ? ((this.originalEvent = a),
+          (this.type = a.type),
+          (this.isDefaultPrevented =
+            a.defaultPrevented ||
+            a.returnValue === !1 ||
+            (a.getPreventDefault && a.getPreventDefault())
+              ? K
+              : J))
+        : (this.type = a),
+        b && f.extend(this, b),
+        (this.timeStamp = (a && a.timeStamp) || f.now()),
+        (this[f.expando] = !0)
+    }),
+    (f.Event.prototype = {
+      preventDefault() {
+        this.isDefaultPrevented = K
+        const a = this.originalEvent
+        !a || (a.preventDefault ? a.preventDefault() : (a.returnValue = !1))
+      },
+      stopPropagation() {
+        this.isPropagationStopped = K
+        const a = this.originalEvent
+        !a || (a.stopPropagation && a.stopPropagation(), (a.cancelBubble = !0))
+      },
+      stopImmediatePropagation() {
+        ;(this.isImmediatePropagationStopped = K), this.stopPropagation()
+      },
+      isDefaultPrevented: J,
+      isPropagationStopped: J,
+      isImmediatePropagationStopped: J
+    }),
+    f.each({ mouseenter: 'mouseover', mouseleave: 'mouseout' }, function(a, b) {
+      f.event.special[a] = {
+        delegateType: b,
+        bindType: b,
+        handle(a) {
+          const c = this
+          const d = a.relatedTarget
+          const e = a.handleObj
+          const g = e.selector
+          let h
+          if (!d || (d !== c && !f.contains(c, d)))
+            (a.type = e.origType),
+              (h = e.handler.apply(this, arguments)),
+              (a.type = b)
+          return h
+        }
+      }
+    }),
+    f.support.submitBubbles ||
+      (f.event.special.submit = {
+        setup() {
+          if (f.nodeName(this, 'form')) return !1
+          f.event.add(this, 'click._submit keypress._submit', function(a) {
+            const c = a.target
+            const d =
+              f.nodeName(c, 'input') || f.nodeName(c, 'button') ? c.form : b
+            d &&
+              !d._submit_attached &&
+              (f.event.add(d, 'submit._submit', function(a) {
+                a._submit_bubble = !0
+              }),
+              (d._submit_attached = !0))
+          })
+        },
+        postDispatch(a) {
+          a._submit_bubble &&
+            (delete a._submit_bubble,
+            this.parentNode &&
+              !a.isTrigger &&
+              f.event.simulate('submit', this.parentNode, a, !0))
+        },
+        teardown() {
+          if (f.nodeName(this, 'form')) return !1
+          f.event.remove(this, '._submit')
+        }
+      }),
+    f.support.changeBubbles ||
+      (f.event.special.change = {
+        setup() {
+          if (z.test(this.nodeName)) {
+            if (this.type === 'checkbox' || this.type === 'radio')
+              f.event.add(this, 'propertychange._change', function(a) {
+                a.originalEvent.propertyName === 'checked' &&
+                  (this._just_changed = !0)
+              }),
+                f.event.add(this, 'click._change', function(a) {
+                  this._just_changed &&
+                    !a.isTrigger &&
+                    ((this._just_changed = !1),
+                    f.event.simulate('change', this, a, !0))
+                })
+            return !1
+          }
+          f.event.add(this, 'beforeactivate._change', function(a) {
+            const b = a.target
+            z.test(b.nodeName) &&
+              !b._change_attached &&
+              (f.event.add(b, 'change._change', function(a) {
+                this.parentNode &&
+                  !a.isSimulated &&
+                  !a.isTrigger &&
+                  f.event.simulate('change', this.parentNode, a, !0)
+              }),
+              (b._change_attached = !0))
+          })
+        },
+        handle(a) {
+          const b = a.target
+          if (
+            this !== b ||
+            a.isSimulated ||
+            a.isTrigger ||
+            (b.type !== 'radio' && b.type !== 'checkbox')
+          )
+            return a.handleObj.handler.apply(this, arguments)
+        },
+        teardown() {
+          f.event.remove(this, '._change')
+          return z.test(this.nodeName)
+        }
+      }),
+    f.support.focusinBubbles ||
+      f.each({ focus: 'focusin', blur: 'focusout' }, function(a, b) {
+        let d = 0
+        const e = function(a) {
+          f.event.simulate(b, a.target, f.event.fix(a), !0)
+        }
+        f.event.special[b] = {
+          setup() {
+            d++ === 0 && c.addEventListener(a, e, !0)
+          },
+          teardown() {
+            --d === 0 && c.removeEventListener(a, e, !0)
+          }
+        }
+      }),
+    f.fn.extend({
+      on(a, c, d, e, g) {
+        let h, i
+        if (typeof a === 'object') {
+          typeof c !== 'string' && ((d = d || c), (c = b))
+          for (i in a) this.on(i, c, d, a[i], g)
+          return this
+        }
+        d == null && e == null
+          ? ((e = c), (d = c = b))
+          : e == null &&
+            (typeof c === 'string'
+              ? ((e = d), (d = b))
+              : ((e = d), (d = c), (c = b)))
+        if (e === !1) e = J
+        else if (!e) return this
+        g === 1 &&
+          ((h = e),
+          (e = function(a) {
+            f().off(a)
+            return h.apply(this, arguments)
+          }),
+          (e.guid = h.guid || (h.guid = f.guid++)))
+        return this.each(function() {
+          f.event.add(this, a, e, d, c)
+        })
+      },
+      one(a, b, c, d) {
+        return this.on(a, b, c, d, 1)
+      },
+      off(a, c, d) {
+        if (a && a.preventDefault && a.handleObj) {
+          const e = a.handleObj
+          f(a.delegateTarget).off(
+            e.namespace ? e.origType + '.' + e.namespace : e.origType,
+            e.selector,
+            e.handler
+          )
+          return this
+        }
+        if (typeof a === 'object') {
+          for (const g in a) this.off(g, c, a[g])
+          return this
+        }
+        if (c === !1 || typeof c === 'function') (d = c), (c = b)
+        d === !1 && (d = J)
+        return this.each(function() {
+          f.event.remove(this, a, d, c)
+        })
+      },
+      bind(a, b, c) {
+        return this.on(a, null, b, c)
+      },
+      unbind(a, b) {
+        return this.off(a, null, b)
+      },
+      live(a, b, c) {
+        f(this.context).on(a, this.selector, b, c)
+        return this
+      },
+      die(a, b) {
+        f(this.context).off(a, this.selector || '**', b)
+        return this
+      },
+      delegate(a, b, c, d) {
+        return this.on(b, a, c, d)
+      },
+      undelegate(a, b, c) {
+        return arguments.length == 1 ? this.off(a, '**') : this.off(b, a, c)
+      },
+      trigger(a, b) {
+        return this.each(function() {
+          f.event.trigger(a, b, this)
+        })
+      },
+      triggerHandler(a, b) {
+        if (this[0]) return f.event.trigger(a, b, this[0], !0)
+      },
+      toggle(a) {
+        const b = arguments
+        const c = a.guid || f.guid++
+        let d = 0
+        const e = function(c) {
+          const e = (f._data(this, 'lastToggle' + a.guid) || 0) % d
+          f._data(this, 'lastToggle' + a.guid, e + 1), c.preventDefault()
+          return b[e].apply(this, arguments) || !1
+        }
+        e.guid = c
+        while (d < b.length) b[d++].guid = c
+        return this.click(e)
+      },
+      hover(a, b) {
+        return this.mouseenter(a).mouseleave(b || a)
+      }
+    }),
+    f.each(
+      'blur focus focusin focusout load resize scroll unload click dblclick mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave change select submit keydown keypress keyup error contextmenu'.split(
+        ' '
+      ),
+      function(a, b) {
+        ;(f.fn[b] = function(a, c) {
+          c == null && ((c = a), (a = null))
+          return arguments.length > 0 ? this.on(b, null, a, c) : this.trigger(b)
+        }),
+          f.attrFn && (f.attrFn[b] = !0),
+          C.test(b) && (f.event.fixHooks[b] = f.event.keyHooks),
+          D.test(b) && (f.event.fixHooks[b] = f.event.mouseHooks)
+      }
+    ),
+    (function() {
+      function x(a, b, c, e, f, g) {
+        for (let h = 0, i = e.length; h < i; h++) {
+          let j = e[h]
+          if (j) {
+            let k = !1
+            j = j[a]
+            while (j) {
+              if (j[d] === c) {
+                k = e[j.sizset]
+                break
+              }
+              if (j.nodeType === 1) {
+                g || ((j[d] = c), (j.sizset = h))
+                if (typeof b !== 'string') {
+                  if (j === b) {
+                    k = !0
+                    break
+                  }
+                } else if (m.filter(b, [j]).length > 0) {
+                  k = j
+                  break
+                }
+              }
+              j = j[a]
+            }
+            e[h] = k
+          }
+        }
+      }
+      function w(a, b, c, e, f, g) {
+        for (let h = 0, i = e.length; h < i; h++) {
+          let j = e[h]
+          if (j) {
+            let k = !1
+            j = j[a]
+            while (j) {
+              if (j[d] === c) {
+                k = e[j.sizset]
+                break
+              }
+              j.nodeType === 1 && !g && ((j[d] = c), (j.sizset = h))
+              if (j.nodeName.toLowerCase() === b) {
+                k = j
+                break
+              }
+              j = j[a]
+            }
+            e[h] = k
+          }
+        }
+      }
+      const a = /((?:\((?:\([^()]+\)|[^()]+)+\)|\[(?:\[[^\[\]]*\]|['"][^'"]*['"]|[^\[\]'"]+)+\]|\\.|[^ >+~,(\[\\]+)+|[>+~])(\s*,\s*)?((?:.|\r|\n)*)/g
+      var d = 'sizcache' + (Math.random() + '').replace('.', '')
+      let e = 0
+      const g = Object.prototype.toString
+      let h = !1
+      let i = !0
+      const j = /\\/g
+      const k = /\r\n/g
+      const l = /\W/
+      ;[0, 0].sort(function() {
+        i = !1
+        return 0
+      })
+      var m = function(b, d, e, f) {
+        ;(e = e || []), (d = d || c)
+        const h = d
+        if (d.nodeType !== 1 && d.nodeType !== 9) return []
+        if (!b || typeof b !== 'string') return e
+        let i
+        let j
+        let k
+        let l
+        let n
+        let q
+        let r
+        let t
+        let u = !0
+        const v = m.isXML(d)
+        let w = []
+        let x = b
+        do {
+          a.exec(''), (i = a.exec(x))
+          if (i) {
+            ;(x = i[3]), w.push(i[1])
+            if (i[2]) {
+              l = i[3]
+              break
+            }
+          }
+        } while (i)
+        if (w.length > 1 && p.exec(b))
+          if (w.length === 2 && o.relative[w[0]]) j = y(w[0] + w[1], d, f)
+          else {
+            j = o.relative[w[0]] ? [d] : m(w.shift(), d)
+            while (w.length)
+              (b = w.shift()),
+                o.relative[b] && (b += w.shift()),
+                (j = y(b, j, f))
+          }
+        else {
+          !f &&
+            w.length > 1 &&
+            d.nodeType === 9 &&
+            !v &&
+            o.match.ID.test(w[0]) &&
+            !o.match.ID.test(w[w.length - 1]) &&
+            ((n = m.find(w.shift(), d, v)),
+            (d = n.expr ? m.filter(n.expr, n.set)[0] : n.set[0]))
+          if (d) {
+            ;(n = f
+              ? { expr: w.pop(), set: s(f) }
+              : m.find(
+                  w.pop(),
+                  w.length === 1 &&
+                    (w[0] === '~' || w[0] === '+') &&
+                    d.parentNode
+                    ? d.parentNode
+                    : d,
+                  v
+                )),
+              (j = n.expr ? m.filter(n.expr, n.set) : n.set),
+              w.length > 0 ? (k = s(j)) : (u = !1)
+            while (w.length)
+              (q = w.pop()),
+                (r = q),
+                o.relative[q] ? (r = w.pop()) : (q = ''),
+                r == null && (r = d),
+                o.relative[q](k, r, v)
+          } else k = w = []
+        }
+        k || (k = j), k || m.error(q || b)
+        if (g.call(k) === '[object Array]')
+          if (!u) e.push.apply(e, k)
+          else if (d && d.nodeType === 1)
+            for (t = 0; k[t] != null; t++)
+              k[t] &&
+                (k[t] === !0 || (k[t].nodeType === 1 && m.contains(d, k[t]))) &&
+                e.push(j[t])
+          else
+            for (t = 0; k[t] != null; t++)
+              k[t] && k[t].nodeType === 1 && e.push(j[t])
+        else s(k, e)
+        l && (m(l, h, e, f), m.uniqueSort(e))
+        return e
+      }
+      ;(m.uniqueSort = function(a) {
+        if (u) {
+          ;(h = i), a.sort(u)
+          if (h)
+            for (let b = 1; b < a.length; b++)
+              a[b] === a[b - 1] && a.splice(b--, 1)
+        }
+        return a
+      }),
+        (m.matches = function(a, b) {
+          return m(a, null, null, b)
+        }),
+        (m.matchesSelector = function(a, b) {
+          return m(b, null, null, [a]).length > 0
+        }),
+        (m.find = function(a, b, c) {
+          let d, e, f, g, h, i
+          if (!a) return []
+          for (e = 0, f = o.order.length; e < f; e++) {
+            h = o.order[e]
+            if ((g = o.leftMatch[h].exec(a))) {
+              ;(i = g[1]), g.splice(1, 1)
+              if (i.substr(i.length - 1) !== '\\') {
+                ;(g[1] = (g[1] || '').replace(j, '')), (d = o.find[h](g, b, c))
+                if (d != null) {
+                  a = a.replace(o.match[h], '')
+                  break
+                }
+              }
+            }
+          }
+          d ||
+            (d =
+              typeof b.getElementsByTagName !== 'undefined'
+                ? b.getElementsByTagName('*')
+                : [])
+          return { set: d, expr: a }
+        }),
+        (m.filter = function(a, c, d, e) {
+          let f
+          let g
+          let h
+          let i
+          let j
+          let k
+          let l
+          let n
+          let p
+          let q = a
+          let r = []
+          let s = c
+          const t = c && c[0] && m.isXML(c[0])
+          while (a && c.length) {
+            for (h in o.filter)
+              if ((f = o.leftMatch[h].exec(a)) != null && f[2]) {
+                ;(k = o.filter[h]), (l = f[1]), (g = !1), f.splice(1, 1)
+                if (l.substr(l.length - 1) === '\\') continue
+                s === r && (r = [])
+                if (o.preFilter[h]) {
+                  f = o.preFilter[h](f, s, d, r, e, t)
+                  if (!f) g = i = !0
+                  else if (f === !0) continue
+                }
+                if (f)
+                  for (n = 0; (j = s[n]) != null; n++)
+                    j &&
+                      ((i = k(j, f, n, s)),
+                      (p = e ^ i),
+                      d && i != null
+                        ? p
+                          ? (g = !0)
+                          : (s[n] = !1)
+                        : p && (r.push(j), (g = !0)))
+                if (i !== b) {
+                  d || (s = r), (a = a.replace(o.match[h], ''))
+                  if (!g) return []
+                  break
+                }
+              }
+            if (a === q)
+              if (g == null) m.error(a)
+              else break
+            q = a
+          }
+          return s
+        }),
+        (m.error = function(a) {
+          throw new Error('Syntax error, unrecognized expression: ' + a)
+        })
+      var n = (m.getText = function(a) {
+        let b
+        let c
+        const d = a.nodeType
+        let e = ''
+        if (d) {
+          if (d === 1 || d === 9 || d === 11) {
+            if (typeof a.textContent === 'string') return a.textContent
+            if (typeof a.textContent === 'string')
+              return a.textContent.replace(k, '')
+            for (a = a.firstChild; a; a = a.nextSibling) e += n(a)
+          } else if (d === 3 || d === 4) return a.nodeValue
+        } else for (b = 0; (c = a[b]); b++) c.nodeType !== 8 && (e += n(c))
+        return e
+      })
+      var o = (m.selectors = {
+        order: ['ID', 'NAME', 'TAG'],
+        match: {
+          ID: /#((?:[\w\u00C0-\uFFFF\-]|\\.)+)/,
+          CLASS: /\.((?:[\w\u00C0-\uFFFF\-]|\\.)+)/,
+          NAME: /\[name=['"]*((?:[\w\u00C0-\uFFFF\-]|\\.)+)['"]*\]/,
+          ATTR: /\[\s*((?:[\w\u00C0-\uFFFF\-]|\\.)+)\s*(?:(\S?=)\s*(?:(['"])(.*?)\3|(#?(?:[\w\u00C0-\uFFFF\-]|\\.)*)|)|)\s*\]/,
+          TAG: /^((?:[\w\u00C0-\uFFFF\*\-]|\\.)+)/,
+          CHILD: /:(only|nth|last|first)-child(?:\(\s*(even|odd|(?:[+\-]?\d+|(?:[+\-]?\d*)?n\s*(?:[+\-]\s*\d+)?))\s*\))?/,
+          POS: /:(nth|eq|gt|lt|first|last|even|odd)(?:\((\d*)\))?(?=[^\-]|$)/,
+          PSEUDO: /:((?:[\w\u00C0-\uFFFF\-]|\\.)+)(?:\((['"]?)((?:\([^\)]+\)|[^\(\)]*)+)\2\))?/
+        },
+        leftMatch: {},
+        attrMap: { class: 'className', for: 'htmlFor' },
+        attrHandle: {
+          href(a) {
+            return a.getAttribute('href')
+          },
+          type(a) {
+            return a.getAttribute('type')
+          }
+        },
+        relative: {
+          '+'(a, b) {
+            const c = typeof b === 'string'
+            const d = c && !l.test(b)
+            const e = c && !d
+            d && (b = b.toLowerCase())
+            for (var f = 0, g = a.length, h; f < g; f++)
+              if ((h = a[f])) {
+                while ((h = h.previousSibling) && h.nodeType !== 1);
+                a[f] =
+                  e || (h && h.nodeName.toLowerCase() === b) ? h || !1 : h === b
+              }
+            e && m.filter(b, a, !0)
+          },
+          '>'(a, b) {
+            let c
+            const d = typeof b === 'string'
+            let e = 0
+            const f = a.length
+            if (d && !l.test(b)) {
+              b = b.toLowerCase()
+              for (; e < f; e++) {
+                c = a[e]
+                if (c) {
+                  const g = c.parentNode
+                  a[e] = g.nodeName.toLowerCase() === b ? g : !1
+                }
+              }
+            } else {
+              for (; e < f; e++)
+                (c = a[e]), c && (a[e] = d ? c.parentNode : c.parentNode === b)
+              d && m.filter(b, a, !0)
+            }
+          },
+          ''(a, b, c) {
+            let d
+            const f = e++
+            let g = x
+            typeof b === 'string' &&
+              !l.test(b) &&
+              ((b = b.toLowerCase()), (d = b), (g = w)),
+              g('parentNode', b, f, a, d, c)
+          },
+          '~'(a, b, c) {
+            let d
+            const f = e++
+            let g = x
+            typeof b === 'string' &&
+              !l.test(b) &&
+              ((b = b.toLowerCase()), (d = b), (g = w)),
+              g('previousSibling', b, f, a, d, c)
+          }
+        },
+        find: {
+          ID(a, b, c) {
+            if (typeof b.getElementById !== 'undefined' && !c) {
+              const d = b.getElementById(a[1])
+              return d && d.parentNode ? [d] : []
+            }
+          },
+          NAME(a, b) {
+            if (typeof b.getElementsByName !== 'undefined') {
+              const c = []
+              const d = b.getElementsByName(a[1])
+              for (let e = 0, f = d.length; e < f; e++)
+                d[e].getAttribute('name') === a[1] && c.push(d[e])
+              return c.length === 0 ? null : c
+            }
+          },
+          TAG(a, b) {
+            if (typeof b.getElementsByTagName !== 'undefined')
+              return b.getElementsByTagName(a[1])
+          }
+        },
+        preFilter: {
+          CLASS(a, b, c, d, e, f) {
+            a = ' ' + a[1].replace(j, '') + ' '
+            if (f) return a
+            for (var g = 0, h; (h = b[g]) != null; g++)
+              h &&
+                (e ^
+                (h.className &&
+                  (' ' + h.className + ' ')
+                    .replace(/[\t\n\r]/g, ' ')
+                    .includes(a))
+                  ? c || d.push(h)
+                  : c && (b[g] = !1))
+            return !1
+          },
+          ID(a) {
+            return a[1].replace(j, '')
+          },
+          TAG(a, b) {
+            return a[1].replace(j, '').toLowerCase()
+          },
+          CHILD(a) {
+            if (a[1] === 'nth') {
+              a[2] || m.error(a[0]), (a[2] = a[2].replace(/^\+|\s*/g, ''))
+              const b = /(-?)(\d*)(?:n([+\-]?\d*))?/.exec(
+                (a[2] === 'even' && '2n') ||
+                  (a[2] === 'odd' && '2n+1') ||
+                  (!/\D/.test(a[2]) && '0n+' + a[2]) ||
+                  a[2]
+              )
+              ;(a[2] = b[1] + (b[2] || 1) - 0), (a[3] = b[3] - 0)
+            } else a[2] && m.error(a[0])
+            a[0] = e++
+            return a
+          },
+          ATTR(a, b, c, d, e, f) {
+            const g = (a[1] = a[1].replace(j, ''))
+            !f && o.attrMap[g] && (a[1] = o.attrMap[g]),
+              (a[4] = (a[4] || a[5] || '').replace(j, '')),
+              a[2] === '~=' && (a[4] = ' ' + a[4] + ' ')
+            return a
+          },
+          PSEUDO(b, c, d, e, f) {
+            if (b[1] === 'not')
+              if ((a.exec(b[3]) || '').length > 1 || /^\w/.test(b[3]))
+                b[3] = m(b[3], null, null, c)
+              else {
+                const g = m.filter(b[3], c, d, !0 ^ f)
+                d || e.push.apply(e, g)
+                return !1
+              }
+            else if (o.match.POS.test(b[0]) || o.match.CHILD.test(b[0]))
+              return !0
+            return b
+          },
+          POS(a) {
+            a.unshift(!0)
+            return a
+          }
+        },
+        filters: {
+          enabled(a) {
+            return a.disabled === !1 && a.type !== 'hidden'
+          },
+          disabled(a) {
+            return a.disabled === !0
+          },
+          checked(a) {
+            return a.checked === !0
+          },
+          selected(a) {
+            a.parentNode && a.parentNode.selectedIndex
+            return a.selected === !0
+          },
+          parent(a) {
+            return !!a.firstChild
+          },
+          empty(a) {
+            return !a.firstChild
+          },
+          has(a, b, c) {
+            return !!m(c[3], a).length
+          },
+          header(a) {
+            return /h\d/i.test(a.nodeName)
+          },
+          text(a) {
+            const b = a.getAttribute('type')
+            const c = a.type
+            return (
+              a.nodeName.toLowerCase() === 'input' &&
+              c === 'text' &&
+              (b === c || b === null)
+            )
+          },
+          radio(a) {
+            return a.nodeName.toLowerCase() === 'input' && a.type === 'radio'
+          },
+          checkbox(a) {
+            return a.nodeName.toLowerCase() === 'input' && a.type === 'checkbox'
+          },
+          file(a) {
+            return a.nodeName.toLowerCase() === 'input' && a.type === 'file'
+          },
+          password(a) {
+            return a.nodeName.toLowerCase() === 'input' && a.type === 'password'
+          },
+          submit(a) {
+            const b = a.nodeName.toLowerCase()
+            return (b === 'input' || b === 'button') && a.type === 'submit'
+          },
+          image(a) {
+            return a.nodeName.toLowerCase() === 'input' && a.type === 'image'
+          },
+          reset(a) {
+            const b = a.nodeName.toLowerCase()
+            return (b === 'input' || b === 'button') && a.type === 'reset'
+          },
+          button(a) {
+            const b = a.nodeName.toLowerCase()
+            return (b === 'input' && a.type === 'button') || b === 'button'
+          },
+          input(a) {
+            return /input|select|textarea|button/i.test(a.nodeName)
+          },
+          focus(a) {
+            return a === a.ownerDocument.activeElement
+          }
+        },
+        setFilters: {
+          first(a, b) {
+            return b === 0
+          },
+          last(a, b, c, d) {
+            return b === d.length - 1
+          },
+          even(a, b) {
+            return b % 2 === 0
+          },
+          odd(a, b) {
+            return b % 2 === 1
+          },
+          lt(a, b, c) {
+            return b < c[3] - 0
+          },
+          gt(a, b, c) {
+            return b > c[3] - 0
+          },
+          nth(a, b, c) {
+            return c[3] - 0 === b
+          },
+          eq(a, b, c) {
+            return c[3] - 0 === b
+          }
+        },
+        filter: {
+          PSEUDO(a, b, c, d) {
+            const e = b[1]
+            const f = o.filters[e]
+            if (f) return f(a, c, b, d)
+            if (e === 'contains')
+              return (a.textContent || a.textContent || n([a]) || '').includes(
+                b[3]
+              )
+            if (e === 'not') {
+              const g = b[3]
+              for (let h = 0, i = g.length; h < i; h++)
+                if (g[h] === a) return !1
+              return !0
+            }
+            m.error(e)
+          },
+          CHILD(a, b) {
+            let c
+            let e
+            let f
+            let g
+            let h
+            let i
+            let j
+            const k = b[1]
+            let l = a
+            switch (k) {
+              case 'only':
+              case 'first':
+                while ((l = l.previousSibling)) if (l.nodeType === 1) return !1
+                if (k === 'first') return !0
+                l = a
+              case 'last':
+                while ((l = l.nextSibling)) if (l.nodeType === 1) return !1
+                return !0
+              case 'nth':
+                ;(c = b[2]), (e = b[3])
+                if (c === 1 && e === 0) return !0
+                ;(f = b[0]), (g = a.parentNode)
+                if (g && (g[d] !== f || !a.nodeIndex)) {
+                  i = 0
+                  for (l = g.firstChild; l; l = l.nextSibling)
+                    l.nodeType === 1 && (l.nodeIndex = ++i)
+                  g[d] = f
+                }
+                j = a.nodeIndex - e
+                return c === 0 ? j === 0 : j % c === 0 && j / c >= 0
+            }
+          },
+          ID(a, b) {
+            return a.nodeType === 1 && a.getAttribute('id') === b
+          },
+          TAG(a, b) {
+            return (
+              (b === '*' && a.nodeType === 1) ||
+              (!!a.nodeName && a.nodeName.toLowerCase() === b)
+            )
+          },
+          CLASS(a, b) {
+            return (
+              ' ' +
+              (a.className || a.getAttribute('class')) +
+              ' '
+            ).includes(b)
+          },
+          ATTR(a, b) {
+            const c = b[1]
+            const d = m.attr
+              ? m.attr(a, c)
+              : o.attrHandle[c]
+              ? o.attrHandle[c](a)
+              : a[c] != null
+              ? a[c]
+              : a.getAttribute(c)
+            const e = d + ''
+            const f = b[2]
+            const g = b[4]
+            return d == null
+              ? f === '!='
+              : !f && m.attr
+              ? d != null
+              : f === '='
+              ? e === g
+              : f === '*='
+              ? e.includes(g)
+              : f === '~='
+              ? (' ' + e + ' ').includes(g)
+              : g
+              ? f === '!='
+                ? e !== g
+                : f === '^='
+                ? e.indexOf(g) === 0
+                : f === '$='
+                ? e.substr(e.length - g.length) === g
+                : f === '|='
+                ? e === g || e.substr(0, g.length + 1) === g + '-'
+                : !1
+              : e && d !== !1
+          },
+          POS(a, b, c, d) {
+            const e = b[2]
+            const f = o.setFilters[e]
+            if (f) return f(a, c, b, d)
+          }
+        }
+      })
+      var p = o.match.POS
+      const q = function(a, b) {
+        return '\\' + (b - 0 + 1)
+      }
+      for (const r in o.match)
+        (o.match[r] = new RegExp(
+          o.match[r].source + /(?![^\[]*\])(?![^\(]*\))/.source
+        )),
+          (o.leftMatch[r] = new RegExp(
+            /(^(?:.|\r|\n)*?)/.source + o.match[r].source.replace(/\\(\d+)/g, q)
+          ))
+      o.match.globalPOS = p
+      var s = function(a, b) {
+        a = Array.prototype.slice.call(a, 0)
+        if (b) {
+          b.push.apply(b, a)
+          return b
+        }
+        return a
+      }
+      try {
+        Array.prototype.slice.call(c.documentElement.childNodes, 0)[0].nodeType
+      } catch (t) {
+        s = function(a, b) {
+          let c = 0
+          const d = b || []
+          if (g.call(a) === '[object Array]') Array.prototype.push.apply(d, a)
+          else if (typeof a.length === 'number')
+            for (let e = a.length; c < e; c++) d.push(a[c])
+          else for (; a[c]; c++) d.push(a[c])
+          return d
+        }
+      }
+      let u, v
+      c.documentElement.compareDocumentPosition
+        ? (u = function(a, b) {
+            if (a === b) {
+              h = !0
+              return 0
+            }
+            if (!a.compareDocumentPosition || !b.compareDocumentPosition)
+              return a.compareDocumentPosition ? -1 : 1
+            return a.compareDocumentPosition(b) & 4 ? -1 : 1
+          })
+        : ((u = function(a, b) {
+            if (a === b) {
+              h = !0
+              return 0
+            }
+            if (a.sourceIndex && b.sourceIndex)
+              return a.sourceIndex - b.sourceIndex
+            let c
+            let d
+            const e = []
+            const f = []
+            const g = a.parentNode
+            const i = b.parentNode
+            let j = g
+            if (g === i) return v(a, b)
+            if (!g) return -1
+            if (!i) return 1
+            while (j) e.unshift(j), (j = j.parentNode)
+            j = i
+            while (j) f.unshift(j), (j = j.parentNode)
+            ;(c = e.length), (d = f.length)
+            for (var k = 0; k < c && k < d; k++)
+              if (e[k] !== f[k]) return v(e[k], f[k])
+            return k === c ? v(a, f[k], -1) : v(e[k], b, 1)
+          }),
+          (v = function(a, b, c) {
+            if (a === b) return c
+            let d = a.nextSibling
+            while (d) {
+              if (d === b) return -1
+              d = d.nextSibling
+            }
+            return 1
+          })),
+        (function() {
+          let a = c.createElement('div')
+          const d = 'script' + new Date().getTime()
+          let e = c.documentElement
+          ;(a.innerHTML = "<a name='" + d + "'/>"),
+            e.insertBefore(a, e.firstChild),
+            c.getElementById(d) &&
+              ((o.find.ID = function(a, c, d) {
+                if (typeof c.getElementById !== 'undefined' && !d) {
+                  const e = c.getElementById(a[1])
+                  return e
+                    ? e.id === a[1] ||
+                      (typeof e.getAttributeNode !== 'undefined' &&
+                        e.getAttributeNode('id').nodeValue === a[1])
+                      ? [e]
+                      : b
+                    : []
+                }
+              }),
+              (o.filter.ID = function(a, b) {
+                const c =
+                  typeof a.getAttributeNode !== 'undefined' &&
+                  a.getAttributeNode('id')
+                return a.nodeType === 1 && c && c.nodeValue === b
+              })),
+            e.removeChild(a),
+            (e = a = null)
+        })(),
+        (function() {
+          let a = c.createElement('div')
+          a.appendChild(c.createComment('')),
+            a.getElementsByTagName('*').length > 0 &&
+              (o.find.TAG = function(a, b) {
+                let c = b.getElementsByTagName(a[1])
+                if (a[1] === '*') {
+                  const d = []
+                  for (let e = 0; c[e]; e++) c[e].nodeType === 1 && d.push(c[e])
+                  c = d
+                }
+                return c
+              }),
+            (a.innerHTML = "<a href='#'></a>"),
+            a.firstChild &&
+              typeof a.firstChild.getAttribute !== 'undefined' &&
+              a.firstChild.getAttribute('href') !== '#' &&
+              (o.attrHandle.href = function(a) {
+                return a.getAttribute('href', 2)
+              }),
+            (a = null)
+        })(),
+        c.querySelectorAll &&
+          (function() {
+            const a = m
+            let b = c.createElement('div')
+            const d = '__sizzle__'
+            b.innerHTML = "<p class='TEST'></p>"
+            if (
+              !b.querySelectorAll ||
+              b.querySelectorAll('.TEST').length !== 0
+            ) {
+              m = function(b, e, f, g) {
+                e = e || c
+                if (!g && !m.isXML(e)) {
+                  const h = /^(\w+$)|^\.([\w\-]+$)|^#([\w\-]+$)/.exec(b)
+                  if (h && (e.nodeType === 1 || e.nodeType === 9)) {
+                    if (h[1]) return s(e.getElementsByTagName(b), f)
+                    if (h[2] && o.find.CLASS && e.getElementsByClassName)
+                      return s(e.getElementsByClassName(h[2]), f)
+                  }
+                  if (e.nodeType === 9) {
+                    if (b === 'body' && e.body) return s([e.body], f)
+                    if (h && h[3]) {
+                      const i = e.getElementById(h[3])
+                      if (!i || !i.parentNode) return s([], f)
+                      if (i.id === h[3]) return s([i], f)
+                    }
+                    try {
+                      return s(e.querySelectorAll(b), f)
+                    } catch (j) {}
+                  } else if (
+                    e.nodeType === 1 &&
+                    e.nodeName.toLowerCase() !== 'object'
+                  ) {
+                    const k = e
+                    const l = e.getAttribute('id')
+                    let n = l || d
+                    const p = e.parentNode
+                    const q = /^\s*[+~]/.test(b)
+                    l ? (n = n.replace(/'/g, '\\$&')) : e.setAttribute('id', n),
+                      q && p && (e = e.parentNode)
+                    try {
+                      if (!q || p)
+                        return s(e.querySelectorAll("[id='" + n + "'] " + b), f)
+                    } catch (r) {
+                    } finally {
+                      l || k.removeAttribute('id')
+                    }
+                  }
+                }
+                return a(b, e, f, g)
+              }
+              for (const e in a) m[e] = a[e]
+              b = null
+            }
+          })(),
+        (function() {
+          const a = c.documentElement
+          const b =
+            a.matchesSelector ||
+            a.mozMatchesSelector ||
+            a.webkitMatchesSelector ||
+            a.msMatchesSelector
+          if (b) {
+            const d = !b.call(c.createElement('div'), 'div')
+            let e = !1
+            try {
+              b.call(c.documentElement, "[test!='']:sizzle")
+            } catch (f) {
+              e = !0
+            }
+            m.matchesSelector = function(a, c) {
+              c = c.replace(/\=\s*([^'"\]]*)\s*\]/g, "='$1']")
+              if (!m.isXML(a))
+                try {
+                  if (e || (!o.match.PSEUDO.test(c) && !/!=/.test(c))) {
+                    const f = b.call(a, c)
+                    if (f || !d || (a.document && a.document.nodeType !== 11))
+                      return f
+                  }
+                } catch (g) {}
+              return m(c, null, null, [a]).length > 0
+            }
+          }
+        })(),
+        (function() {
+          let a = c.createElement('div')
+          a.innerHTML = "<div class='test e'></div><div class='test'></div>"
+          if (
+            !!a.getElementsByClassName &&
+            a.getElementsByClassName('e').length !== 0
+          ) {
+            a.lastChild.className = 'e'
+            if (a.getElementsByClassName('e').length === 1) return
+            o.order.splice(1, 0, 'CLASS'),
+              (o.find.CLASS = function(a, b, c) {
+                if (typeof b.getElementsByClassName !== 'undefined' && !c)
+                  return b.getElementsByClassName(a[1])
+              }),
+              (a = null)
+          }
+        })(),
+        c.documentElement.contains
+          ? (m.contains = function(a, b) {
+              return a !== b && (a.contains ? a.contains(b) : !0)
+            })
+          : c.documentElement.compareDocumentPosition
+          ? (m.contains = function(a, b) {
+              return !!(a.compareDocumentPosition(b) & 16)
+            })
+          : (m.contains = function() {
+              return !1
+            }),
+        (m.isXML = function(a) {
+          const b = (a ? a.ownerDocument || a : 0).documentElement
+          return b ? b.nodeName !== 'HTML' : !1
+        })
+      var y = function(a, b, c) {
+        let d
+        const e = []
+        let f = ''
+        const g = b.nodeType ? [b] : b
+        while ((d = o.match.PSEUDO.exec(a)))
+          (f += d[0]), (a = a.replace(o.match.PSEUDO, ''))
+        a = o.relative[a] ? a + '*' : a
+        for (let h = 0, i = g.length; h < i; h++) m(a, g[h], e, c)
+        return m.filter(f, e)
+      }
+      ;(m.attr = f.attr),
+        (m.selectors.attrMap = {}),
+        (f.find = m),
+        (f.expr = m.selectors),
+        (f.expr[':'] = f.expr.filters),
+        (f.unique = m.uniqueSort),
+        (f.text = m.getText),
+        (f.isXMLDoc = m.isXML),
+        (f.contains = m.contains)
+    })()
+  const L = /Until$/
+  const M = /^(?:parents|prevUntil|prevAll)/
+  const N = /,/
+  var O = /^.[^:#\[\.,]*$/
+  const P = Array.prototype.slice
+  const Q = f.expr.match.globalPOS
+  const R = { children: !0, contents: !0, next: !0, prev: !0 }
+  f.fn.extend({
+    find(a) {
+      const b = this
+      let c
+      let d
+      if (typeof a !== 'string')
+        return f(a).filter(function() {
+          for (c = 0, d = b.length; c < d; c++)
+            if (f.contains(b[c], this)) return !0
+        })
+      const e = this.pushStack('', 'find', a)
+      let g
+      let h
+      let i
+      for (c = 0, d = this.length; c < d; c++) {
+        ;(g = e.length), f.find(a, this[c], e)
+        if (c > 0)
+          for (h = g; h < e.length; h++)
+            for (i = 0; i < g; i++)
+              if (e[i] === e[h]) {
+                e.splice(h--, 1)
+                break
+              }
+      }
+      return e
+    },
+    has(a) {
+      const b = f(a)
+      return this.filter(function() {
+        for (let a = 0, c = b.length; a < c; a++)
+          if (f.contains(this, b[a])) return !0
+      })
+    },
+    not(a) {
+      return this.pushStack(T(this, a, !1), 'not', a)
+    },
+    filter(a) {
+      return this.pushStack(T(this, a, !0), 'filter', a)
+    },
+    is(a) {
+      return (
+        !!a &&
+        (typeof a === 'string'
+          ? Q.test(a)
+            ? f(a, this.context).index(this[0]) >= 0
+            : f.filter(a, this).length > 0
+          : this.filter(a).length > 0)
+      )
+    },
+    closest(a, b) {
+      let c = []
+      let d
+      let e
+      let g = this[0]
+      if (f.isArray(a)) {
+        let h = 1
+        while (g && g.ownerDocument && g !== b) {
+          for (d = 0; d < a.length; d++)
+            f(g).is(a[d]) && c.push({ selector: a[d], elem: g, level: h })
+          ;(g = g.parentNode), h++
+        }
+        return c
+      }
+      const i = Q.test(a) || typeof a !== 'string' ? f(a, b || this.context) : 0
+      for (d = 0, e = this.length; d < e; d++) {
+        g = this[d]
+        while (g) {
+          if (i ? i.index(g) > -1 : f.find.matchesSelector(g, a)) {
+            c.push(g)
+            break
+          }
+          g = g.parentNode
+          if (!g || !g.ownerDocument || g === b || g.nodeType === 11) break
+        }
+      }
+      c = c.length > 1 ? f.unique(c) : c
+      return this.pushStack(c, 'closest', a)
+    },
+    index(a) {
+      if (!a) return this[0] && this[0].parentNode ? this.prevAll().length : -1
+      if (typeof a === 'string') return f.inArray(this[0], f(a))
+      return f.inArray(a.jquery ? a[0] : a, this)
+    },
+    add(a, b) {
+      const c =
+        typeof a === 'string' ? f(a, b) : f.makeArray(a && a.nodeType ? [a] : a)
+      const d = f.merge(this.get(), c)
+      return this.pushStack(S(c[0]) || S(d[0]) ? d : f.unique(d))
+    },
+    andSelf() {
+      return this.add(this.prevObject)
+    }
+  }),
+    f.each(
+      {
+        parent(a) {
+          const b = a.parentNode
+          return b && b.nodeType !== 11 ? b : null
+        },
+        parents(a) {
+          return f.dir(a, 'parentNode')
+        },
+        parentsUntil(a, b, c) {
+          return f.dir(a, 'parentNode', c)
+        },
+        next(a) {
+          return f.nth(a, 2, 'nextSibling')
+        },
+        prev(a) {
+          return f.nth(a, 2, 'previousSibling')
+        },
+        nextAll(a) {
+          return f.dir(a, 'nextSibling')
+        },
+        prevAll(a) {
+          return f.dir(a, 'previousSibling')
+        },
+        nextUntil(a, b, c) {
+          return f.dir(a, 'nextSibling', c)
+        },
+        prevUntil(a, b, c) {
+          return f.dir(a, 'previousSibling', c)
+        },
+        siblings(a) {
+          return f.sibling((a.parentNode || {}).firstChild, a)
+        },
+        children(a) {
+          return f.sibling(a.firstChild)
+        },
+        contents(a) {
+          return f.nodeName(a, 'iframe')
+            ? a.contentDocument || a.contentWindow.document
+            : f.makeArray(a.childNodes)
+        }
+      },
+      function(a, b) {
+        f.fn[a] = function(c, d) {
+          let e = f.map(this, b, c)
+          L.test(a) || (d = c),
+            d && typeof d === 'string' && (e = f.filter(d, e)),
+            (e = this.length > 1 && !R[a] ? f.unique(e) : e),
+            (this.length > 1 || N.test(d)) && M.test(a) && (e = e.reverse())
+          return this.pushStack(e, a, P.call(arguments).join(','))
+        }
+      }
+    ),
+    f.extend({
+      filter(a, b, c) {
+        c && (a = ':not(' + a + ')')
+        return b.length === 1
+          ? f.find.matchesSelector(b[0], a)
+            ? [b[0]]
+            : []
+          : f.find.matches(a, b)
+      },
+      dir(a, c, d) {
+        const e = []
+        let g = a[c]
+        while (
+          g &&
+          g.nodeType !== 9 &&
+          (d === b || g.nodeType !== 1 || !f(g).is(d))
+        )
+          g.nodeType === 1 && e.push(g), (g = g[c])
+        return e
+      },
+      nth(a, b, c, d) {
+        b = b || 1
+        let e = 0
+        for (; a; a = a[c]) if (a.nodeType === 1 && ++e === b) break
+        return a
+      },
+      sibling(a, b) {
+        const c = []
+        for (; a; a = a.nextSibling) a.nodeType === 1 && a !== b && c.push(a)
+        return c
+      }
+    })
+  var V =
+    'abbr|article|aside|audio|bdi|canvas|data|datalist|details|figcaption|figure|footer|header|hgroup|mark|meter|nav|output|progress|section|summary|time|video'
+  const W = / jQuery\d+="(?:\d+|null)"/g
+  const X = /^\s+/
+  const Y = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi
+  const Z = /<([\w:]+)/
+  const $ = /<tbody/i
+  const _ = /<|&#?\w+;/
+  const ba = /<(?:script|style)/i
+  const bb = /<(?:script|object|embed|option|style)/i
+  const bc = new RegExp('<(?:' + V + ')[\\s/>]', 'i')
+  const bd = /checked\s*(?:[^=]|=\s*.checked.)/i
+  const be = /\/(java|ecma)script/i
+  const bf = /^\s*<!(?:\[CDATA\[|\-\-)/
+  const bg = {
+    option: [1, "<select multiple='multiple'>", '</select>'],
+    legend: [1, '<fieldset>', '</fieldset>'],
+    thead: [1, '<table>', '</table>'],
+    tr: [2, '<table><tbody>', '</tbody></table>'],
+    td: [3, '<table><tbody><tr>', '</tr></tbody></table>'],
+    col: [2, '<table><tbody></tbody><colgroup>', '</colgroup></table>'],
+    area: [1, '<map>', '</map>'],
+    _default: [0, '', '']
+  }
+  var bh = U(c)
+  ;(bg.optgroup = bg.option),
+    (bg.tbody = bg.tfoot = bg.colgroup = bg.caption = bg.thead),
+    (bg.th = bg.td),
+    f.support.htmlSerialize || (bg._default = [1, 'div<div>', '</div>']),
+    f.fn.extend({
+      text(a) {
+        return f.access(
+          this,
+          function(a) {
+            return a === b
+              ? f.text(this)
+              : this.empty().append(
+                  ((this[0] && this[0].ownerDocument) || c).createTextNode(a)
+                )
+          },
+          null,
+          a,
+          arguments.length
+        )
+      },
+      wrapAll(a) {
+        if (f.isFunction(a))
+          return this.each(function(b) {
+            f(this).wrapAll(a.call(this, b))
+          })
+        if (this[0]) {
+          const b = f(a, this[0].ownerDocument)
+            .eq(0)
+            .clone(!0)
+          this[0].parentNode && b.insertBefore(this[0]),
+            b
+              .map(function() {
+                let a = this
+                while (a.firstChild && a.firstChild.nodeType === 1)
+                  a = a.firstChild
+                return a
+              })
+              .append(this)
+        }
+        return this
+      },
+      wrapInner(a) {
+        if (f.isFunction(a))
+          return this.each(function(b) {
+            f(this).wrapInner(a.call(this, b))
+          })
+        return this.each(function() {
+          const b = f(this)
+          const c = b.contents()
+          c.length ? c.wrapAll(a) : b.append(a)
+        })
+      },
+      wrap(a) {
+        const b = f.isFunction(a)
+        return this.each(function(c) {
+          f(this).wrapAll(b ? a.call(this, c) : a)
+        })
+      },
+      unwrap() {
+        return this.parent()
+          .each(function() {
+            f.nodeName(this, 'body') || f(this).replaceWith(this.childNodes)
+          })
+          .end()
+      },
+      append() {
+        return this.domManip(arguments, !0, function(a) {
+          this.nodeType === 1 && this.appendChild(a)
+        })
+      },
+      prepend() {
+        return this.domManip(arguments, !0, function(a) {
+          this.nodeType === 1 && this.insertBefore(a, this.firstChild)
+        })
+      },
+      before() {
+        if (this[0] && this[0].parentNode)
+          return this.domManip(arguments, !1, function(a) {
+            this.parentNode.insertBefore(a, this)
+          })
+        if (arguments.length) {
+          const a = f.clean(arguments)
+          a.push.apply(a, this.toArray())
+          return this.pushStack(a, 'before', arguments)
+        }
+      },
+      after() {
+        if (this[0] && this[0].parentNode)
+          return this.domManip(arguments, !1, function(a) {
+            this.parentNode.insertBefore(a, this.nextSibling)
+          })
+        if (arguments.length) {
+          const a = this.pushStack(this, 'after', arguments)
+          a.push.apply(a, f.clean(arguments))
+          return a
+        }
+      },
+      remove(a, b) {
+        for (var c = 0, d; (d = this[c]) != null; c++)
+          if (!a || f.filter(a, [d]).length)
+            !b &&
+              d.nodeType === 1 &&
+              (f.cleanData(d.getElementsByTagName('*')), f.cleanData([d])),
+              d.parentNode && d.parentNode.removeChild(d)
+        return this
+      },
+      empty() {
+        for (var a = 0, b; (b = this[a]) != null; a++) {
+          b.nodeType === 1 && f.cleanData(b.getElementsByTagName('*'))
+          while (b.firstChild) b.removeChild(b.firstChild)
+        }
+        return this
+      },
+      clone(a, b) {
+        ;(a = a == null ? !1 : a), (b = b == null ? a : b)
+        return this.map(function() {
+          return f.clone(this, a, b)
+        })
+      },
+      html(a) {
+        return f.access(
+          this,
+          function(a) {
+            let c = this[0] || {}
+            let d = 0
+            const e = this.length
+            if (a === b)
+              return c.nodeType === 1 ? c.innerHTML.replace(W, '') : null
+            if (
+              typeof a === 'string' &&
+              !ba.test(a) &&
+              (f.support.leadingWhitespace || !X.test(a)) &&
+              !bg[(Z.exec(a) || ['', ''])[1].toLowerCase()]
+            ) {
+              a = a.replace(Y, '<$1></$2>')
+              try {
+                for (; d < e; d++)
+                  (c = this[d] || {}),
+                    c.nodeType === 1 &&
+                      (f.cleanData(c.getElementsByTagName('*')),
+                      (c.innerHTML = a))
+                c = 0
+              } catch (g) {}
+            }
+            c && this.empty().append(a)
+          },
+          null,
+          a,
+          arguments.length
+        )
+      },
+      replaceWith(a) {
+        if (this[0] && this[0].parentNode) {
+          if (f.isFunction(a))
+            return this.each(function(b) {
+              const c = f(this)
+              const d = c.html()
+              c.replaceWith(a.call(this, b, d))
+            })
+          typeof a !== 'string' && (a = f(a).detach())
+          return this.each(function() {
+            const b = this.nextSibling
+            const c = this.parentNode
+            f(this).remove(), b ? f(b).before(a) : f(c).append(a)
+          })
+        }
+        return this.length
+          ? this.pushStack(f(f.isFunction(a) ? a() : a), 'replaceWith', a)
+          : this
+      },
+      detach(a) {
+        return this.remove(a, !0)
+      },
+      domManip(a, c, d) {
+        let e
+        let g
+        let h
+        let i
+        const j = a[0]
+        const k = []
+        if (
+          !f.support.checkClone &&
+          arguments.length === 3 &&
+          typeof j === 'string' &&
+          bd.test(j)
+        )
+          return this.each(function() {
+            f(this).domManip(a, c, d, !0)
+          })
+        if (f.isFunction(j))
+          return this.each(function(e) {
+            const g = f(this)
+            ;(a[0] = j.call(this, e, c ? g.html() : b)), g.domManip(a, c, d)
+          })
+        if (this[0]) {
+          ;(i = j && j.parentNode),
+            f.support.parentNode &&
+            i &&
+            i.nodeType === 11 &&
+            i.childNodes.length === this.length
+              ? (e = { fragment: i })
+              : (e = f.buildFragment(a, this, k)),
+            (h = e.fragment),
+            h.childNodes.length === 1
+              ? (g = h = h.firstChild)
+              : (g = h.firstChild)
+          if (g) {
+            c = c && f.nodeName(g, 'tr')
+            for (let l = 0, m = this.length, n = m - 1; l < m; l++)
+              d.call(
+                c ? bi(this[l], g) : this[l],
+                e.cacheable || (m > 1 && l < n) ? f.clone(h, !0, !0) : h
+              )
+          }
+          k.length &&
+            f.each(k, function(a, b) {
+              b.src
+                ? f.ajax({
+                    type: 'GET',
+                    global: !1,
+                    url: b.src,
+                    async: !1,
+                    dataType: 'script'
+                  })
+                : f.globalEval(
+                    (b.text || b.textContent || b.innerHTML || '').replace(
+                      bf,
+                      '/*$0*/'
+                    )
+                  ),
+                b.parentNode && b.parentNode.removeChild(b)
+            })
+        }
+        return this
+      }
+    }),
+    (f.buildFragment = function(a, b, d) {
+      let e
+      let g
+      let h
+      let i
+      const j = a[0]
+      b && b[0] && (i = b[0].ownerDocument || b[0]),
+        i.createDocumentFragment || (i = c),
+        a.length === 1 &&
+          typeof j === 'string' &&
+          j.length < 512 &&
+          i === c &&
+          j.charAt(0) === '<' &&
+          !bb.test(j) &&
+          (f.support.checkClone || !bd.test(j)) &&
+          (f.support.html5Clone || !bc.test(j)) &&
+          ((g = !0), (h = f.fragments[j]), h && h !== 1 && (e = h)),
+        e || ((e = i.createDocumentFragment()), f.clean(a, i, e, d)),
+        g && (f.fragments[j] = h ? e : 1)
+      return { fragment: e, cacheable: g }
+    }),
+    (f.fragments = {}),
+    f.each(
+      {
+        appendTo: 'append',
+        prependTo: 'prepend',
+        insertBefore: 'before',
+        insertAfter: 'after',
+        replaceAll: 'replaceWith'
+      },
+      function(a, b) {
+        f.fn[a] = function(c) {
+          let d = []
+          const e = f(c)
+          const g = this.length === 1 && this[0].parentNode
+          if (
+            g &&
+            g.nodeType === 11 &&
+            g.childNodes.length === 1 &&
+            e.length === 1
+          ) {
+            e[b](this[0])
+            return this
+          }
+          for (let h = 0, i = e.length; h < i; h++) {
+            const j = (h > 0 ? this.clone(!0) : this).get()
+            f(e[h])[b](j), (d = d.concat(j))
+          }
+          return this.pushStack(d, a, e.selector)
+        }
+      }
+    ),
+    f.extend({
+      clone(a, b, c) {
+        let d
+        let e
+        let g
+        const h =
+          f.support.html5Clone ||
+          f.isXMLDoc(a) ||
+          !bc.test('<' + a.nodeName + '>')
+            ? a.cloneNode(!0)
+            : bo(a)
+        if (
+          (!f.support.noCloneEvent || !f.support.noCloneChecked) &&
+          (a.nodeType === 1 || a.nodeType === 11) &&
+          !f.isXMLDoc(a)
+        ) {
+          bk(a, h), (d = bl(a)), (e = bl(h))
+          for (g = 0; d[g]; ++g) e[g] && bk(d[g], e[g])
+        }
+        if (b) {
+          bj(a, h)
+          if (c) {
+            ;(d = bl(a)), (e = bl(h))
+            for (g = 0; d[g]; ++g) bj(d[g], e[g])
+          }
+        }
+        d = e = null
+        return h
+      },
+      clean(a, b, d, e) {
+        let g
+        let h
+        let i
+        let j = []
+        ;(b = b || c),
+          typeof b.createElement === 'undefined' &&
+            (b = b.ownerDocument || (b[0] && b[0].ownerDocument) || c)
+        for (var k = 0, l; (l = a[k]) != null; k++) {
+          typeof l === 'number' && (l += '')
+          if (!l) continue
+          if (typeof l === 'string')
+            if (!_.test(l)) l = b.createTextNode(l)
+            else {
+              l = l.replace(Y, '<$1></$2>')
+              const m = (Z.exec(l) || ['', ''])[1].toLowerCase()
+              const n = bg[m] || bg._default
+              let o = n[0]
+              let p = b.createElement('div')
+              const q = bh.childNodes
+              var r
+              b === c ? bh.appendChild(p) : U(b).appendChild(p),
+                (p.innerHTML = n[1] + l + n[2])
+              while (o--) p = p.lastChild
+              if (!f.support.tbody) {
+                const s = $.test(l)
+                const t =
+                  m === 'table' && !s
+                    ? p.firstChild && p.firstChild.childNodes
+                    : n[1] === '<table>' && !s
+                    ? p.childNodes
+                    : []
+                for (i = t.length - 1; i >= 0; --i)
+                  f.nodeName(t[i], 'tbody') &&
+                    !t[i].childNodes.length &&
+                    t[i].parentNode.removeChild(t[i])
+              }
+              !f.support.leadingWhitespace &&
+                X.test(l) &&
+                p.insertBefore(b.createTextNode(X.exec(l)[0]), p.firstChild),
+                (l = p.childNodes),
+                p &&
+                  (p.parentNode.removeChild(p),
+                  q.length > 0 &&
+                    ((r = q[q.length - 1]),
+                    r && r.parentNode && r.parentNode.removeChild(r)))
+            }
+          var u
+          if (!f.support.appendChecked)
+            if (l[0] && typeof (u = l.length) === 'number')
+              for (i = 0; i < u; i++) bn(l[i])
+            else bn(l)
+          l.nodeType ? j.push(l) : (j = f.merge(j, l))
+        }
+        if (d) {
+          g = function(a) {
+            return !a.type || be.test(a.type)
+          }
+          for (k = 0; j[k]; k++) {
+            h = j[k]
+            if (e && f.nodeName(h, 'script') && (!h.type || be.test(h.type)))
+              e.push(h.parentNode ? h.parentNode.removeChild(h) : h)
+            else {
+              if (h.nodeType === 1) {
+                const v = f.grep(h.getElementsByTagName('script'), g)
+                j.splice.apply(j, [k + 1, 0].concat(v))
+              }
+              d.appendChild(h)
+            }
+          }
+        }
+        return j
+      },
+      cleanData(a) {
+        let b
+        let c
+        const d = f.cache
+        const e = f.event.special
+        const g = f.support.deleteExpando
+        for (var h = 0, i; (i = a[h]) != null; h++) {
+          if (i.nodeName && f.noData[i.nodeName.toLowerCase()]) continue
+          c = i[f.expando]
+          if (c) {
+            b = d[c]
+            if (b && b.events) {
+              for (const j in b.events)
+                e[j] ? f.event.remove(i, j) : f.removeEvent(i, j, b.handle)
+              b.handle && (b.handle.elem = null)
+            }
+            g
+              ? delete i[f.expando]
+              : i.removeAttribute && i.removeAttribute(f.expando),
+              delete d[c]
+          }
+        }
+      }
+    })
+  const bp = /alpha\([^)]*\)/i
+  const bq = /opacity=([^)]*)/
+  const br = /([A-Z]|^ms)/g
+  const bs = /^[\-+]?(?:\d*\.)?\d+$/i
+  var bt = /^-?(?:\d*\.)?\d+(?!px)[^\d\s]+$/i
+  const bu = /^([\-+])=([\-+.\de]+)/
+  const bv = /^margin/
+  const bw = { position: 'absolute', visibility: 'hidden', display: 'block' }
+  var bx = ['Top', 'Right', 'Bottom', 'Left']
+  let by
+  let bz
+  let bA
+  ;(f.fn.css = function(a, c) {
+    return f.access(
+      this,
+      function(a, c, d) {
+        return d !== b ? f.style(a, c, d) : f.css(a, c)
+      },
+      a,
+      c,
+      arguments.length > 1
+    )
+  }),
+    f.extend({
+      cssHooks: {
+        opacity: {
+          get(a, b) {
+            if (b) {
+              const c = by(a, 'opacity')
+              return c === '' ? '1' : c
+            }
+            return a.style.opacity
+          }
+        }
+      },
+      cssNumber: {
+        fillOpacity: !0,
+        fontWeight: !0,
+        lineHeight: !0,
+        opacity: !0,
+        orphans: !0,
+        widows: !0,
+        zIndex: !0,
+        zoom: !0
+      },
+      cssProps: { float: f.support.cssFloat ? 'cssFloat' : 'styleFloat' },
+      style(a, c, d, e) {
+        if (!!a && a.nodeType !== 3 && a.nodeType !== 8 && !!a.style) {
+          let g
+          let h
+          const i = f.camelCase(c)
+          const j = a.style
+          const k = f.cssHooks[i]
+          c = f.cssProps[i] || i
+          if (d === b) {
+            if (k && 'get' in k && (g = k.get(a, !1, e)) !== b) return g
+            return j[c]
+          }
+          ;(h = typeof d),
+            h === 'string' &&
+              (g = bu.exec(d)) &&
+              ((d = +(g[1] + 1) * +g[2] + parseFloat(f.css(a, c))),
+              (h = 'number'))
+          if (d == null || (h === 'number' && isNaN(d))) return
+          h === 'number' && !f.cssNumber[i] && (d += 'px')
+          if (!k || !('set' in k) || (d = k.set(a, d)) !== b)
+            try {
+              j[c] = d
+            } catch (l) {}
+        }
+      },
+      css(a, c, d) {
+        let e, g
+        ;(c = f.camelCase(c)),
+          (g = f.cssHooks[c]),
+          (c = f.cssProps[c] || c),
+          c === 'cssFloat' && (c = 'float')
+        if (g && 'get' in g && (e = g.get(a, !0, d)) !== b) return e
+        if (by) return by(a, c)
+      },
+      swap(a, b, c) {
+        const d = {}
+        let e
+        let f
+        for (f in b) (d[f] = a.style[f]), (a.style[f] = b[f])
+        e = c.call(a)
+        for (f in b) a.style[f] = d[f]
+        return e
+      }
+    }),
+    (f.curCSS = f.css),
+    c.defaultView &&
+      c.defaultView.getComputedStyle &&
+      (bz = function(a, b) {
+        let c
+        let d
+        let e
+        let g
+        const h = a.style
+        ;(b = b.replace(br, '-$1').toLowerCase()),
+          (d = a.ownerDocument.defaultView) &&
+            (e = d.getComputedStyle(a, null)) &&
+            ((c = e.getPropertyValue(b)),
+            c === '' &&
+              !f.contains(a.ownerDocument.documentElement, a) &&
+              (c = f.style(a, b))),
+          !f.support.pixelMargin &&
+            e &&
+            bv.test(b) &&
+            bt.test(c) &&
+            ((g = h.width), (h.width = c), (c = e.width), (h.width = g))
+        return c
+      }),
+    c.documentElement.currentStyle &&
+      (bA = function(a, b) {
+        let c
+        let d
+        let e
+        let f = a.currentStyle && a.currentStyle[b]
+        const g = a.style
+        f == null && g && (e = g[b]) && (f = e),
+          bt.test(f) &&
+            ((c = g.left),
+            (d = a.runtimeStyle && a.runtimeStyle.left),
+            d && (a.runtimeStyle.left = a.currentStyle.left),
+            (g.left = b === 'fontSize' ? '1em' : f),
+            (f = g.pixelLeft + 'px'),
+            (g.left = c),
+            d && (a.runtimeStyle.left = d))
+        return f === '' ? 'auto' : f
+      }),
+    (by = bz || bA),
+    f.each(['height', 'width'], function(a, b) {
+      f.cssHooks[b] = {
+        get(a, c, d) {
+          if (c)
+            return a.offsetWidth !== 0
+              ? bB(a, b, d)
+              : f.swap(a, bw, function() {
+                  return bB(a, b, d)
+                })
+        },
+        set(a, b) {
+          return bs.test(b) ? b + 'px' : b
+        }
+      }
+    }),
+    f.support.opacity ||
+      (f.cssHooks.opacity = {
+        get(a, b) {
+          return bq.test(
+            (b && a.currentStyle ? a.currentStyle.filter : a.style.filter) || ''
+          )
+            ? parseFloat(RegExp.$1) / 100 + ''
+            : b
+            ? '1'
+            : ''
+        },
+        set(a, b) {
+          const c = a.style
+          const d = a.currentStyle
+          const e = f.isNumeric(b) ? 'alpha(opacity=' + b * 100 + ')' : ''
+          const g = (d && d.filter) || c.filter || ''
+          c.zoom = 1
+          if (b >= 1 && f.trim(g.replace(bp, '')) === '') {
+            c.removeAttribute('filter')
+            if (d && !d.filter) return
+          }
+          c.filter = bp.test(g) ? g.replace(bp, e) : g + ' ' + e
+        }
+      }),
+    f(function() {
+      f.support.reliableMarginRight ||
+        (f.cssHooks.marginRight = {
+          get(a, b) {
+            return f.swap(a, { display: 'inline-block' }, function() {
+              return b ? by(a, 'margin-right') : a.style.marginRight
+            })
+          }
+        })
+    }),
+    f.expr &&
+      f.expr.filters &&
+      ((f.expr.filters.hidden = function(a) {
+        const b = a.offsetWidth
+        const c = a.offsetHeight
+        return (
+          (b === 0 && c === 0) ||
+          (!f.support.reliableHiddenOffsets &&
+            ((a.style && a.style.display) || f.css(a, 'display')) === 'none')
+        )
+      }),
+      (f.expr.filters.visible = function(a) {
+        return !f.expr.filters.hidden(a)
+      })),
+    f.each({ margin: '', padding: '', border: 'Width' }, function(a, b) {
+      f.cssHooks[a + b] = {
+        expand(c) {
+          let d
+          const e = typeof c === 'string' ? c.split(' ') : [c]
+          const f = {}
+          for (d = 0; d < 4; d++) f[a + bx[d] + b] = e[d] || e[d - 2] || e[0]
+          return f
+        }
+      }
+    })
+  const bC = /%20/g
+  var bD = /\[\]$/
+  const bE = /\r?\n/g
+  const bF = /#.*$/
+  const bG = /^(.*?):[ \t]*([^\r\n]*)\r?$/gm
+  const bH = /^(?:color|date|datetime|datetime-local|email|hidden|month|number|password|range|search|tel|text|time|url|week)$/i
+  const bI = /^(?:about|app|app\-storage|.+\-extension|file|res|widget):$/
+  const bJ = /^(?:GET|HEAD)$/
+  const bK = /^\/\//
+  const bL = /\?/
+  const bM = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi
+  const bN = /^(?:select|textarea)/i
+  var bO = /\s+/
+  const bP = /([?&])_=[^&]*/
+  const bQ = /^([\w\+\.\-]+:)(?:\/\/([^\/?#:]*)(?::(\d+))?)?/
+  const bR = f.fn.load
+  var bS = {}
+  const bT = {}
+  let bU
+  let bV
+  const bW = ['*/'] + ['*']
+  try {
+    bU = e.href
+  } catch (bX) {
+    ;(bU = c.createElement('a')), (bU.href = ''), (bU = bU.href)
+  }
+  ;(bV = bQ.exec(bU.toLowerCase()) || []),
+    f.fn.extend({
+      load(a, c, d) {
+        if (typeof a !== 'string' && bR) return bR.apply(this, arguments)
+        if (!this.length) return this
+        const e = a.indexOf(' ')
+        if (e >= 0) {
+          var g = a.slice(e, a.length)
+          a = a.slice(0, e)
+        }
+        let h = 'GET'
+        c &&
+          (f.isFunction(c)
+            ? ((d = c), (c = b))
+            : typeof c === 'object' &&
+              ((c = f.param(c, f.ajaxSettings.traditional)), (h = 'POST')))
+        const i = this
+        f.ajax({
+          url: a,
+          type: h,
+          dataType: 'html',
+          data: c,
+          complete(a, b, c) {
+            ;(c = a.responseText),
+              a.isResolved() &&
+                (a.done(function(a) {
+                  c = a
+                }),
+                i.html(
+                  g
+                    ? f('<div>')
+                        .append(c.replace(bM, ''))
+                        .find(g)
+                    : c
+                )),
+              d && i.each(d, [c, b, a])
+          }
+        })
+        return this
+      },
+      serialize() {
+        return f.param(this.serializeArray())
+      },
+      serializeArray() {
+        return this.map(function() {
+          return this.elements ? f.makeArray(this.elements) : this
+        })
+          .filter(function() {
+            return (
+              this.name &&
+              !this.disabled &&
+              (this.checked || bN.test(this.nodeName) || bH.test(this.type))
+            )
+          })
+          .map(function(a, b) {
+            const c = f(this).val()
+            return c == null
+              ? null
+              : f.isArray(c)
+              ? f.map(c, function(a, c) {
+                  return { name: b.name, value: a.replace(bE, '\r\n') }
+                })
+              : { name: b.name, value: c.replace(bE, '\r\n') }
+          })
+          .get()
+      }
+    }),
+    f.each(
+      'ajaxStart ajaxStop ajaxComplete ajaxError ajaxSuccess ajaxSend'.split(
+        ' '
+      ),
+      function(a, b) {
+        f.fn[b] = function(a) {
+          return this.on(b, a)
+        }
+      }
+    ),
+    f.each(['get', 'post'], function(a, c) {
+      f[c] = function(a, d, e, g) {
+        f.isFunction(d) && ((g = g || e), (e = d), (d = b))
+        return f.ajax({ type: c, url: a, data: d, success: e, dataType: g })
+      }
+    }),
+    f.extend({
+      getScript(a, c) {
+        return f.get(a, b, c, 'script')
+      },
+      getJSON(a, b, c) {
+        return f.get(a, b, c, 'json')
+      },
+      ajaxSetup(a, b) {
+        b ? b$(a, f.ajaxSettings) : ((b = a), (a = f.ajaxSettings)), b$(a, b)
+        return a
+      },
+      ajaxSettings: {
+        url: bU,
+        isLocal: bI.test(bV[1]),
+        global: !0,
+        type: 'GET',
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        processData: !0,
+        async: !0,
+        accepts: {
+          xml: 'application/xml, text/xml',
+          html: 'text/html',
+          text: 'text/plain',
+          json: 'application/json, text/javascript',
+          '*': bW
+        },
+        contents: { xml: /xml/, html: /html/, json: /json/ },
+        responseFields: { xml: 'responseXML', text: 'responseText' },
+        converters: {
+          '* text': a.String,
+          'text html': !0,
+          'text json': f.parseJSON,
+          'text xml': f.parseXML
+        },
+        flatOptions: { context: !0, url: !0 }
+      },
+      ajaxPrefilter: bY(bS),
+      ajaxTransport: bY(bT),
+      ajax(a, c) {
+        function w(a, c, l, m) {
+          if (s !== 2) {
+            ;(s = 2),
+              q && clearTimeout(q),
+              (p = b),
+              (n = m || ''),
+              (v.readyState = a > 0 ? 4 : 0)
+            let o
+            let r
+            let u
+            let w = c
+            const x = l ? ca(d, v, l) : b
+            let y
+            let z
+            if ((a >= 200 && a < 300) || a === 304) {
+              if (d.ifModified) {
+                if ((y = v.getResponseHeader('Last-Modified')))
+                  f.lastModified[k] = y
+                if ((z = v.getResponseHeader('Etag'))) f.etag[k] = z
+              }
+              if (a === 304) (w = 'notmodified'), (o = !0)
+              else
+                try {
+                  ;(r = cb(d, x)), (w = 'success'), (o = !0)
+                } catch (A) {
+                  ;(w = 'parsererror'), (u = A)
+                }
+            } else {
+              u = w
+              if (!w || a) (w = 'error'), a < 0 && (a = 0)
+            }
+            ;(v.status = a),
+              (v.statusText = '' + (c || w)),
+              o ? h.resolveWith(e, [r, w, v]) : h.rejectWith(e, [v, w, u]),
+              v.statusCode(j),
+              (j = b),
+              t &&
+                g.trigger('ajax' + (o ? 'Success' : 'Error'), [
+                  v,
+                  d,
+                  o ? r : u
+                ]),
+              i.fireWith(e, [v, w]),
+              t &&
+                (g.trigger('ajaxComplete', [v, d]),
+                --f.active || f.event.trigger('ajaxStop'))
+          }
+        }
+        typeof a === 'object' && ((c = a), (a = b)), (c = c || {})
+        var d = f.ajaxSetup({}, c)
+        var e = d.context || d
+        var g = e !== d && (e.nodeType || e instanceof f) ? f(e) : f.event
+        var h = f.Deferred()
+        var i = f.Callbacks('once memory')
+        var j = d.statusCode || {}
+        let k
+        const l = {}
+        const m = {}
+        let n
+        let o
+        let p
+        let q
+        let r
+        var s = 0
+        let t
+        let u
+        var v = {
+          readyState: 0,
+          setRequestHeader(a, b) {
+            if (!s) {
+              const c = a.toLowerCase()
+              ;(a = m[c] = m[c] || a), (l[a] = b)
+            }
+            return this
+          },
+          getAllResponseHeaders() {
+            return s === 2 ? n : null
+          },
+          getResponseHeader(a) {
+            let c
+            if (s === 2) {
+              if (!o) {
+                o = {}
+                while ((c = bG.exec(n))) o[c[1].toLowerCase()] = c[2]
+              }
+              c = o[a.toLowerCase()]
+            }
+            return c === b ? null : c
+          },
+          overrideMimeType(a) {
+            s || (d.mimeType = a)
+            return this
+          },
+          abort(a) {
+            ;(a = a || 'abort'), p && p.abort(a), w(0, a)
+            return this
+          }
+        }
+        h.promise(v),
+          (v.success = v.done),
+          (v.error = v.fail),
+          (v.complete = i.add),
+          (v.statusCode = function(a) {
+            if (a) {
+              let b
+              if (s < 2) for (b in a) j[b] = [j[b], a[b]]
+              else (b = a[v.status]), v.then(b, b)
+            }
+            return this
+          }),
+          (d.url = ((a || d.url) + '')
+            .replace(bF, '')
+            .replace(bK, bV[1] + '//')),
+          (d.dataTypes = f
+            .trim(d.dataType || '*')
+            .toLowerCase()
+            .split(bO)),
+          d.crossDomain == null &&
+            ((r = bQ.exec(d.url.toLowerCase())),
+            (d.crossDomain = !(
+              !r ||
+              (r[1] == bV[1] &&
+                r[2] == bV[2] &&
+                (r[3] || (r[1] === 'http:' ? 80 : 443)) ==
+                  (bV[3] || (bV[1] === 'http:' ? 80 : 443)))
+            ))),
+          d.data &&
+            d.processData &&
+            typeof d.data !== 'string' &&
+            (d.data = f.param(d.data, d.traditional)),
+          bZ(bS, d, c, v)
+        if (s === 2) return !1
+        ;(t = d.global),
+          (d.type = d.type.toUpperCase()),
+          (d.hasContent = !bJ.test(d.type)),
+          t && f.active++ === 0 && f.event.trigger('ajaxStart')
+        if (!d.hasContent) {
+          d.data &&
+            ((d.url += (bL.test(d.url) ? '&' : '?') + d.data), delete d.data),
+            (k = d.url)
+          if (d.cache === !1) {
+            const x = f.now()
+            const y = d.url.replace(bP, '$1_=' + x)
+            d.url =
+              y + (y === d.url ? (bL.test(d.url) ? '&' : '?') + '_=' + x : '')
+          }
+        }
+        ;((d.data && d.hasContent && d.contentType !== !1) || c.contentType) &&
+          v.setRequestHeader('Content-Type', d.contentType),
+          d.ifModified &&
+            ((k = k || d.url),
+            f.lastModified[k] &&
+              v.setRequestHeader('If-Modified-Since', f.lastModified[k]),
+            f.etag[k] && v.setRequestHeader('If-None-Match', f.etag[k])),
+          v.setRequestHeader(
+            'Accept',
+            d.dataTypes[0] && d.accepts[d.dataTypes[0]]
+              ? d.accepts[d.dataTypes[0]] +
+                  (d.dataTypes[0] !== '*' ? ', ' + bW + '; q=0.01' : '')
+              : d.accepts['*']
+          )
+        for (u in d.headers) v.setRequestHeader(u, d.headers[u])
+        if (d.beforeSend && (d.beforeSend.call(e, v, d) === !1 || s === 2)) {
+          v.abort()
+          return !1
+        }
+        for (u in { success: 1, error: 1, complete: 1 }) v[u](d[u])
+        p = bZ(bT, d, c, v)
+        if (!p) w(-1, 'No Transport')
+        else {
+          ;(v.readyState = 1),
+            t && g.trigger('ajaxSend', [v, d]),
+            d.async &&
+              d.timeout > 0 &&
+              (q = setTimeout(function() {
+                v.abort('timeout')
+              }, d.timeout))
+          try {
+            ;(s = 1), p.send(l, w)
+          } catch (z) {
+            if (s < 2) w(-1, z)
+            else throw z
+          }
+        }
+        return v
+      },
+      param(a, c) {
+        const d = []
+        const e = function(a, b) {
+          ;(b = f.isFunction(b) ? b() : b),
+            (d[d.length] = encodeURIComponent(a) + '=' + encodeURIComponent(b))
+        }
+        c === b && (c = f.ajaxSettings.traditional)
+        if (f.isArray(a) || (a.jquery && !f.isPlainObject(a)))
+          f.each(a, function() {
+            e(this.name, this.value)
+          })
+        else for (const g in a) b_(g, a[g], c, e)
+        return d.join('&').replace(bC, '+')
+      }
+    }),
+    f.extend({ active: 0, lastModified: {}, etag: {} })
+  let cc = f.now()
+  const cd = /(\=)\?(&|$)|\?\?/i
+  f.ajaxSetup({
+    jsonp: 'callback',
+    jsonpCallback() {
+      return f.expando + '_' + cc++
+    }
+  }),
+    f.ajaxPrefilter('json jsonp', function(b, c, d) {
+      const e =
+        typeof b.data === 'string' &&
+        /^application\/x\-www\-form\-urlencoded/.test(b.contentType)
+      if (
+        b.dataTypes[0] === 'jsonp' ||
+        (b.jsonp !== !1 && (cd.test(b.url) || (e && cd.test(b.data))))
+      ) {
+        let g
+        const h = (b.jsonpCallback = f.isFunction(b.jsonpCallback)
+          ? b.jsonpCallback()
+          : b.jsonpCallback)
+        const i = a[h]
+        let j = b.url
+        let k = b.data
+        const l = '$1' + h + '$2'
+        b.jsonp !== !1 &&
+          ((j = j.replace(cd, l)),
+          b.url === j &&
+            (e && (k = k.replace(cd, l)),
+            b.data === k &&
+              (j += (/\?/.test(j) ? '&' : '?') + b.jsonp + '=' + h))),
+          (b.url = j),
+          (b.data = k),
+          (a[h] = function(a) {
+            g = [a]
+          }),
+          d.always(function() {
+            ;(a[h] = i), g && f.isFunction(i) && a[h](g[0])
+          }),
+          (b.converters['script json'] = function() {
+            g || f.error(h + ' was not called')
+            return g[0]
+          }),
+          (b.dataTypes[0] = 'json')
+        return 'script'
+      }
+    }),
+    f.ajaxSetup({
+      accepts: {
+        script:
+          'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript'
+      },
+      contents: { script: /javascript|ecmascript/ },
+      converters: {
+        'text script'(a) {
+          f.globalEval(a)
+          return a
+        }
+      }
+    }),
+    f.ajaxPrefilter('script', function(a) {
+      a.cache === b && (a.cache = !1),
+        a.crossDomain && ((a.type = 'GET'), (a.global = !1))
+    }),
+    f.ajaxTransport('script', function(a) {
+      if (a.crossDomain) {
+        let d
+        const e =
+          c.head || c.getElementsByTagName('head')[0] || c.documentElement
+        return {
+          send(f, g) {
+            ;(d = c.createElement('script')),
+              (d.async = 'async'),
+              a.scriptCharset && (d.charset = a.scriptCharset),
+              (d.src = a.url),
+              (d.onload = d.onreadystatechange = function(a, c) {
+                if (c || !d.readyState || /loaded|complete/.test(d.readyState))
+                  (d.onload = d.onreadystatechange = null),
+                    e && d.parentNode && e.removeChild(d),
+                    (d = b),
+                    c || g(200, 'success')
+              }),
+              e.insertBefore(d, e.firstChild)
+          },
+          abort() {
+            d && d.onload(0, 1)
+          }
+        }
+      }
+    })
+  const ce = a.ActiveXObject
+    ? function() {
+        for (const a in cg) cg[a](0, 1)
+      }
+    : !1
+  let cf = 0
+  let cg
+  ;(f.ajaxSettings.xhr = a.ActiveXObject
+    ? function() {
+        return (!this.isLocal && ch()) || ci()
+      }
+    : ch),
+    (function(a) {
+      f.extend(f.support, { ajax: !!a, cors: !!a && 'withCredentials' in a })
+    })(f.ajaxSettings.xhr()),
+    f.support.ajax &&
+      f.ajaxTransport(function(c) {
+        if (!c.crossDomain || f.support.cors) {
+          let d
+          return {
+            send(e, g) {
+              const h = c.xhr()
+              let i
+              let j
+              c.username
+                ? h.open(c.type, c.url, c.async, c.username, c.password)
+                : h.open(c.type, c.url, c.async)
+              if (c.xhrFields) for (j in c.xhrFields) h[j] = c.xhrFields[j]
+              c.mimeType &&
+                h.overrideMimeType &&
+                h.overrideMimeType(c.mimeType),
+                !c.crossDomain &&
+                  !e['X-Requested-With'] &&
+                  (e['X-Requested-With'] = 'XMLHttpRequest')
+              try {
+                for (j in e) h.setRequestHeader(j, e[j])
+              } catch (k) {}
+              h.send((c.hasContent && c.data) || null),
+                (d = function(a, e) {
+                  let j, k, l, m, n
+                  try {
+                    if (d && (e || h.readyState === 4)) {
+                      ;(d = b),
+                        i &&
+                          ((h.onreadystatechange = f.noop), ce && delete cg[i])
+                      if (e) h.readyState !== 4 && h.abort()
+                      else {
+                        ;(j = h.status),
+                          (l = h.getAllResponseHeaders()),
+                          (m = {}),
+                          (n = h.responseXML),
+                          n && n.documentElement && (m.xml = n)
+                        try {
+                          m.text = h.responseText
+                        } catch (a) {}
+                        try {
+                          k = h.statusText
+                        } catch (o) {
+                          k = ''
+                        }
+                        !j && c.isLocal && !c.crossDomain
+                          ? (j = m.text ? 200 : 404)
+                          : j === 1223 && (j = 204)
+                      }
+                    }
+                  } catch (p) {
+                    e || g(-1, p)
+                  }
+                  m && g(j, k, m, l)
+                }),
+                !c.async || h.readyState === 4
+                  ? d()
+                  : ((i = ++cf),
+                    ce && (cg || ((cg = {}), f(a).unload(ce)), (cg[i] = d)),
+                    (h.onreadystatechange = d))
+            },
+            abort() {
+              d && d(0, 1)
+            }
+          }
+        }
+      })
+  var cj = {}
+  let ck
+  let cl
+  const cm = /^(?:toggle|show|hide)$/
+  const cn = /^([+\-]=)?([\d+.\-]+)([a-z%]*)$/i
+  let co
+  var cp = [
+    ['height', 'marginTop', 'marginBottom', 'paddingTop', 'paddingBottom'],
+    ['width', 'marginLeft', 'marginRight', 'paddingLeft', 'paddingRight'],
+    ['opacity']
+  ]
+  let cq
+  f.fn.extend({
+    show(a, b, c) {
+      let d, e
+      if (a || a === 0) return this.animate(ct('show', 3), a, b, c)
+      for (var g = 0, h = this.length; g < h; g++)
+        (d = this[g]),
+          d.style &&
+            ((e = d.style.display),
+            !f._data(d, 'olddisplay') &&
+              e === 'none' &&
+              (e = d.style.display = ''),
+            ((e === '' && f.css(d, 'display') === 'none') ||
+              !f.contains(d.ownerDocument.documentElement, d)) &&
+              f._data(d, 'olddisplay', cu(d.nodeName)))
+      for (g = 0; g < h; g++) {
+        d = this[g]
+        if (d.style) {
+          e = d.style.display
+          if (e === '' || e === 'none')
+            d.style.display = f._data(d, 'olddisplay') || ''
+        }
+      }
+      return this
+    },
+    hide(a, b, c) {
+      if (a || a === 0) return this.animate(ct('hide', 3), a, b, c)
+      let d
+      let e
+      let g = 0
+      const h = this.length
+      for (; g < h; g++)
+        (d = this[g]),
+          d.style &&
+            ((e = f.css(d, 'display')),
+            e !== 'none' &&
+              !f._data(d, 'olddisplay') &&
+              f._data(d, 'olddisplay', e))
+      for (g = 0; g < h; g++) this[g].style && (this[g].style.display = 'none')
+      return this
+    },
+    _toggle: f.fn.toggle,
+    toggle(a, b, c) {
+      const d = typeof a === 'boolean'
+      f.isFunction(a) && f.isFunction(b)
+        ? this._toggle.apply(this, arguments)
+        : a == null || d
+        ? this.each(function() {
+            const b = d ? a : f(this).is(':hidden')
+            f(this)[b ? 'show' : 'hide']()
+          })
+        : this.animate(ct('toggle', 3), a, b, c)
+      return this
+    },
+    fadeTo(a, b, c, d) {
+      return this.filter(':hidden')
+        .css('opacity', 0)
+        .show()
+        .end()
+        .animate({ opacity: b }, a, c, d)
+    },
+    animate(a, b, c, d) {
+      function g() {
+        e.queue === !1 && f._mark(this)
+        const b = f.extend({}, e)
+        const c = this.nodeType === 1
+        const d = c && f(this).is(':hidden')
+        let g
+        let h
+        let i
+        let j
+        let k
+        let l
+        let m
+        let n
+        let o
+        let p
+        let q
+        b.animatedProperties = {}
+        for (i in a) {
+          ;(g = f.camelCase(i)), i !== g && ((a[g] = a[i]), delete a[i])
+          if ((k = f.cssHooks[g]) && 'expand' in k) {
+            ;(l = k.expand(a[g])), delete a[g]
+            for (i in l) i in a || (a[i] = l[i])
+          }
+        }
+        for (g in a) {
+          ;(h = a[g]),
+            f.isArray(h)
+              ? ((b.animatedProperties[g] = h[1]), (h = a[g] = h[0]))
+              : (b.animatedProperties[g] =
+                  (b.specialEasing && b.specialEasing[g]) ||
+                  b.easing ||
+                  'swing')
+          if ((h === 'hide' && d) || (h === 'show' && !d))
+            return b.complete.call(this)
+          c &&
+            (g === 'height' || g === 'width') &&
+            ((b.overflow = [
+              this.style.overflow,
+              this.style.overflowX,
+              this.style.overflowY
+            ]),
+            f.css(this, 'display') === 'inline' &&
+              f.css(this, 'float') === 'none' &&
+              (!f.support.inlineBlockNeedsLayout ||
+              cu(this.nodeName) === 'inline'
+                ? (this.style.display = 'inline-block')
+                : (this.style.zoom = 1)))
+        }
+        b.overflow != null && (this.style.overflow = 'hidden')
+        for (i in a)
+          (j = new f.fx(this, b, i)),
+            (h = a[i]),
+            cm.test(h)
+              ? ((q =
+                  f._data(this, 'toggle' + i) ||
+                  (h === 'toggle' ? (d ? 'show' : 'hide') : 0)),
+                q
+                  ? (f._data(
+                      this,
+                      'toggle' + i,
+                      q === 'show' ? 'hide' : 'show'
+                    ),
+                    j[q]())
+                  : j[h]())
+              : ((m = cn.exec(h)),
+                (n = j.cur()),
+                m
+                  ? ((o = parseFloat(m[2])),
+                    (p = m[3] || (f.cssNumber[i] ? '' : 'px')),
+                    p !== 'px' &&
+                      (f.style(this, i, (o || 1) + p),
+                      (n = ((o || 1) / j.cur()) * n),
+                      f.style(this, i, n + p)),
+                    m[1] && (o = (m[1] === '-=' ? -1 : 1) * o + n),
+                    j.custom(n, o, p))
+                  : j.custom(n, h, ''))
+        return !0
+      }
+      var e = f.speed(b, c, d)
+      if (f.isEmptyObject(a)) return this.each(e.complete, [!1])
+      a = f.extend({}, a)
+      return e.queue === !1 ? this.each(g) : this.queue(e.queue, g)
+    },
+    stop(a, c, d) {
+      typeof a !== 'string' && ((d = c), (c = a), (a = b)),
+        c && a !== !1 && this.queue(a || 'fx', [])
+      return this.each(function() {
+        function h(a, b, c) {
+          const e = b[c]
+          f.removeData(a, c, !0), e.stop(d)
+        }
+        let b
+        let c = !1
+        const e = f.timers
+        const g = f._data(this)
+        d || f._unmark(!0, this)
+        if (a == null)
+          for (b in g)
+            g[b] &&
+              g[b].stop &&
+              b.indexOf('.run') === b.length - 4 &&
+              h(this, g, b)
+        else g[(b = a + '.run')] && g[b].stop && h(this, g, b)
+        for (b = e.length; b--; )
+          e[b].elem === this &&
+            (a == null || e[b].queue === a) &&
+            (d ? e[b](!0) : e[b].saveState(), (c = !0), e.splice(b, 1))
+        ;(!d || !c) && f.dequeue(this, a)
+      })
+    }
+  }),
+    f.each(
+      {
+        slideDown: ct('show', 1),
+        slideUp: ct('hide', 1),
+        slideToggle: ct('toggle', 1),
+        fadeIn: { opacity: 'show' },
+        fadeOut: { opacity: 'hide' },
+        fadeToggle: { opacity: 'toggle' }
+      },
+      function(a, b) {
+        f.fn[a] = function(a, c, d) {
+          return this.animate(b, a, c, d)
+        }
+      }
+    ),
+    f.extend({
+      speed(a, b, c) {
+        const d =
+          a && typeof a === 'object'
+            ? f.extend({}, a)
+            : {
+                complete: c || (!c && b) || (f.isFunction(a) && a),
+                duration: a,
+                easing: (c && b) || (b && !f.isFunction(b) && b)
+              }
+        d.duration = f.fx.off
+          ? 0
+          : typeof d.duration === 'number'
+          ? d.duration
+          : d.duration in f.fx.speeds
+          ? f.fx.speeds[d.duration]
+          : f.fx.speeds._default
+        if (d.queue == null || d.queue === !0) d.queue = 'fx'
+        ;(d.old = d.complete),
+          (d.complete = function(a) {
+            f.isFunction(d.old) && d.old.call(this),
+              d.queue ? f.dequeue(this, d.queue) : a !== !1 && f._unmark(this)
+          })
+        return d
+      },
+      easing: {
+        linear(a) {
+          return a
+        },
+        swing(a) {
+          return -Math.cos(a * Math.PI) / 2 + 0.5
+        }
+      },
+      timers: [],
+      fx(a, b, c) {
+        ;(this.options = b),
+          (this.elem = a),
+          (this.prop = c),
+          (b.orig = b.orig || {})
+      }
+    }),
+    (f.fx.prototype = {
+      update() {
+        this.options.step && this.options.step.call(this.elem, this.now, this),
+          (f.fx.step[this.prop] || f.fx.step._default)(this)
+      },
+      cur() {
+        if (
+          this.elem[this.prop] != null &&
+          (!this.elem.style || this.elem.style[this.prop] == null)
+        )
+          return this.elem[this.prop]
+        let a
+        const b = f.css(this.elem, this.prop)
+        return isNaN((a = parseFloat(b))) ? (!b || b === 'auto' ? 0 : b) : a
+      },
+      custom(a, c, d) {
+        function h(a) {
+          return e.step(a)
+        }
+        var e = this
+        const g = f.fx
+        ;(this.startTime = cq || cr()),
+          (this.end = c),
+          (this.now = this.start = a),
+          (this.pos = this.state = 0),
+          (this.unit = d || this.unit || (f.cssNumber[this.prop] ? '' : 'px')),
+          (h.queue = this.options.queue),
+          (h.elem = this.elem),
+          (h.saveState = function() {
+            f._data(e.elem, 'fxshow' + e.prop) === b &&
+              (e.options.hide
+                ? f._data(e.elem, 'fxshow' + e.prop, e.start)
+                : e.options.show && f._data(e.elem, 'fxshow' + e.prop, e.end))
+          }),
+          h() &&
+            f.timers.push(h) &&
+            !co &&
+            (co = setInterval(g.tick, g.interval))
+      },
+      show() {
+        const a = f._data(this.elem, 'fxshow' + this.prop)
+        ;(this.options.orig[this.prop] = a || f.style(this.elem, this.prop)),
+          (this.options.show = !0),
+          a !== b
+            ? this.custom(this.cur(), a)
+            : this.custom(
+                this.prop === 'width' || this.prop === 'height' ? 1 : 0,
+                this.cur()
+              ),
+          f(this.elem).show()
+      },
+      hide() {
+        ;(this.options.orig[this.prop] =
+          f._data(this.elem, 'fxshow' + this.prop) ||
+          f.style(this.elem, this.prop)),
+          (this.options.hide = !0),
+          this.custom(this.cur(), 0)
+      },
+      step(a) {
+        let b
+        let c
+        let d
+        const e = cq || cr()
+        let g = !0
+        const h = this.elem
+        const i = this.options
+        if (a || e >= i.duration + this.startTime) {
+          ;(this.now = this.end),
+            (this.pos = this.state = 1),
+            this.update(),
+            (i.animatedProperties[this.prop] = !0)
+          for (b in i.animatedProperties)
+            i.animatedProperties[b] !== !0 && (g = !1)
+          if (g) {
+            i.overflow != null &&
+              !f.support.shrinkWrapBlocks &&
+              f.each(['', 'X', 'Y'], function(a, b) {
+                h.style['overflow' + b] = i.overflow[a]
+              }),
+              i.hide && f(h).hide()
+            if (i.hide || i.show)
+              for (b in i.animatedProperties)
+                f.style(h, b, i.orig[b]),
+                  f.removeData(h, 'fxshow' + b, !0),
+                  f.removeData(h, 'toggle' + b, !0)
+            ;(d = i.complete), d && ((i.complete = !1), d.call(h))
+          }
+          return !1
+        }
+        i.duration == Infinity
+          ? (this.now = e)
+          : ((c = e - this.startTime),
+            (this.state = c / i.duration),
+            (this.pos = f.easing[i.animatedProperties[this.prop]](
+              this.state,
+              c,
+              0,
+              1,
+              i.duration
+            )),
+            (this.now = this.start + (this.end - this.start) * this.pos)),
+          this.update()
+        return !0
+      }
+    }),
+    f.extend(f.fx, {
+      tick() {
+        let a
+        const b = f.timers
+        let c = 0
+        for (; c < b.length; c++)
+          (a = b[c]), !a() && b[c] === a && b.splice(c--, 1)
+        b.length || f.fx.stop()
+      },
+      interval: 13,
+      stop() {
+        clearInterval(co), (co = null)
+      },
+      speeds: { slow: 600, fast: 200, _default: 400 },
+      step: {
+        opacity(a) {
+          f.style(a.elem, 'opacity', a.now)
+        },
+        _default(a) {
+          a.elem.style && a.elem.style[a.prop] != null
+            ? (a.elem.style[a.prop] = a.now + a.unit)
+            : (a.elem[a.prop] = a.now)
+        }
+      }
+    }),
+    f.each(cp.concat.apply([], cp), function(a, b) {
+      b.indexOf('margin') &&
+        (f.fx.step[b] = function(a) {
+          f.style(a.elem, b, Math.max(0, a.now) + a.unit)
+        })
+    }),
+    f.expr &&
+      f.expr.filters &&
+      (f.expr.filters.animated = function(a) {
+        return f.grep(f.timers, function(b) {
+          return a === b.elem
+        }).length
+      })
+  let cv
+  const cw = /^t(?:able|d|h)$/i
+  const cx = /^(?:body|html)$/i
+  'getBoundingClientRect' in c.documentElement
+    ? (cv = function(a, b, c, d) {
+        try {
+          d = a.getBoundingClientRect()
+        } catch (e) {}
+        if (!d || !f.contains(c, a))
+          return d ? { top: d.top, left: d.left } : { top: 0, left: 0 }
+        const g = b.body
+        const h = cy(b)
+        const i = c.clientTop || g.clientTop || 0
+        const j = c.clientLeft || g.clientLeft || 0
+        const k =
+          h.pageYOffset || (f.support.boxModel && c.scrollTop) || g.scrollTop
+        const l =
+          h.pageXOffset || (f.support.boxModel && c.scrollLeft) || g.scrollLeft
+        const m = d.top + k - i
+        const n = d.left + l - j
+        return { top: m, left: n }
+      })
+    : (cv = function(a, b, c) {
+        let d
+        let e = a.offsetParent
+        let g = a
+        const h = b.body
+        const i = b.defaultView
+        let j = i ? i.getComputedStyle(a, null) : a.currentStyle
+        let k = a.offsetTop
+        let l = a.offsetLeft
+        while ((a = a.parentNode) && a !== h && a !== c) {
+          if (f.support.fixedPosition && j.position === 'fixed') break
+          ;(d = i ? i.getComputedStyle(a, null) : a.currentStyle),
+            (k -= a.scrollTop),
+            (l -= a.scrollLeft),
+            a === e &&
+              ((k += a.offsetTop),
+              (l += a.offsetLeft),
+              f.support.doesNotAddBorder &&
+                (!f.support.doesAddBorderForTableAndCells ||
+                  !cw.test(a.nodeName)) &&
+                ((k += parseFloat(d.borderTopWidth) || 0),
+                (l += parseFloat(d.borderLeftWidth) || 0)),
+              (g = e),
+              (e = a.offsetParent)),
+            f.support.subtractsBorderForOverflowNotVisible &&
+              d.overflow !== 'visible' &&
+              ((k += parseFloat(d.borderTopWidth) || 0),
+              (l += parseFloat(d.borderLeftWidth) || 0)),
+            (j = d)
+        }
+        if (j.position === 'relative' || j.position === 'static')
+          (k += h.offsetTop), (l += h.offsetLeft)
+        f.support.fixedPosition &&
+          j.position === 'fixed' &&
+          ((k += Math.max(c.scrollTop, h.scrollTop)),
+          (l += Math.max(c.scrollLeft, h.scrollLeft)))
+        return { top: k, left: l }
+      }),
+    (f.fn.offset = function(a) {
+      if (arguments.length)
+        return a === b
+          ? this
+          : this.each(function(b) {
+              f.offset.setOffset(this, a, b)
+            })
+      const c = this[0]
+      const d = c && c.ownerDocument
+      if (!d) return null
+      if (c === d.body) return f.offset.bodyOffset(c)
+      return cv(c, d, d.documentElement)
+    }),
+    (f.offset = {
+      bodyOffset(a) {
+        let b = a.offsetTop
+        let c = a.offsetLeft
+        f.support.doesNotIncludeMarginInBodyOffset &&
+          ((b += parseFloat(f.css(a, 'marginTop')) || 0),
+          (c += parseFloat(f.css(a, 'marginLeft')) || 0))
+        return { top: b, left: c }
+      },
+      setOffset(a, b, c) {
+        const d = f.css(a, 'position')
+        d === 'static' && (a.style.position = 'relative')
+        const e = f(a)
+        const g = e.offset()
+        const h = f.css(a, 'top')
+        const i = f.css(a, 'left')
+        const j =
+          (d === 'absolute' || d === 'fixed') && f.inArray('auto', [h, i]) > -1
+        const k = {}
+        let l = {}
+        let m
+        let n
+        j
+          ? ((l = e.position()), (m = l.top), (n = l.left))
+          : ((m = parseFloat(h) || 0), (n = parseFloat(i) || 0)),
+          f.isFunction(b) && (b = b.call(a, c, g)),
+          b.top != null && (k.top = b.top - g.top + m),
+          b.left != null && (k.left = b.left - g.left + n),
+          'using' in b ? b.using.call(a, k) : e.css(k)
+      }
+    }),
+    f.fn.extend({
+      position() {
+        if (!this[0]) return null
+        const a = this[0]
+        const b = this.offsetParent()
+        const c = this.offset()
+        const d = cx.test(b[0].nodeName) ? { top: 0, left: 0 } : b.offset()
+        ;(c.top -= parseFloat(f.css(a, 'marginTop')) || 0),
+          (c.left -= parseFloat(f.css(a, 'marginLeft')) || 0),
+          (d.top += parseFloat(f.css(b[0], 'borderTopWidth')) || 0),
+          (d.left += parseFloat(f.css(b[0], 'borderLeftWidth')) || 0)
+        return { top: c.top - d.top, left: c.left - d.left }
+      },
+      offsetParent() {
+        return this.map(function() {
+          let a = this.offsetParent || c.body
+          while (a && !cx.test(a.nodeName) && f.css(a, 'position') === 'static')
+            a = a.offsetParent
+          return a
+        })
+      }
+    }),
+    f.each({ scrollLeft: 'pageXOffset', scrollTop: 'pageYOffset' }, function(
+      a,
+      c
+    ) {
+      const d = /Y/.test(c)
+      f.fn[a] = function(e) {
+        return f.access(
+          this,
+          function(a, e, g) {
+            const h = cy(a)
+            if (g === b)
+              return h
+                ? c in h
+                  ? h[c]
+                  : (f.support.boxModel && h.document.documentElement[e]) ||
+                    h.document.body[e]
+                : a[e]
+            h
+              ? h.scrollTo(d ? f(h).scrollLeft() : g, d ? g : f(h).scrollTop())
+              : (a[e] = g)
+          },
+          a,
+          e,
+          arguments.length,
+          null
+        )
+      }
+    }),
+    f.each({ Height: 'height', Width: 'width' }, function(a, c) {
+      const d = 'client' + a
+      const e = 'scroll' + a
+      const g = 'offset' + a
+      ;(f.fn['inner' + a] = function() {
+        const a = this[0]
+        return a
+          ? a.style
+            ? parseFloat(f.css(a, c, 'padding'))
+            : this[c]()
+          : null
+      }),
+        (f.fn['outer' + a] = function(a) {
+          const b = this[0]
+          return b
+            ? b.style
+              ? parseFloat(f.css(b, c, a ? 'margin' : 'border'))
+              : this[c]()
+            : null
+        }),
+        (f.fn[c] = function(a) {
+          return f.access(
+            this,
+            function(a, c, h) {
+              let i, j, k, l
+              if (f.isWindow(a)) {
+                ;(i = a.document), (j = i.documentElement[d])
+                return (f.support.boxModel && j) || (i.body && i.body[d]) || j
+              }
+              if (a.nodeType === 9) {
+                i = a.documentElement
+                if (i[d] >= i[e]) return i[d]
+                return Math.max(a.body[e], i[e], a.body[g], i[g])
+              }
+              if (h === b) {
+                ;(k = f.css(a, c)), (l = parseFloat(k))
+                return f.isNumeric(l) ? l : k
+              }
+              f(a).css(c, h)
+            },
+            c,
+            a,
+            arguments.length,
+            null
+          )
+        })
+    }),
+    (a.jQuery = a.$ = f),
+    typeof define === 'function' &&
+      define.amd &&
+      define.amd.jQuery &&
+      define('jquery', [], function() {
+        return f
+      })
+})(window)

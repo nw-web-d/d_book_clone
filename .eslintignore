@@ -1,0 +1,5 @@
+static/sw.js
+assets/js/dnp/
+.nuxt/
+.firebase/
+.github/
