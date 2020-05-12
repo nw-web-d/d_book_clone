@@ -4,7 +4,7 @@
     <div id="footerArea" class="pbFooterArea">
       <div id="area4" class="pbArea pbAreaDisabled">
         <div class="pbNested">
-          <div class="pbNested pbNestedWrapper" id="pbBlock2641111">
+          <div id="pbBlock2641111" class="pbNested pbNestedWrapper">
             <div
               class="stHeader stFixed stPadding"
               style="display: none; top: -90px;"
@@ -22,16 +22,16 @@
                 <div class="stHdBlock02">
                   <div class="stHdWordSch">
                     <form
-                      action="https://honto.jp/ebook/search.html"
                       id="dy_moduke_stSearchForm"
+                      action="https://honto.jp/ebook/search.html"
                       method="get"
                       onsubmit="searchBox(&#39;dy_moduke_&#39;, &#39;https://honto.jp/ebook/search.html&#39;, &#39;ip_hb_hs_01&#39;, 1); return false;"
                     >
                       <input
+                        id="stSearchTbtySlideIn"
                         type="hidden"
                         name="tbty"
                         value="0"
-                        id="stSearchTbtySlideIn"
                       />
                       <fieldset>
                         <legend>サイト内検索</legend>
@@ -70,13 +70,13 @@
                         <!-- .stBanner-->
                       </fieldset>
                       <input
-                        type="hidden"
                         id="dy_moduke_stGenre"
+                        type="hidden"
                         name="gnrcd"
                       />
                       <input
-                        type="hidden"
                         id="dy_moduke_stSearchGenre"
+                        type="hidden"
                         name="srchGnrNm"
                       />
                       <input type="hidden" name="srchf" value="1" />
@@ -250,9 +250,9 @@
             </div>
           </div>
 
-          <div class="pbNested pbNestedWrapper" id="pbBlock2641101">
+          <div id="pbBlock2641101" class="pbNested pbNestedWrapper">
             <div class="pbNested stFooter">
-              <div class="pbNested pbNestedWrapper" id="pbBlock2641103">
+              <div id="pbBlock2641103" class="pbNested pbNestedWrapper">
                 <div class="stFooterInfo02">
                   <div class="stBlockInner">
                     <dl>
@@ -263,22 +263,22 @@
                       </dt>
                       <dd id="newsTitle[0]">
                         <a
-                          href="https://honto.jp/info/detail_041000043768.html"
                           id="newsLinkUrl[0]"
+                          href="https://honto.jp/info/detail_041000043768.html"
                           >新型コロナウイルス感染症の拡大に伴うお客様へのお知らせ</a
                         >
                       </dd>
                       <dd id="newsTitle[1]">
                         <a
-                          href="https://honto.jp/info/detail_041000043763.html"
                           id="newsLinkUrl[1]"
+                          href="https://honto.jp/info/detail_041000043763.html"
                           >新型コロナウイルス感染拡大防止に伴う電話サポート一時休止のお知らせ</a
                         >
                       </dd>
                       <dd id="newsTitle[2]">
                         <a
-                          href="https://honto.jp/info/detail_041000043573.html"
                           id="newsLinkUrl[2]"
+                          href="https://honto.jp/info/detail_041000043573.html"
                           >【丸善・ジュンク堂書店×hontoブックツリー】「人生100年時代に活かす・ビジネスに活かす
                           立ち止まる人のための教養」18店舗で実施！</a
                         >
@@ -289,7 +289,7 @@
                   <!-- /.stFooterInfo02-->
                 </div>
               </div>
-              <div class="pbNested pbNestedWrapper" id="pbBlock2641104">
+              <div id="pbBlock2641104" class="pbNested pbNestedWrapper">
                 <div class="stFooterInfo03">
                   <a href="https://honto.jp/"><p class="stLogo">honto</p></a>
                   <div class="stBlockInner">
@@ -707,14 +707,14 @@
                   <!-- /stFooterInfo05-->
                 </div>
                 <input
-                  type="hidden"
                   id="dy_footerPageBlockId"
+                  type="hidden"
                   value="2641104"
                 />
 
                 <div
-                  class="stFloatingBanner01 stHide"
                   id="dy_MigrationFloatingBanner"
+                  class="stFloatingBanner01 stHide"
                 >
                   <a
                     class="stFloatingBanner01__close"
@@ -759,10 +759,10 @@
                   </div>
                 </div>
               </div>
-              <div class="pbNested pbNestedWrapper" id="pbBlock2641105">
+              <div id="pbBlock2641105" class="pbNested pbNestedWrapper">
                 <!-- Empty block -->
               </div>
-              <div class="pbNested pbNestedWrapper" id="pbBlock2641106">
+              <div id="pbBlock2641106" class="pbNested pbNestedWrapper">
                 <script type="text/javascript">
                   <!--
                   /**

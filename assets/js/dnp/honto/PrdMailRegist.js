@@ -12,7 +12,7 @@ var prdMailRegistAjax = {
   /** 商品ID **/
   productId: '',
 
-  /** リクエストタイプ（メールを登録する, メール登録を解除する）*/
+  /** リクエストタイプ（メールを登録する, メール登録を解除する） */
   requestType: '',
 
   /** セレクタ **/
@@ -28,7 +28,7 @@ var prdMailRegistAjax = {
    * @param productId 商品ID
    * @param requestType リクエストタイプ
    */
-  _init: function(pageBlockId, productId, requestType) {
+  _init(pageBlockId, productId, requestType) {
     this.pageBlockId = pageBlockId
     this.productId = productId
     this.requestType = requestType
@@ -45,7 +45,7 @@ var prdMailRegistAjax = {
    * @param productId 商品ID
    * @param requestType リクエストタイプ
    */
-  add: function(pageBlockId, productId, requestType) {
+  add(pageBlockId, productId, requestType) {
     if (!HC.isSubmitted) {
       // 多重実行を防止
       HC.isSubmitted = true
@@ -70,9 +70,9 @@ var prdMailRegistAjax = {
    *
    * @param json APIからのレスポンス
    */
-  complete: function(json) {
-    var rewriteElements = prdMailRegistAjax.buttonClone.children()
-    var rewriteHtmlParts = [
+  complete(json) {
+    const rewriteElements = prdMailRegistAjax.buttonClone.children()
+    const rewriteHtmlParts = [
       {
         requestType: 'ebkReqExec',
         text: 'メールを登録する',
@@ -85,10 +85,10 @@ var prdMailRegistAjax = {
       }
     ]
 
-    var regExp = new RegExp(rewriteHtmlParts[0].text)
-    var rewriteHtmlIndex = rewriteElements.text().match(regExp) ? 1 : 0
+    const regExp = new RegExp(rewriteHtmlParts[0].text)
+    const rewriteHtmlIndex = rewriteElements.text().match(regExp) ? 1 : 0
 
-    var removeClassIndex = rewriteHtmlIndex == 0 ? 1 : 0
+    const removeClassIndex = rewriteHtmlIndex == 0 ? 1 : 0
     rewriteElements.removeClass(rewriteHtmlParts[removeClassIndex].classAttr)
     rewriteElements.addClass(rewriteHtmlParts[rewriteHtmlIndex].classAttr)
 
@@ -115,24 +115,24 @@ var prdMailRegistAjax = {
    * @param textStatus エラー内容("timeout", "error", "notmodified", "parsererror"など)
    * @param errorThrown 補足的な例外オブジェクト
    */
-  error: function(xhr, textStatus, errorThrown) {
+  error(xhr, textStatus, errorThrown) {
     // 現在のURLについているパラメータを付加
-    var newParameters = []
-    var parameters = window.location.search.substring(1).split('&')
-    for (var i = 0; i < parameters.length; i++) {
+    const newParameters = []
+    const parameters = window.location.search.substring(1).split('&')
+    for (let i = 0; i < parameters.length; i++) {
       if (!parameters[i].match(/^(prdid=|ebkReqExec=|ebkReqCancel=)/)) {
         newParameters.push(parameters[i])
       }
     }
 
-    var linkUrl =
+    let linkUrl =
       window.location.pathname + '?prdid=' + prdMailRegistAjax.productId
     if (newParameters.length > 0) {
       linkUrl = linkUrl + '&' + newParameters.join('&')
     }
 
     // リダイレクトされた場合、リダイレクト先URLを取得できないため自画面遷移
-    var formElement = jQuery('#form_id_dy_ReqEbkBtn')
+    const formElement = jQuery('#form_id_dy_ReqEbkBtn')
     formElement.attr('action', linkUrl)
     formElement.submit()
   }

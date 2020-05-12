@@ -127,9 +127,9 @@
                     <!-- Cart -->
                     <div class="col-xl-6 col-lg-7 col-sm-6 col-12">
                       <div
-                        class="a-row a-spacing-base"
                         v-for="product in getCart"
                         :key="product._id"
+                        class="a-row a-spacing-base"
                       >
                         <div class="row">
                           <!-- Product's photo -->
@@ -414,7 +414,7 @@ export default {
   layout: 'none',
   async asyncData({ $axios, store }) {
     try {
-      let response = await $axios.$post('/v2/common/shipment', {
+      const response = await $axios.$post('/v2/common/shipment', {
         shipment: 'normal'
       })
       store.commit('setShipping', {
@@ -438,8 +438,8 @@ export default {
   methods: {
     async onChooseShipping(shipment) {
       try {
-        let response = await this.$axios.$post('/v2/common/shipment', {
-          shipment: shipment
+        const response = await this.$axios.$post('/v2/common/shipment', {
+          shipment
         })
         this.$store.commit('setShipping', {
           shippingPrice: response.shipment.price,

@@ -1,9 +1,9 @@
 function VcLp() {
   function l(a) {
-    var d = document.URL.match(/[?&]vc_lpp=([^&]+)/)
-    if (null == d) p(void 0, a)
+    let d = document.URL.match(/[?&]vc_lpp=([^&]+)/)
+    if (d == null) p(void 0, a)
     else {
-      var e = d[1]
+      let e = d[1]
       d = ''
       try {
         for (var f = '', b = 0, h = e.length; b < h; b += 4) {
@@ -37,11 +37,11 @@ function VcLp() {
       for (e = 0; e < h; e++)
         a: {
           f = d[e]
-          var m = a
+          let m = a
           b = f.split('&')
-          if (!(5 > b.length)) {
-            var g = 1,
-              k = 2
+          if (!(b.length < 5)) {
+            let g = 1
+            let k = 2
             c = 3
             b[0].match(/^[1-9]$/) && ((g = 2), (k = 3), (c = 4), (f = b[5]))
             g = parseInt(b[g], 16)
@@ -61,14 +61,14 @@ function VcLp() {
               }
               k = document.domain.split('.')
               g = k.length
-              if (3 <= g) {
+              if (g >= 3) {
                 var l = '.' + k[g - 3] + '.' + k[g - 2] + '.' + k[g - 1]
                 q(m, c, 'l', f, l)
               }
-              2 <= g &&
+              g >= 2 &&
                 ((l = '.' + k[g - 2] + '.' + k[g - 1]), q(m, c, 'l', f, l))
-              'undefined' != typeof localStorage &&
-                null != localStorage &&
+              typeof localStorage !== 'undefined' &&
+                localStorage != null &&
                 localStorage.setItem('_vc_lsc_' + m, 'ls' + f + '&' + b)
             }
           }
@@ -76,10 +76,10 @@ function VcLp() {
     }
   }
   function p(a, d) {
-    if ('undefined' != typeof a) {
-      var e =
-        'undefined' !== typeof a ? '?p=' + encodeURIComponent(a) + '&' : '?'
-      'undefined' !== typeof d && (e += 'vf=' + encodeURIComponent(d) + '&')
+    if (typeof a !== 'undefined') {
+      let e =
+        typeof a !== 'undefined' ? '?p=' + encodeURIComponent(a) + '&' : '?'
+      typeof d !== 'undefined' && (e += 'vf=' + encodeURIComponent(d) + '&')
       e += '_s=' + encodeURIComponent(document.URL) + '&_rand=' + Math.random()
       e = 'https://b.imgvc.com/l' + e
       document.createElement('img').src = e
@@ -90,17 +90,17 @@ function VcLp() {
       '_vc_citi_' + a + '=' + e + f + '; expires=' + d + '; path=/; domain=' + b
   }
   function n(a) {
-    if (65 <= a && 90 >= a) return a - 65
-    if (97 <= a && 122 >= a) return a - 97 + 26
-    if (48 <= a && 57 >= a) return a - 48 + 52
-    if (45 == a) return 62
-    if (95 == a) return 63
-    throw Error('unvalid char')
+    if (a >= 65 && a <= 90) return a - 65
+    if (a >= 97 && a <= 122) return a - 97 + 26
+    if (a >= 48 && a <= 57) return a - 48 + 52
+    if (a == 45) return 62
+    if (a == 95) return 63
+    throw new Error('unvalid char')
   }
   this.finishLoad = function() {
-    var a = document.createElement('img'),
-      d = document.createElement('canvas')
-    a.addEventListener && 'undefined' != typeof d
+    const a = document.createElement('img')
+    const d = document.createElement('canvas')
+    a.addEventListener && typeof d !== 'undefined'
       ? (a.addEventListener(
           'load',
           function() {
@@ -108,7 +108,7 @@ function VcLp() {
               d.width = a.naturalWidth
               d.height = a.naturalHeight
               d.getContext('2d').drawImage(a, 0, 0)
-              var e = d.toDataURL('image/png')
+              const e = d.toDataURL('image/png')
               l(e.replace(/^data:image\/(png|jpg);base64,/, ''))
             } catch (f) {
               l(void 0)
@@ -123,15 +123,15 @@ function VcLp() {
       : l(void 0)
   }
 }
-if ('undefined' == typeof vclpObj) {
+if (typeof vclpObj === 'undefined') {
   var vclpObj = new VcLp()
   if (document.addEventListener)
-    'loading' != document.readyState
+    document.readyState != 'loading'
       ? vclpObj.finishLoad()
       : document.addEventListener('DOMContentLoaded', vclpObj.finishLoad, !1)
   else if (document.attachEvent) {
     var CheckReadyState = function() {
-      'complete' == document.readyState &&
+      document.readyState == 'complete' &&
         (document.detachEvent('onreadystatechange', CheckReadyState),
         vclpObj.finishLoad())
     }

@@ -3,15 +3,15 @@
  * Build: rev-646dbb2
  * Terms: https://firebase.google.com/terms/
  */
-var firebase = (function() {
+const firebase = (function() {
   var e = void 0 === e ? self : e
   return (function(t) {
     function r(e) {
       if (o[e]) return o[e].exports
-      var n = (o[e] = { i: e, l: !1, exports: {} })
+      const n = (o[e] = { i: e, l: !1, exports: {} })
       return t[e].call(n.exports, n, n.exports, r), (n.l = !0), n.exports
     }
-    var n = e.webpackJsonpFirebase
+    const n = e.webpackJsonpFirebase
     e.webpackJsonpFirebase = function(e, o, a) {
       for (var c, s, u, f = 0, l = []; f < e.length; f++)
         (s = e[f]), i[s] && l.push(i[s][0]), (i[s] = 0)
@@ -20,29 +20,29 @@ var firebase = (function() {
       if (a) for (f = 0; f < a.length; f++) u = r((r.s = a[f]))
       return u
     }
-    var o = {},
-      i = { 5: 0 }
+    var o = {}
+    var i = { 5: 0 }
     return (
       (r.e = function(e) {
         function t() {
           ;(c.onerror = c.onload = null), clearTimeout(s)
-          var t = i[e]
-          0 !== t &&
+          const t = i[e]
+          t !== 0 &&
             (t && t[1](Error('Loading chunk ' + e + ' failed.')),
             (i[e] = void 0))
         }
-        var n = i[e]
-        if (0 === n)
+        let n = i[e]
+        if (n === 0)
           return new Promise(function(e) {
             e()
           })
         if (n) return n[2]
-        var o = new Promise(function(t, r) {
+        const o = new Promise(function(t, r) {
           n = i[e] = [t, r]
         })
         n[2] = o
-        var a = document.getElementsByTagName('head')[0],
-          c = document.createElement('script')
+        const a = document.getElementsByTagName('head')[0]
+        var c = document.createElement('script')
         ;(c.type = 'text/javascript'),
           (c.charset = 'utf-8'),
           (c.async = !0),
@@ -63,7 +63,7 @@ var firebase = (function() {
           })
       }),
       (r.n = function(e) {
-        var t =
+        const t =
           e && e.__esModule
             ? function() {
                 return e.default
@@ -86,7 +86,7 @@ var firebase = (function() {
     function(e, t, r) {
       'use strict'
       function n(e) {
-        for (var r in e) t.hasOwnProperty(r) || (t[r] = e[r])
+        for (const r in e) t.hasOwnProperty(r) || (t[r] = e[r])
       }
       Object.defineProperty(t, '__esModule', { value: !0 }),
         n(r(27)),
@@ -122,10 +122,10 @@ var firebase = (function() {
         function r(e, t) {
           void 0 === t
             ? (t = c)
-            : ('string' == typeof t && '' !== t) ||
+            : (typeof t === 'string' && t !== '') ||
               o('bad-app-name', { name: t + '' }),
             a(d, t) && o('duplicate-app', { name: t })
-          var r = new u(e, t, b)
+          const r = new u(e, t, b)
           return (d[t] = r), h(r, 'create'), r
         }
         function s() {
@@ -141,10 +141,10 @@ var firebase = (function() {
               s().forEach(function(e) {
                 a('create', e)
               }))
-          var f = function(r) {
+          const f = function(r) {
             return (
               void 0 === r && (r = t()),
-              'function' != typeof r[e] &&
+              typeof r[e] !== 'function' &&
                 o('invalid-app-argument', { name: e }),
               r[e]()
             )
@@ -165,38 +165,38 @@ var firebase = (function() {
         }
         function h(e, t) {
           Object.keys(v).forEach(function(r) {
-            var n = p(e, r)
-            null !== n && y[n] && y[n](t, e)
+            const n = p(e, r)
+            n !== null && y[n] && y[n](t, e)
           })
         }
         function p(e, t) {
-          if ('serverAuth' === t) return null
-          var r = t
+          if (t === 'serverAuth') return null
+          const r = t
           return e.options, r
         }
-        var d = {},
-          v = {},
-          y = {},
-          b = {
-            __esModule: !0,
-            initializeApp: r,
-            app: t,
-            apps: null,
-            Promise: Promise,
-            SDK_VERSION: '4.5.2',
-            INTERNAL: {
-              registerService: f,
-              createFirebaseNamespace: n,
-              extendNamespace: l,
-              createSubscribe: i.createSubscribe,
-              ErrorFactory: i.ErrorFactory,
-              removeApp: e,
-              factories: v,
-              useAsService: p,
-              Promise: Promise,
-              deepExtend: i.deepExtend
-            }
+        var d = {}
+        var v = {}
+        var y = {}
+        var b = {
+          __esModule: !0,
+          initializeApp: r,
+          app: t,
+          apps: null,
+          Promise,
+          SDK_VERSION: '4.5.2',
+          INTERNAL: {
+            registerService: f,
+            createFirebaseNamespace: n,
+            extendNamespace: l,
+            createSubscribe: i.createSubscribe,
+            ErrorFactory: i.ErrorFactory,
+            removeApp: e,
+            factories: v,
+            useAsService: p,
+            Promise,
+            deepExtend: i.deepExtend
           }
+        }
         return (
           Object(i.patchProperty)(b, 'default', b),
           Object.defineProperty(b, 'apps', { get: s }),
@@ -208,129 +208,129 @@ var firebase = (function() {
         throw l.create(e, t)
       }
       Object.defineProperty(t, '__esModule', { value: !0 })
-      var i = r(0),
-        a = function(e, t) {
-          return Object.prototype.hasOwnProperty.call(e, t)
-        },
-        c = '[DEFAULT]',
-        s = [],
-        u = (function() {
-          function e(e, t, r) {
-            ;(this.r = r),
-              (this.a = !1),
-              (this.u = {}),
-              (this.f = t),
-              (this.h = Object(i.deepCopy)(e)),
-              (this.INTERNAL = {
-                getUid: function() {
-                  return null
-                },
-                getToken: function() {
-                  return Promise.resolve(null)
-                },
-                addAuthTokenListener: function(e) {
-                  s.push(e),
-                    setTimeout(function() {
-                      return e(null)
-                    }, 0)
-                },
-                removeAuthTokenListener: function(e) {
-                  s = s.filter(function(t) {
-                    return t !== e
-                  })
-                }
-              })
-          }
-          return (
-            Object.defineProperty(e.prototype, 'name', {
-              get: function() {
-                return this.v(), this.f
+      var i = r(0)
+      var a = function(e, t) {
+        return Object.prototype.hasOwnProperty.call(e, t)
+      }
+      var c = '[DEFAULT]'
+      let s = []
+      var u = (function() {
+        function e(e, t, r) {
+          ;(this.r = r),
+            (this.a = !1),
+            (this.u = {}),
+            (this.f = t),
+            (this.h = Object(i.deepCopy)(e)),
+            (this.INTERNAL = {
+              getUid() {
+                return null
               },
-              enumerable: !0,
-              configurable: !0
-            }),
-            Object.defineProperty(e.prototype, 'options', {
-              get: function() {
-                return this.v(), this.h
+              getToken() {
+                return Promise.resolve(null)
               },
-              enumerable: !0,
-              configurable: !0
-            }),
-            (e.prototype.delete = function() {
-              var e = this
-              return new Promise(function(t) {
-                e.v(), t()
-              })
-                .then(function() {
-                  e.r.INTERNAL.removeApp(e.f)
-                  var t = []
-                  return (
-                    Object.keys(e.u).forEach(function(r) {
-                      Object.keys(e.u[r]).forEach(function(n) {
-                        t.push(e.u[r][n])
-                      })
-                    }),
-                    Promise.all(
-                      t.map(function(e) {
-                        return e.INTERNAL.delete()
-                      })
-                    )
-                  )
+              addAuthTokenListener(e) {
+                s.push(e),
+                  setTimeout(function() {
+                    return e(null)
+                  }, 0)
+              },
+              removeAuthTokenListener(e) {
+                s = s.filter(function(t) {
+                  return t !== e
                 })
-                .then(function() {
-                  ;(e.a = !0), (e.u = {})
-                })
-            }),
-            (e.prototype.t = function(e, t) {
-              if (
-                (void 0 === t && (t = c),
-                this.v(),
-                this.u[e] || (this.u[e] = {}),
-                !this.u[e][t])
-              ) {
-                var r = t !== c ? t : void 0,
-                  n = this.r.INTERNAL.factories[e](
-                    this,
-                    this.extendApp.bind(this),
-                    r
-                  )
-                this.u[e][t] = n
               }
-              return this.u[e][t]
-            }),
-            (e.prototype.extendApp = function(e) {
-              var t = this
-              Object(i.deepExtend)(this, e),
-                e.INTERNAL &&
-                  e.INTERNAL.addAuthTokenListener &&
-                  (s.forEach(function(e) {
-                    t.INTERNAL.addAuthTokenListener(e)
+            })
+        }
+        return (
+          Object.defineProperty(e.prototype, 'name', {
+            get() {
+              return this.v(), this.f
+            },
+            enumerable: !0,
+            configurable: !0
+          }),
+          Object.defineProperty(e.prototype, 'options', {
+            get() {
+              return this.v(), this.h
+            },
+            enumerable: !0,
+            configurable: !0
+          }),
+          (e.prototype.delete = function() {
+            const e = this
+            return new Promise(function(t) {
+              e.v(), t()
+            })
+              .then(function() {
+                e.r.INTERNAL.removeApp(e.f)
+                const t = []
+                return (
+                  Object.keys(e.u).forEach(function(r) {
+                    Object.keys(e.u[r]).forEach(function(n) {
+                      t.push(e.u[r][n])
+                    })
                   }),
-                  (s = []))
-            }),
-            (e.prototype.v = function() {
-              this.a && o('app-deleted', { name: this.f })
-            }),
-            e
-          )
-        })()
+                  Promise.all(
+                    t.map(function(e) {
+                      return e.INTERNAL.delete()
+                    })
+                  )
+                )
+              })
+              .then(function() {
+                ;(e.a = !0), (e.u = {})
+              })
+          }),
+          (e.prototype.t = function(e, t) {
+            if (
+              (void 0 === t && (t = c),
+              this.v(),
+              this.u[e] || (this.u[e] = {}),
+              !this.u[e][t])
+            ) {
+              const r = t !== c ? t : void 0
+              const n = this.r.INTERNAL.factories[e](
+                this,
+                this.extendApp.bind(this),
+                r
+              )
+              this.u[e][t] = n
+            }
+            return this.u[e][t]
+          }),
+          (e.prototype.extendApp = function(e) {
+            const t = this
+            Object(i.deepExtend)(this, e),
+              e.INTERNAL &&
+                e.INTERNAL.addAuthTokenListener &&
+                (s.forEach(function(e) {
+                  t.INTERNAL.addAuthTokenListener(e)
+                }),
+                (s = []))
+          }),
+          (e.prototype.v = function() {
+            this.a && o('app-deleted', { name: this.f })
+          }),
+          e
+        )
+      })()
       ;(u.prototype.name && u.prototype.options) ||
         u.prototype.delete ||
         console.log('dc')
-      var f = {
-          'no-app':
-            "No Firebase App '{$name}' has been created - call Firebase App.initializeApp()",
-          'bad-app-name': "Illegal App name: '{$name}",
-          'duplicate-app': "Firebase App named '{$name}' already exists",
-          'app-deleted': "Firebase App named '{$name}' already deleted",
-          'duplicate-service':
-            "Firebase service named '{$name}' already registered",
-          'sa-not-supported':
-            'Initializing the Firebase SDK with a service account is only allowed in a Node.js environment. On client devices, you should instead initialize the SDK with an api key and auth domain',
-          'invalid-app-argument':
-            'firebase.{$name}() takes either no argument or a Firebase App instance.'
-        },
-        l = new i.ErrorFactory('app', 'Firebase', f)
+      const f = {
+        'no-app':
+          "No Firebase App '{$name}' has been created - call Firebase App.initializeApp()",
+        'bad-app-name': "Illegal App name: '{$name}",
+        'duplicate-app': "Firebase App named '{$name}' already exists",
+        'app-deleted': "Firebase App named '{$name}' already deleted",
+        'duplicate-service':
+          "Firebase service named '{$name}' already registered",
+        'sa-not-supported':
+          'Initializing the Firebase SDK with a service account is only allowed in a Node.js environment. On client devices, you should instead initialize the SDK with an api key and auth domain',
+        'invalid-app-argument':
+          'firebase.{$name}() takes either no argument or a Firebase App instance.'
+      }
+      var l = new i.ErrorFactory('app', 'Firebase', f)
       r.d(t, 'firebase', function() {
         return h
       })
@@ -350,14 +350,14 @@ var firebase = (function() {
     ,
     ,
     function(t, r) {
-      var n
+      let n
       n = (function() {
         return this
       })()
       try {
         n = n || Function('return this')() || (0, eval)('this')
       } catch (t) {
-        'object' == typeof e && (n = e)
+        typeof e === 'object' && (n = e)
       }
       t.exports = n
     },
@@ -377,10 +377,10 @@ var firebase = (function() {
     ,
     function(e, t) {
       function r() {
-        throw Error('setTimeout has not been defined')
+        throw new Error('setTimeout has not been defined')
       }
       function n() {
-        throw Error('clearTimeout has not been defined')
+        throw new Error('clearTimeout has not been defined')
       }
       function o(e) {
         if (f === setTimeout) return setTimeout(e, 0)
@@ -417,9 +417,9 @@ var firebase = (function() {
       }
       function c() {
         if (!v) {
-          var e = o(a)
+          const e = o(a)
           v = !0
-          for (var t = d.length; t; ) {
+          for (let t = d.length; t; ) {
             for (p = d, d = []; ++y < t; ) p && p[y].run()
             ;(y = -1), (t = d.length)
           }
@@ -430,30 +430,30 @@ var firebase = (function() {
         ;(this.fun = e), (this.array = t)
       }
       function u() {}
-      var f,
-        l,
-        h = (e.exports = {})
+      let f
+      let l
+      const h = (e.exports = {})
       !(function() {
         try {
-          f = 'function' == typeof setTimeout ? setTimeout : r
+          f = typeof setTimeout === 'function' ? setTimeout : r
         } catch (e) {
           f = r
         }
         try {
-          l = 'function' == typeof clearTimeout ? clearTimeout : n
+          l = typeof clearTimeout === 'function' ? clearTimeout : n
         } catch (e) {
           l = n
         }
       })()
-      var p,
-        d = [],
-        v = !1,
-        y = -1
+      let p
+      var d = []
+      var v = !1
+      var y = -1
       ;(h.nextTick = function(e) {
-        var t = Array(arguments.length - 1)
+        const t = Array(arguments.length - 1)
         if (arguments.length > 1)
-          for (var r = 1; r < arguments.length; r++) t[r - 1] = arguments[r]
-        d.push(new s(e, t)), 1 !== d.length || v || o(c)
+          for (let r = 1; r < arguments.length; r++) t[r - 1] = arguments[r]
+        d.push(new s(e, t)), d.length !== 1 || v || o(c)
       }),
         (s.prototype.run = function() {
           this.fun.apply(null, this.array)
@@ -477,13 +477,13 @@ var firebase = (function() {
           return []
         }),
         (h.binding = function(e) {
-          throw Error('process.binding is not supported')
+          throw new Error('process.binding is not supported')
         }),
         (h.cwd = function() {
           return '/'
         }),
         (h.chdir = function(e) {
-          throw Error('process.chdir is not supported')
+          throw new Error('process.chdir is not supported')
         }),
         (h.umask = function() {
           return 0
@@ -492,7 +492,7 @@ var firebase = (function() {
     function(e, t, r) {
       'use strict'
       Object.defineProperty(t, '__esModule', { value: !0 })
-      var n = r(20)
+      const n = r(20)
       ;(t.assert = function(e, r) {
         if (!e) throw t.assertionError(r)
       }),
@@ -508,22 +508,21 @@ var firebase = (function() {
     function(e, t, r) {
       'use strict'
       Object.defineProperty(t, '__esModule', { value: !0 })
-      var n = function(e) {
-          for (var t = [], r = 0, n = 0; n < e.length; n++) {
-            for (var o = e.charCodeAt(n); o > 255; )
-              (t[r++] = 255 & o), (o >>= 8)
-            t[r++] = o
-          }
-          return t
-        },
-        o = function(e) {
-          if (e.length < 8192) return String.fromCharCode.apply(null, e)
-          for (var t = '', r = 0; r < e.length; r += 8192) {
-            var n = e.slice(r, r + 8192)
-            t += String.fromCharCode.apply(null, n)
-          }
-          return t
+      const n = function(e) {
+        for (var t = [], r = 0, n = 0; n < e.length; n++) {
+          for (var o = e.charCodeAt(n); o > 255; ) (t[r++] = 255 & o), (o >>= 8)
+          t[r++] = o
         }
+        return t
+      }
+      const o = function(e) {
+        if (e.length < 8192) return String.fromCharCode.apply(null, e)
+        for (var t = '', r = 0; r < e.length; r += 8192) {
+          const n = e.slice(r, r + 8192)
+          t += String.fromCharCode.apply(null, n)
+        }
+        return t
+      }
       ;(t.base64 = {
         y: null,
         b: null,
@@ -537,68 +536,68 @@ var firebase = (function() {
         get ENCODED_VALS_WEBSAFE() {
           return this.ENCODED_VALS_BASE + '-_.'
         },
-        HAS_NATIVE_SUPPORT: 'function' == typeof atob,
-        encodeByteArray: function(e, t) {
+        HAS_NATIVE_SUPPORT: typeof atob === 'function',
+        encodeByteArray(e, t) {
           if (!Array.isArray(e))
-            throw Error('encodeByteArray takes an array as a parameter')
+            throw new Error('encodeByteArray takes an array as a parameter')
           this.O()
           for (
             var r = t ? this._ : this.y, n = [], o = 0;
             o < e.length;
             o += 3
           ) {
-            var i = e[o],
-              a = o + 1 < e.length,
-              c = a ? e[o + 1] : 0,
-              s = o + 2 < e.length,
-              u = s ? e[o + 2] : 0,
-              f = i >> 2,
-              l = ((3 & i) << 4) | (c >> 4),
-              h = ((15 & c) << 2) | (u >> 6),
-              p = 63 & u
+            const i = e[o]
+            const a = o + 1 < e.length
+            const c = a ? e[o + 1] : 0
+            const s = o + 2 < e.length
+            const u = s ? e[o + 2] : 0
+            const f = i >> 2
+            const l = ((3 & i) << 4) | (c >> 4)
+            let h = ((15 & c) << 2) | (u >> 6)
+            let p = 63 & u
             s || ((p = 64), a || (h = 64)), n.push(r[f], r[l], r[h], r[p])
           }
           return n.join('')
         },
-        encodeString: function(e, t) {
+        encodeString(e, t) {
           return this.HAS_NATIVE_SUPPORT && !t
             ? btoa(e)
             : this.encodeByteArray(n(e), t)
         },
-        decodeString: function(e, t) {
+        decodeString(e, t) {
           return this.HAS_NATIVE_SUPPORT && !t
             ? atob(e)
             : o(this.decodeStringToByteArray(e, t))
         },
-        decodeStringToByteArray: function(e, t) {
+        decodeStringToByteArray(e, t) {
           this.O()
           for (var r = t ? this.g : this.b, n = [], o = 0; o < e.length; ) {
-            var i = r[e.charAt(o++)],
-              a = o < e.length,
-              c = a ? r[e.charAt(o)] : 0
+            const i = r[e.charAt(o++)]
+            const a = o < e.length
+            const c = a ? r[e.charAt(o)] : 0
             ++o
-            var s = o < e.length,
-              u = s ? r[e.charAt(o)] : 64
+            const s = o < e.length
+            const u = s ? r[e.charAt(o)] : 64
             ++o
-            var f = o < e.length,
-              l = f ? r[e.charAt(o)] : 64
-            if ((++o, null == i || null == c || null == u || null == l))
-              throw Error()
-            var h = (i << 2) | (c >> 4)
-            if ((n.push(h), 64 != u)) {
-              var p = ((c << 4) & 240) | (u >> 2)
-              if ((n.push(p), 64 != l)) {
-                var d = ((u << 6) & 192) | l
+            const f = o < e.length
+            const l = f ? r[e.charAt(o)] : 64
+            if ((++o, i == null || c == null || u == null || l == null))
+              throw new Error()
+            const h = (i << 2) | (c >> 4)
+            if ((n.push(h), u != 64)) {
+              const p = ((c << 4) & 240) | (u >> 2)
+              if ((n.push(p), l != 64)) {
+                const d = ((u << 6) & 192) | l
                 n.push(d)
               }
             }
           }
           return n
         },
-        O: function() {
+        O() {
           if (!this.y) {
             ;(this.y = {}), (this.b = {}), (this._ = {}), (this.g = {})
-            for (var e = 0; e < this.ENCODED_VALS.length; e++)
+            for (let e = 0; e < this.ENCODED_VALS.length; e++)
               (this.y[e] = this.ENCODED_VALS.charAt(e)),
                 (this.b[this.y[e]] = e),
                 (this._[e] = this.ENCODED_VALS_WEBSAFE.charAt(e)),
@@ -610,7 +609,7 @@ var firebase = (function() {
         }
       }),
         (t.base64Encode = function(e) {
-          var r = n(e)
+          const r = n(e)
           return t.base64.encodeByteArray(r, !0)
         }),
         (t.base64Decode = function(e) {
@@ -644,7 +643,7 @@ var firebase = (function() {
           if (Object.prototype.hasOwnProperty.call(e, t)) return e[t]
         }),
         (t.forEach = function(e, t) {
-          for (var r in e)
+          for (const r in e)
             Object.prototype.hasOwnProperty.call(e, r) && t(r, e[r])
         }),
         (t.extend = function(e, r) {
@@ -659,40 +658,40 @@ var firebase = (function() {
           return t.extend({}, e)
         }),
         (t.isNonNullObject = function(e) {
-          return 'object' == typeof e && null !== e
+          return typeof e === 'object' && e !== null
         }),
         (t.isEmpty = function(e) {
-          for (var t in e) return !1
+          for (const t in e) return !1
           return !0
         }),
         (t.getCount = function(e) {
-          var t = 0
-          for (var r in e) t++
+          let t = 0
+          for (const r in e) t++
           return t
         }),
         (t.map = function(e, t, r) {
-          var n = {}
-          for (var o in e) n[o] = t.call(r, e[o], o, e)
+          const n = {}
+          for (const o in e) n[o] = t.call(r, e[o], o, e)
           return n
         }),
         (t.findKey = function(e, t, r) {
-          for (var n in e) if (t.call(r, e[n], n, e)) return n
+          for (const n in e) if (t.call(r, e[n], n, e)) return n
         }),
         (t.findValue = function(e, r, n) {
-          var o = t.findKey(e, r, n)
+          const o = t.findKey(e, r, n)
           return o && e[o]
         }),
         (t.getAnyKey = function(e) {
-          for (var t in e) return t
+          for (const t in e) return t
         }),
         (t.getValues = function(e) {
-          var t = [],
-            r = 0
-          for (var n in e) t[r++] = e[n]
+          const t = []
+          let r = 0
+          for (const n in e) t[r++] = e[n]
           return t
         }),
         (t.every = function(e, t) {
-          for (var r in e)
+          for (const r in e)
             if (Object.prototype.hasOwnProperty.call(e, r) && !t(r, e[r]))
               return !1
           return !0
@@ -729,20 +728,20 @@ var firebase = (function() {
     function(e, t, r) {
       'use strict'
       Object.defineProperty(t, '__esModule', { value: !0 })
-      var n = r(58),
-        o = (r.n(n), r(62)),
-        i = (r.n(o), r(63))
+      const n = r(58)
+      const o = (r.n(n), r(62))
+      const i = (r.n(o), r(63))
       r.n(i)
     },
     function(t, r, n) {
       ;(function(t) {
-        var r = (function() {
+        const r = (function() {
           if (void 0 !== t) return t
           if (void 0 !== e) return e
-          if ('undefined' != typeof self) return self
-          throw Error('unable to locate global object')
+          if (typeof self !== 'undefined') return self
+          throw new Error('unable to locate global object')
         })()
-        'undefined' == typeof Promise && (r.Promise = Promise = n(59))
+        typeof Promise === 'undefined' && (r.Promise = Promise = n(59))
       }.call(r, n(19)))
     },
     function(e, t, r) {
@@ -755,9 +754,9 @@ var firebase = (function() {
             }
           }
           function i(e) {
-            if ('object' != typeof this)
+            if (typeof this !== 'object')
               throw new TypeError('Promises must be constructed via new')
-            if ('function' != typeof e) throw new TypeError('not a function')
+            if (typeof e !== 'function') throw new TypeError('not a function')
             ;(this.T = 0),
               (this.A = !1),
               (this.j = void 0),
@@ -765,13 +764,13 @@ var firebase = (function() {
               l(e, this)
           }
           function a(e, t) {
-            for (; 3 === e.T; ) e = e.j
-            if (0 === e.T) return void e.w.push(t)
+            for (; e.T === 3; ) e = e.j
+            if (e.T === 0) return void e.w.push(t)
             ;(e.A = !0),
               i.S(function() {
-                var r = 1 === e.T ? t.onFulfilled : t.onRejected
-                if (null === r) return void (1 === e.T ? c : s)(t.promise, e.j)
-                var n
+                const r = e.T === 1 ? t.onFulfilled : t.onRejected
+                if (r === null) return void (e.T === 1 ? c : s)(t.promise, e.j)
+                let n
                 try {
                   n = r(e.j)
                 } catch (e) {
@@ -784,10 +783,10 @@ var firebase = (function() {
             try {
               if (t === e)
                 throw new TypeError('A promise cannot be resolved with itself.')
-              if (t && ('object' == typeof t || 'function' == typeof t)) {
-                var r = t.then
+              if (t && (typeof t === 'object' || typeof t === 'function')) {
+                const r = t.then
                 if (t instanceof i) return (e.T = 3), (e.j = t), void u(e)
-                if ('function' == typeof r) return void l(o(r, t), e)
+                if (typeof r === 'function') return void l(o(r, t), e)
               }
               ;(e.T = 1), (e.j = t), u(e)
             } catch (t) {
@@ -798,21 +797,21 @@ var firebase = (function() {
             ;(e.T = 2), (e.j = t), u(e)
           }
           function u(e) {
-            2 === e.T &&
-              0 === e.w.length &&
+            e.T === 2 &&
+              e.w.length === 0 &&
               i.S(function() {
                 e.A || i.P(e.j)
               })
-            for (var t = 0, r = e.w.length; t < r; t++) a(e, e.w[t])
+            for (let t = 0, r = e.w.length; t < r; t++) a(e, e.w[t])
             e.w = null
           }
           function f(e, t, r) {
-            ;(this.onFulfilled = 'function' == typeof e ? e : null),
-              (this.onRejected = 'function' == typeof t ? t : null),
+            ;(this.onFulfilled = typeof e === 'function' ? e : null),
+              (this.onRejected = typeof t === 'function' ? t : null),
               (this.promise = r)
           }
           function l(e, t) {
-            var r = !1
+            let r = !1
             try {
               e(
                 function(e) {
@@ -827,22 +826,25 @@ var firebase = (function() {
               ;(r = !0), s(t, e)
             }
           }
-          var h = setTimeout
+          const h = setTimeout
           ;(i.prototype.catch = function(e) {
             return this.then(null, e)
           }),
             (i.prototype.then = function(e, t) {
-              var r = new this.constructor(n)
+              const r = new this.constructor(n)
               return a(this, new f(e, t, r)), r
             }),
             (i.all = function(e) {
-              var t = Array.prototype.slice.call(e)
+              const t = Array.prototype.slice.call(e)
               return new i(function(e, r) {
                 function n(i, a) {
                   try {
-                    if (a && ('object' == typeof a || 'function' == typeof a)) {
-                      var c = a.then
-                      if ('function' == typeof c)
+                    if (
+                      a &&
+                      (typeof a === 'object' || typeof a === 'function')
+                    ) {
+                      const c = a.then
+                      if (typeof c === 'function')
                         return void c.call(
                           a,
                           function(e) {
@@ -851,17 +853,17 @@ var firebase = (function() {
                           r
                         )
                     }
-                    ;(t[i] = a), 0 == --o && e(t)
+                    ;(t[i] = a), --o == 0 && e(t)
                   } catch (e) {
                     r(e)
                   }
                 }
-                if (0 === t.length) return e([])
+                if (t.length === 0) return e([])
                 for (var o = t.length, i = 0; i < t.length; i++) n(i, t[i])
               })
             }),
             (i.resolve = function(e) {
-              return e && 'object' == typeof e && e.constructor === i
+              return e && typeof e === 'object' && e.constructor === i
                 ? e
                 : new i(function(t) {
                     t(e)
@@ -874,11 +876,11 @@ var firebase = (function() {
             }),
             (i.race = function(e) {
               return new i(function(t, r) {
-                for (var n = 0, o = e.length; n < o; n++) e[n].then(t, r)
+                for (let n = 0, o = e.length; n < o; n++) e[n].then(t, r)
               })
             }),
             (i.S =
-              ('function' == typeof t &&
+              (typeof t === 'function' &&
                 function(e) {
                   t(e)
                 }) ||
@@ -886,7 +888,7 @@ var firebase = (function() {
                 h(e, 0)
               }),
             (i.P = function(e) {
-              'undefined' != typeof console &&
+              typeof console !== 'undefined' &&
                 console &&
                 console.warn('Possible Unhandled Promise Rejection:', e)
             }),
@@ -906,7 +908,7 @@ var firebase = (function() {
       function o(e, t) {
         ;(this.k = e), (this.M = t)
       }
-      var i = Function.prototype.apply
+      const i = Function.prototype.apply
       ;(r.setTimeout = function() {
         return new o(i.call(setTimeout, e, arguments), clearTimeout)
       }),
@@ -928,7 +930,7 @@ var firebase = (function() {
         }),
         (r.x = r.active = function(e) {
           clearTimeout(e.D)
-          var t = e.I
+          const t = e.I
           t >= 0 &&
             (e.D = setTimeout(function() {
               e.F && e.F()
@@ -943,18 +945,18 @@ var firebase = (function() {
         !(function(e, r) {
           'use strict'
           function n(e) {
-            'function' != typeof e && (e = Function('' + e))
+            typeof e !== 'function' && (e = Function('' + e))
             for (var t = Array(arguments.length - 1), r = 0; r < t.length; r++)
               t[r] = arguments[r + 1]
-            var n = { callback: e, args: t }
+            const n = { callback: e, args: t }
             return (u[s] = n), c(s), s++
           }
           function o(e) {
             delete u[e]
           }
           function i(e) {
-            var t = e.callback,
-              n = e.args
+            const t = e.callback
+            const n = e.args
             switch (n.length) {
               case 0:
                 t()
@@ -975,7 +977,7 @@ var firebase = (function() {
           function a(e) {
             if (f) setTimeout(a, 0, e)
             else {
-              var t = u[e]
+              const t = u[e]
               if (t) {
                 f = !0
                 try {
@@ -987,14 +989,14 @@ var firebase = (function() {
             }
           }
           if (!e.setImmediate) {
-            var c,
-              s = 1,
-              u = {},
-              f = !1,
-              l = e.document,
-              h = Object.getPrototypeOf && Object.getPrototypeOf(e)
+            var c
+            var s = 1
+            var u = {}
+            var f = !1
+            const l = e.document
+            let h = Object.getPrototypeOf && Object.getPrototypeOf(e)
             ;(h = h && h.setTimeout ? h : e),
-              '[object process]' === {}.toString.call(e.process)
+              {}.toString.call(e.process) === '[object process]'
                 ? (function() {
                     c = function(e) {
                       t.nextTick(function() {
@@ -1004,8 +1006,8 @@ var firebase = (function() {
                   })()
                 : (function() {
                     if (e.postMessage && !e.importScripts) {
-                      var t = !0,
-                        r = e.onmessage
+                      let t = !0
+                      const r = e.onmessage
                       return (
                         (e.onmessage = function() {
                           t = !1
@@ -1017,13 +1019,13 @@ var firebase = (function() {
                     }
                   })()
                 ? (function() {
-                    var t = 'setImmediate$' + Math.random() + '$',
-                      r = function(r) {
-                        r.source === e &&
-                          'string' == typeof r.data &&
-                          0 === r.data.indexOf(t) &&
-                          a(+r.data.slice(t.length))
-                      }
+                    const t = 'setImmediate$' + Math.random() + '$'
+                    const r = function(r) {
+                      r.source === e &&
+                        typeof r.data === 'string' &&
+                        r.data.indexOf(t) === 0 &&
+                        a(+r.data.slice(t.length))
+                    }
                     e.addEventListener
                       ? e.addEventListener('message', r, !1)
                       : e.attachEvent('onmessage', r),
@@ -1033,7 +1035,7 @@ var firebase = (function() {
                   })()
                 : e.MessageChannel
                 ? (function() {
-                    var e = new MessageChannel()
+                    const e = new MessageChannel()
                     ;(e.port1.onmessage = function(e) {
                       a(e.data)
                     }),
@@ -1043,9 +1045,9 @@ var firebase = (function() {
                   })()
                 : l && 'onreadystatechange' in l.createElement('script')
                 ? (function() {
-                    var e = l.documentElement
+                    const e = l.documentElement
                     c = function(t) {
-                      var r = l.createElement('script')
+                      let r = l.createElement('script')
                       ;(r.onreadystatechange = function() {
                         a(t),
                           (r.onreadystatechange = null),
@@ -1063,21 +1065,21 @@ var firebase = (function() {
               (h.setImmediate = n),
               (h.clearImmediate = o)
           }
-        })('undefined' == typeof self ? (void 0 === e ? this : e) : self)
+        })(typeof self === 'undefined' ? (void 0 === e ? this : e) : self)
       }.call(t, r(19), r(26)))
     },
     function(e, t) {
       Array.prototype.find ||
         Object.defineProperty(Array.prototype, 'find', {
-          value: function(e) {
-            if (null == this)
+          value(e) {
+            if (this == null)
               throw new TypeError('"this" is null or not defined')
-            var t = Object(this),
-              r = t.length >>> 0
-            if ('function' != typeof e)
+            const t = Object(this)
+            const r = t.length >>> 0
+            if (typeof e !== 'function')
               throw new TypeError('predicate must be a function')
-            for (var n = arguments[1], o = 0; o < r; ) {
-              var i = t[o]
+            for (let n = arguments[1], o = 0; o < r; ) {
+              const i = t[o]
               if (e.call(n, i, o, t)) return i
               o++
             }
@@ -1087,15 +1089,15 @@ var firebase = (function() {
     function(e, t) {
       Array.prototype.findIndex ||
         Object.defineProperty(Array.prototype, 'findIndex', {
-          value: function(e) {
-            if (null == this)
+          value(e) {
+            if (this == null)
               throw new TypeError('"this" is null or not defined')
-            var t = Object(this),
-              r = t.length >>> 0
-            if ('function' != typeof e)
+            const t = Object(this)
+            const r = t.length >>> 0
+            if (typeof e !== 'function')
               throw new TypeError('predicate must be a function')
-            for (var n = arguments[1], o = 0; o < r; ) {
-              var i = t[o]
+            for (let n = arguments[1], o = 0; o < r; ) {
+              const i = t[o]
               if (e.call(n, i, o, t)) return o
               o++
             }
@@ -1123,7 +1125,7 @@ var firebase = (function() {
           default:
             return t
         }
-        for (var n in t) t.hasOwnProperty(n) && (e[n] = o(e[n], t[n]))
+        for (const n in t) t.hasOwnProperty(n) && (e[n] = o(e[n], t[n]))
         return e
       }
       function i(e, t, r) {
@@ -1137,21 +1139,21 @@ var firebase = (function() {
     function(e, t, r) {
       'use strict'
       Object.defineProperty(t, '__esModule', { value: !0 })
-      var n = (function() {
+      const n = (function() {
         function e() {
-          var e = this
+          const e = this
           this.promise = new Promise(function(t, r) {
             ;(e.resolve = t), (e.reject = r)
           })
         }
         return (
           (e.prototype.wrapCallback = function(e) {
-            var t = this
+            const t = this
             return function(r, n) {
               r ? t.reject(r) : t.resolve(n),
-                'function' == typeof e &&
+                typeof e === 'function' &&
                   (t.promise.catch(function() {}),
-                  1 === e.length ? e(r) : e(r, n))
+                  e.length === 1 ? e(r) : e(r, n))
             }
           }),
           e
@@ -1162,10 +1164,10 @@ var firebase = (function() {
     function(t, r, n) {
       'use strict'
       Object.defineProperty(r, '__esModule', { value: !0 })
-      var o = n(20)
+      const o = n(20)
       ;(r.getUA = function() {
-        return 'undefined' != typeof navigator &&
-          'string' == typeof navigator.userAgent
+        return typeof navigator !== 'undefined' &&
+          typeof navigator.userAgent === 'string'
           ? navigator.userAgent
           : ''
       }),
@@ -1178,7 +1180,7 @@ var firebase = (function() {
         }),
         (r.isReactNative = function() {
           return (
-            'object' == typeof navigator && 'ReactNative' === navigator.product
+            typeof navigator === 'object' && navigator.product === 'ReactNative'
           )
         }),
         (r.isNodeSdk = function() {
@@ -1188,22 +1190,22 @@ var firebase = (function() {
     function(e, t, r) {
       'use strict'
       function n(e) {
-        var t = i
+        const t = i
         return (i = e), t
       }
       Object.defineProperty(t, '__esModule', { value: !0 })
-      var o = 'FirebaseError',
-        i = Error.captureStackTrace
+      const o = 'FirebaseError'
+      var i = Error.captureStackTrace
       t.patchCapture = n
-      var a = (function() {
+      const a = (function() {
         function e(e, t) {
           if (((this.code = e), (this.message = t), i))
             i(this, c.prototype.create)
           else {
-            var r = Error.apply(this, arguments)
+            const r = Error.apply(this, arguments)
             ;(this.name = o),
               Object.defineProperty(this, 'stack', {
-                get: function() {
+                get() {
                   return r.stack
                 }
               })
@@ -1225,20 +1227,20 @@ var firebase = (function() {
         return (
           (e.prototype.create = function(e, t) {
             void 0 === t && (t = {})
-            var r,
-              n = this.errors[e],
-              o = this.service + '/' + e
+            let r
+            const n = this.errors[e]
+            const o = this.service + '/' + e
             ;(r =
               void 0 === n
                 ? 'Error'
                 : n.replace(this.pattern, function(e, r) {
-                    var n = t[r]
+                    const n = t[r]
                     return void 0 !== n ? '' + n : '<' + r + '?>'
                   })),
               (r = this.serviceName + ': ' + r + ' (' + o + ').')
-            var i = new a(o, r)
-            for (var c in t)
-              t.hasOwnProperty(c) && '_' !== c.slice(-1) && (i[c] = t[c])
+            const i = new a(o, r)
+            for (const c in t)
+              t.hasOwnProperty(c) && c.slice(-1) !== '_' && (i[c] = t[c])
             return i
           }),
           e
@@ -1249,15 +1251,15 @@ var firebase = (function() {
     function(e, t, r) {
       'use strict'
       Object.defineProperty(t, '__esModule', { value: !0 })
-      var n = r(28),
-        o = r(29)
+      const n = r(28)
+      const o = r(29)
       ;(t.decode = function(e) {
-        var t = {},
-          r = {},
-          i = {},
-          a = ''
+        let t = {}
+        let r = {}
+        let i = {}
+        let a = ''
         try {
-          var c = e.split('.')
+          const c = e.split('.')
           ;(t = o.jsonEval(n.base64Decode(c[0]) || '')),
             (r = o.jsonEval(n.base64Decode(c[1]) || '')),
             (a = c[2]),
@@ -1267,12 +1269,12 @@ var firebase = (function() {
         return { header: t, claims: r, data: i, signature: a }
       }),
         (t.isValidTimestamp = function(e) {
-          var r,
-            n,
-            o = t.decode(e).claims,
-            i = Math.floor(new Date().getTime() / 1e3)
+          let r
+          let n
+          const o = t.decode(e).claims
+          const i = Math.floor(new Date().getTime() / 1e3)
           return (
-            'object' == typeof o &&
+            typeof o === 'object' &&
               (o.hasOwnProperty('nbf')
                 ? (r = o.nbf)
                 : o.hasOwnProperty('iat') && (r = o.iat),
@@ -1281,30 +1283,30 @@ var firebase = (function() {
           )
         }),
         (t.issuedAtTime = function(e) {
-          var r = t.decode(e).claims
-          return 'object' == typeof r && r.hasOwnProperty('iat') ? r.iat : null
+          const r = t.decode(e).claims
+          return typeof r === 'object' && r.hasOwnProperty('iat') ? r.iat : null
         }),
         (t.isValidFormat = function(e) {
-          var r = t.decode(e),
-            n = r.claims
+          const r = t.decode(e)
+          const n = r.claims
           return (
             !!r.signature &&
             !!n &&
-            'object' == typeof n &&
+            typeof n === 'object' &&
             n.hasOwnProperty('iat')
           )
         }),
         (t.isAdmin = function(e) {
-          var r = t.decode(e).claims
-          return 'object' == typeof r && !0 === r.admin
+          const r = t.decode(e).claims
+          return typeof r === 'object' && !0 === r.admin
         })
     },
     function(e, t, r) {
       'use strict'
       Object.defineProperty(t, '__esModule', { value: !0 })
-      var n = r(30)
+      const n = r(30)
       ;(t.querystring = function(e) {
-        var t = []
+        const t = []
         return (
           n.forEach(e, function(e, r) {
             Array.isArray(r)
@@ -1317,14 +1319,14 @@ var firebase = (function() {
         )
       }),
         (t.querystringDecode = function(e) {
-          var t = {}
+          const t = {}
           return (
             e
               .replace(/^\?/, '')
               .split('&')
               .forEach(function(e) {
                 if (e) {
-                  var r = e.split('=')
+                  const r = e.split('=')
                   t[r[0]] = r[1]
                 }
               }),
@@ -1334,17 +1336,17 @@ var firebase = (function() {
     },
     function(e, t, r) {
       'use strict'
-      var n =
+      const n =
         (this && this.__extends) ||
         (function() {
-          var e =
+          const e =
             Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array &&
+            (Array.isArray({ __proto__: [] }) &&
               function(e, t) {
                 e.__proto__ = t
               }) ||
             function(e, t) {
-              for (var r in t) t.hasOwnProperty(r) && (e[r] = t[r])
+              for (const r in t) t.hasOwnProperty(r) && (e[r] = t[r])
             }
           return function(t, r) {
             function n() {
@@ -1352,148 +1354,140 @@ var firebase = (function() {
             }
             e(t, r),
               (t.prototype =
-                null === r
+                r === null
                   ? Object.create(r)
                   : ((n.prototype = r.prototype), new n()))
           }
         })()
       Object.defineProperty(t, '__esModule', { value: !0 })
-      var o = r(71),
-        i = (function(e) {
-          function t() {
-            var t = e.call(this) || this
-            ;(t.L = []),
-              (t.R = []),
-              (t.B = []),
-              (t.V = []),
-              (t.z = 0),
-              (t.W = 0),
-              (t.blockSize = 64),
-              (t.V[0] = 128)
-            for (var r = 1; r < t.blockSize; ++r) t.V[r] = 0
-            return t.reset(), t
-          }
-          return (
-            n(t, e),
-            (t.prototype.reset = function() {
-              ;(this.L[0] = 1732584193),
-                (this.L[1] = 4023233417),
-                (this.L[2] = 2562383102),
-                (this.L[3] = 271733878),
-                (this.L[4] = 3285377520),
-                (this.z = 0),
-                (this.W = 0)
-            }),
-            (t.prototype.U = function(e, t) {
-              t || (t = 0)
-              var r = this.B
-              if ('string' == typeof e)
-                for (var n = 0; n < 16; n++)
-                  (r[n] =
-                    (e.charCodeAt(t) << 24) |
-                    (e.charCodeAt(t + 1) << 16) |
-                    (e.charCodeAt(t + 2) << 8) |
-                    e.charCodeAt(t + 3)),
-                    (t += 4)
-              else
-                for (var n = 0; n < 16; n++)
-                  (r[n] =
-                    (e[t] << 24) |
-                    (e[t + 1] << 16) |
-                    (e[t + 2] << 8) |
-                    e[t + 3]),
-                    (t += 4)
-              for (var n = 16; n < 80; n++) {
-                var o = r[n - 3] ^ r[n - 8] ^ r[n - 14] ^ r[n - 16]
-                r[n] = 4294967295 & ((o << 1) | (o >>> 31))
-              }
+      const o = r(71)
+      const i = (function(e) {
+        function t() {
+          const t = e.call(this) || this
+          ;(t.L = []),
+            (t.R = []),
+            (t.B = []),
+            (t.V = []),
+            (t.z = 0),
+            (t.W = 0),
+            (t.blockSize = 64),
+            (t.V[0] = 128)
+          for (let r = 1; r < t.blockSize; ++r) t.V[r] = 0
+          return t.reset(), t
+        }
+        return (
+          n(t, e),
+          (t.prototype.reset = function() {
+            ;(this.L[0] = 1732584193),
+              (this.L[1] = 4023233417),
+              (this.L[2] = 2562383102),
+              (this.L[3] = 271733878),
+              (this.L[4] = 3285377520),
+              (this.z = 0),
+              (this.W = 0)
+          }),
+          (t.prototype.U = function(e, t) {
+            t || (t = 0)
+            const r = this.B
+            if (typeof e === 'string')
+              for (var n = 0; n < 16; n++)
+                (r[n] =
+                  (e.charCodeAt(t) << 24) |
+                  (e.charCodeAt(t + 1) << 16) |
+                  (e.charCodeAt(t + 2) << 8) |
+                  e.charCodeAt(t + 3)),
+                  (t += 4)
+            else
+              for (var n = 0; n < 16; n++)
+                (r[n] =
+                  (e[t] << 24) | (e[t + 1] << 16) | (e[t + 2] << 8) | e[t + 3]),
+                  (t += 4)
+            for (var n = 16; n < 80; n++) {
+              var o = r[n - 3] ^ r[n - 8] ^ r[n - 14] ^ r[n - 16]
+              r[n] = 4294967295 & ((o << 1) | (o >>> 31))
+            }
+            for (
+              var i,
+                a,
+                c = this.L[0],
+                s = this.L[1],
+                u = this.L[2],
+                f = this.L[3],
+                l = this.L[4],
+                n = 0;
+              n < 80;
+              n++
+            ) {
+              n < 40
+                ? n < 20
+                  ? ((i = f ^ (s & (u ^ f))), (a = 1518500249))
+                  : ((i = s ^ u ^ f), (a = 1859775393))
+                : n < 60
+                ? ((i = (s & u) | (f & (s | u))), (a = 2400959708))
+                : ((i = s ^ u ^ f), (a = 3395469782))
+              var o = (((c << 5) | (c >>> 27)) + i + l + a + r[n]) & 4294967295
+              ;(l = f),
+                (f = u),
+                (u = 4294967295 & ((s << 30) | (s >>> 2))),
+                (s = c),
+                (c = o)
+            }
+            ;(this.L[0] = (this.L[0] + c) & 4294967295),
+              (this.L[1] = (this.L[1] + s) & 4294967295),
+              (this.L[2] = (this.L[2] + u) & 4294967295),
+              (this.L[3] = (this.L[3] + f) & 4294967295),
+              (this.L[4] = (this.L[4] + l) & 4294967295)
+          }),
+          (t.prototype.update = function(e, t) {
+            if (e != null) {
+              void 0 === t && (t = e.length)
               for (
-                var i,
-                  a,
-                  c = this.L[0],
-                  s = this.L[1],
-                  u = this.L[2],
-                  f = this.L[3],
-                  l = this.L[4],
-                  n = 0;
-                n < 80;
-                n++
-              ) {
-                n < 40
-                  ? n < 20
-                    ? ((i = f ^ (s & (u ^ f))), (a = 1518500249))
-                    : ((i = s ^ u ^ f), (a = 1859775393))
-                  : n < 60
-                  ? ((i = (s & u) | (f & (s | u))), (a = 2400959708))
-                  : ((i = s ^ u ^ f), (a = 3395469782))
-                var o =
-                  (((c << 5) | (c >>> 27)) + i + l + a + r[n]) & 4294967295
-                ;(l = f),
-                  (f = u),
-                  (u = 4294967295 & ((s << 30) | (s >>> 2))),
-                  (s = c),
-                  (c = o)
-              }
-              ;(this.L[0] = (this.L[0] + c) & 4294967295),
-                (this.L[1] = (this.L[1] + s) & 4294967295),
-                (this.L[2] = (this.L[2] + u) & 4294967295),
-                (this.L[3] = (this.L[3] + f) & 4294967295),
-                (this.L[4] = (this.L[4] + l) & 4294967295)
-            }),
-            (t.prototype.update = function(e, t) {
-              if (null != e) {
-                void 0 === t && (t = e.length)
-                for (
-                  var r = t - this.blockSize, n = 0, o = this.R, i = this.z;
-                  n < t;
+                var r = t - this.blockSize, n = 0, o = this.R, i = this.z;
+                n < t;
 
-                ) {
-                  if (0 == i)
-                    for (; n <= r; ) this.U(e, n), (n += this.blockSize)
-                  if ('string' == typeof e) {
-                    for (; n < t; )
-                      if (
-                        ((o[i] = e.charCodeAt(n)),
-                        ++i,
-                        ++n,
-                        i == this.blockSize)
-                      ) {
-                        this.U(o), (i = 0)
-                        break
-                      }
-                  } else
-                    for (; n < t; )
-                      if (((o[i] = e[n]), ++i, ++n, i == this.blockSize)) {
-                        this.U(o), (i = 0)
-                        break
-                      }
-                }
-                ;(this.z = i), (this.W += t)
+              ) {
+                if (i == 0) for (; n <= r; ) this.U(e, n), (n += this.blockSize)
+                if (typeof e === 'string') {
+                  for (; n < t; )
+                    if (
+                      ((o[i] = e.charCodeAt(n)), ++i, ++n, i == this.blockSize)
+                    ) {
+                      this.U(o), (i = 0)
+                      break
+                    }
+                } else
+                  for (; n < t; )
+                    if (((o[i] = e[n]), ++i, ++n, i == this.blockSize)) {
+                      this.U(o), (i = 0)
+                      break
+                    }
               }
-            }),
-            (t.prototype.digest = function() {
-              var e = [],
-                t = 8 * this.W
-              this.z < 56
-                ? this.update(this.V, 56 - this.z)
-                : this.update(this.V, this.blockSize - (this.z - 56))
-              for (var r = this.blockSize - 1; r >= 56; r--)
-                (this.R[r] = 255 & t), (t /= 256)
-              this.U(this.R)
-              for (var n = 0, r = 0; r < 5; r++)
-                for (var o = 24; o >= 0; o -= 8)
-                  (e[n] = (this.L[r] >> o) & 255), ++n
-              return e
-            }),
-            t
-          )
-        })(o.Hash)
+              ;(this.z = i), (this.W += t)
+            }
+          }),
+          (t.prototype.digest = function() {
+            const e = []
+            let t = 8 * this.W
+            this.z < 56
+              ? this.update(this.V, 56 - this.z)
+              : this.update(this.V, this.blockSize - (this.z - 56))
+            for (var r = this.blockSize - 1; r >= 56; r--)
+              (this.R[r] = 255 & t), (t /= 256)
+            this.U(this.R)
+            for (var n = 0, r = 0; r < 5; r++)
+              for (let o = 24; o >= 0; o -= 8)
+                (e[n] = (this.L[r] >> o) & 255), ++n
+            return e
+          }),
+          t
+        )
+      })(o.Hash)
       t.Sha1 = i
     },
     function(e, t, r) {
       'use strict'
       Object.defineProperty(t, '__esModule', { value: !0 })
-      var n = (function() {
+      const n = (function() {
         function e() {
           this.blockSize = -1
         }
@@ -1504,7 +1498,7 @@ var firebase = (function() {
     function(e, t, r) {
       'use strict'
       function n(e, t) {
-        var r = new c(e, t)
+        const r = new c(e, t)
         return r.subscribe.bind(r)
       }
       function o(e, t) {
@@ -1520,10 +1514,10 @@ var firebase = (function() {
         }
       }
       function i(e, t) {
-        if ('object' != typeof e || null === e) return !1
-        for (var r = 0, n = t; r < n.length; r++) {
-          var o = n[r]
-          if (o in e && 'function' == typeof e[o]) return !0
+        if (typeof e !== 'object' || e === null) return !1
+        for (let r = 0, n = t; r < n.length; r++) {
+          const o = n[r]
+          if (o in e && typeof e[o] === 'function') return !0
         }
         return !1
       }
@@ -1532,7 +1526,7 @@ var firebase = (function() {
         (t.createSubscribe = n)
       var c = (function() {
         function e(e, t) {
-          var r = this
+          const r = this
           ;(this.observers = []),
             (this.unsubscribes = []),
             (this.observerCount = 0),
@@ -1566,17 +1560,17 @@ var firebase = (function() {
               this.close()
           }),
           (e.prototype.subscribe = function(e, t, r) {
-            var n,
-              o = this
+            let n
+            const o = this
             if (void 0 === e && void 0 === t && void 0 === r)
-              throw Error('Missing Observer.')
+              throw new Error('Missing Observer.')
             ;(n = i(e, ['next', 'error', 'complete'])
               ? e
               : { next: e, error: t, complete: r }),
               void 0 === n.next && (n.next = a),
               void 0 === n.error && (n.error = a),
               void 0 === n.complete && (n.complete = a)
-            var c = this.unsubscribeOne.bind(this, this.observers.length)
+            const c = this.unsubscribeOne.bind(this, this.observers.length)
             return (
               this.finalized &&
                 this.task.then(function() {
@@ -1593,29 +1587,29 @@ var firebase = (function() {
               void 0 !== this.observers[e] &&
               (delete this.observers[e],
               (this.observerCount -= 1),
-              0 === this.observerCount &&
+              this.observerCount === 0 &&
                 void 0 !== this.onNoObservers &&
                 this.onNoObservers(this))
           }),
           (e.prototype.forEachObserver = function(e) {
             if (!this.finalized)
-              for (var t = 0; t < this.observers.length; t++) this.sendOne(t, e)
+              for (let t = 0; t < this.observers.length; t++) this.sendOne(t, e)
           }),
           (e.prototype.sendOne = function(e, t) {
-            var r = this
+            const r = this
             this.task.then(function() {
               if (void 0 !== r.observers && void 0 !== r.observers[e])
                 try {
                   t(r.observers[e])
                 } catch (e) {
-                  'undefined' != typeof console &&
+                  typeof console !== 'undefined' &&
                     console.error &&
                     console.error(e)
                 }
             })
           }),
           (e.prototype.close = function(e) {
-            var t = this
+            const t = this
             this.finalized ||
               ((this.finalized = !0),
               void 0 !== e && (this.finalError = e),
@@ -1631,7 +1625,7 @@ var firebase = (function() {
     function(e, t, r) {
       'use strict'
       function n(e, t, r) {
-        var n = ''
+        let n = ''
         switch (t) {
           case 1:
             n = r ? 'first' : 'First'
@@ -1646,43 +1640,43 @@ var firebase = (function() {
             n = r ? 'fourth' : 'Fourth'
             break
           default:
-            throw Error(
+            throw new Error(
               'errorPrefix called with argumentNumber > 4.  Need to update it?'
             )
         }
-        var o = e + ' failed: '
+        let o = e + ' failed: '
         return (o += n + ' argument ')
       }
       function o(e, t, r, o) {
-        if ((!o || r) && 'string' != typeof r)
-          throw Error(n(e, t, o) + 'must be a valid firebase namespace.')
+        if ((!o || r) && typeof r !== 'string')
+          throw new Error(n(e, t, o) + 'must be a valid firebase namespace.')
       }
       function i(e, t, r, o) {
-        if ((!o || r) && 'function' != typeof r)
-          throw Error(n(e, t, o) + 'must be a valid function.')
+        if ((!o || r) && typeof r !== 'function')
+          throw new Error(n(e, t, o) + 'must be a valid function.')
       }
       function a(e, t, r, o) {
-        if ((!o || r) && ('object' != typeof r || null === r))
-          throw Error(n(e, t, o) + 'must be a valid context object.')
+        if ((!o || r) && (typeof r !== 'object' || r === null))
+          throw new Error(n(e, t, o) + 'must be a valid context object.')
       }
       Object.defineProperty(t, '__esModule', { value: !0 }),
         (t.validateArgCount = function(e, t, r, n) {
-          var o
+          let o
           if (
             (n < t
               ? (o = 'at least ' + t)
-              : n > r && (o = 0 === r ? 'none' : 'no more than ' + r),
+              : n > r && (o = r === 0 ? 'none' : 'no more than ' + r),
             o)
           ) {
-            var i =
+            const i =
               e +
               ' failed: Was called with ' +
               n +
-              (1 === n ? ' argument.' : ' arguments.') +
+              (n === 1 ? ' argument.' : ' arguments.') +
               ' Expects ' +
               o +
               '.'
-            throw Error(i)
+            throw new Error(i)
           }
         }),
         (t.errorPrefix = n),
@@ -1693,12 +1687,12 @@ var firebase = (function() {
     function(e, t, r) {
       'use strict'
       Object.defineProperty(t, '__esModule', { value: !0 })
-      var n = r(27)
+      const n = r(27)
       ;(t.stringToByteArray = function(e) {
         for (var t = [], r = 0, o = 0; o < e.length; o++) {
-          var i = e.charCodeAt(o)
+          let i = e.charCodeAt(o)
           if (i >= 55296 && i <= 56319) {
-            var a = i - 55296
+            const a = i - 55296
             o++,
               n.assert(o < e.length, 'Surrogate pair missing trail surrogate.'),
               (i = 65536 + (a << 10) + (e.charCodeAt(o) - 56320))
@@ -1720,7 +1714,7 @@ var firebase = (function() {
       }),
         (t.stringLength = function(e) {
           for (var t = 0, r = 0; r < e.length; r++) {
-            var n = e.charCodeAt(r)
+            const n = e.charCodeAt(r)
             n < 128
               ? t++
               : n < 2048
@@ -1734,4 +1728,4 @@ var firebase = (function() {
     }
   ])
 })().default
-//# sourceMappingURL=firebase-app.js.map
+// # sourceMappingURL=firebase-app.js.map

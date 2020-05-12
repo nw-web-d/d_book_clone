@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="pbNested pbNestedWrapper" id="pbBlock2988178">
+    <div id="pbBlock2988178" class="pbNested pbNestedWrapper">
       <!-- Empty block -->
     </div>
-    <div class="pbNested pbNestedWrapper" id="pbBlock4360897">
+    <div id="pbBlock4360897" class="pbNested pbNestedWrapper">
       <div class="pbNested no-overlay-area">
-        <div class="pbNested pbNestedWrapper" id="pbBlock4360900">
+        <div id="pbBlock4360900" class="pbNested pbNestedWrapper">
           <div class="stHeader stPadding">
             <div class="stHdBlock01">
               <p class="stLogo">
@@ -602,16 +602,16 @@
               <div class="stHdBlock04">
                 <div class="stHdWordSch">
                   <form
-                    action="https://honto.jp/ebook/search.html"
                     id="dy_01_stSearchForm"
+                    action="https://honto.jp/ebook/search.html"
                     method="get"
                     onsubmit="searchBox(&#39;dy_01_&#39;, &#39;https://honto.jp/ebook/search.html&#39;); return false;"
                   >
                     <input
+                      id="stSearchTbty"
                       type="hidden"
                       name="tbty"
                       value="0"
-                      id="stSearchTbty"
                     />
                     <fieldset>
                       <legend>サイト内検索</legend>
@@ -656,8 +656,8 @@
                     </p>
                     <p class="stSafeSearch">
                       <input
-                        type="checkbox"
                         id="stSafeSearch"
+                        type="checkbox"
                         name="stSafeSearch[]"
                         onclick="Javascript:EtcHeader.editSafeSearch(4360900, this.checked);"
                         checked=""
@@ -690,10 +690,10 @@
                         alt="最大50％OFFクーポン（～5/12)"
                     /></a>
                   </p>
-                  <input type="hidden" id="dy_01_stGenre" name="gnrcd" />
+                  <input id="dy_01_stGenre" type="hidden" name="gnrcd" />
                   <input
-                    type="hidden"
                     id="dy_01_stSearchGenre"
+                    type="hidden"
                     name="srchGnrNm"
                   />
                   <input type="hidden" name="srchf" value="1" />
@@ -708,7 +708,7 @@
           </div>
         </div>
 
-        <div class="pbNested pbNestedWrapper" id="pbBlock4361012">
+        <div id="pbBlock4361012" class="pbNested pbNestedWrapper">
           <div class="stHdAppendBanner">
             <p>
               <a
@@ -724,18 +724,14 @@
         </div>
       </div>
     </div>
-    <div class="pbNested pbNestedWrapper" id="pbBlock2640583">
+    <div id="pbBlock2640583" class="pbNested pbNestedWrapper">
       <!-- Empty block -->
     </div>
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import Search from '~/components/Search'
 export default {
-  components: {
-    Search
-  },
   computed: {
     ...mapGetters(['getCartLength']),
     loggedIn() {

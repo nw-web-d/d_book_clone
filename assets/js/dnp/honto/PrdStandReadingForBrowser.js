@@ -24,7 +24,7 @@ var browserStandReadingAjax = {
    * @param itemId 商品ID
    * @param isInnerBrowser アプリ内ブラウザか判定 ※Booleanメソッドで判定する（true=1,'1'・・・、false='',null・・・）
    */
-  standReading: function(
+  standReading(
     pageBlockId,
     msuPrdId,
     venderPrdId,
@@ -46,7 +46,7 @@ var browserStandReadingAjax = {
         browserStandReadingAjax.childWindow = window.open('about:blank')
       }
 
-      var query =
+      const query =
         'browserStandReading=1' +
         '&msuPrdId=' +
         msuPrdId +
@@ -78,7 +78,7 @@ var browserStandReadingAjax = {
    *
    * @param json APIからのレスポンス
    */
-  complete: function(json) {
+  complete(json) {
     if (!json) {
       browserStandReadingAjax.error()
       return
@@ -99,7 +99,7 @@ var browserStandReadingAjax = {
    * SiteCatalystに送信する値を設定<br>
    * @param value    s.eventsの値
    */
-  s_click: function(events) {
+  s_click(events) {
     try {
       s = s_gi(s_account)
       s.events = events
@@ -123,7 +123,7 @@ var browserStandReadingAjax = {
    * @param textStatus エラー内容("timeout", "error", "notmodified", "parsererror"など)
    * @param errorThrown 補足的な例外オブジェクト
    */
-  error: function(xhr, textStatus, errorThrown) {
+  error(xhr, textStatus, errorThrown) {
     // アプリ立ち読み情報が取得できなかった場合は、エラー処理を行わない
 
     // 事前に立ち上げた画面をクローズする

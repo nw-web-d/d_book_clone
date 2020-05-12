@@ -41,31 +41,31 @@
         <div id="mainArea" class="pbMainArea">
           <div id="area0" class="pbArea">
             <div class="pbNested">
-              <div class="pbNested pbNestedWrapper" id="pbBlock2653077">
+              <div id="pbBlock2653077" class="pbNested pbNestedWrapper">
                 <!-- Empty block -->
               </div>
-              <div class="pbNested pbNestedWrapper" id="pbBlock2653078">
+              <div id="pbBlock2653078" class="pbNested pbNestedWrapper">
                 <form
                   id="OrdShoppingBasketElectronicBookPc"
                   method="post"
                   action="https://honto.jp/reg/cart-eb"
                 >
-                  <input type="hidden" id="dy_prdId" name="prdId" />
-                  <input type="hidden" id="dy_pageNo" name="pageNo" value="1" />
-                  <input type="hidden" id="dy_pmd" name="pmd" />
+                  <input id="dy_prdId" type="hidden" name="prdId" />
+                  <input id="dy_pageNo" type="hidden" name="pageNo" value="1" />
+                  <input id="dy_pmd" type="hidden" name="pmd" />
                   <input
-                    type="hidden"
                     id="dy_ordTokenKey"
+                    type="hidden"
                     name="ordTokenKey"
                     value="fa57d8972f99533ebfa54ffda6e3a5e7"
                   />
-                  <input type="hidden" id="dy_cartItemCount" value="1" />
+                  <input id="dy_cartItemCount" type="hidden" value="1" />
                   <input
-                    type="hidden"
                     id="hidAddCartFromCarousel"
+                    type="hidden"
                     value="2653078"
                   />
-                  <div class="stSection01" id="stSection01">
+                  <div id="stSection01" class="stSection01">
                     <div class="stLayoutMS stMarginT10 stMarginB20">
                       <div class="stSub">
                         <div class="stLogin01">
@@ -74,13 +74,13 @@
                             style="text-decoration: none;"
                           >
                             <p
-                              class="stBtn"
                               id="register"
+                              class="stBtn"
                               style="text-decoration: none;"
                             >
                               <button
-                                type="submit"
                                 id="dy_buttonRegister"
+                                type="submit"
                                 name="buttonRegister"
                                 class="stBtn stSizeL stEbBtn dyPreventDoubleSubmit"
                                 onclick=""
@@ -92,22 +92,24 @@
                               <dt><span>合計（税込）</span></dt>
                               <dd>
                                 <span class="stYen"
-                                  ><span id="ttlAmtUp">{{ getCartTotalPrice }}</span
+                                  ><span id="ttlAmtUp">{{
+                                    getCartTotalPrice
+                                  }}</span
                                   >円</span
                                 >
                               </dd>
                               <dt><span>獲得予定ポイント</span></dt>
                               <dd>
-                                <span class="stYen" id="ttlPtUp">0pt</span>
+                                <span id="ttlPtUp" class="stYen">0pt</span>
                               </dd>
                             </dl>
 
                             <ul class="stLink05">
                               <li class="stBack">
                                 <a
+                                  id="dy_buttonContinue"
                                   href="https://honto.jp/reg/cart-eb?ordTokenKey=fa57d8972f99533ebfa54ffda6e3a5e7&amp;pmd=continue"
                                   class="dyPreventDoubleSubmit"
-                                  id="dy_buttonContinue"
                                   onclick=""
                                   >買い物を続ける</a
                                 >
@@ -148,15 +150,15 @@
                           </thead>
                           <tbody>
                             <tr
-                              id="stWishBlock0"
                               v-for="product in getCart"
+                              id="stWishBlock0"
                               :key="product._id"
                             >
                               <td class="stInputCell" style="display: none;">
                                 <input
+                                  id="dy_checkPrd[0]"
                                   name="checkPrd[]"
                                   value="29620592"
-                                  id="dy_checkPrd[0]"
                                   type="checkbox"
                                 />
                                 <label for="dy_checkPrd[0]"></label>
@@ -178,8 +180,8 @@
                                   <div class="stContents">
                                     <p>
                                       <a
-                                        href="https://honto.jp/ebook/pd_29620592.html"
                                         id="dy_prdNm[0]"
+                                        href="https://honto.jp/ebook/pd_29620592.html"
                                         ><em>{{ product.title }}</em></a
                                       >
                                     </p>
@@ -207,9 +209,9 @@
                               <td class="stCenter stMiddle">
                                 <p>
                                   <a
+                                    id="dy_buttonWntBk[0]"
                                     href="https://honto.jp/reg/cart-eb.html#"
                                     onclick=""
-                                    id="dy_buttonWntBk[0]"
                                     class="dyPreventDoubleSubmit"
                                     style="text-decoration: none;"
                                     ><span class="stBtn stSizeXS stInvert"
@@ -219,12 +221,12 @@
                                 </p>
                                 <p class="stLink01">
                                   <a
+                                    id="dy_buttonDel[0]"
                                     href="#"
+                                    class="dyPreventDoubleSubmit"
                                     @click="
                                       $store.commit('removeProduct', product)
                                     "
-                                    id="dy_buttonDel[0]"
-                                    class="dyPreventDoubleSubmit"
                                     >カートから削除</a
                                   >
                                 </p>
@@ -244,8 +246,8 @@
                         <div class="stBoxCart02 stMarginB10">
                           <p class="stChoiceAll" style="display: none;">
                             <a
-                              href="https://honto.jp/reg/cart-eb.html#linkTag"
                               id="dy_linkSelAll"
+                              href="https://honto.jp/reg/cart-eb.html#linkTag"
                               onclick="Event.stop(event);"
                               style="text-decoration: none;"
                               ><span class="stBtn stSizeS stInvert stChoiceAll"
@@ -254,8 +256,8 @@
                             >
                             <span class="addBookBtnWrapper"
                               ><a
-                                href="https://honto.jp/reg/cart-eb.html#"
                                 id="dy_buttonLmpMove"
+                                href="https://honto.jp/reg/cart-eb.html#"
                                 onclick=""
                                 class="dyPreventDoubleSubmit"
                                 style="text-decoration: none;"
@@ -267,8 +269,8 @@
                           </p>
                           <p class="deleate" style="display: none;">
                             <a
-                              href="https://honto.jp/reg/cart-eb.html#"
                               id="dy_buttonLmpDel"
+                              href="https://honto.jp/reg/cart-eb.html#"
                               onclick=""
                               class="stLink dyPreventDoubleSubmit"
                               >カートから削除</a
@@ -291,10 +293,10 @@
 
                 <div id="ord-shopping-basket-track-cart"></div>
               </div>
-              <div class="pbNested pbNestedWrapper" id="pbBlock2653079">
+              <div id="pbBlock2653079" class="pbNested pbNestedWrapper">
                 <!-- Empty block -->
               </div>
-              <div class="pbNested pbNestedWrapper" id="pbBlock2653070">
+              <div id="pbBlock2653070" class="pbNested pbNestedWrapper">
                 <div class="stBoxCarousel01" mode="normal">
                   <div class="stView">
                     <div class="stHdg2">
@@ -317,10 +319,10 @@
                     </p>
                     <div class="stView">
                       <ul
+                        id="remindCorusel"
                         class="stView stLazyLoad"
                         pageblockid="2653070"
                         coruselparam="pgNum=&amp;dispNum=NA&amp;itmRefineCls=0&amp;dispRoot=CARTEB&amp;adultDisplayFlg=&amp;pgnm=%2Freg%2Fcart-eb"
-                        id="remindCorusel"
                         style="width: 813px; transform: translateX(0px);"
                       >
                         <li
@@ -612,10 +614,10 @@
                                     class="stBtn stFav"
                                     style="right: -56px; top: -56px;"
                                     ><span></span
-                                    ><span></span>BEASTARS　18</span
+                                    ><span></span>BEASTARS&emsp;18</span
                                   >
                                   <div class="stSummary">
-                                    <p class="stTitle">BEASTARS　18</p>
+                                    <p class="stTitle">BEASTARS&emsp;18</p>
                                     <p class="stAuthor">板垣巴留</p>
                                     <!-- /stSummary -->
                                   </div>
@@ -625,7 +627,7 @@
                                     class="lazyloaded"
                                     src="~/assets/img/dnp/product/30271593_1BL.png"
                                     data-src="https://image.honto.jp/item/1/133/3027/1593/30271593_1BL.png"
-                                    alt="BEASTARS　18（少年チャンピオン・コミックス）"
+                                    alt="BEASTARS&emsp;18（少年チャンピオン・コミックス）"
                                     width="133"
                                     height="180"
                                   />
@@ -637,7 +639,7 @@
                             </p>
                             <p class="stTitle">
                               <a href="https://honto.jp/ebook/pd_30271593.html"
-                                >BEASTARS　18</a
+                                >BEASTARS&emsp;18</a
                               >
                             </p>
                             <p class="stAuthor">
@@ -789,16 +791,16 @@
                   <!-- /.stBoxCarousel01 -->
                 </div>
               </div>
-              <div class="pbNested pbNestedWrapper" id="pbBlock2653075">
+              <div id="pbBlock2653075" class="pbNested pbNestedWrapper">
                 <script type="text/javascript">
                   var dy_pw = document.getElementById('dy_pw')
                   if (dy_pw) dy_pw.focus()
                 </script>
               </div>
-              <div class="pbNested pbNestedWrapper" id="pbBlock2653076">
+              <div id="pbBlock2653076" class="pbNested pbNestedWrapper">
                 <!-- Empty block -->
               </div>
-              <div class="pbNested pbNestedWrapper" id="pbBlock2961327">
+              <div id="pbBlock2961327" class="pbNested pbNestedWrapper">
                 <script type="text/javascript">
                   var deqwas = {}
                   deqwas.cart_item = '29620592'
@@ -827,7 +829,6 @@
   </main>
   <!--/MAIN-->
 </template>
-
 <script>
 import { mapGetters } from 'vuex'
 export default {

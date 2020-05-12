@@ -17,14 +17,14 @@ var continueBuyApply = {
   selecter: '',
 
   /** 多重実行抑止 **/
-  setDoubleClickFlg: function(flg) {
+  setDoubleClickFlg(flg) {
     HC.isSubmitted = flg
   },
 
   /**
    * ローディング画像を設定する.
    */
-  setLoadingImage: function() {
+  setLoadingImage() {
     // PCの場合
     if (continueBuyApply.orderSite.match(/^pc/)) {
       HC.Ajax.loadingImage = '/library/img/pc/loading_01.gif'
@@ -38,7 +38,7 @@ var continueBuyApply = {
    * @param srsId シリーズID
    * @param orderSite 注文サイト(pc/smart_phone)
    */
-  _init: function(pageBlockId, srsId, orderSite) {
+  _init(pageBlockId, srsId, orderSite) {
     this.srsId = srsId
     this.pageBlockId = pageBlockId
     this.selecter = '[id ^= dy_apply_link_' + srsId + ']'
@@ -51,7 +51,7 @@ var continueBuyApply = {
    * @param srsId シリーズID
    * @param orderSite 注文サイト(pc/smart_phone)
    */
-  apply: function(pageBlockId, ebkSrsId, orderSite) {
+  apply(pageBlockId, ebkSrsId, orderSite) {
     if (!HC.isSubmitted) {
       // 多重実行を防止
       continueBuyApply.setDoubleClickFlg(true)
@@ -61,7 +61,7 @@ var continueBuyApply = {
       // ローディング画像出しわけ設定
       continueBuyApply.setLoadingImage()
 
-      var returnUrl = window.location.pathname
+      const returnUrl = window.location.pathname
       HC.Ajax.json(
         pageBlockId,
         this.complete,
@@ -87,7 +87,7 @@ var continueBuyApply = {
    *
    * @param json APIからのレスポンス
    */
-  complete: function(json) {
+  complete(json) {
     if (!json) {
       continueBuyApply.error()
       return
@@ -154,18 +154,18 @@ var continueBuyApply = {
    * @param textStatus エラー内容("timeout", "error", "notmodified", "parsererror"など)
    * @param errorThrown 補足的な例外オブジェクト
    */
-  error: function(xhr, textStatus, errorThrown) {
+  error(xhr, textStatus, errorThrown) {
     // 現在のURLについているパラメータを付加
-    var newParameters = []
-    var parameters = window.location.search.substring(1).split('&')
-    for (var i = 0; i < parameters.length; i++) {
+    const newParameters = []
+    const parameters = window.location.search.substring(1).split('&')
+    for (let i = 0; i < parameters.length; i++) {
       if (!parameters[i].match(/^(prdid=|delHst=|delHstAll=)/)) {
         newParameters.push(parameters[i])
       }
     }
 
     // リダイレクトされた場合、リダイレクト先URLを取得できないため自画面遷移
-    var linkUrl = window.location.pathname
+    const linkUrl = window.location.pathname
     window.location.href = linkUrl
   },
 
@@ -175,10 +175,10 @@ var continueBuyApply = {
    * @param element 続刊予約申し込みボタン要素
    * @return linkObj 続刊申込一覧画面へのリンク要素
    */
-  _createLink: function(element) {
-    var elementId = jQuery(element).attr('id')
-    var errorMsgId = 'errorMsg_' + elementId
-    var linkMsgId = 'linkMsg_' + elementId
+  _createLink(element) {
+    const elementId = jQuery(element).attr('id')
+    const errorMsgId = 'errorMsg_' + elementId
+    const linkMsgId = 'linkMsg_' + elementId
 
     // 既存メッセージの削除
     jQuery('#' + errorMsgId).remove()
@@ -219,10 +219,10 @@ var continueBuyApply = {
    * @param element 続刊予約申し込みボタン要素
    * @return messageObj メッセージ要素
    */
-  _createMessage: function(message, element) {
-    var elementId = jQuery(element).attr('id')
-    var errorMsgId = 'errorMsg_' + elementId
-    var linkMsgId = 'linkMsg_' + elementId
+  _createMessage(message, element) {
+    const elementId = jQuery(element).attr('id')
+    const errorMsgId = 'errorMsg_' + elementId
+    const linkMsgId = 'linkMsg_' + elementId
 
     // 既存メッセージの削除
     jQuery('#' + errorMsgId).remove()

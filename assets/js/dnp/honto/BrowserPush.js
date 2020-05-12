@@ -24,13 +24,13 @@ var notificationPermission = {
    * ・前提条件をチェックし、訴求ボタンを表示する
    * @param pageBlockId プラグインブロックID
    */
-  displayTooltip: function(pageBlockId) {
+  displayTooltip(pageBlockId) {
     // 前提条件チェック
     if (!this.checkPrecondition()) {
       return
     }
 
-    var tooltipWapper = '#dy_stTooltip02-wrapper'
+    let tooltipWapper = '#dy_stTooltip02-wrapper'
     if (pageBlockId) {
       tooltipWapper = tooltipWapper + '_' + pageBlockId
     }
@@ -48,7 +48,7 @@ var notificationPermission = {
    *
    * @return true：前提条件クリア、false：前提条件NG
    */
-  checkPrecondition: function() {
+  checkPrecondition() {
     if (!'Notification' in window) {
       // 通知未対応ブラウザ
       console.log('This browser does not support notifications.')
@@ -57,7 +57,7 @@ var notificationPermission = {
 
     // 通知許可状態
     try {
-      var permission = Notification.permission
+      const permission = Notification.permission
       if (permission === 'denied' || permission === 'granted') {
         // 既に許可 or ブロックしているので処理を抜ける
         return false
@@ -67,7 +67,7 @@ var notificationPermission = {
       return false
     }
 
-    if (document.cookie.indexOf('notification_permission_skip') !== -1) {
+    if (document.cookie.includes('notification_permission_skip')) {
       // cookieに書き込みあり(スキップボタン押下)
       return false
     }
@@ -80,8 +80,8 @@ var notificationPermission = {
    *
    * @return cookieのexpiresに設定する値
    */
-  getExpires: function() {
-    var expires = new Date()
+  getExpires() {
+    const expires = new Date()
     expires.setMonth(expires.getMonth() + 1)
     return expires
   },
@@ -91,14 +91,14 @@ var notificationPermission = {
    *
    * @return cookieのmax-ageに設定する値
    */
-  getMaxAge: function() {
+  getMaxAge() {
     return 60 * 60 * 24 * 30 // 単位は秒
   },
 
   /**
    * 通知許諾を一定期間行わないようにcookieにフラグを立てる.
    */
-  skipPermission: function() {
+  skipPermission() {
     // cookie設定
     document.cookie =
       'notification_permission_skip=1; path=/; expires=' +
@@ -114,7 +114,7 @@ var notificationPermission = {
    * フローティングバナー（回遊時許諾）を閉じる.
    *
    */
-  closeFloatingBanner: function() {
+  closeFloatingBanner() {
     jQuery('#dy_MigrationFloatingBanner').addClass('stHide')
   },
 
@@ -124,7 +124,7 @@ var notificationPermission = {
    * サイト回遊時の通知許諾ダイアログ表示前のフローティングバナー表示
    *
    */
-  showBanner: function() {
+  showBanner() {
     // 既に通知許可/通知ブロック or スキップしている場合は離脱
     if (!this.checkPrecondition()) return
 
@@ -138,7 +138,7 @@ var notificationPermission = {
    * ダイアログを閉じ、かつ許諾訴求ボタンも非表示にする
    *
    */
-  closePopup: function() {
+  closePopup() {
     // 許諾訴求ボタンを非表示
     jQuery('[id ^= dy_stTooltip02-wrapper').each(function(index, element) {
       jQuery(element).addClass('stHide')
@@ -155,7 +155,7 @@ var notificationPermission = {
    * 区切り線も消す
    *
    */
-  closeTooltip: function() {
+  closeTooltip() {
     // 許諾訴求ボタンを非表示
     jQuery('#dy_stTooltip02-wrapper').addClass('stHide')
 
@@ -179,12 +179,12 @@ var browserPushAjax = {
   /**
    * PUSH通知許可処理.
    */
-  pushPermission: function() {
+  pushPermission() {
     if (browserPushAjax.isSubmitted) {
       return
     }
 
-    var pageBlockId = jQuery('#dy_footerPageBlockId').attr('value')
+    const pageBlockId = jQuery('#dy_footerPageBlockId').attr('value')
 
     if (!this.msg) {
       firebase.initializeApp(browserPushConfig.config)
@@ -207,7 +207,7 @@ var browserPushAjax = {
     browserPushAjax.isSubmitted = true
 
     // 許諾ポップアップ後、メンバ変数クリアされたのでローカル変数に退避
-    var msglocal = this.msg
+    const msglocal = this.msg
 
     msglocal
       .requestPermission()
@@ -227,7 +227,7 @@ var browserPushAjax = {
             localStorage.setItem('honto.fcm.token', curToken)
 
             // リクエストパラメータ作成
-            var param = { fcmId: curToken }
+            const param = { fcmId: curToken }
 
             // Ajax通信
             HC.Ajax.json(pageBlockId, null, param, false, null, null)
@@ -251,12 +251,12 @@ var browserPushAjax = {
    *
    * @param alias エイリアス
    */
-  clearToken: function(alias) {
+  clearToken(alias) {
     if (browserPushAjax.isSubmitted) {
       return
     }
 
-    var pageBlockId = jQuery('#dy_footerPageBlockId').attr('value')
+    const pageBlockId = jQuery('#dy_footerPageBlockId').attr('value')
     if (pageBlockId == null) {
       console.error('Can not get pageBlockId at clearToken.')
       return // 取得出来ない場合はスキップ
@@ -278,7 +278,7 @@ var browserPushAjax = {
     // 多重実行を防止
     browserPushAjax.isSubmitted = true
 
-    var curToken = localStorage.getItem('honto.fcm.token')
+    const curToken = localStorage.getItem('honto.fcm.token')
     if (curToken == null) {
       browserPushAjax.isSubmitted = false
       return
@@ -286,7 +286,7 @@ var browserPushAjax = {
     localStorage.removeItem('honto.fcm.token')
 
     // ローカル変数に退避
-    var msglocal = this.msg
+    const msglocal = this.msg
 
     msglocal
       .deleteToken(curToken)
@@ -297,7 +297,7 @@ var browserPushAjax = {
           }
 
           // リクエストパラメータ作成
-          var param = { fcmId: curToken, alias: alias, fcmIdToTopic: newToken }
+          const param = { fcmId: curToken, alias, fcmIdToTopic: newToken }
 
           // Ajax通信
           HC.Ajax.json(pageBlockId, null, param, false, null, null)
@@ -319,10 +319,10 @@ var browserPushAjax = {
    *
    * @param alias エイリアス
    */
-  getTokenFromStorage: function(alias) {
-    var curToken = localStorage.getItem('honto.fcm.token')
+  getTokenFromStorage(alias) {
+    const curToken = localStorage.getItem('honto.fcm.token')
 
-    var pageBlockId = jQuery('#dy_footerPageBlockId').attr('value')
+    const pageBlockId = jQuery('#dy_footerPageBlockId').attr('value')
     if (pageBlockId == null) {
       return
     }
@@ -341,7 +341,7 @@ var browserPushAjax = {
     }
 
     // ローカル変数に退避
-    var msglocal = this.msg
+    const msglocal = this.msg
 
     msglocal
       .deleteToken(curToken)
@@ -354,9 +354,9 @@ var browserPushAjax = {
           }
 
           // リクエストパラメータ作成
-          var param = {
+          const param = {
             fcmIdFromStorage: curToken,
-            alias: alias,
+            alias,
             fcmIdToUser: newToken
           }
 

@@ -66,7 +66,7 @@ var putCart = {
   storeReserve: '',
 
   /** 多重実行抑止 **/
-  setDoubleClickFlg: function(flg) {
+  setDoubleClickFlg(flg) {
     HC.isSubmitted = flg
   },
 
@@ -82,7 +82,7 @@ var putCart = {
    * @param originalBookType 底本タイプ(0:通常 1:底本（電子書籍） 2:底本（紙書籍）)
    * @param cartType ショッピングカートタイプ(1:電子 2:物販)
    */
-  put: function(
+  put(
     pageBlockId,
     identifier,
     productId,
@@ -111,7 +111,7 @@ var putCart = {
       // ローディング画像出しわけ設定
       putCart.setLoadingImage()
 
-      var queryString =
+      const queryString =
         'prdid=' +
         putCart.productId +
         '&srsid=' +
@@ -123,10 +123,11 @@ var putCart = {
         '&putCart=1'
 
       // クラス取得
-      var stNsBtn = jQuery(this.actionAreaSelecter).find('.stNsBtn').length
-      var stAction = jQuery(this.actionAreaSelecter).find('.stAction').length
-      var stCart = jQuery(this.actionAreaSelecter).find('.stCart').length
-      var stReserve = jQuery(this.actionAreaSelecter).find('.stReserve').length
+      const stNsBtn = jQuery(this.actionAreaSelecter).find('.stNsBtn').length
+      const stAction = jQuery(this.actionAreaSelecter).find('.stAction').length
+      const stCart = jQuery(this.actionAreaSelecter).find('.stCart').length
+      const stReserve = jQuery(this.actionAreaSelecter).find('.stReserve')
+        .length
       if (stNsBtn > 0) {
         putCart.storeClass = 'stNsBtn'
       } else {
@@ -170,7 +171,7 @@ var putCart = {
    * @param cartType ショッピングカートタイプ(1:電子 2:物販)
    * @param cid キャンペーンID
    */
-  putPlusCid: function(
+  putPlusCid(
     pageBlockId,
     identifier,
     productId,
@@ -200,7 +201,7 @@ var putCart = {
       // ローディング画像出しわけ設定
       putCart.setLoadingImage()
 
-      var queryString =
+      const queryString =
         'prdid=' +
         putCart.productId +
         '&srsid=' +
@@ -212,10 +213,11 @@ var putCart = {
         '&putCart=1'
 
       // クラス取得
-      var stNsBtn = jQuery(this.actionAreaSelecter).find('.stNsBtn').length
-      var stAction = jQuery(this.actionAreaSelecter).find('.stAction').length
-      var stCart = jQuery(this.actionAreaSelecter).find('.stCart').length
-      var stReserve = jQuery(this.actionAreaSelecter).find('.stReserve').length
+      const stNsBtn = jQuery(this.actionAreaSelecter).find('.stNsBtn').length
+      const stAction = jQuery(this.actionAreaSelecter).find('.stAction').length
+      const stCart = jQuery(this.actionAreaSelecter).find('.stCart').length
+      const stReserve = jQuery(this.actionAreaSelecter).find('.stReserve')
+        .length
       if (stNsBtn > 0) {
         putCart.storeClass = 'stNsBtn'
       } else {
@@ -252,17 +254,17 @@ var putCart = {
    * @param pageBlockId プラグインブロックID
    * @param displayType 表示タイプ(putCartAllPc:「全ての商品を買い物カゴに入れる」ボタン表示(PC) putCartAllSp:「全ての商品を買い物カゴに入れる」ボタン表示(SP))
    */
-  putAll: function(pageBlockId, displayType) {
+  putAll(pageBlockId, displayType) {
     if (!HC.isSubmitted) {
       // 買い物カゴへ一括登録する商品IDを抽出
-      var input = document.getElementsByTagName('input')
-      var prdIdList = ''
-      var startFlg = false
-      var endFlg = false
-      for (var i = input.length - 1; i >= 0; i--) {
+      const input = document.getElementsByTagName('input')
+      let prdIdList = ''
+      let startFlg = false
+      let endFlg = false
+      for (let i = input.length - 1; i >= 0; i--) {
         if (input[i].name == 'putCartButton[]') {
           if (startFlg && !endFlg) {
-            if (input[i].value.indexOf('putCartAllBtn') !== -1) {
+            if (input[i].value.includes('putCartAllBtn')) {
               endFlg = true
             } else {
               if (prdIdList) {
@@ -324,7 +326,7 @@ var putCart = {
    * @param cartType ショッピングカートタイプ(1:電子 2:物販)
    * @param cid キャンペーンID
    */
-  init: function(
+  init(
     pageBlockId,
     identifier,
     productId,
@@ -361,15 +363,15 @@ var putCart = {
     putCart.buttonClone = jQuery(putCart.actionAreaSelecter)
       .children()
       .clone(true)
-    if ('1' === originalBookType) {
+    if (originalBookType === '1') {
       // 底本（電子書籍）
       putCart.buttonImagePath = '/library/img/pc/btn_cart_09s_o.png'
       putCart.buttonImageText = 'カートを見る(電子書籍)'
-    } else if ('2' === originalBookType) {
+    } else if (originalBookType === '2') {
       // 底本（紙書籍）
       putCart.buttonImagePath = '/library/img/pc/btn_cart_11s_o.png'
       putCart.buttonImageText = 'カートを見る(紙書籍)'
-    } else if ('pcImage' === displayType) {
+    } else if (displayType === 'pcImage') {
       // 通常(検索結果イメージ表示)
       putCart.buttonImagePath = '/library/img/pc/btn_cart_03s_o.png'
       putCart.buttonImageText = 'カートを見る'
@@ -392,7 +394,7 @@ var putCart = {
   /**
    * 既存メッセージを除去.
    */
-  clearMessage: function() {
+  clearMessage() {
     // ページ上部に表示されているメッセージがあれば除去(SPのみ)
     if (jQuery('#dy_put_cart_msg').size()) {
       jQuery('#dy_put_cart_msg').hide()
@@ -409,13 +411,13 @@ var putCart = {
    *
    * @param json APIからのレスポンス
    */
-  complete: function(json) {
+  complete(json) {
     if (!json) {
       putCart.error()
       return
     }
 
-    var resPrdId = putCart.areaSelecterId
+    let resPrdId = putCart.areaSelecterId
 
     if (json.prdId != null && json.prdId.length > 0) {
       // シリーズの全部ボタン以外
@@ -425,7 +427,7 @@ var putCart = {
       resPrdId = json.srsId
     }
 
-    if ('1' === json.result) {
+    if (json.result === '1') {
       // 全ての商品を買い物カゴに入れるボタンを押下した場合
       if (putCart.displayType.match(/^putCartAll/)) {
         // 全ての商品をカゴに入れるボタンの場合
@@ -441,10 +443,10 @@ var putCart = {
 
         // 各商品の「買い物カゴに入れる」ボタンを「カートを見る」ボタンに変更する
         if (json.prdIdList) {
-          var prdIdList = json.prdIdList.split(',')
-          var cartUrlList = json.cartUrlList.split(',')
-          var prdIdListLen = prdIdList.length
-          for (var i = 0; i < prdIdListLen; i++) {
+          const prdIdList = json.prdIdList.split(',')
+          const cartUrlList = json.cartUrlList.split(',')
+          const prdIdListLen = prdIdList.length
+          for (let i = 0; i < prdIdListLen; i++) {
             // PC
             jQuery('#dy_put_cart_listDataPc1_' + prdIdList[i]).html(
               "<a href='" +
@@ -494,7 +496,7 @@ var putCart = {
               "'>カートを見る</span></a>"
           )
         } else if (putCart.displayType.match(/^pcDetail/)) {
-          if (putCart.storeAction.indexOf('stAction') != -1) {
+          if (putCart.storeAction.includes('stAction')) {
             // ほしい本一覧画面
             jQuery('#dy_put_cart_' + resPrdId).html(
               "<a href='" +
@@ -505,28 +507,26 @@ var putCart = {
                 putCart.storeClass +
                 " stInvert'>カートを見る</span></a>"
             )
+          } else if (putCart.storeClass.includes('stEbBtn')) {
+            jQuery('#dy_put_cart_' + resPrdId).html(
+              "<p><a href='" +
+                putCart.cartUrl +
+                "' style='text-decoration: none; display: inline-block; vertical-align:bottom; position: relative; height: 62px;'><span class='stBtn " +
+                putCart.storeCart +
+                ' stSizeL ' +
+                putCart.storeClass +
+                " stEbookCart ebook-cart__button'>カートを見る</span></a></p>"
+            )
           } else {
-            if (putCart.storeClass.indexOf('stEbBtn') != -1) {
-              jQuery('#dy_put_cart_' + resPrdId).html(
-                "<p><a href='" +
-                  putCart.cartUrl +
-                  "' style='text-decoration: none; display: inline-block; vertical-align:bottom; position: relative; height: 62px;'><span class='stBtn " +
-                  putCart.storeCart +
-                  ' stSizeL ' +
-                  putCart.storeClass +
-                  " stEbookCart ebook-cart__button'>カートを見る</span></a></p>"
-              )
-            } else {
-              jQuery('#dy_put_cart_' + resPrdId).html(
-                "<p><a href='" +
-                  putCart.cartUrl +
-                  "' style='text-decoration: none; display: inline-block; vertical-align:bottom; position: relative; height: 62px;'><span class='stBtn " +
-                  putCart.storeCart +
-                  ' stSizeL ' +
-                  putCart.storeClass +
-                  " stCurrent'>カートを見る</span></a></p>"
-              )
-            }
+            jQuery('#dy_put_cart_' + resPrdId).html(
+              "<p><a href='" +
+                putCart.cartUrl +
+                "' style='text-decoration: none; display: inline-block; vertical-align:bottom; position: relative; height: 62px;'><span class='stBtn " +
+                putCart.storeCart +
+                ' stSizeL ' +
+                putCart.storeClass +
+                " stCurrent'>カートを見る</span></a></p>"
+            )
           }
           jQuery('#dy_put_cart_actionAreaPc_' + resPrdId).html(
             "<p><a href='" +
@@ -538,47 +538,45 @@ var putCart = {
               putCart.cartUrl +
               "'><span class='stBtn stAction stSizeM stEbBtn stInvert'>カートを見る</span></a>"
           )
+        } else if (putCart.storeAction.includes('stAction')) {
+          // イメージ
+          jQuery('#dy_put_cart_' + resPrdId).html(
+            "<a href='" +
+              putCart.cartUrl +
+              "' style='text-decoration: none;'><span class='stBtn " +
+              putCart.storeAction +
+              ' ' +
+              putCart.storeClass +
+              " stInvert stSizeM stBranch05'>カートを見る</span></a>"
+          )
+        } else if (putCart.storeCart.includes('stCart')) {
+          // 一覧
+          jQuery('#dy_put_cart_' + resPrdId).html(
+            "<a href='" +
+              putCart.cartUrl +
+              "' style='text-decoration: none; display: inline-block; vertical-align:bottom; position: relative;'><span class='stBtn " +
+              putCart.storeCart +
+              ' stSizeM ' +
+              putCart.storeClass +
+              " stInvert stBranch02'>カートを見る</span></a>"
+          )
+        } else if (putCart.storeReserve.includes('stReserve')) {
+          // 予約購入
+          jQuery('#dy_put_cart_' + resPrdId).html(
+            "<a href='" +
+              putCart.cartUrl +
+              "' style='text-decoration: none; display: inline-block; vertical-align:bottom; position: relative;'><span class='stBtn stCart stSizeM " +
+              putCart.storeClass +
+              " stInvert stBranch02'>カートを見る</span></a>"
+          )
         } else {
-          if (putCart.storeAction.indexOf('stAction') != -1) {
-            //イメージ
-            jQuery('#dy_put_cart_' + resPrdId).html(
-              "<a href='" +
-                putCart.cartUrl +
-                "' style='text-decoration: none;'><span class='stBtn " +
-                putCart.storeAction +
-                ' ' +
-                putCart.storeClass +
-                " stInvert stSizeM stBranch05'>カートを見る</span></a>"
-            )
-          } else if (putCart.storeCart.indexOf('stCart') != -1) {
-            //一覧
-            jQuery('#dy_put_cart_' + resPrdId).html(
-              "<a href='" +
-                putCart.cartUrl +
-                "' style='text-decoration: none; display: inline-block; vertical-align:bottom; position: relative;'><span class='stBtn " +
-                putCart.storeCart +
-                ' stSizeM ' +
-                putCart.storeClass +
-                " stInvert stBranch02'>カートを見る</span></a>"
-            )
-          } else if (putCart.storeReserve.indexOf('stReserve') != -1) {
-            //予約購入
-            jQuery('#dy_put_cart_' + resPrdId).html(
-              "<a href='" +
-                putCart.cartUrl +
-                "' style='text-decoration: none; display: inline-block; vertical-align:bottom; position: relative;'><span class='stBtn stCart stSizeM " +
-                putCart.storeClass +
-                " stInvert stBranch02'>カートを見る</span></a>"
-            )
-          } else {
-            jQuery('#dy_put_cart_' + resPrdId).html(
-              "<a href='" +
-                putCart.cartUrl +
-                "' style='text-decoration: none; display: inline-block; vertical-align:bottom; position: relative;'><span class='stBtn stCart stSizeM " +
-                putCart.storeClass +
-                " stInvert stBranch02'>カートを見る</span></a>"
-            )
-          }
+          jQuery('#dy_put_cart_' + resPrdId).html(
+            "<a href='" +
+              putCart.cartUrl +
+              "' style='text-decoration: none; display: inline-block; vertical-align:bottom; position: relative;'><span class='stBtn stCart stSizeM " +
+              putCart.storeClass +
+              " stInvert stBranch02'>カートを見る</span></a>"
+          )
         }
         // クリック前のa要素を削除
         if (jQuery('#dy_put_cart_' + resPrdId).find('a').length) {
@@ -693,13 +691,13 @@ var putCart = {
       } else {
         // その他(SP)の場合
 
-        if (putCart.storeClass.indexOf('stNsBtn') != -1) {
+        if (putCart.storeClass.includes('stNsBtn')) {
           jQuery('#dy_put_cart_' + resPrdId).html(
             "<a href='" +
               putCart.cartUrl +
               "'><button type='button' class='stBtn stInvert stSizeM stNsCartBtn');>カートを見る</button>"
           )
-        } else if (putCart.storeClass.indexOf('stEbBtn') != -1) {
+        } else if (putCart.storeClass.includes('stEbBtn')) {
           jQuery('#dy_put_cart_' + resPrdId).html(
             "<a href='" +
               putCart.cartUrl +
@@ -732,13 +730,13 @@ var putCart = {
         )
 
         // CMS特集ページ
-        if (putCart.storeClass.indexOf('stNsBtn') != -1) {
+        if (putCart.storeClass.includes('stNsBtn')) {
           jQuery('#dy_put_cart_listDataSp_' + resPrdId).html(
             "<a href='" +
               putCart.cartUrl +
               "'><button type='button' class='stBtn stSizeM stInvert stNsCartBtn'>カートを見る</button></a>"
           )
-        } else if (putCart.storeClass.indexOf('stEbBtn') != -1) {
+        } else if (putCart.storeClass.includes('stEbBtn')) {
           if (putCart.displayType == 'spSizeS') {
             jQuery('#dy_put_cart_listDataSp_' + resPrdId).html(
               "<a href='" +
@@ -761,14 +759,14 @@ var putCart = {
       }
 
       if (putCart.displayType == 'sp' || putCart.displayType == 'spDetailEbk') {
-        //SP カートに1商品でも入ってるいる場合に●アイコンを付ける
+        // SP カートに1商品でも入ってるいる場合に●アイコンを付ける
         jQuery('.stHeader .stNav .stCart').append(
           '<span class="stIcon"></span>'
         )
       }
 
       // 数量ボタンを非表示にする（物販のみ変更）
-      if (jQuery('#dy_book_count').length && '1' !== putCart.originalBookType) {
+      if (jQuery('#dy_book_count').length && putCart.originalBookType !== '1') {
         jQuery('#dy_book_count').html('')
       }
 
@@ -800,7 +798,7 @@ var putCart = {
 
     // メッセージ表示
     if (json.message != null && json.message.length > 0) {
-      var message = putCart.createMessage(json.message)
+      const message = putCart.createMessage(json.message)
 
       if (putCart.identifier === 'slideIn_') {
         jQuery('#dy_put_cart_slideIn_ErrMsg').prepend(message)
@@ -836,12 +834,10 @@ var putCart = {
           .before(message)
       } else if (putCart.identifier === 'lb_allbuy_') {
         jQuery(putCart.actionAreaSelecter).prepend(message)
+      } else if (!putCart.identifier) {
+        jQuery('#dy_put_cart_' + resPrdId).before(message)
       } else {
-        if (!putCart.identifier) {
-          jQuery('#dy_put_cart_' + resPrdId).before(message)
-        } else {
-          jQuery(putCart.actionAreaSelecter).before(message)
-        }
+        jQuery(putCart.actionAreaSelecter).before(message)
       }
     }
 
@@ -855,14 +851,16 @@ var putCart = {
    * ページ上部買い物かごカート内商品数設定関数.
    * @param {Object} json APIからのレスポンス
    */
-  updateCartItemCount: function(json) {
+  updateCartItemCount(json) {
     bookCartItemCount = json.bookCartItemCount
     ebookCartItemCount = json.ebookCartItemCount
 
-    var netstoreCartItem = jQuery(
-        '#dy_netstoreCartItemCount, .dy_netstoreCartItemCount'
-      ),
-      ebookCartItem = jQuery('#dy_ebookCartItemCount, .dy_ebookCartItemCount')
+    const netstoreCartItem = jQuery(
+      '#dy_netstoreCartItemCount, .dy_netstoreCartItemCount'
+    )
+    const ebookCartItem = jQuery(
+      '#dy_ebookCartItemCount, .dy_ebookCartItemCount'
+    )
 
     // 物販数
     for (var i = 0; netstoreCartItem.length > i; i++) {
@@ -882,18 +880,18 @@ var putCart = {
    * @param textStatus エラー内容("timeout", "error", "notmodified", "parsererror"など)
    * @param errorThrown 補足的な例外オブジェクト
    */
-  error: function(xhr, textStatus, errorThrown) {
+  error(xhr, textStatus, errorThrown) {
     // 現在のURLについているパラメータを付加
-    var newParameters = []
-    var parameters = window.location.search.substring(1).split('&')
-    for (var i = 0; i < parameters.length; i++) {
+    const newParameters = []
+    const parameters = window.location.search.substring(1).split('&')
+    for (let i = 0; i < parameters.length; i++) {
       if (!parameters[i].match(/^(prdid=|delHst=|delHstAll=)/)) {
         newParameters.push(parameters[i])
       }
     }
 
     // リダイレクトされた場合、リダイレクト先URLを取得できないため自画面遷移
-    var linkUrl = window.location.pathname + '?prdid=' + putCart.productId
+    let linkUrl = window.location.pathname + '?prdid=' + putCart.productId
     if (newParameters.length > 0) {
       linkUrl = linkUrl + '&' + newParameters.join('&')
     }
@@ -906,8 +904,8 @@ var putCart = {
    * @param message メッセージ
    * @return messageObj メッセージ要素
    */
-  createMessage: function(message) {
-    var messageObj = {}
+  createMessage(message) {
+    let messageObj = {}
 
     if (
       putCart.displayType === 'pcList' ||
@@ -948,7 +946,7 @@ var putCart = {
   /**
    * ローディング画像を設定する.
    */
-  setLoadingImage: function() {
+  setLoadingImage() {
     // PCの場合
     if (putCart.displayType.match(/^pc/)) {
       HC.Ajax.loadingImage = '/library/img/pc/loading_01.gif'
@@ -960,10 +958,10 @@ var putCart = {
    *
    * @param catalystProperties 分析データ
    */
-  sendCatalystData: function(json) {
+  sendCatalystData(json) {
     try {
-      var s = s_gi(s_account)
-      var linkTrackVars = ''
+      const s = s_gi(s_account)
+      let linkTrackVars = ''
 
       if ('prop3' in s) {
         s.eVar3 = 'D=c3'
@@ -1069,9 +1067,9 @@ var putCart = {
         s.campaign = putCart.cid
         linkTrackVars = linkTrackVars + ',campaign'
 
-        var params = s.prop51.split(';')
+        const params = s.prop51.split(';')
 
-        var prop51Cid = putCart.cid
+        let prop51Cid = putCart.cid
 
         if (params[1] != null && params[1].length > 0) {
           prop51Cid = prop51Cid + ';' + params[1]
@@ -1106,7 +1104,7 @@ var putCart = {
    *
    * @param json APIからのレスポンス
    */
-  addTrackCart: function(json) {
+  addTrackCart(json) {
     try {
       if (json.prdId == null || json.prdId.length == 0) {
         // シリーズの全部ボタン押下時は何もしない

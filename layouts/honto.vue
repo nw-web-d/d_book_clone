@@ -22,15 +22,15 @@
             <!--ナビバー -->
             <Navbar />
 
-            <div class="pbNested pbNestedWrapper" id="pbBlock2640587">
+            <div id="pbBlock2640587" class="pbNested pbNestedWrapper">
               <!-- ジャンル名の取得ができないページではブロックを非表示-->
             </div>
-            <div class="pbNested pbNestedWrapper" id="pbBlock2640589">
+            <div id="pbBlock2640589" class="pbNested pbNestedWrapper">
               <!-- トピックバー -->
               <TopicPath />
             </div>
-            <div class="pbNested pbNestedWrapper" id="pbBlock2640582"></div>
-            <div class="pbNested pbNestedWrapper" id="pbBlock4852927">
+            <div id="pbBlock2640582" class="pbNested pbNestedWrapper"></div>
+            <div id="pbBlock4852927" class="pbNested pbNestedWrapper">
               <script>
                 _etmc.push(['setOrgId', '110008041'])
               </script>

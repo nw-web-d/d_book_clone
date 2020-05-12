@@ -7,7 +7,7 @@
  * Honto基底名前空間
  * @namespace Honto基底名前空間
  */
-var Honto = {}
+const Honto = {}
 
 /**
  * 基盤共通機能名前空間.
@@ -33,7 +33,7 @@ var HC = (Honto.Common = {
    * ローカルでテストする際に必要だったため作成.<br>
    * 呼び出し元で呼び出し前に変数_HONTO_DEBUGを定義することでtrueとなる.<br>
    */
-  DEF_DBG: typeof _HONTO_DEBUG != 'undefined',
+  DEF_DBG: typeof _HONTO_DEBUG !== 'undefined',
 
   /**
    * 数字3桁カンマ区切り関数.<br>
@@ -41,12 +41,12 @@ var HC = (Honto.Common = {
    * @param value   対象の数字または数値.
    * @returns 3桁カンマ区切りをした文字列.
    */
-  formatSeparator1000: function(value) {
+  formatSeparator1000(value) {
     value = parseFloat(value).toString()
     return value.replace(
       /^(-)?(\d{1,2})?((?:\d{3})*)((?:\d{3})(?:\.\d+)?)$/,
       function() {
-        var args = arguments
+        const args = arguments
         return (
           (args[1] || '') +
           (args[2] ? args[2] + ',' : '') +
@@ -85,7 +85,7 @@ var HC = (Honto.Common = {
    * ただし、Site Publis管理画面の場合は遷移しない.<br>
    * @param isSitePublisStaff  Site Publis 管理画面であるか否か. 管理画面の場合1、そうでない場合0
    */
-  checkIFrame: function(isSitePublisStaff) {
+  checkIFrame(isSitePublisStaff) {
     if (!isSitePublisStaff && window == top)
       // Site Publis管理画面でなく、かつブラウザトップウィンドウで表示されている場合
 
@@ -103,7 +103,7 @@ var HC = (Honto.Common = {
    * これに対応するため作成した.<br>
    * @param a  A要素のjQeryオブジェクト
    */
-  cutOutHrefHash: function(a) {
+  cutOutHrefHash(a) {
     a.attr('href', a.attr('href').replace(/^[^#]+(?=#)/, ''))
   }
 })
@@ -178,7 +178,7 @@ Honto.Common.Ajax = {
    * @returns 対象要素のjQueryオブジェクト
    */
   function $id(id) {
-    if (typeof id == 'string') {
+    if (typeof id === 'string') {
       return $('#' + id)
     } else {
       return $(id)
@@ -202,7 +202,7 @@ Honto.Common.Ajax = {
      * @param element        処理完了まで再実行させたくない場合、起因となる要素またはそのIDを指定する.<br>
      * @param onComplete     Ajax受信時実行関数.<br>
      */
-    update: function(
+    update(
       pageBlockId,
       container,
       parameters,
@@ -210,7 +210,7 @@ Honto.Common.Ajax = {
       element,
       onComplete
     ) {
-      var isPart = container != null
+      const isPart = container != null
       container = $id(container || 'pbBlock' + pageBlockId)
       if (container.length == 0) {
         // 空文字の場合は処理しない
@@ -225,7 +225,7 @@ Honto.Common.Ajax = {
         pageBlockId,
         parameters,
         {
-          isPart: isPart,
+          isPart,
           noResponse: false
         },
         isAppendQuery
@@ -236,7 +236,7 @@ Honto.Common.Ajax = {
         dataType: 'html',
         type: 'post',
         url: Honto.Common.Ajax.url,
-        success: function(data) {
+        success(data) {
           // リダイレクトされている場合は処理しない
           if (HC.Ajax.redirectPageHead.test(data)) return
           container.html(data)
@@ -268,7 +268,7 @@ Honto.Common.Ajax = {
      *                       その要素またはそのIDを指定する.<br>
      * @param onError        Ajax受信時エラーだった場合、指定された関数を実行する。指定されていない場合は、なにもしない.
      */
-    json: function(
+    json(
       pageBlockId,
       onComplete,
       parameters,
@@ -305,7 +305,7 @@ Honto.Common.Ajax = {
      *                       その要素またはそのIDを指定する.<br>
      * @param onError        Ajax受信時エラーだった場合、指定された関数を実行する。指定されていない場合は、なにもしない.
      */
-    jsonSync: function(
+    jsonSync(
       pageBlockId,
       onComplete,
       parameters,
@@ -341,7 +341,7 @@ Honto.Common.Ajax = {
      * @param container      更新対象要素があり、かつそこに処理中アニメーションを表示したい場合に、<br>
      *                       その要素またはそのIDを指定する.<br>
      */
-    request: function(
+    request(
       pageBlockId,
       onComplete,
       parameters,
@@ -373,7 +373,7 @@ Honto.Common.Ajax = {
         dataType: 'text',
         type: 'post',
         url: Honto.Common.Ajax.url,
-        success: function(data) {
+        success(data) {
           // リダイレクトされている場合は処理しない
           if (HC.Ajax.redirectPageHead.test(data)) return
           if (onComplete) {
@@ -402,7 +402,7 @@ Honto.Common.Ajax = {
      * @param onError        Ajax受信時エラーだった場合、指定された関数を実行する。指定されていない場合は、なにもしない.<br>
      * @param asyncFlag      非同期通信、同期通信を指定する. 非同期通信=ture、 同期通信=false
      */
-    _json: function(
+    _json(
       pageBlockId,
       onComplete,
       parameters,
@@ -437,8 +437,8 @@ Honto.Common.Ajax = {
         type: 'post',
         url: Honto.Common.Ajax.url,
         async: asyncFlag,
-        success: function(data) {
-          //※リダイレクトは考慮しない(jsonとして評価不能なため処理されない)
+        success(data) {
+          // ※リダイレクトは考慮しない(jsonとして評価不能なため処理されない)
 
           if (onComplete) {
             // Ajax受信時実行関数が指定されている場合はこれを実行
@@ -446,7 +446,7 @@ Honto.Common.Ajax = {
           }
           Honto.Common.Ajax._complete(element)
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        error(XMLHttpRequest, textStatus, errorThrown) {
           if (onError) {
             // 設定されている場合のみ、実行する。
             onError(XMLHttpRequest, textStatus, errorThrown)
@@ -462,7 +462,7 @@ Honto.Common.Ajax = {
      * @param container    更新対象要素.<br>
      * @returns 処理続行可能か否か.可能な場合true、そうでない場合false.<br>
      */
-    _ready: function(element, container) {
+    _ready(element, container) {
       if (element.length > 0) {
         // 起因要素指定時
         if (element.context.disabled) {
@@ -475,18 +475,18 @@ Honto.Common.Ajax = {
       if (container) {
         // 更新対象要素がある場合、ローディングアニメーションを表示
         container.html('')
-        var height = container.height()
-        var width = container.width()
+        const height = container.height()
+        const width = container.width()
 
-        var loading
+        let loading
         if (HC.Ajax.loadingFunction) {
           // ローディングアニメーション表示用関数が指定されている場合(SP)はこれを実行
           HC.Ajax.loadingFunction(width, height, container)
         } else {
-          var image = Honto.Common.Ajax.loadingImage
-          var top = parseInt(container.attr('loadingImageTop'))
+          const image = Honto.Common.Ajax.loadingImage
+          let top = parseInt(container.attr('loadingImageTop'))
           if (isNaN(top)) top = 0
-          var left = parseInt(container.attr('loadingImageLeft'))
+          let left = parseInt(container.attr('loadingImageLeft'))
           if (isNaN(left)) left = 0
           if (width > 50 && height > 50) {
             // 更新対象要素が何も子要素を持たない場合の高さ・幅がそれぞれ50ピクセルより大きい場合
@@ -544,7 +544,7 @@ Honto.Common.Ajax = {
      * Ajax関連事後処理関数.<br>
      * @param element      起因となる要素.<br>
      */
-    _complete: function(element) {
+    _complete(element) {
       if (element.length > 0) {
         // 起因要素が設定されている場合
         setTimeout(function() {
@@ -562,12 +562,12 @@ Honto.Common.Ajax = {
      * @param isAppendQuery  現在のURLについているパラメータを付加して送信するか否か.<br>
      * @returns 生成したパラメータオブジェクト.<br>
      */
-    _getParameters: function(pageBlockId, parameters, addition, isAppendQuery) {
-      var data = Honto.Common.Ajax.blockData[pageBlockId]
+    _getParameters(pageBlockId, parameters, addition, isAppendQuery) {
+      const data = Honto.Common.Ajax.blockData[pageBlockId]
       if (!parameters) {
         // パラメータが設定されていない場合
         parameters = {}
-      } else if (typeof parameters == 'string') {
+      } else if (typeof parameters === 'string') {
         // パラメータがクエリパラメータ文字列の場合
         parameters = parameters.toQueryParams()
       } else if (parameters.tagName == 'FORM') {
@@ -601,13 +601,7 @@ Honto.Common.Ajax = {
      *                       デフォルトはfalse(付加しない).<br>
      * @param onComplete     Ajax受信時実行関数.
      */
-    onload: function(
-      pageBlockId,
-      container,
-      parameters,
-      isAppendQuery,
-      onComplete
-    ) {
+    onload(pageBlockId, container, parameters, isAppendQuery, onComplete) {
       $(document).ready(function() {
         Honto.Common.Ajax.update(
           pageBlockId,
@@ -633,7 +627,7 @@ Honto.Common.Ajax = {
      * @param aStyle ウィンドウスタイル(指定しない場合は幅・高さを親に合わせ、他はブラウザに依存)
      * @returns オープンした画面のオブジェクト
      */
-    open: function(aUrl, aName, aStyle) {
+    open(aUrl, aName, aStyle) {
       if (aStyle == null || aStyle == '') {
         aStyle = HC.Window.Style.createObject(
           window.screen.width,
@@ -644,10 +638,10 @@ Honto.Common.Ajax = {
         aName = '_blank'
       }
 
-      var x = aStyle.top
-      var y = aStyle.left
-      var w = aStyle.width
-      var h = aStyle.height
+      const x = aStyle.top
+      const y = aStyle.left
+      let w = aStyle.width
+      let h = aStyle.height
 
       if (w == 0) {
         w = window.screen.width
@@ -656,11 +650,11 @@ Honto.Common.Ajax = {
         h = window.screen.height
       }
 
-      var styleTemplate =
+      const styleTemplate =
         'top={0},left={1},width={2},height={3},toolbar={4},location={5},' +
         'status={6},menubar={7},scrollbars={8},resizable={9}'
 
-      var lStyle = String.format(
+      const lStyle = String.format(
         styleTemplate,
         x,
         y,
@@ -674,7 +668,7 @@ Honto.Common.Ajax = {
         _convertYesNo(aStyle.resizable)
       )
 
-      var whandle = window.open(aUrl, aName, lStyle)
+      const whandle = window.open(aUrl, aName, lStyle)
       whandle.focus()
 
       return whandle
@@ -719,7 +713,7 @@ Honto.Common.Ajax = {
        * @param aLeftウィンドウの位置（画面の左端からの距離）(初期値=0)
        * @returns スタイルオブジェクト
        */
-      createObject: function(
+      createObject(
         aWidth,
         aHeight,
         aVisibleToolbar,
@@ -735,16 +729,16 @@ Honto.Common.Ajax = {
           width: aWidth || 0,
           height: aHeight || 0,
           visibleToolbar:
-            typeof aVisibleToolbar == 'boolean' ? aVisibleToolbar : true,
+            typeof aVisibleToolbar === 'boolean' ? aVisibleToolbar : true,
           visibleAddressbar:
-            typeof aVisibleAddressbar == 'boolean' ? aVisibleAddressbar : true,
+            typeof aVisibleAddressbar === 'boolean' ? aVisibleAddressbar : true,
           visibleStatusbar:
-            typeof aVisibleStatusbar == 'boolean' ? aVisibleStatusbar : true,
+            typeof aVisibleStatusbar === 'boolean' ? aVisibleStatusbar : true,
           visibleMenubar:
-            typeof aVisibleStatusbar == 'boolean' ? aVisibleStatusbar : true,
+            typeof aVisibleStatusbar === 'boolean' ? aVisibleStatusbar : true,
           visibleScrollbars:
-            typeof aVisibleScrollbars == 'boolean' ? aVisibleScrollbars : true,
-          resizable: typeof aResizable == 'boolean' ? aResizable : true,
+            typeof aVisibleScrollbars === 'boolean' ? aVisibleScrollbars : true,
+          resizable: typeof aResizable === 'boolean' ? aResizable : true,
           top: aTop || 0,
           left: aLeft || 0
         }
@@ -763,15 +757,15 @@ Honto.Common.Ajax = {
  * @returns フォーマット済み文字列
  */
 String.format = function() {
-  var args = []
-  for (var i = 0; i < arguments.length; i++) args[i] = arguments[i]
-  var format = args.shift()
+  const args = []
+  for (let i = 0; i < arguments.length; i++) args[i] = arguments[i]
+  const format = args.shift()
 
-  var reg = /\{((\d)|([1-9]\d+))\}/g
+  const reg = /\{((\d)|([1-9]\d+))\}/g
   return format.replace(reg, function() {
-    var index = Number(arguments[1])
-    var result = args[index]
-    if (typeof result == 'undefined')
+    const index = Number(arguments[1])
+    const result = args[index]
+    if (typeof result === 'undefined')
       throw new Error('arguments[ ' + index + ' ] is undefined.')
     return result
   })
@@ -798,30 +792,30 @@ if (!window.Prototype) {
         elements.push($(arguments[i]))
       return elements
     }
-    if (typeof element == 'string') element = document.getElementById(element)
+    if (typeof element === 'string') element = document.getElementById(element)
     return element
   }
 
   Object.extend = function(destination, source) {
-    for (var property in source) destination[property] = source[property]
+    for (const property in source) destination[property] = source[property]
     return destination
   }
 
   Object.extend(String.prototype, {
-    strip: function() {
+    strip() {
       return this.replace(/^\s+/, '').replace(/\s+$/, '')
     },
 
-    toQueryParams: function(separator) {
-      var match = this.strip().match(/([^?#]*)(#.*)?$/)
+    toQueryParams(separator) {
+      const match = this.strip().match(/([^?#]*)(#.*)?$/)
       if (!match) return {}
       return match[1].split(separator || '&').inject({}, function(hash, pair) {
         if ((pair = pair.split('='))[0]) {
-          var key = decodeURIComponent(pair.shift()),
-            value = pair.length > 1 ? pair.join('=') : pair[0]
+          const key = decodeURIComponent(pair.shift())
+          let value = pair.length > 1 ? pair.join('=') : pair[0]
           if (value != undefined) value = decodeURIComponent(value)
           if (key in hash) {
-            if (!(hash[key] instanceof Array)) hash[key] = [hash[key]]
+            if (!Array.isArray(hash[key])) hash[key] = [hash[key]]
             hash[key].push(value)
           } else hash[key] = value
         }
@@ -829,15 +823,15 @@ if (!window.Prototype) {
       })
     },
 
-    escapeHTML: function() {
-      var div = document.createElement('div')
-      var text = document.createTextNode(this)
+    escapeHTML() {
+      const div = document.createElement('div')
+      const text = document.createTextNode(this)
       div.appendChild(text)
       return div.innerHTML
     },
 
-    unescapeHTML: function() {
-      var div = document.createElement('div')
+    unescapeHTML() {
+      const div = document.createElement('div')
       div.innerHTML = this.stripTags()
       return div.childNodes[0]
         ? div.childNodes.length > 1
@@ -848,7 +842,7 @@ if (!window.Prototype) {
         : ''
     },
 
-    stripTags: function() {
+    stripTags() {
       return this.replace(/<\/?[^>]+>/gi, '')
     }
   })
@@ -856,8 +850,8 @@ if (!window.Prototype) {
   window.$break = {}
 
   window.Enumerable = {
-    each: function(iterator, context) {
-      var index = 0
+    each(iterator, context) {
+      let index = 0
       try {
         this._each(function(value) {
           iterator.call(context, value, index++)
@@ -868,15 +862,15 @@ if (!window.Prototype) {
       return this
     },
 
-    inject: function(memo, iterator, context) {
+    inject(memo, iterator, context) {
       this.each(function(value, index) {
         memo = iterator.call(context, memo, value, index)
       })
       return memo
     },
 
-    include: function(pattern) {
-      return this.indexOf(pattern) > -1
+    include(pattern) {
+      return this.includes(pattern)
     }
   }
 
@@ -886,7 +880,7 @@ if (!window.Prototype) {
     _each:
       Array.prototype.forEach ||
       function(iterator, context) {
-        for (var i = 0, length = this.length >>> 0; i < length; i++) {
+        for (let i = 0, length = this.length >>> 0; i < length; i++) {
           if (i in this) iterator.call(context, this[i], i, this)
         }
       }
@@ -897,26 +891,26 @@ if (!window.Prototype) {
     if (iterable.toArray) {
       return iterable.toArray()
     } else {
-      var results = []
-      for (var i = 0, length = iterable.length; i < length; i++)
+      const results = []
+      for (let i = 0, length = iterable.length; i < length; i++)
         results.push(iterable[i])
       return results
     }
   }
 
   window.Form = {
-    serializeElements: function(elements, options) {
-      if (typeof options != 'object')
+    serializeElements(elements, options) {
+      if (typeof options !== 'object')
         options = {
           hash: !!options
         }
       else if (Object.isUndefined(options.hash)) options.hash = true
-      var key,
-        value,
-        submitted = false,
-        submit = options.submit,
-        accumulator,
-        initial
+      let key
+      let value
+      let submitted = false
+      const submit = options.submit
+      let accumulator
+      let initial
 
       if (options.hash) {
         initial = {}
@@ -960,16 +954,16 @@ if (!window.Prototype) {
       })
     },
 
-    serialize: function(form, options) {
+    serialize(form, options) {
       return Form.serializeElements(Form.getElements(form), options)
     },
 
-    getElements: function(form) {
-      var elements = $(form).getElementsByTagName('*'),
-        element,
-        arr = [],
-        serializers = Form.Element.Serializers
-      for (var i = 0; (element = elements[i]); i++) {
+    getElements(form) {
+      const elements = $(form).getElementsByTagName('*')
+      let element
+      const arr = []
+      const serializers = Form.Element.Serializers
+      for (let i = 0; (element = elements[i]); i++) {
         arr.push(element)
       }
       return arr.inject([], function(elements, child) {
@@ -980,12 +974,12 @@ if (!window.Prototype) {
   }
 
   window.Form.Element = {
-    serialize: function(element) {
+    serialize(element) {
       element = $(element)
       if (!element.disabled && element.name) {
-        var value = element.getValue()
+        const value = element.getValue()
         if (value != undefined) {
-          var pair = {}
+          const pair = {}
           pair[element.name] = value
           return Object.toQueryString(pair)
         }
@@ -993,15 +987,15 @@ if (!window.Prototype) {
       return ''
     },
 
-    getValue: function(element) {
+    getValue(element) {
       element = $(element)
-      var method = element.tagName.toLowerCase()
+      const method = element.tagName.toLowerCase()
       return Form.Element.Serializers[method](element)
     }
   }
 
   window.Form.Element.Serializers = {
-    input: function(element, value) {
+    input(element, value) {
       switch (element.type.toLowerCase()) {
         case 'checkbox':
         case 'radio':
@@ -1011,27 +1005,27 @@ if (!window.Prototype) {
       }
     },
 
-    inputSelector: function(element, value) {
-      if (typeof value == 'undefined')
+    inputSelector(element, value) {
+      if (typeof value === 'undefined')
         return element.checked ? element.value : null
       else element.checked = !!value
     },
 
-    valueSelector: function(element, value) {
-      if (typeof value == 'undefined') return element.value
+    valueSelector(element, value) {
+      if (typeof value === 'undefined') return element.value
       else element.value = value
     },
 
-    select: function(element, value) {
-      if (typeof value == 'undefined')
+    select(element, value) {
+      if (typeof value === 'undefined')
         return (element.type === 'select-one'
           ? Form.Element.Serializers.selectOne
           : Form.Element.Serializers.selectMany)(element)
 
-      var opt,
-        currentValue,
-        single = !(value instanceof Array)
-      for (var i = 0, length = element.length; i < length; i++) {
+      let opt
+      let currentValue
+      const single = !Array.isArray(value)
+      for (let i = 0, length = element.length; i < length; i++) {
         opt = element.options[i]
         currentValue = this.optionValue(opt)
         if (single) {
@@ -1043,26 +1037,26 @@ if (!window.Prototype) {
       }
     },
 
-    selectOne: function(element) {
-      var index = element.selectedIndex
+    selectOne(element) {
+      const index = element.selectedIndex
       return index >= 0
         ? Form.Element.Serializers.optionValue(element.options[index])
         : null
     },
 
-    selectMany: function(element) {
-      var values,
-        length = element.length
+    selectMany(element) {
+      var values
+      const length = element.length
       if (!length) return null
 
       for (var i = 0, values = []; i < length; i++) {
-        var opt = element.options[i]
+        const opt = element.options[i]
         if (opt.selected) values.push(Form.Element.Serializers.optionValue(opt))
       }
       return values
     },
 
-    optionValue: function(opt) {
+    optionValue(opt) {
       return opt.getAttributeNode('value') ? opt.value : opt.text
     }
   }
@@ -1072,7 +1066,7 @@ if (!window.Prototype) {
   }
 
   Object.extend(Event, {
-    stop: function(event) {
+    stop(event) {
       if (event.preventDefault) {
         event.preventDefault()
         event.stopPropagation()

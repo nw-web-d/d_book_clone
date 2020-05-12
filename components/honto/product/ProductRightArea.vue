@@ -34,15 +34,15 @@
               <span>新刊お知らせメール登録</span>
             </h3>
           </div>
-          <dl class="stSwitch" id="newInfMail">
+          <dl id="newInfMail" class="stSwitch">
             <dt>この著者の新着情報</dt>
             <dd>
               <ul>
                 <li>
                   <a
+                    id="dy_REGIST_rcptNewInf_1"
                     href="https://honto.jp/ebook/pd_25914816.html?pmd=rate_upd&amp;lnk=ATHR_ART&amp;mode=Regist"
                     name="dy_REGIST_rcptNewInf_1"
-                    id="dy_REGIST_rcptNewInf_1"
                     >受け取る</a
                   >
                 </li>
@@ -54,9 +54,9 @@
               <ul>
                 <li>
                   <a
+                    id="dy_REGIST_rcptNewInf_2"
                     href="https://honto.jp/ebook/pd_25914816.html?pmd=rate_upd&amp;lnk=PRD_REL&amp;mode=Regist"
                     name="dy_REGIST_rcptNewInf_2"
-                    id="dy_REGIST_rcptNewInf_2"
                     >受け取る</a
                   >
                 </li>

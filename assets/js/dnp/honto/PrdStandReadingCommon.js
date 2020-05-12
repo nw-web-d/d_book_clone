@@ -8,7 +8,7 @@
  * @param {String} url 立ち読み閲覧用URL
  */
 function openStandReadingTTimePlugin(url) {
-  var style = HC.Window.Style.createObject(
+  const style = HC.Window.Style.createObject(
     1024,
     700,
     false,
@@ -27,7 +27,7 @@ function openStandReadingTTimePlugin(url) {
  * @param {String} url 立ち読み閲覧用URL
  */
 function openStandReadingTTimeCrochet(url) {
-  var style = HC.Window.Style.createObject(
+  const style = HC.Window.Style.createObject(
     1024,
     700,
     false,
@@ -85,7 +85,7 @@ function openProgressiveInnerBrowser(url) {
  * @return ダイアログ処理結果
  */
 function openConfirmUnKnownVersion() {
-  //return window.confirm('最新アプリはインストール済みですか？\n古いアプリでは立ち読みできません。');
+  // return window.confirm('最新アプリはインストール済みですか？\n古いアプリでは立ち読みできません。');
   return window.confirm(
     '立ち読みには、アプリのインストールと端末登録、\nおよびログインが必要となります。'
   )

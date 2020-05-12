@@ -10,8 +10,8 @@
  * @param {Number} limit 最大表示件数
  */
 function checkSelected(limit) {
-  var flg = false
-  for (var i = 1; i <= limit; i++) {
+  let flg = false
+  for (let i = 1; i <= limit; i++) {
     if (document.getElementById('prdid' + i) != null) {
       // チェックボックスが存在する場合
       if (document.getElementById('prdid' + i).checked) {
@@ -38,11 +38,11 @@ function checkSelected(limit) {
  * @param {String} bid 買い物カゴパラメータ
  */
 function checkSelectedBid(limit, bid) {
-  var i
-  var flg = false
-  var prdList = document.getElementsByName('prdList')
-  var prdno = 0
-  var sendItemList = new Array()
+  let i
+  let flg = false
+  const prdList = document.getElementsByName('prdList')
+  let prdno = 0
+  const sendItemList = new Array()
 
   // SPの場合、最大取得件数を現在の表示件数から取得する
   if (limit == null) {
@@ -53,7 +53,7 @@ function checkSelectedBid(limit, bid) {
   }
 
   for (i = 1; i <= limit; i++) {
-    var b = prdList[i - 1]
+    const b = prdList[i - 1]
 
     if (document.getElementById('prdid' + i)) {
       // チェックボックスが存在する場合
@@ -72,15 +72,15 @@ function checkSelectedBid(limit, bid) {
     }
   }
 
-  var sendItemCnt = sendItemList.length
-  var allSelectedOrder = document.getElementById('allSelectedOrder')
+  const sendItemCnt = sendItemList.length
+  const allSelectedOrder = document.getElementById('allSelectedOrder')
 
   while (allSelectedOrder.firstChild) {
     allSelectedOrder.removeChild(allSelectedOrder.firstChild)
   }
 
   for (i = 0; i < sendItemCnt; i++) {
-    var s = sendItemList[i]
+    const s = sendItemList[i]
     if (s) {
       // 送信する商品IDが存在する場合、hidden の情報を生成する
       var elem = document.createElement('input')
@@ -116,11 +116,11 @@ function checkSelectedPrdIdForSp(limit, pageBlockId, queryParam, prdId) {
       'errorArea'
     )
   } else {
-    var i
-    var flg = false
-    var prdList = document.getElementsByName('prdList')
-    var prdno = 0
-    var sendItemList = new Array()
+    let i
+    let flg = false
+    const prdList = document.getElementsByName('prdList')
+    let prdno = 0
+    const sendItemList = new Array()
 
     // SPの場合、最大取得件数を現在の表示件数から取得する
     if (limit == null || limit == '') {
@@ -130,7 +130,7 @@ function checkSelectedPrdIdForSp(limit, pageBlockId, queryParam, prdId) {
     }
 
     for (i = 1; i <= limit; i++) {
-      var b = prdList[i - 1]
+      const b = prdList[i - 1]
 
       if (document.getElementById('prdid' + i)) {
         // チェックボックスが存在する場合
@@ -149,15 +149,15 @@ function checkSelectedPrdIdForSp(limit, pageBlockId, queryParam, prdId) {
       }
     }
 
-    var sendItemCnt = sendItemList.length
-    var allSelectedWishes = document.getElementById('allSelectedWishes')
+    const sendItemCnt = sendItemList.length
+    const allSelectedWishes = document.getElementById('allSelectedWishes')
 
     while (allSelectedWishes.firstChild) {
       allSelectedWishes.removeChild(allSelectedWishes.firstChild)
     }
 
     for (i = 0; i < sendItemCnt; i++) {
-      var s = sendItemList[i]
+      const s = sendItemList[i]
       if (s) {
         // 送信する商品IDが存在する場合、hidden の情報を生成する
         queryParam += '&prdid' + '[' + i + ']=' + s.value
@@ -180,11 +180,11 @@ function checkSelectedPrdIdForSp(limit, pageBlockId, queryParam, prdId) {
  * @param {Number} limit 最大表示件数
  */
 function checkSelectedPrdId(limit) {
-  var i
-  var flg = false
-  var prdList = document.getElementsByName('prdList')
-  var prdno = 0
-  var sendItemList = new Array()
+  let i
+  let flg = false
+  const prdList = document.getElementsByName('prdList')
+  let prdno = 0
+  const sendItemList = new Array()
 
   // SPの場合、最大取得件数を現在の表示件数から取得する
   if (limit == null || limit == '') {
@@ -194,7 +194,7 @@ function checkSelectedPrdId(limit) {
   }
 
   for (i = 1; i <= limit; i++) {
-    var b = prdList[i - 1]
+    const b = prdList[i - 1]
 
     if (document.getElementById('prdid' + i)) {
       // チェックボックスが存在する場合
@@ -212,18 +212,18 @@ function checkSelectedPrdId(limit) {
       }
     }
   }
-  var sendItemCnt = sendItemList.length
-  var allSelectedWishes = document.getElementById('allSelectedWishes')
+  const sendItemCnt = sendItemList.length
+  const allSelectedWishes = document.getElementById('allSelectedWishes')
 
   while (allSelectedWishes.firstChild) {
     allSelectedWishes.removeChild(allSelectedWishes.firstChild)
   }
 
   for (i = 0; i < sendItemCnt; i++) {
-    var s = sendItemList[i]
+    const s = sendItemList[i]
     if (s) {
       // 送信する商品IDが存在する場合、hidden の情報を生成する
-      var elem = document.createElement('input')
+      const elem = document.createElement('input')
       elem.name = 'prdid' + '[' + i + ']'
       elem.type = 'hidden'
       elem.value = s.value
@@ -248,14 +248,14 @@ function checkSelectedPrdId(limit) {
  * @param cid cidパラメータ
  */
 function searchBox(hontoModulePrefix, screenUrl, cid, slideInFlg) {
-  var elemId_1 = hontoModulePrefix + 'stGenre'
-  var elemId_3 = hontoModulePrefix + 'stSearchGenre'
+  const elemId_1 = hontoModulePrefix + 'stGenre'
+  const elemId_3 = hontoModulePrefix + 'stSearchGenre'
 
-  var l = document.getElementById(elemId_1)
-  var u = screenUrl
+  const l = document.getElementById(elemId_1)
+  const u = screenUrl
 
   // 擬似静的URL生成
-  var createdUrl = u
+  let createdUrl = u
   createdUrl = createdUrl.replace('.html', '')
 
   // ジャンルコード
@@ -271,7 +271,7 @@ function searchBox(hontoModulePrefix, screenUrl, cid, slideInFlg) {
     var keyWord = document.getElementById('stSearchTextBox')
     var tbtyVal = document.getElementById('stSearchTbty').value
   }
-  var keyWordValue = keyWord.value.toString()
+  const keyWordValue = keyWord.value.toString()
 
   if (keyWord != null && keyWordValue != '') {
     createdUrl = createdUrl + '_10' + encodeURIComponent(keyWordValue)
@@ -282,24 +282,24 @@ function searchBox(hontoModulePrefix, screenUrl, cid, slideInFlg) {
   document.getElementById(elemId_3).value = l.value
 
   // 子フォームを作成（検索キーワードを重複させない為、送信用の新しいフォームを作成）
-  var f = document.createElement('form')
+  const f = document.createElement('form')
   f.style.display = 'none'
   document.body.appendChild(f)
   f.method = 'get'
   f.action = createdUrl
 
-  var srchf = document.createElement('input')
+  const srchf = document.createElement('input')
   srchf.setAttribute('name', 'srchf')
   srchf.setAttribute('value', '1')
   f.appendChild(srchf)
 
-  var tbty = document.createElement('input')
+  const tbty = document.createElement('input')
   tbty.setAttribute('name', 'tbty')
   tbty.setAttribute('value', tbtyVal)
   f.appendChild(tbty)
 
   if (cid) {
-    var cidTag = document.createElement('input')
+    const cidTag = document.createElement('input')
     cidTag.setAttribute('name', 'cid')
     cidTag.setAttribute('value', cid)
     f.appendChild(cidTag)
@@ -307,7 +307,7 @@ function searchBox(hontoModulePrefix, screenUrl, cid, slideInFlg) {
 
   // 検索用ジャンル
   if (l != null && l.value != '') {
-    var srchGnrNm = document.createElement('input')
+    const srchGnrNm = document.createElement('input')
     srchGnrNm.setAttribute('name', 'srchGnrNm')
     srchGnrNm.setAttribute('value', l.value)
     f.appendChild(srchGnrNm)
@@ -323,9 +323,9 @@ function searchBox(hontoModulePrefix, screenUrl, cid, slideInFlg) {
  * @param limit 選択上限値
  */
 function chkBoxLimitCheck(elm, chkBxNm, limit) {
-  var cnt = 0 // チェックの合計
-  var Flag = new Array() // チェックの有無を格納する配列
-  var chkBx = document.getElementsByName(chkBxNm) // 指定したnameの要素をすべて取得
+  let cnt = 0 // チェックの合計
+  const Flag = new Array() // チェックの有無を格納する配列
+  const chkBx = document.getElementsByName(chkBxNm) // 指定したnameの要素をすべて取得
 
   for (i = 0; i < chkBx.length; i++) {
     Flag[i] = i
@@ -362,7 +362,7 @@ function chkBoxLimitCheck(elm, chkBxNm, limit) {
  * @param targetId valueを消去するid
  */
 function clearTextBox(targetId) {
-  var targetObject = document.getElementById(targetId)
+  const targetObject = document.getElementById(targetId)
   targetObject.value = ''
   targetObject.focus()
   clearIcon(targetId)
@@ -374,7 +374,7 @@ function clearTextBox(targetId) {
  * @param targetId クリアアイコンを消去するid
  */
 function clearIcon(targetId) {
-  var targetObject = document.getElementById(targetId)
+  const targetObject = document.getElementById(targetId)
   if (targetObject.value == '') {
     document.getElementById('stIconCross').style.display = 'none'
   } else {
@@ -393,14 +393,14 @@ function sendSiteCatalystSuggestData(slideInFlg) {
     return
   }
   // サジェスト件数
-  var suggestCount = DY.suggestList.length
+  const suggestCount = DY.suggestList.length
   if (suggestCount == 0) {
     return
   }
   // サジェスト選択箇所
-  var suggestSelectedNumber = '0'
-  var suggestWord = ''
-  for (var i = suggestCount - 1; i >= 0; i--) {
+  let suggestSelectedNumber = '0'
+  let suggestWord = ''
+  for (let i = suggestCount - 1; i >= 0; i--) {
     if (DY.suggestList[i].className == 'stCurrent') {
       suggestSelectedNumber = i + 1
       // innerHTMLの値にaタグ、emタグが含まれるため空文字に置換

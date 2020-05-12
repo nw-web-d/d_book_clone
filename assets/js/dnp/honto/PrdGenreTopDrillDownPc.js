@@ -22,7 +22,7 @@ var genreTopDrillDownPc = {
   /** li.stCurrent. */
   _current: {},
 
-  setUp: function() {
+  setUp() {
     this._dyblock = jQuery('#dyGenreTopDrillDownLazyLoad')
     // ロード中なら処理終了
     if (this._dyblock.find('img').length) {
@@ -47,7 +47,7 @@ var genreTopDrillDownPc = {
       genreTopDrillDownPc._hideNavigation
     )
     // 白背景設定
-    var _prefix = new Date().getTime()
+    const _prefix = new Date().getTime()
     this._list.prepend('<li class="stCurrent" id="el_' + _prefix + '"></li>')
     this._current = jQuery('#el_' + _prefix)
     this._current.css('opacity', 0)
@@ -60,7 +60,7 @@ var genreTopDrillDownPc = {
     }
   },
 
-  _init: function() {
+  _init() {
     this._dyblock = jQuery('#dyGenreTopDrillDownLazyLoad')
     this._node = this._dyblock.find('div.genreNavi')
     this._trigger = this._node.find('p.stTrigger')
@@ -71,10 +71,10 @@ var genreTopDrillDownPc = {
     this._current = this._list.find('li.stCurrent')
   },
 
-  _showNavigation: function() {
+  _showNavigation() {
     genreTopDrillDownPc._init()
 
-    var self = this
+    const self = this
     genreTopDrillDownPc._trigger.addClass('stCurrent')
     Velocity(genreTopDrillDownPc._navigation, 'stop')
     Velocity(
@@ -88,10 +88,10 @@ var genreTopDrillDownPc = {
     genreTopDrillDownPc._onListOver(genreTopDrillDownPc._listItem[1])
   },
 
-  _hideNavigation: function() {
+  _hideNavigation() {
     genreTopDrillDownPc._init()
 
-    var self = this
+    const self = this
     genreTopDrillDownPc._trigger.removeClass('stCurrent')
     Velocity(genreTopDrillDownPc._navigation, 'stop')
     Velocity(
@@ -102,23 +102,24 @@ var genreTopDrillDownPc = {
     genreTopDrillDownPc._current.css('opacity', 0)
   },
 
-  //- ===================================================================  Current <
-  _onListOver: function(e) {
+  // - ===================================================================  Current <
+  _onListOver(e) {
     genreTopDrillDownPc._init()
-    var currentIndex = Array.prototype.indexOf.call(
+    const currentIndex = Array.prototype.indexOf.call(
       genreTopDrillDownPc._listItem,
       e
     )
     genreTopDrillDownPc._trigger.addClass('stCurrent')
 
-    var i = 0
+    let i = 0
     for (i = 0; i < genreTopDrillDownPc._listItem.length; i++) {
       i === currentIndex
         ? jQuery(genreTopDrillDownPc._listItem[i]).addClass('stActive')
         : jQuery(genreTopDrillDownPc._listItem[i]).removeClass('stActive')
     }
 
-    var topPos = jQuery(e).offset().top - genreTopDrillDownPc._list.offset().top
+    const topPos =
+      jQuery(e).offset().top - genreTopDrillDownPc._list.offset().top
     Velocity(genreTopDrillDownPc._current, 'stop')
     Velocity(
       genreTopDrillDownPc._current,

@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <div class="stBoxCarousel01">
@@ -433,13 +432,13 @@
                         class="stBtn stFav"
                         style="right: -56px; top: -56px;"
                         ><span></span
-                        >最強出涸らし皇子の暗躍帝位争い　（１）</span
+                        >最強出涸らし皇子の暗躍帝位争い&emsp;（１）</span
                       >
                       <div class="stSummary">
                         <p class="stTitle">
-                          最強出涸らし皇子の暗躍帝位争い　（１）
+                          最強出涸らし皇子の暗躍帝位争い&emsp;（１）
                         </p>
-                        <p class="stAuthor">漫画:天海　雪乃</p>
+                        <p class="stAuthor">漫画:天海&emsp;雪乃</p>
                         <!-- /stSummary -->
                       </div>
                     </a>
@@ -448,7 +447,7 @@
                         class="lazyload"
                         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEHAAEALAAAAAABAAEAAAICTAEAOw=="
                         data-src="https://image.honto.jp/item/1/133/3030/4503/30304503_1BL.png"
-                        alt="最強出涸らし皇子の暗躍帝位争い　（１）"
+                        alt="最強出涸らし皇子の暗躍帝位争い&emsp;（１）"
                         width="133"
                         height="180"
                       />
@@ -458,13 +457,13 @@
                 <p class="stTitle">
                   <a
                     href="https://honto.jp/ebook/pd_30304503.html?cid=ip_ebpd_ranking_24"
-                    >最強出涸らし皇子の暗躍帝位争い　（１）</a
+                    >最強出涸らし皇子の暗躍帝位争い&emsp;（１）</a
                   >
                 </p>
                 <p class="stAuthor">
                   <a
                     href="https://honto.jp/ebook/search/au_1001820140.html?cid=ip_ebpd_ranking_25"
-                    >漫画:天海　雪乃</a
+                    >漫画:天海&emsp;雪乃</a
                   >
                 </p>
                 <!-- /.stItem-->
@@ -489,10 +488,10 @@
                       ><span
                         class="stBtn stFav"
                         style="right: -56px; top: -56px;"
-                        ><span></span>風都探偵　8</span
+                        ><span></span>風都探偵&emsp;8</span
                       >
                       <div class="stSummary">
-                        <p class="stTitle">風都探偵　8</p>
+                        <p class="stTitle">風都探偵&emsp;8</p>
                         <p class="stAuthor">
                           石ノ森章太郎（著・原作）
                         </p>
@@ -504,7 +503,7 @@
                         class="lazyload"
                         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEHAAEALAAAAAABAAEAAAICTAEAOw=="
                         data-src="https://image.honto.jp/item/1/133/3025/4018/30254018_1BL.png"
-                        alt="風都探偵　8"
+                        alt="風都探偵&emsp;8"
                         width="133"
                         height="180"
                       />
@@ -514,7 +513,7 @@
                 <p class="stTitle">
                   <a
                     href="https://honto.jp/ebook/pd_30254018.html?cid=ip_ebpd_ranking_27"
-                    >風都探偵　8</a
+                    >風都探偵&emsp;8</a
                   >
                 </p>
                 <p class="stAuthor">
@@ -549,7 +548,7 @@
                       >
                       <div class="stSummary">
                         <p class="stTitle">プランダラ(15)</p>
-                        <p class="stAuthor">著者:水無月　すう</p>
+                        <p class="stAuthor">著者:水無月&emsp;すう</p>
                         <!-- /stSummary -->
                       </div>
                     </a>
@@ -574,7 +573,7 @@
                 <p class="stAuthor">
                   <a
                     href="https://honto.jp/ebook/search/au_1001820594.html?cid=ip_ebpd_ranking_next"
-                    >著者:水無月　すう</a
+                    >著者:水無月&emsp;すう</a
                   >
                 </p>
                 <!-- /.stItem-->

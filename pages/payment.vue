@@ -57,7 +57,10 @@
                     </span>
                   </div>
                   <div>
-                    <span>If the address contains typos or other errors, your package may be undeliverable.</span>
+                    <span
+                      >If the address contains typos or other errors, your
+                      package may be undeliverable.</span
+                    >
                   </div>
 
                   <!-- Purchase Button -->
@@ -80,7 +83,6 @@
   </main>
   <!--/MAIN-->
 </template>
-
 
 <style>
 .StripeElement {

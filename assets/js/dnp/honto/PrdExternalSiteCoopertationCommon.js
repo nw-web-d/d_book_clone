@@ -17,7 +17,7 @@ function openSnsPopUp(url, _this, width, height) {
   if (!width) width = 632
   if (!height) height = 456
 
-  var style = HC.Window.Style.createObject(
+  const style = HC.Window.Style.createObject(
     width,
     height,
     false,
@@ -34,14 +34,14 @@ function openSnsPopUp(url, _this, width, height) {
 
 // SNSボタンクリックイベント
 function altCheck(elem) {
-  var img = elem.children,
-    imgL = img.length
+  const img = elem.children
+  const imgL = img.length
 
   if (imgL !== 0) {
-    //PC
+    // PC
     var alt = img[0].getAttribute('alt')
   } else {
-    //SP
+    // SP
     var alt = elem.parentNode.className
   }
   s_sns_click('event45', alt)

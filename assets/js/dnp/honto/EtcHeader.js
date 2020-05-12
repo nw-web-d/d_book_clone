@@ -2,7 +2,7 @@
  * @fileOverview ヘッダ用共通スクリプト.
  * @name EtcHeader.js
  */
-var EtcHeader = {
+const EtcHeader = {
   /** プラグインブロックID **/
   pageBlockId: '',
 
@@ -10,7 +10,7 @@ var EtcHeader = {
   safeSearchFlag: '',
 
   /**  セーフサーチON/OFF切替 */
-  editSafeSearch: function(pageBlockId, safeSearchFlag) {}
+  editSafeSearch(pageBlockId, safeSearchFlag) {}
 }
 
 jQuery.noConflict()
@@ -22,7 +22,7 @@ jQuery(document).ready(function($) {
      * @param string pageBlockId プラグインブロックID
      * @param string safeSearchFlag セーフサーチフラグ(ON/OFF)
      */
-    editSafeSearch: function(pageBlockId, safeSearchFlag) {
+    editSafeSearch(pageBlockId, safeSearchFlag) {
       if (HC.isSubmitted) {
         return
       }
@@ -43,7 +43,7 @@ jQuery(document).ready(function($) {
     /**
      * セーフサーチ切替完了処理.
      */
-    editSafeSearchComplete: function() {
+    editSafeSearchComplete() {
       // チェックボックスの無効化を解除
       $(EtcHeader.selecter).prop('disabled', false)
 

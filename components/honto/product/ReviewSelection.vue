@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="pbNested pbNestedWrapper" id="pbBlock2641045">
+    <div id="pbBlock2641045" class="pbNested pbNestedWrapper">
       <div class="pbNested stUserReview01">
-        <div class="pbNested pbNestedWrapper" id="pbBlock2641047">
+        <div id="pbBlock2641047" class="pbNested pbNestedWrapper">
           <div class="pbNested stBoxReview07">
-            <div class="pbNested pbNestedWrapper" id="pbBlock2641053">
+            <div id="pbBlock2641053" class="pbNested pbNestedWrapper">
               <div class="stBlock">
                 <div class="stColumn">
                   <h2>
@@ -114,9 +114,9 @@
             </div>
           </div>
         </div>
-        <div class="pbNested pbNestedWrapper" id="pbBlock2641046">
+        <div id="pbBlock2641046" class="pbNested pbNestedWrapper">
           <div class="pbNested stUserReview01">
-            <div class="pbNested pbNestedWrapper" id="pbBlock2641052">
+            <div id="pbBlock2641052" class="pbNested pbNestedWrapper">
               <nav class="stReviewSort">
                 <dl>
                   <dt>並び順を変更する</dt>
@@ -144,8 +144,8 @@
 
               <div
                 v-for="review in reviews"
-                :key="review._id"
                 id="stReviewOver"
+                :key="review._id"
               >
                 <div class="stBoxReview04">
                   <div class="stHeading">
@@ -174,9 +174,10 @@
                     >
                   </p>
                   <p>
-                  <span style="white-space:pre-wrap; word-wrap:break-word;">{{
-                    review.body
-                  }}</span></p>
+                    <span style="white-space:pre-wrap; word-wrap:break-word;">{{
+                      review.body
+                    }}</span>
+                  </p>
                   <div class="stVote">
                     <p class="stText01">
                       <em>このレビューは役に立ちましたか？</em>

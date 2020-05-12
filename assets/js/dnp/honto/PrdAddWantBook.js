@@ -37,7 +37,7 @@ var prdWantBookAjax = {
    * @param wantProductId ほしい本の商品ID
    * @param displayType 表示タイプ(pcList:PCの一覧系画面 pcDetail:PCの詳細画面(アクションエリア) pcDetailHbPrdList:PCの詳細画面(ハイブリット商品リスト) sp:SPの画面)
    */
-  add: function(pageBlockId, productId, wantProductId, displayType) {
+  add(pageBlockId, productId, wantProductId, displayType) {
     if (!HC.isSubmitted) {
       // 多重実行を防止
       HC.isSubmitted = true
@@ -86,7 +86,7 @@ var prdWantBookAjax = {
    * @param wantProductId ほしい本の商品ID
    * @param displayType 表示タイプ(pcList:PCの一覧系画面 pcDetail:PCの詳細画面 sp:SPの画面)
    */
-  _init: function(pageBlockId, productId, wantProductId, displayType) {
+  _init(pageBlockId, productId, wantProductId, displayType) {
     this.productId = productId
     this.pageBlockId = pageBlockId
     this.wantProductId = wantProductId
@@ -106,7 +106,7 @@ var prdWantBookAjax = {
    *
    * @param productId 商品ID
    */
-  _clearMessage: function(productId) {
+  _clearMessage(productId) {
     // ページ上部に表示されているメッセージがあれば除去(SPのみ)
     if (jQuery('#dy_wntBkMsg').size()) {
       jQuery('#dy_wntBkMsg').hide()
@@ -127,7 +127,7 @@ var prdWantBookAjax = {
    *
    * @param json APIからのレスポンス
    */
-  complete: function(json) {
+  complete(json) {
     if (!json) {
       prdWantBookAjax.error()
       return
@@ -155,21 +155,17 @@ var prdWantBookAjax = {
       if (jQuery('#dy_wntBkLnk_' + prdWantBookAjax.productId).size()) {
         jQuery('#dy_wntBkLnk_' + prdWantBookAjax.productId).hide()
       }
+    } else if (prdWantBookAjax.displayType === 'pcDetailHbPrdList') {
+      // 処理失敗時、ローディング画像をほしい本リンクに戻す
+      jQuery(prdWantBookAjax.selecterHbPrdList).html(prdWantBookAjax.linkClone)
     } else {
-      if (prdWantBookAjax.displayType === 'pcDetailHbPrdList') {
-        // 処理失敗時、ローディング画像をほしい本リンクに戻す
-        jQuery(prdWantBookAjax.selecterHbPrdList).html(
-          prdWantBookAjax.linkClone
-        )
-      } else {
-        // 処理失敗時、ローディング画像をほしい本ボタンに戻す
-        jQuery(prdWantBookAjax.selecter).html(prdWantBookAjax.buttonClone)
-      }
+      // 処理失敗時、ローディング画像をほしい本ボタンに戻す
+      jQuery(prdWantBookAjax.selecter).html(prdWantBookAjax.buttonClone)
     }
 
     // メッセージ表示
     if (json.result.msg) {
-      var message = prdWantBookAjax._createMessage(json.result.msg)
+      const message = prdWantBookAjax._createMessage(json.result.msg)
 
       if (prdWantBookAjax.displayType === 'pcList') {
         jQuery(prdWantBookAjax.selecter)
@@ -197,11 +193,11 @@ var prdWantBookAjax = {
    * @param textStatus エラー内容("timeout", "error", "notmodified", "parsererror"など)
    * @param errorThrown 補足的な例外オブジェクト
    */
-  error: function(xhr, textStatus, errorThrown) {
+  error(xhr, textStatus, errorThrown) {
     // 現在のURLについているパラメータを付加
-    var newParameters = []
-    var parameters = window.location.search.substring(1).split('&')
-    for (var i = 0; i < parameters.length; i++) {
+    const newParameters = []
+    const parameters = window.location.search.substring(1).split('&')
+    for (let i = 0; i < parameters.length; i++) {
       if (
         !parameters[i].match(
           /^(regWant=|prdid=|delHst=|delHstAll=|wantPrdId=|havePrdId=)/
@@ -212,7 +208,7 @@ var prdWantBookAjax = {
     }
 
     // リダイレクトされた場合、リダイレクト先URLを取得できないため自画面遷移
-    var linkUrl =
+    let linkUrl =
       window.location.pathname +
       '?regWant=1&wantPrdId=' +
       prdWantBookAjax.wantProductId +
@@ -230,13 +226,13 @@ var prdWantBookAjax = {
    *
    * @return linkObj ほしい本一覧画面へのリンク要素
    */
-  _createLink: function() {
-    var linkObj = jQuery('<p/>').append(
+  _createLink() {
+    let linkObj = jQuery('<p/>').append(
       jQuery('<a/>', { href: '/my/wishlist.html' })
     )
-    var linkText =
+    const linkText =
       '<span class="stBtn stUserAction stWish stSizeL stCurrent">ほしい本一覧へ</span>'
-    var linkTextSp =
+    const linkTextSp =
       '<button class="stBtn stUserAction stWish stCurrent">ほしい本一覧へ</button>'
 
     if (prdWantBookAjax.displayType === 'pcList') {
@@ -269,11 +265,11 @@ var prdWantBookAjax = {
    *
    * @return linkObj ほしい本一覧画面へのリンク要素
    */
-  _createLinkHbPrdList: function() {
-    var linkObj = jQuery('<span/>').append(
+  _createLinkHbPrdList() {
+    const linkObj = jQuery('<span/>').append(
       jQuery('<a/>', { href: '/my/wishlist.html' })
     )
-    var linkText =
+    const linkText =
       '<span class="stBtn stUserAction stWish stCurrent">ほしい本一覧へ</span>'
 
     linkObj.attr('id', 'dy_addWntBk_hbPrdList_' + prdWantBookAjax.wantProductId)
@@ -293,8 +289,8 @@ var prdWantBookAjax = {
    * @param message メッセージ
    * @return messageObj メッセージ要素
    */
-  _createMessage: function(message) {
-    var messageObj = {}
+  _createMessage(message) {
+    let messageObj = {}
 
     if (prdWantBookAjax.displayType === 'pcList') {
       messageObj = jQuery('<span/>').append(message)
@@ -321,7 +317,7 @@ var prdWantBookAjax = {
   /**
    * ローディング画像を設定する.
    */
-  _setLoadingImage: function() {
+  _setLoadingImage() {
     // PCの場合
     if (prdWantBookAjax.displayType.match(/^pc/)) {
       HC.Ajax.loadingImage = '/library/img/pc/loading_01.gif'

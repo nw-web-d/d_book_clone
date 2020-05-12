@@ -5,13 +5,13 @@
         <div id="mainArea" class="pbMainArea">
           <div id="area0" class="pbArea">
             <div class="pbNested">
-              <div class="pbNested pbNestedWrapper" id="pbBlock3324206">
+              <div id="pbBlock3324206" class="pbNested pbNestedWrapper">
                 <!-- Empty block -->
               </div>
-              <div class="pbNested pbNestedWrapper" id="pbBlock2945727">
+              <div id="pbBlock2945727" class="pbNested pbNestedWrapper">
                 <!-- Empty block -->
               </div>
-              <div class="pbNested pbNestedWrapper" id="pbBlock2841232">
+              <div id="pbBlock2841232" class="pbNested pbNestedWrapper">
                 <!-- Publis 共通Block --><!-- SVGアイコン -->
                 <div id="pbBlock999" class="pbNested pbNestedWrapper">
                   <div class="pbNested">
@@ -43,13 +43,13 @@
                   <!-- / .pbNested.pbNestedWrapper#pbBlock999-->
                 </div>
               </div>
-              <div class="pbNested pbNestedWrapper" id="pbBlock2641097">
+              <div id="pbBlock2641097" class="pbNested pbNestedWrapper">
                 <!-- Empty block -->
               </div>
-              <div class="pbNested pbNestedWrapper" id="pbBlock3514451">
+              <div id="pbBlock3514451" class="pbNested pbNestedWrapper">
                 <!-- Empty block -->
               </div>
-              <div class="pbNested pbNestedWrapper" id="pbBlock3324204">
+              <div id="pbBlock3324204" class="pbNested pbNestedWrapper">
                 <div class="stProduct01 stBookDetail01 stNs">
                   <ProductLeftArea :product="product" />
 
@@ -61,39 +61,39 @@
                 </div>
               </div>
 
-              <div class="pbNested pbNestedWrapper" id="pbBlock3470154">
+              <div id="pbBlock3470154" class="pbNested pbNestedWrapper">
                 <!--ProductInfomation01-->
                 <ProductInfomation01 />
               </div>
 
-              <div class="pbNested pbNestedWrapper" id="pbBlock3471276">
+              <div id="pbBlock3471276" class="pbNested pbNestedWrapper">
                 <!-- Empty block -->
               </div>
 
-              <div class="pbNested pbNestedWrapper" id="pbBlock2841144">
+              <div id="pbBlock2841144" class="pbNested pbNestedWrapper">
                 <!--StBookTreeCarousel03-->
                 <StBookTreeCarousel03 />
               </div>
-              <div class="pbNested pbNestedWrapper" id="pbBlock3269121">
+              <div id="pbBlock3269121" class="pbNested pbNestedWrapper">
                 <!--StBoxCarousel01-->
                 <StBoxCarousel01 />
               </div>
               <div
-                class="pbNested pbNestedWrapper"
                 id="pbBlock2641094"
+                class="pbNested pbNestedWrapper"
                 style="display: none;"
               >
                 <StBoxCarousel011 />
               </div>
               <div
-                class="pbNested pbNestedWrapper"
                 id="pbBlock2641093"
+                class="pbNested pbNestedWrapper"
                 style="display: none;"
               >
                 <StBoxCarousel012 />
               </div>
-              <div class="pbNested pbNestedWrapper" id="pbBlock2641099">
-                <div class="stBallon" id="reserveHelp01_2641099">
+              <div id="pbBlock2641099" class="pbNested pbNestedWrapper">
+                <div id="reserveHelp01_2641099" class="stBallon">
                   <div class="stInner">
                     <dl>
                       <dt>予約購入について</dt>
@@ -133,7 +133,7 @@
               </div>
 
               <!-- 商品説明 -->
-              <div class="pbNested pbNestedWrapper" id="pbBlock2641092">
+              <div id="pbBlock2641092" class="pbNested pbNestedWrapper">
                 <div
                   id="productInfomation"
                   class="pbNested productInfomation01 stAnchor"
@@ -152,38 +152,38 @@
                 </div>
               </div>
 
-              <div class="pbNested pbNestedWrapper" id="pbBlock2641091">
+              <div id="pbBlock2641091" class="pbNested pbNestedWrapper">
                 <!-- Empty block -->
               </div>
-              <div class="pbNested pbNestedWrapper" id="pbBlock2641089">
+              <div id="pbBlock2641089" class="pbNested pbNestedWrapper">
                 <!-- Empty block -->
               </div>
-              <div class="pbNested pbNestedWrapper" id="pbBlock2641088">
+              <div id="pbBlock2641088" class="pbNested pbNestedWrapper">
                 <!-- Empty block -->
               </div>
 
-              <div class="pbNested pbNestedWrapper" id="pbBlock2641083">
+              <div id="pbBlock2641083" class="pbNested pbNestedWrapper">
                 <ProductInfomation011 />
               </div>
 
-              <div class="pbNested pbNestedWrapper" id="pbBlock2641082">
+              <div id="pbBlock2641082" class="pbNested pbNestedWrapper">
                 <!-- ProductInfomation012 -->
                 <ProductInfomation012 />
               </div>
 
-              <div class="pbNested pbNestedWrapper" id="pbBlock2641081">
+              <div id="pbBlock2641081" class="pbNested pbNestedWrapper">
                 <!-- StBoxCarousel013 -->
                 <StBoxCarousel013 />
               </div>
 
-              <div class="pbNested pbNestedWrapper" id="pbBlock2641080">
+              <div id="pbBlock2641080" class="pbNested pbNestedWrapper">
                 <!-- Empty block -->
               </div>
-              <div class="pbNested pbNestedWrapper" id="pbBlock2641079">
+              <div id="pbBlock2641079" class="pbNested pbNestedWrapper">
                 <!-- Empty block -->
               </div>
 
-              <div class="pbNested pbNestedWrapper" id="pbBlock4107824">
+              <div id="pbBlock4107824" class="pbNested pbNestedWrapper">
                 <div class="productInfomation01">
                   <div class="stView">
                     <!-- /stView -->
@@ -195,17 +195,17 @@
               <!-- レビュー -->
               <ReviewSelection :product="product" :reviews="reviews" />
 
-              <div class="pbNested pbNestedWrapper" id="pbBlock2641078">
+              <div id="pbBlock2641078" class="pbNested pbNestedWrapper">
                 <!-- StBoxCarousel014 -->
                 <StBoxCarousel014 />
               </div>
 
-              <div class="pbNested pbNestedWrapper" id="pbBlock2641077">
+              <div id="pbBlock2641077" class="pbNested pbNestedWrapper">
                 <!-- StTopicPath -->
                 <StTopicPath />
               </div>
 
-              <div class="pbNested pbNestedWrapper" id="pbBlock3324201">
+              <div id="pbBlock3324201" class="pbNested pbNestedWrapper">
                 <script type="text/javascript">
                   <!--
                   HC.Ajax.onload(3324201, 'dyFirstViewLazyLoad', 'prdid=25914816&pagePath=%252Febook%252Fpd', true,
@@ -213,7 +213,7 @@
                   //-->
                 </script>
               </div>
-              <div class="pbNested pbNestedWrapper" id="pbBlock4479621">
+              <div id="pbBlock4479621" class="pbNested pbNestedWrapper">
                 <script type="text/javascript">
                   <!--
                   HC.Ajax.onload(4479621, 'dyMailRegistrationLazyLoad', 'prdid=25914816&pagePath=%252Febook%252Fpd', true,
@@ -221,10 +221,10 @@
                   //-->
                 </script>
               </div>
-              <div class="pbNested pbNestedWrapper" id="pbBlock2641084">
+              <div id="pbBlock2641084" class="pbNested pbNestedWrapper">
                 <!-- Empty block -->
               </div>
-              <div class="pbNested pbNestedWrapper" id="pbBlock2961182">
+              <div id="pbBlock2961182" class="pbNested pbNestedWrapper">
                 <script type="text/javascript">
                   var deqwas = {}
                   deqwas.iid = '25914816'
@@ -243,7 +243,7 @@
                   }, 0)
                 </script>
               </div>
-              <div class="pbNested pbNestedWrapper" id="pbBlock4480192">
+              <div id="pbBlock4480192" class="pbNested pbNestedWrapper">
                 <script type="text/javascript">
                   <!--
                   HC.Ajax.onload(4480192, 'dyRankingLazyLoad', 'prdid=25914816', true,
@@ -251,7 +251,7 @@
                   //-->
                 </script>
               </div>
-              <div class="pbNested pbNestedWrapper" id="pbBlock4859456">
+              <div id="pbBlock4859456" class="pbNested pbNestedWrapper">
                 <div id="einstein-recommendations-track-page-view">
                   <script type="text/javascript">
                     einsteinRecommendationsTrackPageView.addTrackPageView(
@@ -288,7 +288,7 @@
         style="display: none;"
       />
     </div>
-    <script type="text/javascript" id="">
+    <script id="" type="text/javascript">
       ;(function(d, g, h, l, e, k, c, a, b, f) {
         a = (d[e] || (d[e] = {}))[k] || (d[e][k] = {})
         a[c] ||
@@ -317,7 +317,7 @@
         smnAdvertiserProductId: '[PRODUCT_ID]'
       })
     </script>
-    <script type="text/javascript" id="">
+    <script id="" type="text/javascript">
       ;(function(d, g, h, l, e, k, c, a, b, f) {
         a = (d[e] || (d[e] = {}))[k] || (d[e][k] = {})
         a[c] ||
@@ -358,21 +358,21 @@
     <div id="fancybox-overlay"></div>
     <div id="fancybox-wrap">
       <div id="fancybox-outer">
-        <div class="fancybox-bg" id="fancybox-bg-n"></div>
-        <div class="fancybox-bg" id="fancybox-bg-ne"></div>
-        <div class="fancybox-bg" id="fancybox-bg-e"></div>
-        <div class="fancybox-bg" id="fancybox-bg-se"></div>
-        <div class="fancybox-bg" id="fancybox-bg-s"></div>
-        <div class="fancybox-bg" id="fancybox-bg-sw"></div>
-        <div class="fancybox-bg" id="fancybox-bg-w"></div>
-        <div class="fancybox-bg" id="fancybox-bg-nw"></div>
+        <div id="fancybox-bg-n" class="fancybox-bg"></div>
+        <div id="fancybox-bg-ne" class="fancybox-bg"></div>
+        <div id="fancybox-bg-e" class="fancybox-bg"></div>
+        <div id="fancybox-bg-se" class="fancybox-bg"></div>
+        <div id="fancybox-bg-s" class="fancybox-bg"></div>
+        <div id="fancybox-bg-sw" class="fancybox-bg"></div>
+        <div id="fancybox-bg-w" class="fancybox-bg"></div>
+        <div id="fancybox-bg-nw" class="fancybox-bg"></div>
         <div id="fancybox-content"></div>
         <a id="fancybox-close"></a>
         <div id="fancybox-title"></div>
-        <a href="javascript:;" id="fancybox-left"
-          ><span class="fancy-ico" id="fancybox-left-ico"></span></a
-        ><a href="javascript:;" id="fancybox-right"
-          ><span class="fancy-ico" id="fancybox-right-ico"></span
+        <a id="fancybox-left" href="javascript:;"
+          ><span id="fancybox-left-ico" class="fancy-ico"></span></a
+        ><a id="fancybox-right" href="javascript:;"
+          ><span id="fancybox-right-ico" class="fancy-ico"></span
         ></a>
       </div>
     </div>
@@ -501,7 +501,6 @@
   </div>
 </template>
 <script>
-import TopicPath from '~/components/honto/TopicPath'
 import StTopicPath from '~/components/honto/product/StTopicPath'
 import ProductLeftArea from '~/components/honto/product/ProductLeftArea'
 import ProductMainArea from '~/components/honto/product/ProductMainArea'
@@ -519,7 +518,6 @@ import StBoxCarousel014 from '~/components/honto/carousel/StBoxCarousel014'
 export default {
   layout: 'honto',
   components: {
-    TopicPath,
     StTopicPath,
     ProductLeftArea,
     ProductMainArea,
@@ -582,7 +580,7 @@ export default {
 }
 </script>
 
-    <style type="text/css">
+<style type="text/css">
 /* Copyright 2014-present Evernote Corporation. All rights reserved. */
 @keyframes caretBlink {
   from {
@@ -627,7 +625,7 @@ export default {
   animation-timing-function: linear;
 }
 </style>
-    <style type="text/css">
+<style type="text/css">
 /* Copyright 2014-present Evernote Corporation. All rights reserved. */
 .skitchToastBoxContainer {
   position: absolute;
@@ -689,7 +687,7 @@ export default {
   font-style: normal;
 }
 </style>
-    <style type="text/css">
+<style type="text/css">
 /* Copyright 2019-present Evernote Corporation. All rights reserved. */
 
 #en-markup-disabled {

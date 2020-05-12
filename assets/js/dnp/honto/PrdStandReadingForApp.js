@@ -31,7 +31,7 @@ var appStandReadingAjax = {
    * @param terminalType 端末種別
    * @param deviceClass  デバイスクラス(PC/SP)
    */
-  standReadingWithLightBox: function(
+  standReadingWithLightBox(
     pageBlockId,
     productId,
     msuProductId,
@@ -58,7 +58,7 @@ var appStandReadingAjax = {
    * @param terminalType 端末種別
    * @param deviceClass  デバイスクラス(PC/SP)
    */
-  standReading: function(
+  standReading(
     pageBlockId,
     productId,
     msuProductId,
@@ -80,7 +80,7 @@ var appStandReadingAjax = {
       ) {
         // 非同期通信後に別画面を立ち上げるとブロックされる為、
         // 事前に別ブラウザを立ち上げてハンドルを退避しておく
-        var style = HC.Window.Style.createObject(
+        const style = HC.Window.Style.createObject(
           1024,
           700,
           false,
@@ -123,8 +123,8 @@ var appStandReadingAjax = {
    *
    * @param json APIからのレスポンス
    */
-  complete: function(json) {
-    var response
+  complete(json) {
+    let response
 
     if (!json) {
       appStandReadingAjax.error()
@@ -154,7 +154,7 @@ var appStandReadingAjax = {
    *
    * @param response APIからのレスポンス
    */
-  executeViewerAppForPc: function(response) {
+  executeViewerAppForPc(response) {
     if (
       appStandReadingAjax.isInnerBrowserAccess(
         response.osClass,
@@ -196,7 +196,7 @@ var appStandReadingAjax = {
    *
    * @param response APIからのレスポンス
    */
-  executeViewerAppForSp: function(response) {
+  executeViewerAppForSp(response) {
     // OS区分がAndroid 且つ アプリ内ブラウザの場合は、専用の処理を行う
     if (
       appStandReadingAjax.isInnerBrowserAccess(
@@ -220,8 +220,8 @@ var appStandReadingAjax = {
    *
    * @param response APIからのレスポンス
    */
-  executeViewerAppForIphone: function(response) {
-    var url
+  executeViewerAppForIphone(response) {
+    let url
 
     if (response.downloadParameterFlag == true) {
       url = response.downloadLink + '?encryptData=' + response.downloadParameter
@@ -240,7 +240,7 @@ var appStandReadingAjax = {
    * @param response APIからのレスポンス
    * @return window.confirmの結果
    */
-  openConfirm: function(response) {
+  openConfirm(response) {
     if (response.osClass == 'iOS' && response.iOsAppVersionKnownFlag != '0') {
       return openConfirmOldVersion()
     }
@@ -254,7 +254,7 @@ var appStandReadingAjax = {
    * @param innerBrowserFlag アプリ内ブラウザフラグ
    * @return true:アプリ内ブラウザからのアクセス、false:通常ブラウザからのアクセス
    */
-  isInnerBrowserAccess: function(osClass, innerBrowserFlag) {
+  isInnerBrowserAccess(osClass, innerBrowserFlag) {
     if (osClass == 'Android' && innerBrowserFlag == '1') {
       return true
     }
@@ -267,7 +267,7 @@ var appStandReadingAjax = {
    *
    * @param response APIからのレスポンス
    */
-  executeViewerAppForInnerBrowser: function(response) {
+  executeViewerAppForInnerBrowser(response) {
     if (response.downloadParameterFlag == true) {
       // レガシーコンテンツの場合
       return openStandReadingInnerBrowser(response.downloadLink)
@@ -282,7 +282,7 @@ var appStandReadingAjax = {
    *
    * @param productId 商品ID
    */
-  sendSiteCatalyst: function(productId) {
+  sendSiteCatalyst(productId) {
     try {
       s = s_gi(s_account)
       s.events = appStandReadingAjax.SITE_CATALYST_EVENT_ID
@@ -302,7 +302,7 @@ var appStandReadingAjax = {
    * @param textStatus エラー内容("timeout", "error", "notmodified", "parsererror"など)
    * @param errorThrown 補足的な例外オブジェクト
    */
-  error: function(xhr, textStatus, errorThrown) {
+  error(xhr, textStatus, errorThrown) {
     // アプリ立ち読み情報が取得できなかった場合は、エラー処理を行わない
 
     if (

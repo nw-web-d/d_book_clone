@@ -6,7 +6,9 @@
       <div class="row">
         <div class="col-xl-2 col-lg-1 col-md-12"></div>
         <div class="col-xl-8 col-lg-9 col-md-12">
-          <div class="a-spacing-large a-spacing-top-small a-subheader a-breadcrumb">
+          <div
+            class="a-spacing-large a-spacing-top-small a-subheader a-breadcrumb"
+          >
             <ul class="a-unordered-list a-nostyle a-horizontal">
               <li>
                 <span class="a-list-item">
@@ -44,18 +46,26 @@
           <div class="orderContent">
             <div class="orderContentHeader">
               <div class="row">
-                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2 text-left">
+                <div
+                  class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2 text-left"
+                >
                   <div class="a-row">
-                    <span class="a-size-mini a-color-secondary">ORDER PLACED</span>
+                    <span class="a-size-mini a-color-secondary"
+                      >ORDER PLACED</span
+                    >
                     <br />
-                    <span class="a-size-base a-text-bold a-color-secondary">May 16, 2016</span>
+                    <span class="a-size-base a-text-bold a-color-secondary"
+                      >May 16, 2016</span
+                    >
                   </div>
                 </div>
                 <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
                   <div class="a-row">
                     <span class="a-size-mini a-color-secondary">TOTAL</span>
                     <br />
-                    <span class="a-size-base a-text-bold a-color-secondary">$904.85</span>
+                    <span class="a-size-base a-text-bold a-color-secondary"
+                      >$904.85</span
+                    >
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-3">
@@ -69,16 +79,29 @@
                     </a>
                   </div>
                 </div>
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-5 text-right">
+                <div
+                  class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-5 text-right"
+                >
                   <div class="a-row">
-                    <span class="a-size-mini a-color-secondary">ORDER # 114-7570830-75444212</span>
+                    <span class="a-size-mini a-color-secondary"
+                      >ORDER # 114-7570830-75444212</span
+                    >
                     <br />
-                    <a href="#" class="a-size-base font-weight-bold a-link-normal">Order Details</a>
+                    <a
+                      href="#"
+                      class="a-size-base font-weight-bold a-link-normal"
+                      >Order Details</a
+                    >
                     &nbsp;
                     <div
                       style="display: inline-block; background-color: #ddd; height: 15px; width: 2px; margin-bottom: -3px;"
-                    ></div>&nbsp;
-                    <a href="#" class="a-size-base font-weight-bold a-link-normal">Invoice</a>
+                    ></div>
+                    &nbsp;
+                    <a
+                      href="#"
+                      class="a-size-base font-weight-bold a-link-normal"
+                      >Invoice</a
+                    >
                   </div>
                 </div>
               </div>
@@ -112,11 +135,17 @@
                       </span>
                     </div>
                     <div class="a-row">
-                      <span class="a-size-mini a-color-secondary">Sold by: Amazon Export Sales LLC</span>
+                      <span class="a-size-mini a-color-secondary"
+                        >Sold by: Amazon Export Sales LLC</span
+                      >
                     </div>
                     <div class="a-row">
                       <!-- Product quantity -->
-                      <span class="a-size-mini" style="color: #111; font-weight: 400;">Quantity: 3</span>
+                      <span
+                        class="a-size-mini"
+                        style="color: #111; font-weight: 400;"
+                        >Quantity: 3</span
+                      >
                     </div>
                     <div class="a-row">
                       <!-- Product price -->
@@ -140,4 +169,3 @@
   </main>
   <!--/MAIN-->
 </template>
-

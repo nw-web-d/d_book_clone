@@ -30,7 +30,7 @@
                       src="~/assets/img/dnp/product/27150933_1CC.png"
                       width="75"
                       height="102"
-                      alt="勇者が死んだ！　1"
+                      alt="勇者が死んだ！&emsp;1"
                     />
                   </div>
                   <div class="stCaption">
@@ -58,7 +58,7 @@
                       src="~/assets/img/dnp/product/27150933_1CC.png"
                       width="75"
                       height="102"
-                      alt="勇者が死んだ！　1"
+                      alt="勇者が死んだ！&emsp;1"
                     />
                   </div>
                   <div class="stCaption">
@@ -86,7 +86,7 @@
                       src="~/assets/img/dnp/product/27150933_1CC.png"
                       width="75"
                       height="102"
-                      alt="勇者が死んだ！　1"
+                      alt="勇者が死んだ！&emsp;1"
                     />
                   </div>
                   <div class="stCaption">

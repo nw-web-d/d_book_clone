@@ -4,16 +4,16 @@
  */
 
 jQuery.noConflict()
-var einsteinRecommendationsTrackPageView = {
+const einsteinRecommendationsTrackPageView = {
   /**
    * trackPageView送信スクリプトを埋め込む処理関数
    *
    * @param targetId 商品ID／シリーズID
    * @param genreCode ジャンルコード
    */
-  addTrackPageView: function(targetId, genreCode) {
+  addTrackPageView(targetId, genreCode) {
     try {
-      var trackPageViewArea = jQuery(
+      const trackPageViewArea = jQuery(
         '#einstein-recommendations-track-page-view'
       )
       if (typeof adultauth === 'undefined') {

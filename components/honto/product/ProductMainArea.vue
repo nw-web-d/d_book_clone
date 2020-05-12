@@ -86,8 +86,8 @@
                                       "
                       name="submit.add-to-cart"
                       ><span
-                        class="stBtn stCart stSizeL stEbBtn ebook-cart__button"
                         id="dy_put_cart_img_25914816"
+                        class="stBtn stCart stSizeL stEbBtn ebook-cart__button"
                         ><span>電子書籍を</span>カートに入れる</span
                       ></a
                     >
@@ -141,8 +141,8 @@
               <p id="dy_addWntBk_25914816">
                 <a href="javascript:void(0);" style="text-decoration: none;"
                   ><span
-                    class="stBtn stUserAction stWish stSizeL"
                     id="dy_img_25914816"
+                    class="stBtn stUserAction stWish stSizeL"
                     onclick="prdWantBookAjax.add(&#39;3324204&#39;,&#39;25914816&#39;, &#39;25914816&#39;,&#39;pcDetail&#39;);"
                     >ほしい本に追加（値下がりすると通知がきます）</span
                   ></a
@@ -159,7 +159,7 @@
                   >
                 </li>
                 <li id="dy_addShelfBtnDisp_25914816">
-                  <span class="stListLink08 stShelf" id="dy_addShlfBtn_25914816"
+                  <span id="dy_addShlfBtn_25914816" class="stListLink08 stShelf"
                     ><a
                       href="javascript:void(0);"
                       onclick="prdAddMyBookShelf.add(&#39;3324204&#39;,&#39;25914816&#39;,&#39;25914816&#39;,&#39;pcDetail&#39;,&#39;true&#39;);"
@@ -367,8 +367,8 @@
                                       height: 62px;
                                     "
                     ><span
-                      class="stBtn stCart stSizeL stNsBtn"
                       id="dy_put_cart_img_25643629"
+                      class="stBtn stCart stSizeL stNsBtn"
                       name="submit.add-to-cart"
                       ><span>紙の本を</span>カートに入れる</span
                     ></a
@@ -379,8 +379,8 @@
               <p id="dy_addWntBk_25643629">
                 <a href="javascript:void(0);" style="text-decoration: none;"
                   ><span
-                    class="stBtn stUserAction stWish stSizeL"
                     id="dy_img_25643629"
+                    class="stBtn stUserAction stWish stSizeL"
                     onclick="prdWantBookAjax.add(&#39;3324204&#39;,&#39;25914816&#39;, &#39;25643629&#39;,&#39;pcDetail&#39;);"
                     >ほしい本に追加</span
                   ></a
@@ -389,7 +389,7 @@
 
               <ul class="stAction">
                 <li id="dy_addShelfBtnDisp_25643629">
-                  <span class="stListLink08 stShelf" id="dy_addShlfBtn_25643629"
+                  <span id="dy_addShlfBtn_25643629" class="stListLink08 stShelf"
                     ><a
                       href="javascript:void(0);"
                       onclick="prdAddMyBookShelf.add(&#39;3324204&#39;,&#39;25914816&#39;,&#39;25643629&#39;,&#39;pcDetail&#39;);"
@@ -544,11 +544,7 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
-import StarRating from '~/components/common/StarRating'
 export default {
-  components: {
-    StarRating
-  },
   props: {
     product: {
       type: Object,

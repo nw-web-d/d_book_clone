@@ -3,11 +3,11 @@
  * @name CmnCidSetting.js
  */
 
-var CidSetting = {
-  setCid: function(pageBlockId, device) {},
+const CidSetting = {
+  setCid(pageBlockId, device) {},
   settingData: null,
   date: new Date(),
-  timestamp: function() {
+  timestamp() {
     return (
       this.date.getFullYear().toString() +
       (this.date.getMonth() + 1).toString() +
@@ -26,7 +26,7 @@ jQuery(document).ready(function($) {
      * @param pageBlockId ページブロックID
      * @param device デバイス(PC/SP)
      */
-    setCid: function(pageBlockId, device) {
+    setCid(pageBlockId, device) {
       if (!CidSetting.settingData) {
         // CID設定用JSONファイルの読み込みが完了していない場合は1000ミリ秒後に再度実行
         setTimeout(
@@ -37,17 +37,17 @@ jQuery(document).ready(function($) {
         // CID設定用JSONファイルデータ
         setting = CidSetting.settingData
 
-        var tmpArray = location.href.split('/'),
-          firstDir = getDir(tmpArray[3], 'home'),
-          secondDir = '',
-          len = tmpArray.length
-        for (var i = 4; i < len; i++) {
+        const tmpArray = location.href.split('/')
+        const firstDir = getDir(tmpArray[3], 'home')
+        let secondDir = ''
+        const len = tmpArray.length
+        for (let i = 4; i < len; i++) {
           secondDir += '/' + tmpArray[i]
         }
         secondDir = getDir(secondDir, '/')
 
         // URL第一階層
-        var subSetting = searchForwardMatch(setting[0], firstDir)
+        let subSetting = searchForwardMatch(setting[0], firstDir)
         if (!subSetting) {
           return
         }
@@ -83,17 +83,17 @@ jQuery(document).ready(function($) {
       // CID設定用JSONファイルデータを変数に格納
       CidSetting.settingData = setting
 
-      var tmpArray = location.href.split('/'),
-        firstDir = getDir(tmpArray[3], 'home'),
-        secondDir = '',
-        len = tmpArray.length
-      for (var i = 4; i < len; i++) {
+      const tmpArray = location.href.split('/')
+      const firstDir = getDir(tmpArray[3], 'home')
+      let secondDir = ''
+      const len = tmpArray.length
+      for (let i = 4; i < len; i++) {
         secondDir += '/' + tmpArray[i]
       }
       secondDir = getDir(secondDir, '/')
 
       // URL第一階層
-      var subSetting = searchForwardMatch(setting[0], firstDir)
+      let subSetting = searchForwardMatch(setting[0], firstDir)
       if (!subSetting) {
         return
       }
@@ -144,7 +144,7 @@ jQuery(document).ready(function($) {
    * @return url URLパラメータ接続文字
    */
   function getParamText(url) {
-    var urlArray = url.split('?')
+    const urlArray = url.split('?')
     if (urlArray[1]) {
       return '&'
     }
@@ -182,15 +182,15 @@ jQuery(document).ready(function($) {
    * @return CID設定情報
    */
   function search(setting, searchText, searchKind) {
-    var subSetting = '',
-      prefix = ' ',
-      postfix = ' '
+    let subSetting = ''
+    const prefix = ' '
+    let postfix = ' '
     if (searchKind == 1) {
       postfix = ''
     }
     searchText = prefix + searchText + postfix
     for (key in setting) {
-      if (searchText.indexOf(prefix + key + postfix) != -1) {
+      if (searchText.includes(prefix + key + postfix)) {
         subSetting = setting[key]
       }
     }
@@ -209,13 +209,13 @@ jQuery(document).ready(function($) {
       setCidByClass(setting, pageBlockId)
     } else {
       // 「seq_class」の指定がない場合
-      var block = $('#pbBlock' + pageBlockId),
-        cidNum = 0,
-        lastIndex = block.find('a').size() - 1,
-        obj = block.find('a'),
-        len = obj.length,
-        linkObj
-      for (var index = 0; index < len; index++) {
+      const block = $('#pbBlock' + pageBlockId)
+      let cidNum = 0
+      const lastIndex = block.find('a').size() - 1
+      const obj = block.find('a')
+      const len = obj.length
+      let linkObj
+      for (let index = 0; index < len; index++) {
         linkObj = obj.eq(index)
         if (!checkLink(linkObj.attr('href'))) {
           continue
@@ -223,7 +223,7 @@ jQuery(document).ready(function($) {
         // クラスに「dyNoCid」の指定があるリンクにはcidを付与しない
         if (
           !linkObj.attr('class') ||
-          linkObj.attr('class').indexOf('dyNoCid') == -1
+          !linkObj.attr('class').includes('dyNoCid')
         ) {
           cidNum++
           // リンクにcidを追加
@@ -231,7 +231,6 @@ jQuery(document).ready(function($) {
         }
       }
     }
-    return
   }
 
   /**
@@ -241,18 +240,18 @@ jQuery(document).ready(function($) {
    * @param pageBlockId ページブロックID
    */
   function setCidByClass(setting, pageBlockId) {
-    var block = $('#pbBlock' + pageBlockId),
-      cidNum = 0,
-      lastIndex = block.find('a').size() - 1,
-      tagList = [],
-      num = 1,
-      obj = block.find('.' + setting.seq_class),
-      len = obj.length
+    const block = $('#pbBlock' + pageBlockId)
+    let cidNum = 0
+    const lastIndex = block.find('a').size() - 1
+    const tagList = []
+    let num = 1
+    const obj = block.find('.' + setting.seq_class)
+    const len = obj.length
 
     for (var i = 0; i < len; i++) {
-      var linkObj = obj.eq(i),
-        subLinkObj = linkObj.find('a'),
-        subLen = subLinkObj.length
+      var linkObj = obj.eq(i)
+      const subLinkObj = linkObj.find('a')
+      const subLen = subLinkObj.length
       tagList[num] = []
       for (var j = 0; j < subLen; j++) {
         tagList[num].push(subLinkObj.eq(j))
@@ -260,20 +259,20 @@ jQuery(document).ready(function($) {
       num++
     }
 
-    var cidIndex = 0,
-      tagObj = block.find('a'),
-      tagObjLen = tagObj.length
+    let cidIndex = 0
+    const tagObj = block.find('a')
+    const tagObjLen = tagObj.length
 
-    for (var index = 0; index < tagObjLen; index++) {
+    for (let index = 0; index < tagObjLen; index++) {
       var linkObj = tagObj.eq(index)
       if (!checkLink(linkObj.attr('href'))) {
         continue
       }
-      var tagListLen = tagList.length,
-        tagListSubLen = '',
-        hitFlg = false
+      const tagListLen = tagList.length
+      let tagListSubLen = ''
+      let hitFlg = false
       loop: for (var i = tagListLen; i--; ) {
-        var tagListSub = tagList[i]
+        const tagListSub = tagList[i]
         if (!tagListSub) {
           continue
         }
@@ -286,7 +285,7 @@ jQuery(document).ready(function($) {
           // クラスに「dyNoCid」の指定があるリンクにはcidを付与しない
           if (
             !linkObj.attr('class') ||
-            linkObj.attr('class').indexOf('dyNoCid') == -1
+            !linkObj.attr('class').includes('dyNoCid')
           ) {
             if (cidIndex != i) {
               cidNum++
@@ -302,7 +301,7 @@ jQuery(document).ready(function($) {
         // クラスに「dyNoCid」の指定があるリンクにはcidを付与しない
         if (
           !linkObj.attr('class') ||
-          linkObj.attr('class').indexOf('dyNoCid') == -1
+          !linkObj.attr('class').includes('dyNoCid')
         ) {
           cidNum++
           // リンクにcidを追加
@@ -310,7 +309,6 @@ jQuery(document).ready(function($) {
         }
       }
     }
-    return
   }
 
   /**
@@ -324,11 +322,11 @@ jQuery(document).ready(function($) {
       return false
     }
     // リンクがURLでない場合
-    if (link.indexOf('/') == -1) {
+    if (!link.includes('/')) {
       return false
     }
     // リンクのパラメータにcidが付与済みの場合
-    if (link.indexOf('?cid=') != -1 || link.indexOf('&cid=') != -1) {
+    if (link.includes('?cid=') || link.includes('&cid=')) {
       return false
     }
     return true
@@ -344,18 +342,17 @@ jQuery(document).ready(function($) {
    * @param cidNum cidに付与する番号
    */
   function addCidToLink(obj, setting, index, lastIndex, cidNum) {
-    var link = obj.attr('href'),
-      cidIndex
+    const link = obj.attr('href')
+    let cidIndex
     if (setting.next_flag == true && index && lastIndex && index == lastIndex) {
       cidIndex = 'next'
     } else {
       cidIndex = ('0' + cidNum).slice(-2)
     }
-    var paramText = getParamText(link)
+    const paramText = getParamText(link)
     obj.attr(
       'href',
       link + paramText + 'cid=' + setting.cid_prefix + '_' + cidIndex
     )
-    return
   }
 })

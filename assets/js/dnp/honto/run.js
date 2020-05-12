@@ -17,7 +17,7 @@ if (typeof DE === 'undefined') {
  * @param value 値
  */
 DE.setCookie = function(cName, value) {
-  var s = cName + '=' + value
+  const s = cName + '=' + value
   document.cookie = s
 }
 
@@ -28,10 +28,10 @@ DE.setCookie = function(cName, value) {
 DE.getCookie = function(cName) {
   if (document.cookie.length > 0) {
     // クッキーの値を取り出す
-    var st = document.cookie.indexOf(cName + '=')
+    let st = document.cookie.indexOf(cName + '=')
     if (st != -1) {
       st = st + cName.length + 1
-      var ed = document.cookie.indexOf(';', st)
+      let ed = document.cookie.indexOf(';', st)
       if (ed == -1) ed = document.cookie.length
       return document.cookie.substring(st, ed)
     }
@@ -69,12 +69,12 @@ jQuery(document).ready(function($) {
   } catch (e) {}
 
   // Get User Agent
-  var _ua = navigator.userAgent.toLowerCase(),
-    touchFlag = 'ontouchstart' in window,
-    WIN = $(window)
+  const _ua = navigator.userAgent.toLowerCase()
+  const touchFlag = 'ontouchstart' in window
+  const WIN = $(window)
 
   // IE6
-  var tyIE6 =
+  const tyIE6 =
     typeof window.addEventListener === 'undefined' &&
     typeof document.documentElement.style.maxHeight === 'undefined'
 
@@ -97,7 +97,7 @@ jQuery(document).ready(function($) {
     // ライトボックス
     makeFancybox(container)
     // タブナビゲーション
-    if (0 < $('.stTabNav01').length) {
+    if ($('.stTabNav01').length > 0) {
       $('.stTabNav01 ul.stTabs').each(function() {
         setTabNavi($(this))
       })
@@ -130,22 +130,22 @@ jQuery(document).ready(function($) {
    * 前者はドキュメント全体、後者は受信HTMLを対象とする.<br>
    * @param container スクリプト機能適用対象要素
    */
-  var onInit = (HC.Ajax.onUpdateFunction = function(container) {
-    //専用AP外部リンク対応
+  const onInit = (HC.Ajax.onUpdateFunction = function(container) {
+    // 専用AP外部リンク対応
     if (window.openOutsideSite) {
       container
         .find('a')
         .filter(function() {
-          var href = $(this).attr('href')
-          //hrefの設定がない場合は対象外
+          const href = $(this).attr('href')
+          // hrefの設定がない場合は対象外
           if (!href) return false
-          //メール、通話用リンクも対象
+          // メール、通話用リンクも対象
           if (/^(?:mailto|tel):/i.test(href)) return true
-          //http:// or https://から始まらなければ対象外
+          // http:// or https://から始まらなければ対象外
           if (!/^https?:\/\//i.test(href)) return false
-          //DEBUG用(本番に影響ありません)
+          // DEBUG用(本番に影響ありません)
           if (HC.DEF_DBG && /^https?:\/\/localhost/i.test(href)) return false
-          //hontoサイト外へのリンクを対象とする
+          // hontoサイト外へのリンクを対象とする
           return !/^https?:\/\/(?:[^\/]+\.)?honto\.jp(?:\/|$)/i.test(href)
         })
         .click(function(event) {
@@ -154,32 +154,32 @@ jQuery(document).ready(function($) {
           window.openOutsideSite($(this).attr('href'))
         })
     }
-    //二重送信防止
+    // 二重送信防止
     container.findWithSelf('.dyPreventDoubleSubmit').each(function() {
-      var onclick = $(this).prop('onclick') || function() {}
+      const onclick = $(this).prop('onclick') || function() {}
       $(this)
         .attr('onclick', '')
         .prop('onclick', null)
         .click(function(event) {
           onclick.call(this, event)
           if (!Honto.Common.isSubmitted) {
-            //未サブミットの場合
+            // 未サブミットの場合
             Honto.Common.isSubmitted = true
             return true
           } else {
-            //サブミット済みの場合
+            // サブミット済みの場合
             event.preventDefault()
             event.stopPropagation()
             return false
           }
         })
     })
-    //すべて選択
+    // すべて選択
     if (container.find('.stChoiceAll .stChoiceAll').length)
       setAllSelected(container)
     // スターレイティング
     container.findWithSelf('.stStar .star').rating(ratingSetting)
-    //リキッドリスト（面陳）
+    // リキッドリスト（面陳）
     if (container.find('.stLiquidProduct01').length)
       setLiquidList(container.find('.stLiquidProduct01'), 130)
     if (container.find('.stLiquidProduct02').length)
@@ -187,7 +187,7 @@ jQuery(document).ready(function($) {
     // 検索結果利用ブロック（カルーセル）
     if (container.find('.stSearchResultCarousel01').length)
       setLiquidList(container.find('.stSearchResultCarousel01'), 190)
-    //ライトボックス
+    // ライトボックス
     makeFancybox(container)
     // 新刊お知らせメール
     if (container.find('.stSwitch li.stSelected').length > 0) settingMail()
@@ -197,13 +197,13 @@ jQuery(document).ready(function($) {
     }
     // 欲しい本の書影全てに対してホバーアクションでの処理
     $('body').on('mouseover', '.stBookItem', function(e) {
-      var _target = jQuery(e.currentTarget)
-      //欲しい本情報の取得
+      const _target = jQuery(e.currentTarget)
+      // 欲しい本情報の取得
       if (!(typeof wantBookLink === 'undefined')) {
         wantBookLink.hoverAction(_target)
       }
     })
-    //ブックツリーの高さ合わせ
+    // ブックツリーの高さ合わせ
     if (WIN.width() < 1920 && WIN.width() > 1640) {
       var stBtRecommendColumn = 6
     } else {
@@ -231,27 +231,27 @@ jQuery(document).ready(function($) {
    * @param context スクリプト機能適用対象要素
    */
   function makeFancybox(context) {
-    //Fancybox
-    //インライン指定ライトボックス
+    // Fancybox
+    // インライン指定ライトボックス
     context.find("a[rel='lightbox']").fancybox({
       showNavArrows: false,
       overlayOpacity: 0.8,
       padding: 0,
       width: 860,
       autoScale: false,
-      onStart: function(ary, i) {
+      onStart(ary, i) {
         jQuery('#fancybox-wrap').removeClass('stBranch01')
-        var a = ary[i]
-        var qa = $(a)
+        const a = ary[i]
+        const qa = $(a)
         HC.cutOutHrefHash(qa)
-        var lightboxWidth = qa.attr('lightboxWidth')
+        const lightboxWidth = qa.attr('lightboxWidth')
         if (lightboxWidth) {
-          //lightboxWidth属性が指定されている場合は表示幅として設定
+          // lightboxWidth属性が指定されている場合は表示幅として設定
           this.width = parseInt(lightboxWidth)
         }
-        var onClosed = qa.attr('onClosed')
+        const onClosed = qa.attr('onClosed')
         if (onClosed) {
-          //onClosed属性にコードが設定されている場合はこれをクローズ時に実行するよう設定
+          // onClosed属性にコードが設定されている場合はこれをクローズ時に実行するよう設定
           this.onClosed = function(currentArray, currentIndex, currentOpts) {
             new Function(
               'currentArray',
@@ -261,33 +261,33 @@ jQuery(document).ready(function($) {
             ).call(a, currentArray, currentIndex, currentOpts)
           }
         }
-        var showCloseButton = qa.attr('showCloseButton')
+        const showCloseButton = qa.attr('showCloseButton')
         if (showCloseButton && showCloseButton == 'false') {
-          //showCloseButton属性が"false"の場合はモーダルで表示
+          // showCloseButton属性が"false"の場合はモーダルで表示
           this.modal = true
         }
-        var onOpen = qa.attr('onOpen')
+        const onOpen = qa.attr('onOpen')
         if (onOpen) {
-          //onOpen属性にコードが設定されている場合はこれを実行
+          // onOpen属性にコードが設定されている場合はこれを実行
           new Function(onOpen).call(a)
         }
       },
-      onComplete: function() {
-        //画像切り替え
+      onComplete() {
+        // 画像切り替え
         imgSiwtcherForLB($('#fancybox-content .stThumb img'))
-        //タブナビゲーション
-        if (0 < $('#fancybox-content .stTabNav01').size()) {
+        // タブナビゲーション
+        if ($('#fancybox-content .stTabNav01').size() > 0) {
           $('#fancybox-content .stTabNav01 ul.stTabs').each(function() {
             setTabNavi($(this))
           })
         }
-        //メールの設定
-        if (0 < $('#fancybox-content .stSwitch li.stSelected').size())
+        // メールの設定
+        if ($('#fancybox-content .stSwitch li.stSelected').size() > 0)
           settingMail()
       }
     })
 
-    //Ajax使用ライトボックス
+    // Ajax使用ライトボックス
     context.find("a[rel='lightboxAjax']").fancybox({
       showNavArrows: false,
       overlayOpacity: 0.8,
@@ -295,14 +295,14 @@ jQuery(document).ready(function($) {
       width: 860,
       autoScale: false,
       type: 'ajax',
-      onStart: function(ary, i) {
-        var a = ary[i]
-        var qa = $(a)
+      onStart(ary, i) {
+        const a = ary[i]
+        const qa = $(a)
         jQuery('#fancybox-wrap').removeClass('stBranch01')
         HC.cutOutHrefHash(qa)
-        var lightboxWidth = qa.attr('lightboxWidth')
+        const lightboxWidth = qa.attr('lightboxWidth')
         if (lightboxWidth) {
-          //lightboxWidth属性が指定されている場合は表示幅として設定
+          // lightboxWidth属性が指定されている場合は表示幅として設定
           this.width = parseInt(lightboxWidth)
         }
         this.ajax.data = Honto.Common.Ajax._getParameters(
@@ -311,9 +311,9 @@ jQuery(document).ready(function($) {
           { isPart: true, noResponse: false, type: 'lightbox' },
           false
         )
-        var onClosed = $(a).attr('onClosed')
+        const onClosed = $(a).attr('onClosed')
         if (onClosed) {
-          //onClosed属性にコードが設定されている場合はこれをクローズ時に実行するよう設定
+          // onClosed属性にコードが設定されている場合はこれをクローズ時に実行するよう設定
           this.onClosed = function(currentArray, currentIndex, currentOpts) {
             new Function(
               'currentArray',
@@ -323,14 +323,14 @@ jQuery(document).ready(function($) {
             ).call(a, currentArray, currentIndex, currentOpts)
           }
         }
-        var showCloseButton = qa.attr('showCloseButton')
+        const showCloseButton = qa.attr('showCloseButton')
         if (showCloseButton && showCloseButton == 'false') {
-          //showCloseButton属性が"false"の場合はモーダルで表示
+          // showCloseButton属性が"false"の場合はモーダルで表示
           this.modal = true
         }
-        var onOpen = qa.attr('onOpen')
+        const onOpen = qa.attr('onOpen')
         if (onOpen) {
-          //onOpen属性にコードが設定されている場合はこれを実行
+          // onOpen属性にコードが設定されている場合はこれを実行
           new Function(onOpen).call(a)
         }
       },
@@ -340,29 +340,29 @@ jQuery(document).ready(function($) {
         type: 'post',
         url: Honto.Common.Ajax.url
       },
-      onComplete: function() {
-        //画像切り替え
+      onComplete() {
+        // 画像切り替え
         imgSiwtcherForLB($('#fancybox-content .stThumb img'))
-        //タブナビゲーション
-        if (0 < $('#fancybox-content .stTabNav01').size()) {
+        // タブナビゲーション
+        if ($('#fancybox-content .stTabNav01').size() > 0) {
           $('#fancybox-content .stTabNav01 ul.stTabs').each(function() {
             setTabNavi($(this))
           })
         }
-        //メールの設定
-        if (0 < $('#fancybox-content .stSwitch li.stSelected').size())
+        // メールの設定
+        if ($('#fancybox-content .stSwitch li.stSelected').size() > 0)
           settingMail()
         onInit($('#fancybox-content'))
 
-        var onComplete = $(this.orig.context).attr('onComplete')
+        const onComplete = $(this.orig.context).attr('onComplete')
         if (onComplete) {
-          //onComplete属性にコードが設定されている場合はこれを実行
+          // onComplete属性にコードが設定されている場合はこれを実行
           new Function(onComplete).call()
         }
       }
     })
 
-    //IFrame使用ライトボックス
+    // IFrame使用ライトボックス
     context.find("a[rel='lightboxIFrame']").fancybox({
       showNavArrows: false,
       overlayOpacity: 0.8,
@@ -370,23 +370,23 @@ jQuery(document).ready(function($) {
       width: 860,
       autoScale: false,
       type: 'iframe',
-      onStart: function(ary, i) {
+      onStart(ary, i) {
         jQuery('#fancybox-wrap').removeClass('stBranch01')
-        var a = ary[i]
-        var qa = $(a)
-        var lightboxWidth = qa.attr('lightboxWidth')
-        var lightboxHeight = qa.attr('lightboxHeight')
+        const a = ary[i]
+        const qa = $(a)
+        const lightboxWidth = qa.attr('lightboxWidth')
+        const lightboxHeight = qa.attr('lightboxHeight')
         if (lightboxWidth) {
-          //lightboxWidth属性が指定されている場合は表示幅として設定
+          // lightboxWidth属性が指定されている場合は表示幅として設定
           this.width = parseInt(lightboxWidth)
         }
         if (lightboxHeight) {
-          //lightboxHeight属性が指定されている場合は表示高さとして設定
+          // lightboxHeight属性が指定されている場合は表示高さとして設定
           this.height = parseInt(lightboxHeight)
         }
-        var onClosed = qa.attr('onClosed')
+        const onClosed = qa.attr('onClosed')
         if (onClosed) {
-          //onClosed属性にコードが設定されている場合はこれをクローズ時に実行するよう設定
+          // onClosed属性にコードが設定されている場合はこれをクローズ時に実行するよう設定
           this.onClosed = function(currentArray, currentIndex, currentOpts) {
             new Function(
               'currentArray',
@@ -396,45 +396,45 @@ jQuery(document).ready(function($) {
             ).call(a, currentArray, currentIndex, currentOpts)
           }
         }
-        var showCloseButton = qa.attr('showCloseButton')
+        const showCloseButton = qa.attr('showCloseButton')
         if (showCloseButton && showCloseButton == 'false') {
-          //showCloseButton属性が"false"の場合はモーダルで表示
+          // showCloseButton属性が"false"の場合はモーダルで表示
           this.modal = true
         }
 
-        var onOpen = qa.attr('onOpen')
+        const onOpen = qa.attr('onOpen')
         if (onOpen) {
-          //onOpen属性にコードが設定されている場合はこれを実行
+          // onOpen属性にコードが設定されている場合はこれを実行
           new Function(onOpen).call(a)
         }
       },
-      onComplete: function(ary, i) {
-        var a = ary[i]
-        var qa = $(a)
+      onComplete(ary, i) {
+        const a = ary[i]
+        const qa = $(a)
 
         jQuery('#fancybox-wrap').addClass('stBranch01')
 
-        //画像切り替え
+        // 画像切り替え
         imgSiwtcherForLB($('#fancybox-content .stThumb img'))
-        //タブナビゲーション
-        if (0 < $('#fancybox-content .stTabNav01').size()) {
+        // タブナビゲーション
+        if ($('#fancybox-content .stTabNav01').size() > 0) {
           $('#fancybox-content .stTabNav01 ul.stTabs').each(function() {
             setTabNavi($(this))
           })
         }
-        //メールの設定
-        if (0 < $('#fancybox-content .stSwitch li.stSelected').size())
+        // メールの設定
+        if ($('#fancybox-content .stSwitch li.stSelected').size() > 0)
           settingMail()
 
-        //高さの自動調整
-        var autoHeight = qa.attr('autoheight')
+        // 高さの自動調整
+        const autoHeight = qa.attr('autoheight')
         if (autoHeight === 'true') {
-          var fbFrame = $('#fancybox-frame')
+          const fbFrame = $('#fancybox-frame')
           fbFrame.iframeAutoHeight({
             heightOffset: 10,
             minHeight: 220, // 高さ0pxの回避
             resetToMinHeight: true, // webkit系のために最小の高さを解除
-            callback: function(obj) {
+            callback(obj) {
               // iFrame用調整クラス付与
               fbFrame
                 .contents()
@@ -442,7 +442,7 @@ jQuery(document).ready(function($) {
                 .addClass('stIframe')
 
               // iframe内のコンテンツ高さ取得と調整
-              var ifHeight = Number(obj.newFrameHeight) + 150
+              const ifHeight = Number(obj.newFrameHeight) + 150
               fbFrame.height(ifHeight)
 
               // iframe親要素の高さをautoにし、スクロールを消すクラスを付与
@@ -456,7 +456,7 @@ jQuery(document).ready(function($) {
                 $('#fancybox-wrap').css('top', '20px')
                 $('html,body').scrollTop('0')
 
-                var docHeight = $(document).height()
+                const docHeight = $(document).height()
                 if (docHeight > ifHeight) {
                   // コンテンツよりiframeが短い場合
                   $('#fancybox-overlay').css('height', docHeight)
@@ -473,24 +473,24 @@ jQuery(document).ready(function($) {
     })
   }
 
-  //トップウィンドウでの遷移
+  // トップウィンドウでの遷移
   $('a.stTargetTop').on('click', function(e) {
     if (window == window.top) return
     e.preventDefault()
     window.top.location.href = this.href
   })
 
-  //ポップアップ
+  // ポップアップ
   $("a[rel='popup']").click(function() {
     window.open(this.href, 'popup', 'width=830, resizable=yes, scrollbars=yes')
     return false
   })
 
-  //高さ揃え
+  // 高さ揃え
   function setHeightFunctions() {
-    //ブロックをまたいで高さ調整してしまうためul要素毎に高さ合わせをする
+    // ブロックをまたいで高さ調整してしまうためul要素毎に高さ合わせをする
 
-    var $stItem = $('ul.stListItem01.stItem3')
+    let $stItem = $('ul.stListItem01.stItem3')
     for (var i = 0; $stItem.length > i; i++) {
       $stItem
         .eq(i)
@@ -563,7 +563,7 @@ jQuery(document).ready(function($) {
     $('.stSetHeight .stHeightCol4').autoHeight({ column: 4 })
     $('.stSearchResultCarousel01 ul.stView li > .stDetail').autoHeight()
     $('.stSearchResultCarousel01 ul.stView li > .stBtnBox').autoHeight()
-    //ブックツリーレコメンドの高さ合わせ
+    // ブックツリーレコメンドの高さ合わせ
     if (WIN.width() < 1920 && WIN.width() > 1640) {
       var stBtRecommendColumn = 6
     } else {
@@ -580,9 +580,9 @@ jQuery(document).ready(function($) {
   }
 
   if (
-    _ua.indexOf('chrome') >= 0 ||
-    _ua.indexOf('safari') >= 0 ||
-    _ua.indexOf('firefox') >= 0
+    _ua.includes('chrome') ||
+    _ua.includes('safari') ||
+    _ua.includes('firefox')
   ) {
     window.addEventListener('load', setHeightFunctions, false)
   } else {
@@ -595,7 +595,7 @@ jQuery(document).ready(function($) {
    * ウィンドウリサイズ
    */
   function resizeWindow(event, argument) {
-    var timer = false
+    let timer = false
     WIN.resize(function() {
       if (timer !== false) clearTimeout(timer)
       timer = setTimeout(function() {
@@ -610,16 +610,16 @@ jQuery(document).ready(function($) {
    */
   function imgSiwtcher(aTarget) {
     aTarget.on('mouseenter', function() {
-      var img = $(this)
-      var str = img.attr('src')
+      const img = $(this)
+      let str = img.attr('src')
       str = str
         .replace('item/1/48/', 'item/1/265/')
         .replace('series/1/48/', 'series/1/265/')
         .replace('BC.png', '.png')
-      var prev = img.closest('.stThumb').prev()
+      const prev = img.closest('.stThumb').prev()
       prev.find('img:last').attr('src', str)
       if (prev.is('.stLightbox')) {
-        var href = img.parent().attr('href')
+        const href = img.parent().attr('href')
         prev.find('a:last').attr('href', href)
       }
     })
@@ -633,16 +633,16 @@ jQuery(document).ready(function($) {
    */
   function imgSiwtcherForLB(aTarget) {
     aTarget.on('mouseenter', function() {
-      var img = $(this)
-      var str = img.attr('src')
+      const img = $(this)
+      let str = img.attr('src')
       str = str
         .replace('item/1/48/', 'item/1/324/')
         .replace('series/1/48/', 'series/1/324/')
         .replace('BC.png', '.jpg')
-      var prev = img.closest('.stThumb').prev()
+      const prev = img.closest('.stThumb').prev()
       prev.find('img:last').attr('src', str)
       if (prev.is('.stLightbox')) {
-        var href = img.parent().attr('href')
+        const href = img.parent().attr('href')
         prev.find('a:last').attr('href', href)
       }
     })
@@ -657,9 +657,9 @@ jQuery(document).ready(function($) {
    * @param flv      flvファイルパス
    */
   function loadMovie(selector, mp4jpg, mp4, flvjpg, flv) {
-    if (0 == $(selector).size()) return
-    var v = document.createElement('video')
-    var m = ''
+    if ($(selector).size() == 0) return
+    const v = document.createElement('video')
+    let m = ''
     if (
       v &&
       v.canPlayType &&
@@ -674,19 +674,17 @@ jQuery(document).ready(function($) {
           '" width="320" height="240">' +
           '</video>'
       }
-    } else {
-      if (flvjpg && flv) {
-        m =
-          '<object type="application/x-shockwave-flash" data="/library/movie/movie.swf" width="320" height="240">' +
-          '<param name="movie" value="/library/movie/movie.swf" />' +
-          '<param name="FlashVars" value="flvPath=' +
-          flv +
-          '&picPath=' +
-          flvjpg +
-          '" />' +
-          '<param name="wmode" value="transparent">' +
-          '</object>'
-      }
+    } else if (flvjpg && flv) {
+      m =
+        '<object type="application/x-shockwave-flash" data="/library/movie/movie.swf" width="320" height="240">' +
+        '<param name="movie" value="/library/movie/movie.swf" />' +
+        '<param name="FlashVars" value="flvPath=' +
+        flv +
+        '&picPath=' +
+        flvjpg +
+        '" />' +
+        '<param name="wmode" value="transparent">' +
+        '</object>'
     }
     $(selector).html(m)
   }
@@ -698,18 +696,18 @@ jQuery(document).ready(function($) {
    * 評価ボタンのスワップイメージ
    */
   function swapSurvey() {
-    var star = $('.stFormRate01 .stStar img')
-    var inputAll = $('.stFormRate01 input:radio')
-    var starSrc = star.attr('src')
-    var starAlt = star.attr('alt')
+    const star = $('.stFormRate01 .stStar img')
+    const inputAll = $('.stFormRate01 input:radio')
+    const starSrc = star.attr('src')
+    const starAlt = star.attr('alt')
 
     // 評価ボタンと連動してレーティング画像を切り替え
     $('.stFormRate01 .stChoice li').each(function() {
-      var input = $(this).children('input:radio')
-      var val = input.attr('value')
-      var check = input.attr('checked')
-      var replaceSrc = starSrc.replace(/(_star)[0-9]/, '$1' + val)
-      var replaceAlt = starAlt.replace(/[0-9]$/, val)
+      const input = $(this).children('input:radio')
+      const val = input.attr('value')
+      const check = input.attr('checked')
+      const replaceSrc = starSrc.replace(/(_star)[0-9]/, '$1' + val)
+      const replaceAlt = starAlt.replace(/[0-9]$/, val)
       // リロード時の処理
       if (check == 'checked') {
         star.attr({
@@ -735,15 +733,15 @@ jQuery(document).ready(function($) {
    */
   function setAllSelected(context) {
     // 対象チェックボックス
-    var _checkBox = context.find(
+    let _checkBox = context.find(
       '.stProduct02 .stCheckBox input[type=checkbox] , .stTableCart input[type=checkbox], .stChoiceInput [type=checkbox]'
     )
     // 全選択ボタン要素
-    var _choiceAll = context.find('.stChoiceAll .stChoiceAll')
+    const _choiceAll = context.find('.stChoiceAll .stChoiceAll')
     // コントロールエリア表示用エリア
-    var _deleateArea = $('.stChoiceDeleate')
+    const _deleateArea = $('.stChoiceDeleate')
     // コントロールエリア表示用ボタン
-    var _deleateBtn = $('.stChoiceDeleateBtn')
+    const _deleateBtn = $('.stChoiceDeleateBtn')
 
     _choiceAll.on('click', function() {
       // 同画面内で追加・削除される動作があるので、クリックするたびに要素を取得
@@ -754,7 +752,7 @@ jQuery(document).ready(function($) {
       // クリックで切替
       _choiceAll.toggleClass('active')
 
-      var i = 0
+      let i = 0
       if ($(this).hasClass('active')) {
         _choiceAll.text('選択解除')
         for (i = 0; i < _checkBox.length; i++) {
@@ -769,11 +767,11 @@ jQuery(document).ready(function($) {
     })
 
     _checkBox.on('change', function(e) {
-      //同画面内で削除される動作があるので、クリックするたびに個数を取得
-      var _cbLength = context.find(
+      // 同画面内で削除される動作があるので、クリックするたびに個数を取得
+      const _cbLength = context.find(
         '.stProduct02 .stCheckBox input[type=checkbox] , .stTableCart input[type=checkbox], .stChoiceInput [type=checkbox]'
       ).length
-      var _cbAcLength = context.find(
+      const _cbAcLength = context.find(
         '.stProduct02 .stCheckBox input[type=checkbox]:checked , .stTableCart input[type=checkbox]:checked, .stChoiceInput [type=checkbox]:checked'
       ).length
 
@@ -787,48 +785,48 @@ jQuery(document).ready(function($) {
     })
 
     _deleateBtn.on('click', function(e) {
-      //同画面内で削除される動作があるので、クリック時に取得
+      // 同画面内で削除される動作があるので、クリック時に取得
       $('.stChoiceInput, .stChoiceControl').removeClass('stHide')
       $('.stChoiceDeleate').hide()
     })
   }
 
   // キャンペーン挿入エリアID設定
-  var insertCampaignId = 'stAutoCompleteCampagin'
+  const insertCampaignId = 'stAutoCompleteCampagin'
 
-  //キャンペーンタイトルID設定
-  var campaignTitleId = 'stCampaignTitle'
+  // キャンペーンタイトルID設定
+  const campaignTitleId = 'stCampaignTitle'
 
   /**
    * フリーワード検索（インクリメンタルサーチ）
    */
   function setSuggest() {
-    //要素の生成
+    // 要素の生成
     $('body').append('<div id="stSuggest" class="stSuggest"></div>')
 
-    var margin = 5,
-      stSuggest = $('#stSuggest')
+    const margin = 5
+    const stSuggest = $('#stSuggest')
 
     stSuggest.hide()
     stSuggest.closest('.pbNestedWrapper').css('overflow', 'visible')
     stSuggest.css({ position: 'absolute' })
 
-    var fx = null,
-      fy = null,
-      watchTimer = null,
-      blurTimer = null
+    let fx = null
+    let fy = null
+    let watchTimer = null
+    let blurTimer = null
 
     $('#stSearchTextBox, #stSearchTextBoxSlideIn').focus(function(e) {
-      var lastValue = '',
-        stSearchTextBox = $(this)
+      let lastValue = ''
+      const stSearchTextBox = $(this)
 
-      //先行して監視が行われていない場合のみデータを取得し、監視を開始する。
+      // 先行して監視が行われていない場合のみデータを取得し、監視を開始する。
       if (!watchTimer) getSuggestData()
 
       stSearchTextBox.unbind('keydown')
       stSearchTextBox.bind('keydown', function(KEY) {
         if (stSuggest.find('li').length && KEY.keyCode != 229) {
-          var target = stSuggest.find('.stCurrent')
+          let target = stSuggest.find('.stCurrent')
           if (KEY.keyCode == 38) {
             if (target.length) {
               if (target.prev().length) {
@@ -883,14 +881,14 @@ jQuery(document).ready(function($) {
        * フォーカスアウト時に実行が停止される.<br>
        */
       function getSuggestData() {
-        var value = stSearchTextBox.val()
+        const value = stSearchTextBox.val()
         if (value.length == 0) {
-          //入力なしの場合
+          // 入力なしの場合
           stSuggest.html('').hide()
           lastValue = ''
         } else {
-          //入力ありの場合
-          var obj = stSearchTextBox.offset()
+          // 入力ありの場合
+          const obj = stSearchTextBox.offset()
           fx = obj.left
           fy = obj.top + (stSearchTextBox.height() + margin)
           stSuggest.width(stSearchTextBox.width())
@@ -903,9 +901,9 @@ jQuery(document).ready(function($) {
             lastValue = ''
           }
           if (value != lastValue) {
-            //前回と入力内容に変化があった場合
+            // 前回と入力内容に変化があった場合
             lastValue = value
-            var searchTextBoxParam = stSearchTextBox.attr('searchTextBoxParam')
+            let searchTextBoxParam = stSearchTextBox.attr('searchTextBoxParam')
             searchTextBoxParam = searchTextBoxParam
               ? searchTextBoxParam.toQueryParams()
               : {}
@@ -915,16 +913,16 @@ jQuery(document).ready(function($) {
                 if (result.suggestValue || result.campaign) {
                   stSuggest.html('')
                   if (result.suggestValue) {
-                    //受信データがある場合
-                    var stSuggestList = $('<ul></ul>')
+                    // 受信データがある場合
+                    const stSuggestList = $('<ul></ul>')
                     DY.suggestList = stSuggestList[0].childNodes
-                    //検索候補の作成
+                    // 検索候補の作成
                     for (
-                      var i = 0, len = result.suggestValue.length;
+                      let i = 0, len = result.suggestValue.length;
                       i < len;
                       i += 1
                     ) {
-                      var stSuggestLink = $('<a href="#"></a>')
+                      const stSuggestLink = $('<a href="#"></a>')
                       // イベント設定
                       stSuggestLink
                         .mouseover(function(event) {
@@ -936,7 +934,7 @@ jQuery(document).ready(function($) {
                         .click(function(event) {
                           event.preventDefault()
                           if (blurTimer) {
-                            //候補クリック時は検索候補を非表示にしない
+                            // 候補クリック時は検索候補を非表示にしない
                             clearTimeout(blurTimer)
                             blurTimer = null
                           }
@@ -954,7 +952,7 @@ jQuery(document).ready(function($) {
                             '<em>' + escapedValue + '</em>'
                           )
                       )
-                      var stSuggestItem = $('<li></li>')
+                      const stSuggestItem = $('<li></li>')
                       stSuggestItem.html(stSuggestLink)
                       stSuggestList.append(stSuggestItem)
                     }
@@ -963,7 +961,7 @@ jQuery(document).ready(function($) {
 
                   if (result.campaign) {
                     // キャンペーン情報タイトル要素
-                    var campaignTitle = $(
+                    const campaignTitle = $(
                       '<p id="' +
                         campaignTitleId +
                         '" class="' +
@@ -977,7 +975,7 @@ jQuery(document).ready(function($) {
                     setCampaign(result.campaign)
                   }
                 } else {
-                  //受信データがない場合
+                  // 受信データがない場合
                   stSuggest.html('').hide()
                 }
               },
@@ -990,22 +988,22 @@ jQuery(document).ready(function($) {
     })
     $('#stSearchTextBox, #stSearchTextBoxSlideIn').blur(function() {
       if (watchTimer) {
-        //インクリメンタルサーチデータ取得を停止
+        // インクリメンタルサーチデータ取得を停止
         clearTimeout(watchTimer)
         watchTimer = null
       }
-      //すぐに消去すると候補クリック時の入力要素更新ができないため、少し待つ
+      // すぐに消去すると候補クリック時の入力要素更新ができないため、少し待つ
       blurTimer = setTimeout(function() {
         stSuggest.html('').hide()
       }, 400)
     })
-    var w = null
+    let w = null
     function reSetSuggest() {
       if ($(':focus').attr('id')) {
-        var focusId = $(':focus').attr('id')
+        const focusId = $(':focus').attr('id')
         if ($('#' + focusId).width() == w) return
         stSuggest.width($('#' + focusId).width() + margin)
-        var obj = $('#' + focusId).offset()
+        const obj = $('#' + focusId).offset()
         fx = obj.left
         fy = obj.top + ($('#' + focusId).height() + margin)
         stSuggest.css({ top: fy + 'px', left: fx + 'px' })
@@ -1014,21 +1012,21 @@ jQuery(document).ready(function($) {
     }
 
     if (!tyIE6) {
-      //IE6以外の処理
+      // IE6以外の処理
       WIN.resize(function() {
         reSetSuggest()
       })
     } else {
-      //IE6の処理
-      var timer = setInterval(reSetSuggest, 100)
+      // IE6の処理
+      const timer = setInterval(reSetSuggest, 100)
     }
 
     function sendSuggestData() {
       // s_code.jsの読み込みが無い場合は除外
       // あしあと抽選ページ、あしあと抽選結果ページで読み込みを除外している
       if (!(typeof s === 'undefined')) {
-        var suggestCount = DY.suggestList.length
-        for (var j = suggestCount - 1; j >= 0; j--) {
+        const suggestCount = DY.suggestList.length
+        for (let j = suggestCount - 1; j >= 0; j--) {
           if (
             $(DY.suggestList[j].firstChild).attr('id') == 'ui-active-menuitem'
           ) {
@@ -1057,9 +1055,9 @@ jQuery(document).ready(function($) {
       // タイトル表示
       $('#' + campaignTitleId).show()
 
-      var len = _data.length,
-        campaignList = ''
-      for (var i = 0; len > i; i++) {
+      const len = _data.length
+      let campaignList = ''
+      for (let i = 0; len > i; i++) {
         campaignList +=
           '<li><a href="' + _data[i].url + '">' + _data[i].label + '</a></li>'
       }
@@ -1073,13 +1071,13 @@ jQuery(document).ready(function($) {
    * 動的に選択肢を切り替える.<br>
    */
   $('#stGenreList').change(function() {
-    var l = this
-    var selected = l.value
-    var fncOnComplete = function(result) {
+    const l = this
+    const selected = l.value
+    const fncOnComplete = function(result) {
       if (result && result.genreLabel) {
         l.options.length = 1
-        for (var i = 0, len = result.genreLabel.length; i < len; i += 1) {
-          var flg = result.genreValue[i] === selected
+        for (let i = 0, len = result.genreLabel.length; i < len; i += 1) {
+          const flg = result.genreValue[i] === selected
           l.options[l.options.length] = new Option(
             result.genreLabel[i],
             result.genreValue[i],
@@ -1107,25 +1105,25 @@ jQuery(document).ready(function($) {
    * バルーン表示
    */
   function setBlloons() {
-    //バルーン要素の属しているブロックがoverflow:hidden;の場合に、
-    //バルーンが隠れてしまう現象を回避するため、バルーン要素をbody直下に移動する
+    // バルーン要素の属しているブロックがoverflow:hidden;の場合に、
+    // バルーンが隠れてしまう現象を回避するため、バルーン要素をbody直下に移動する
     $('.stBallon')
       .appendTo(document.body)
       .hide()
       .closest('.pbNestedWrapper')
       .css('overflow', 'visible')
 
-    var bodyW = $('body').width(),
-      clickHide = false, // 表示非表示フラグ
-      clickOther = false, // 他トリガーをクリックしたか
-      bllnHover = false, // バルーンへのホバー
-      bllnHoverCk = false, // バルーン内クリック判定
-      thisInd // 自他トリガーの位置
+    const bodyW = $('body').width()
+    let clickHide = false // 表示非表示フラグ
+    let clickOther = false // 他トリガーをクリックしたか
+    let bllnHover = false // バルーンへのホバー
+    let bllnHoverCk = false // バルーン内クリック判定
+    let thisInd // 自他トリガーの位置
 
     $('body')
       .on('click', '.stTriggerC', function(e) {
         // 自他トリガーの保存
-        var orderInd = thisInd
+        const orderInd = thisInd
         ;(thisInd = $(this).index('.stTriggerC')),
           (prBallon = $(this).closest('.stBallon'))
 
@@ -1205,7 +1203,7 @@ jQuery(document).ready(function($) {
         var nowX = event.pageX
         var nowY = event.pageY
       }
-      var hy = event.clientY
+      const hy = event.clientY
       /**
        * @param [number,number,number] 要素のx座標 要素のy座標 要素のwindowからのy座標
        */
@@ -1214,9 +1212,9 @@ jQuery(document).ready(function($) {
 
     function setBalloonPostion(loc, element) {
       if (element.is('input')) {
-        var syncList = element.attr('class')
+        let syncList = element.attr('class')
         syncList = String(syncList).split(' ')
-        for (var i = 0; i < syncList.length; i++) {
+        for (let i = 0; i < syncList.length; i++) {
           if (syncList[i] == 'stTriggerC' || syncList[i] == 'stTriggerH')
             continue
           if ($('#' + syncList[i]).length > 0) {
@@ -1231,16 +1229,16 @@ jQuery(document).ready(function($) {
 
       if ($('#' + syncBalloon).is(':hidden')) {
         if (element.attr('onBallon')) {
-          //onBallon属性にコードが設定されている場合はこれを実行
+          // onBallon属性にコードが設定されている場合はこれを実行
           new Function(element.attr('onBallon')).call(element.context)
         } else if (element.context.onballon) {
-          //onballonプロパティに関数が設定されている場合はこれを実行
+          // onballonプロパティに関数が設定されている場合はこれを実行
           element.context.onballon.call(element.context)
         }
         $('#' + syncBalloon).show()
       } else {
         $('#' + syncBalloon).hide()
-        //バルーン機能用データを初期化
+        // バルーン機能用データを初期化
         HC.Ballon.data = {}
         return false
       }
@@ -1249,12 +1247,12 @@ jQuery(document).ready(function($) {
         zIndex: '9999'
       })
 
-      //出し分け
-      var margin = 30
-      var windowW = $('body').width() / 2
-      var windowH = document.documentElement.clientHeight / 2
+      // 出し分け
+      const margin = 30
+      const windowW = $('body').width() / 2
+      const windowH = document.documentElement.clientHeight / 2
       if (loc[2] > windowH) {
-        //上表示
+        // 上表示
         var elementH = $('#' + syncBalloon).height() + margin
         $('#' + syncBalloon + ' .stBalloonTip').remove()
         $('#' + syncBalloon).append(
@@ -1270,7 +1268,7 @@ jQuery(document).ready(function($) {
           $('.stBalloonTip').css('bottom', '-15px')
         }
       } else {
-        //下表示
+        // 下表示
         var elementH = margin * -1
         $('#' + syncBalloon + ' .stBalloonTip').remove()
         $('#' + syncBalloon).append(
@@ -1278,13 +1276,13 @@ jQuery(document).ready(function($) {
             (HC.DEF_DBG ? '.' : '') +
             '/library/img/pc/bg_ballon_03.png" alt="" width="20" height="17" /></span>'
         )
-        if (_ua.indexOf('msie') >= 0) {
+        if (_ua.includes('msie')) {
           $('.stBalloonTip').css('top', '-15px')
         } else {
           $('.stBalloonTip').css('top', '-15px')
         }
       }
-      var elementW = 16
+      const elementW = 16
 
       $('.stBalloonTip').css('position', 'absolute')
       $('.stBalloonTip').css('left', '50%')
@@ -1316,8 +1314,8 @@ jQuery(document).ready(function($) {
    * @param {Object} jQuery Object タブナビゲーションの対象親要素
    */
   function setTabNavi(target) {
-    var targetNum = target.find('li').length
-    var ie6Flag = false
+    let targetNum = target.find('li').length
+    let ie6Flag = false
     if (_ua.indexOf('msie 6.0') > 0) {
       ie6Flag = true
       targetNum = targetNum * 3
@@ -1325,17 +1323,17 @@ jQuery(document).ready(function($) {
 
     target.each(function() {
       if ($(this).hasClass('stTabs')) {
-        var firstShow = $(this)
+        const firstShow = $(this)
           .find('.current, .stCurrent')
           .find('a')
         setContent(firstShow)
       }
     })
 
-    //アンカーリンク名と同名のidを紐付けて表示・非表示を行う
+    // アンカーリンク名と同名のidを紐付けて表示・非表示を行う
     function setContent(aLinkObj) {
-      var tabName = String(aLinkObj.attr('href')).substring(1)
-      var showObj = $(aLinkObj)
+      const tabName = String(aLinkObj.attr('href')).substring(1)
+      const showObj = $(aLinkObj)
         .closest('.stTabContainer01')
         .find('.stTabContents01')
         .find('#' + tabName)
@@ -1352,7 +1350,7 @@ jQuery(document).ready(function($) {
 
     // ショッピングカートのタブのボーダー色切り替え
     function setborderColor() {
-      var border = $('.jsBorderColor')
+      const border = $('.jsBorderColor')
       if (border.find('li.electronCart').hasClass('stCurrent')) {
         border.addClass('ele')
       } else {
@@ -1365,7 +1363,7 @@ jQuery(document).ready(function($) {
       .children()
       .children()
       .each(function(i) {
-        var parentLi = $(this).closest('li')
+        const parentLi = $(this).closest('li')
         if (parentLi.hasClass('current') || parentLi.hasClass('stCurrent')) {
           parentLi.css('z-index', targetNum + 1)
         } else {
@@ -1374,9 +1372,9 @@ jQuery(document).ready(function($) {
 
         if ($(this).is('a')) {
           $(this).click(function() {
-            //アンカーリンク時の処理
-            //通常のリンクの場合はページ遷移
-            if (String($(this).attr('href')).indexOf('#') >= 0) {
+            // アンカーリンク時の処理
+            // 通常のリンクの場合はページ遷移
+            if (String($(this).attr('href')).includes('#')) {
               if (
                 $(this)
                   .parent('li')
@@ -1386,12 +1384,12 @@ jQuery(document).ready(function($) {
                   .hasClass('stCurrent')
               )
                 return false
-              var tabName = String($(this).attr('href')).substring(1)
-              var targetLi = $(this)
+              const tabName = String($(this).attr('href')).substring(1)
+              const targetLi = $(this)
                 .closest('.stTabContainer01')
                 .find('.stTabNav01, .stTabNav02')
                 .find('.stTabs')
-              var parentUL = targetLi.closest('ul')
+              const parentUL = targetLi.closest('ul')
               targetNum++
               targetLi
                 .find('li')
@@ -1402,7 +1400,7 @@ jQuery(document).ready(function($) {
                 .removeClass('stCurrent')
                 .children('a')
 
-              //IE6
+              // IE6
               if (ie6Flag) ie6BugFix(targetLi)
               targetLi
                 .find("a[href='#" + tabName + "']")
@@ -1432,30 +1430,30 @@ jQuery(document).ready(function($) {
         }
       })
   }
-  if (0 < $('.stTabNav01').size()) {
+  if ($('.stTabNav01').size() > 0) {
     $('.stTabNav01 ul.stTabs').each(function() {
       setTabNavi($(this))
     })
   }
-  if (0 < $('#stGlobalNav').size()) setTabNavi($('#stGlobalNav').children('ul'))
+  if ($('#stGlobalNav').size() > 0) setTabNavi($('#stGlobalNav').children('ul'))
 
   /**
    * ランキングタブナビゲーション
    * @param {Object} jQuery Object タブナビゲーションの対象親要素
    */
   function setTabNavi2(target) {
-    var targetNum = target.find('li').length
+    let targetNum = target.find('li').length
 
     if (target.hasClass('stTabNav02')) {
-      var firstShow = target.find('.stCurrent').find('a')
+      const firstShow = target.find('.stCurrent').find('a')
       setContent(firstShow)
     }
 
-    //アンカーリンク名と同名のidを紐付けて表示・非表示を行う
+    // アンカーリンク名と同名のidを紐付けて表示・非表示を行う
     function setContent(aLinkObj) {
-      var parentUL = aLinkObj.closest('ul')
-      var tabName = String(aLinkObj.attr('href')).substring(1)
-      var showObj = $(aLinkObj)
+      const parentUL = aLinkObj.closest('ul')
+      const tabName = String(aLinkObj.attr('href')).substring(1)
+      const showObj = $(aLinkObj)
         .closest('.stTabContainer02')
         .find('.stTabContents02')
         .find('#' + tabName)
@@ -1465,17 +1463,17 @@ jQuery(document).ready(function($) {
 
     target.find('a').each(function(i) {
       $(this).click(function() {
-        //アンカーリンク時の処理
-        //通常のリンクの場合はページ遷移
-        if (String($(this).attr('href')).indexOf('#') >= 0) {
+        // アンカーリンク時の処理
+        // 通常のリンクの場合はページ遷移
+        if (String($(this).attr('href')).includes('#')) {
           if (
             $(this)
               .parent('li')
               .hasClass('current')
           )
             return false
-          var tabName = String($(this).attr('href')).substring(1)
-          var targetLi = $(this)
+          const tabName = String($(this).attr('href')).substring(1)
+          const targetLi = $(this)
             .closest('.stTabContainer02')
             .find('.stTabNav02')
           targetNum++
@@ -1493,7 +1491,7 @@ jQuery(document).ready(function($) {
       })
     })
   }
-  if (0 < $('.stTabNav02').size()) {
+  if ($('.stTabNav02').size() > 0) {
     $('.stTabNav02').each(function() {
       setTabNavi2($(this))
     })
@@ -1505,7 +1503,7 @@ jQuery(document).ready(function($) {
   function settingMail() {
     // 選択済み
     $('.stSwitch li.stSelected').each(function() {
-      var elem = $(this)
+      const elem = $(this)
       elem
         .find('a')
         .contents()
@@ -1514,15 +1512,15 @@ jQuery(document).ready(function($) {
 
     // 操作
     $('.stSwitch').on('click', 'span', function() {
-      var _this = this,
-        elem = $(this),
-        li = elem.closest('li'),
-        pageBlockId = elem.attr('pageBlockId')
+      const _this = this
+      const elem = $(this)
+      const li = elem.closest('li')
+      const pageBlockId = elem.attr('pageBlockId')
 
       // ブロックID指定なし or 選択状態
       if (pageBlockId == null || li.hasClass('stSelected')) return
 
-      var isRes = elem.closest('li').is('.stRes')
+      const isRes = elem.closest('li').is('.stRes')
       HC.Ajax.json(
         pageBlockId,
         isRes
@@ -1547,12 +1545,12 @@ jQuery(document).ready(function($) {
       )
 
       function switchButton() {
-        //クリックした要素
+        // クリックした要素
         li.siblings()
           .removeClass('stSelected')
           .not(":has('a')")
           .wrapInner("<a href='#'></a>")
-        //対の要素
+        // 対の要素
         li.addClass('stSelected')
           .find('span')
           .unwrap()
@@ -1568,8 +1566,8 @@ jQuery(document).ready(function($) {
    * スターレーティング
    */
   var ratingSetting = {
-    callback: function(value) {
-      var reteParam = $(this).attr('rateParam')
+    callback(value) {
+      let reteParam = $(this).attr('rateParam')
       reteParam = reteParam ? reteParam.toQueryParams() : {}
       try {
         HC.Ajax.request(
@@ -1582,7 +1580,7 @@ jQuery(document).ready(function($) {
           })
         )
       } catch (e) {}
-      var stValue = $(this)
+      const stValue = $(this)
         .closest('.stRating')
         .find('.stValue')
       stValue.children('.stBefore').addClass('dyNoDisplay')
@@ -1597,7 +1595,7 @@ jQuery(document).ready(function($) {
 
   $('.star-rating-live').each(function() {
     $(this).bind('click', function(e) {
-      var k = $(e.currentTarget).index()
+      const k = $(e.currentTarget).index()
       $('.stStarClear').css({
         display: 'block',
         left: $(e.currentTarget).position().left,
@@ -1617,10 +1615,10 @@ jQuery(document).ready(function($) {
     })
   })
 
-  //スターレーティング クリアボタン
+  // スターレーティング クリアボタン
   $('.stStarClear').on('click', function() {
     $(this).css({ display: 'none' })
-    var reteParam = $(this).attr('rateParam')
+    let reteParam = $(this).attr('rateParam')
     reteParam = reteParam ? reteParam.toQueryParams() : {}
     try {
       HC.Ajax.request(
@@ -1634,9 +1632,9 @@ jQuery(document).ready(function($) {
       )
     } catch (e) {}
 
-    var stRaiting = $(this).closest('.stRating')
+    const stRaiting = $(this).closest('.stRating')
     stRaiting.find('.stStar .star').rating('select', null, false)
-    var stValue = stRaiting.find('.stValue')
+    const stValue = stRaiting.find('.stValue')
     stValue.children('.stAfter').addClass('dyNoDisplay')
     stValue.children('.stBefore').removeClass('dyNoDisplay')
     return false
@@ -1646,67 +1644,67 @@ jQuery(document).ready(function($) {
    * 入力文字数カウンタ
    */
   $('.stTextCounter').each(function() {
-    var root = $(this),
-      // カウント対象
-      target = root.find('.stTextCounterTarget'),
-      // 表示エリア
-      view = root.find(root.find('.stTextCounterViewTarget').val()),
-      // 最大カウント数
-      maxLength,
-      // Shift_JIS 1Byte 範囲
-      // see also:
-      //   http://www.itscj.ipsj.or.jp/ISO-IR/168.pdf
-      condSjisBytes = /[ -~]+/g,
-      // 入力文字数を取得
-      getLength = function(node) {
-        // 改行文字は 1 文字とする
-        var str = (node.value || '').replace(/\r\n/g, '\n'),
-          fullLength = str.length,
-          normalLength = str.replace(condSjisBytes, '').length
-        // Shift_JIS 1Byte 範囲は 0.5 文字としてカウント
-        // 端数は四捨五入（0.5 単位なので常に繰り上げ）
-        return normalLength + Math.round((fullLength - normalLength) / 2)
-      },
-      // 値セット
-      setValue = function() {
-        var currentLength = getLength(this)
-        view.text(
-          // 「XX/XX文字」
-          currentLength + '/' + maxLength + '\u6587\u5B57'
-        )
+    const root = $(this)
+    // カウント対象
+    const target = root.find('.stTextCounterTarget')
+    // 表示エリア
+    const view = root.find(root.find('.stTextCounterViewTarget').val())
+    // 最大カウント数
+    let maxLength
+    // Shift_JIS 1Byte 範囲
+    // see also:
+    //   http://www.itscj.ipsj.or.jp/ISO-IR/168.pdf
+    const condSjisBytes = /[ -~]+/g
+    // 入力文字数を取得
+    const getLength = function(node) {
+      // 改行文字は 1 文字とする
+      const str = (node.value || '').replace(/\r\n/g, '\n')
+      const fullLength = str.length
+      const normalLength = str.replace(condSjisBytes, '').length
+      // Shift_JIS 1Byte 範囲は 0.5 文字としてカウント
+      // 端数は四捨五入（0.5 単位なので常に繰り上げ）
+      return normalLength + Math.round((fullLength - normalLength) / 2)
+    }
+    // 値セット
+    const setValue = function() {
+      const currentLength = getLength(this)
+      view.text(
+        // 「XX/XX文字」
+        currentLength + '/' + maxLength + '\u6587\u5B57'
+      )
 
-        // 上限エラー表示
-        if (currentLength > maxLength) {
-          view.addClass('stStr01')
-        } else if (view.hasClass('stStr01') && currentLength <= maxLength) {
-          view.removeClass('stStr01')
-        }
-      },
-      // 監視用タイマ ID
-      timerId = null,
-      // 入力チェック開始
-      startCheck = function() {
-        var obj = this
-        // 2重起動防止
-        if (null === timerId) {
-          // textinput イベント未サポート
-          //   * IME による入力が取得できない
-          //   * ユーザによるペーストに対応できない
-          timerId = setInterval(function() {
-            // タイマーによるチェックで代用
-            setValue.call(obj)
-          }, 16)
-        }
-      },
-      // 入力チェック終了
-      endCheck = function() {
-        if (null !== timerId) {
-          clearInterval(timerId)
-          timerId = null
-        }
+      // 上限エラー表示
+      if (currentLength > maxLength) {
+        view.addClass('stStr01')
+      } else if (view.hasClass('stStr01') && currentLength <= maxLength) {
+        view.removeClass('stStr01')
       }
+    }
+    // 監視用タイマ ID
+    let timerId = null
+    // 入力チェック開始
+    const startCheck = function() {
+      const obj = this
+      // 2重起動防止
+      if (timerId === null) {
+        // textinput イベント未サポート
+        //   * IME による入力が取得できない
+        //   * ユーザによるペーストに対応できない
+        timerId = setInterval(function() {
+          // タイマーによるチェックで代用
+          setValue.call(obj)
+        }, 16)
+      }
+    }
+    // 入力チェック終了
+    const endCheck = function() {
+      if (timerId !== null) {
+        clearInterval(timerId)
+        timerId = null
+      }
+    }
     // 表示エリアが見つからなければ何もしない
-    if (0 < view.length) {
+    if (view.length > 0) {
       maxLength = parseInt(
         target.attr('maxlength') || root.find('.stTextCounterMaxLength').val(),
         10
@@ -1728,127 +1726,127 @@ jQuery(document).ready(function($) {
     if (touchFlag && !$('#stDropdown').hasClass('stSelectList')) return
 
     // IEチェック
-    var appVersion = window.navigator.appVersion.toLowerCase(),
-      _uaIE6 = _ua.indexOf('msie') != -1 && appVersion.indexOf('msie 6.') != -1,
-      _uaIE7 = _ua.indexOf('msie') != -1 && appVersion.indexOf('msie 7.') != -1,
-      _uaIE8 = _ua.indexOf('msie') != -1 && appVersion.indexOf('msie 8.') != -1
+    const appVersion = window.navigator.appVersion.toLowerCase()
+    const _uaIE6 = _ua.includes('msie') && appVersion.includes('msie 6.')
+    const _uaIE7 = _ua.includes('msie') && appVersion.includes('msie 7.')
+    const _uaIE8 = _ua.includes('msie') && appVersion.includes('msie 8.')
 
     if (_uaIE6 || _uaIE7) return
 
-    var elem = $('#stDropdown'),
-      timer1,
-      timer2,
-      permitX = 4.2,
-      delay = 300,
-      halfDelay = 150,
-      subFlag = false,
-      cdFlag = false,
-      mouseX = [
-        [9999, 9999, 0],
-        [9999, 9999, 0]
-      ],
-      mouseY = [
-        [0, 0, 0],
-        [0, 0, 0]
-      ]
+    const elem = $('#stDropdown')
+    let timer1
+    let timer2
+    const permitX = 4.2
+    const delay = 300
+    const halfDelay = 150
+    let subFlag = false
+    let cdFlag = false
+    const mouseX = [
+      [9999, 9999, 0],
+      [9999, 9999, 0]
+    ]
+    const mouseY = [
+      [0, 0, 0],
+      [0, 0, 0]
+    ]
 
     // IE8用クラス追加
     if (_uaIE8) elem.addClass('ie8')
 
     // 自要素配下のドロップ関連要素を返す
-    var findCdDrop = function(_this, num) {
-        if (num === '3') {
-          var stDrop = $(_this)
-              .parent()
-              .parent()
-              .find('.active'),
-            stDropList = $(_this)
-              .parent()
-              .parent()
-              .find('ul.show')
-        } else {
-          var stDrop = elem.find('.active'),
-            stDropList = elem.find('ul.show')
-        }
-        return { a: stDrop, list: stDropList }
-      },
-      // ドロップダウン切り替え処理
-      changeDD = function(_this, num, show) {
-        findCdDrop(_this, num).a.removeClass('active')
-        findCdDrop(_this, num).list.removeClass('show')
-
-        if (show) {
-          $(_this).addClass('active')
-          $(_this)
-            .next()
-            .addClass('show')
-        }
-      },
-      // サブメニュー非表示処理
-      resetMx = function() {
-        mouseX[0] = [9999, 9999, 0]
-        mouseX[1] = [9999, 9999, 0]
-      },
-      // 無効マウスイベント
-      dropMouseOff = function(e, _this, num) {
-        if (e.type === 'mouseenter') {
-          timer1 = setTimeout(function() {
-            // 各NoDropクラス
-            findCdDrop(_this, num).a.removeClass('active')
-            findCdDrop(_this, num).list.removeClass('show')
-            resetMx()
-          }, halfDelay)
-        } else if (e.type === 'mouseleave') {
-          clearTimeout(timer1)
-        }
-      },
-      // マウスイベント
-      dropMouseOn = function(e, _this, num) {
-        var i = 0
-        if (num === '3') i = 1
-
-        if (e.type === 'mousemove') {
-          var targetleft = 170
-          if (num === '3') targetleft += 160 // 左サイドバーの幅を加算
-
-          if (e.pageX < targetleft) {
-            mouseX[i].push(e.pageX)
-          } else {
-            mouseX[i] = [1]
-          }
-          mouseY[i].push(e.pageY)
-        } else if (e.type === 'mouseleave') {
-          var con01 =
-            mouseX[i][mouseX[i].length - 3] >= e.pageX ||
-            mouseY[i][mouseY[i].length - 3] > e.pageY ||
-            mouseX[i][0] == 1
-          if (con01) mouseX[i] = [9999, 9999, 0]
-        } else if (e.type === 'mouseenter') {
-          var a = $(_this),
-            subTarget = a.next(),
-            thisTop = a.position().top
-
-          // ドロップダウンの縦位置の調整
-          subTarget.css('top', thisTop)
-
-          if (num < 3 && subFlag) {
-            // ドロップダウンから第1,2メニューへの復帰
-            changeDD(_this, num, true)
-          } else if (cdFlag) {
-            // 第2ドロップダウンから第1ドロップダウンへの復帰
-            changeDD(_this, num, true)
-            cdFlag = false
-          } else {
-            // 通常切り替え処理
-            var con02 = mouseX[i][mouseX[i].length - 3] >= e.pageX - permitX
-            if (con02) changeDD(_this, num, true)
-          }
-
-          // ドロップダウンのホバーフラグリセット
-          subFlag = false
-          if (num === '3') subFlag = true
-        }
+    const findCdDrop = function(_this, num) {
+      if (num === '3') {
+        var stDrop = $(_this)
+          .parent()
+          .parent()
+          .find('.active')
+        var stDropList = $(_this)
+          .parent()
+          .parent()
+          .find('ul.show')
+      } else {
+        var stDrop = elem.find('.active')
+        var stDropList = elem.find('ul.show')
       }
+      return { a: stDrop, list: stDropList }
+    }
+    // ドロップダウン切り替え処理
+    const changeDD = function(_this, num, show) {
+      findCdDrop(_this, num).a.removeClass('active')
+      findCdDrop(_this, num).list.removeClass('show')
+
+      if (show) {
+        $(_this).addClass('active')
+        $(_this)
+          .next()
+          .addClass('show')
+      }
+    }
+    // サブメニュー非表示処理
+    const resetMx = function() {
+      mouseX[0] = [9999, 9999, 0]
+      mouseX[1] = [9999, 9999, 0]
+    }
+    // 無効マウスイベント
+    const dropMouseOff = function(e, _this, num) {
+      if (e.type === 'mouseenter') {
+        timer1 = setTimeout(function() {
+          // 各NoDropクラス
+          findCdDrop(_this, num).a.removeClass('active')
+          findCdDrop(_this, num).list.removeClass('show')
+          resetMx()
+        }, halfDelay)
+      } else if (e.type === 'mouseleave') {
+        clearTimeout(timer1)
+      }
+    }
+    // マウスイベント
+    const dropMouseOn = function(e, _this, num) {
+      let i = 0
+      if (num === '3') i = 1
+
+      if (e.type === 'mousemove') {
+        let targetleft = 170
+        if (num === '3') targetleft += 160 // 左サイドバーの幅を加算
+
+        if (e.pageX < targetleft) {
+          mouseX[i].push(e.pageX)
+        } else {
+          mouseX[i] = [1]
+        }
+        mouseY[i].push(e.pageY)
+      } else if (e.type === 'mouseleave') {
+        const con01 =
+          mouseX[i][mouseX[i].length - 3] >= e.pageX ||
+          mouseY[i][mouseY[i].length - 3] > e.pageY ||
+          mouseX[i][0] == 1
+        if (con01) mouseX[i] = [9999, 9999, 0]
+      } else if (e.type === 'mouseenter') {
+        const a = $(_this)
+        const subTarget = a.next()
+        const thisTop = a.position().top
+
+        // ドロップダウンの縦位置の調整
+        subTarget.css('top', thisTop)
+
+        if (num < 3 && subFlag) {
+          // ドロップダウンから第1,2メニューへの復帰
+          changeDD(_this, num, true)
+        } else if (cdFlag) {
+          // 第2ドロップダウンから第1ドロップダウンへの復帰
+          changeDD(_this, num, true)
+          cdFlag = false
+        } else {
+          // 通常切り替え処理
+          const con02 = mouseX[i][mouseX[i].length - 3] >= e.pageX - permitX
+          if (con02) changeDD(_this, num, true)
+        }
+
+        // ドロップダウンのホバーフラグリセット
+        subFlag = false
+        if (num === '3') subFlag = true
+      }
+    }
 
     // ジャンルナビ全体の無効マウスイベント（領域外に移動したら非表示処理を行う）
     elem
@@ -1908,12 +1906,12 @@ jQuery(document).ready(function($) {
     window.ebook_store_jsfunction &&
     window.ebook_store_jsfunction.displaySite
   ) {
-    //window.ebook_store_jsfunction.displaySiteが定義されている場合は専用アプリ内ブラウザとみなす
-    var matches = _ua.match(/^dnps[^, ]+(?:,dnps[^, ]+)* (\d+)\.(\d+)/)
+    // window.ebook_store_jsfunction.displaySiteが定義されている場合は専用アプリ内ブラウザとみなす
+    const matches = _ua.match(/^dnps[^, ]+(?:,dnps[^, ]+)* (\d+)\.(\d+)/)
     if (matches && parseInt(matches[1]) == 3 && parseInt(matches[2]) >= 3) {
-      //ver3.3.0以上～4.0.0未満（暗号化URLを前提としているバージョン）
+      // ver3.3.0以上～4.0.0未満（暗号化URLを前提としているバージョン）
       window.openOutsideSite = function(url) {
-        var msg =
+        const msg =
           'アプリ内ブラウザで「honto.jp」外のサイトへリンクいたします。\n' +
           '標準ブラウザでアクセスするためには最新バージョンのアプリをインストールする必要があります。\n' +
           'このまま、アプリ内ブラウザでアクセスを続けますか？\n' +
@@ -1923,9 +1921,9 @@ jQuery(document).ready(function($) {
         }
       }
     } else {
-      //ver1.0.0～3.3.0未満および、4.0.0以上
+      // ver1.0.0～3.3.0未満および、4.0.0以上
       window.openOutsideSite = function(url) {
-        var ret = window.ebook_store_jsfunction.displaySite(url)
+        const ret = window.ebook_store_jsfunction.displaySite(url)
         if (ret != 0) {
           alert('指定サイトの表示に失敗しました。')
         }
@@ -1938,23 +1936,23 @@ jQuery(document).ready(function($) {
    * shelfH：書影の高さを設定する
    */
   function setLiquidList(elem, shelfH) {
-    var webKitBrower = _ua.toLowerCase(),
-      contentWidth = 100,
-      addHeight = 0
+    const webKitBrower = _ua.toLowerCase()
+    const contentWidth = 100
+    const addHeight = 0
 
     elem.each(function() {
-      var elem = $(this),
-        list = elem.find('ul:first').children('li'),
-        heading = $('h3', elem),
-        listNum = list.length,
-        whileNum1 = listNum,
-        headMaxH = 0,
-        listMaxH = 0,
-        blMaxH = 0,
-        flexibleBoxMaxHeight = 0
+      const elem = $(this)
+      const list = elem.find('ul:first').children('li')
+      const heading = $('h3', elem)
+      const listNum = list.length
+      let whileNum1 = listNum
+      let headMaxH = 0
+      let listMaxH = 0
+      let blMaxH = 0
+      let flexibleBoxMaxHeight = 0
 
       function reHeight1() {
-        var flexibleBox = []
+        const flexibleBox = []
         // 書影＆商品情報の最大高さを取得
         for (var i = 0; listNum > i; i++) {
           flexibleBox[i] = list
@@ -1962,7 +1960,7 @@ jQuery(document).ready(function($) {
             .find('.stFlexibleBox')
             .eq(0)[0]
           if ($(flexibleBox).eq(i)[0]) {
-            var flexibleBoxHeight = $(flexibleBox)
+            const flexibleBoxHeight = $(flexibleBox)
               .eq(i)
               .height()
             if (flexibleBoxHeight > flexibleBoxMaxHeight)
@@ -1974,7 +1972,7 @@ jQuery(document).ready(function($) {
 
         // 1ブロックの最大高さを取得
         for (var i = 0; listNum > i; i++) {
-          var listHeight = list.eq(i).height()
+          const listHeight = list.eq(i).height()
           if (listHeight > listMaxH) listMaxH = listHeight
         }
 
@@ -1985,7 +1983,7 @@ jQuery(document).ready(function($) {
       function reHeight2() {
         // 書影の最大高さを取得
         while (whileNum1--) {
-          var headH = heading
+          const headH = heading
             .eq(whileNum1)
             .children()
             .height()
@@ -1994,7 +1992,7 @@ jQuery(document).ready(function($) {
         heading.css('minHeight', headMaxH)
 
         // 1ブロックの最大高さを再定義
-        var listMaxReH = blMaxH + headMaxH - shelfH
+        const listMaxReH = blMaxH + headMaxH - shelfH
         list.css('minHeight', listMaxReH)
       }
 
@@ -2002,13 +2000,13 @@ jQuery(document).ready(function($) {
         if (shelfH == 190) {
           return this
         } else {
-          var elemW = elem.width(),
-            dispNum = Math.floor(elemW / 133) // 133=1ブロックのpx幅
+          const elemW = elem.width()
+          let dispNum = Math.floor(elemW / 133) // 133=1ブロックのpx幅
 
           if (dispNum > listNum) dispNum = listNum
 
-          var perWidth1 = contentWidth / dispNum,
-            perWidth2 = Math.floor(contentWidth / listNum)
+          const perWidth1 = contentWidth / dispNum
+          const perWidth2 = Math.floor(contentWidth / listNum)
 
           if (listNum > dispNum) {
             list.css('width', perWidth1 + '%')
@@ -2041,9 +2039,9 @@ jQuery(document).ready(function($) {
    * スクロール追跡
    */
   function setScChase() {
-    var elem = $('#stChase'),
-      elemW = elem.width(),
-      elemOff = elem.offset()
+    const elem = $('#stChase')
+    const elemW = elem.width()
+    const elemOff = elem.offset()
 
     WIN.scroll(function() {
       if (WIN.scrollTop() > elemOff.top + 20) {
@@ -2061,12 +2059,12 @@ jQuery(document).ready(function($) {
    * 著名人レビュー
    */
   function setReviewOver() {
-    var elem = $('#stReviewOver'),
-      stRevB = elem.find('.stBoxReview04'),
-      stRevN = elem.find('.stReviewerName'),
-      h1 = $('h1'),
-      h1Text = h1.text().replace('さんのレビュー一覧', ''),
-      icon = ' <span class="stIconType04">公式</span>'
+    const elem = $('#stReviewOver')
+    const stRevB = elem.find('.stBoxReview04')
+    const stRevN = elem.find('.stReviewerName')
+    const h1 = $('h1')
+    const h1Text = h1.text().replace('さんのレビュー一覧', '')
+    const icon = ' <span class="stIconType04">公式</span>'
     stRevlen = stRevB.length
 
     $.ajax({
@@ -2074,7 +2072,7 @@ jQuery(document).ready(function($) {
       dataType: 'json'
     })
       .done(function(obj) {
-        if (obj.indexOf(h1Text) !== -1) {
+        if (obj.includes(h1Text)) {
           // ユーザーレビュー一覧
           while (stRevlen--) {
             reviewOff(stRevlen)
@@ -2082,8 +2080,8 @@ jQuery(document).ready(function($) {
           h1.next('p').append(icon)
         } else {
           while (stRevlen--) {
-            var rName = stRevN.eq(stRevlen).text()
-            if (obj.indexOf(rName) !== -1) {
+            const rName = stRevN.eq(stRevlen).text()
+            if (obj.includes(rName)) {
               reviewOff(stRevlen)
               stRevN.eq(stRevlen).after(icon)
             }
@@ -2095,14 +2093,14 @@ jQuery(document).ready(function($) {
       })
 
     function reviewOff(num) {
-      var target = stRevB.eq(num)
+      const target = stRevB.eq(num)
       target.find('.stVote').hide()
       target.find('.stUtility').hide()
     }
   }
   if ($('#stReviewOver').length) setReviewOver()
 
-  //SNSボタン
+  // SNSボタン
   $(
     '#stSocialBtn, .stCpSnsList01, .stCpSnsList02, .stCpSnsList03'
   ).customSocialButton()
@@ -2110,19 +2108,19 @@ jQuery(document).ready(function($) {
   /**
    * SNSシェアボタンリスト
    */
-  var stCpSnsList = {
+  const stCpSnsList = {
     togggleBtnClass: '.stCpSnsListToggle',
     flgClass: 'stOpen',
 
-    init: function() {
-      var elems = jQuery('.stCpSnsList01, .stCpSnsList02, .stCpSnsList03')
-      var len = elems.length
+    init() {
+      const elems = jQuery('.stCpSnsList01, .stCpSnsList02, .stCpSnsList03')
+      const len = elems.length
 
-      //シェアボタンが同画面内に複数存在した場合の為にそれぞれの要素に適用する
-      for (var i = 0; len > i; i++) {
-        var elem = elems.eq(i)
-        var btn = elem.children(this.togggleBtnClass)
-        var fixedFlag = elem.hasClass('stCpSnsList01')
+      // シェアボタンが同画面内に複数存在した場合の為にそれぞれの要素に適用する
+      for (let i = 0; len > i; i++) {
+        const elem = elems.eq(i)
+        const btn = elem.children(this.togggleBtnClass)
+        const fixedFlag = elem.hasClass('stCpSnsList01')
 
         this.setHeight(elem, btn, fixedFlag)
         // イベントをセット
@@ -2130,9 +2128,9 @@ jQuery(document).ready(function($) {
       }
     },
 
-    setEventHandler: function(elem, btn, fixedFlag) {
-      var self = this
-      var offsetTop = elem.offset().top
+    setEventHandler(elem, btn, fixedFlag) {
+      const self = this
+      const offsetTop = elem.offset().top
 
       btn.on('click', function() {
         self.toggle(elem, btn, fixedFlag)
@@ -2145,7 +2143,7 @@ jQuery(document).ready(function($) {
       // 固定配置の要素以外スキップ
       if (!fixedFlag) return
       jQuery(window).on('scroll', function() {
-        var scrollTop = jQuery(window).scrollTop()
+        const scrollTop = jQuery(window).scrollTop()
         if (!fixedFlag) return
 
         if (scrollTop > offsetTop - 20) {
@@ -2162,8 +2160,8 @@ jQuery(document).ready(function($) {
       })
     },
 
-    toggle: function(elem, btn, fixedFlag) {
-      var flag = btn.hasClass(this.flgClass)
+    toggle(elem, btn, fixedFlag) {
+      const flag = btn.hasClass(this.flgClass)
       // flagがtrueの時は開く処理
       if (flag) {
         btn.removeClass(this.flgClass)
@@ -2173,19 +2171,19 @@ jQuery(document).ready(function($) {
       this.setHeight(elem, btn, fixedFlag)
     },
 
-    setHeight: function(elem, btn, fixedFlag) {
-      var flag = btn.hasClass(this.flgClass)
-      var list = elem.find('li')
-      var listWidth = list.width()
-      var listOpenWidth = 0
+    setHeight(elem, btn, fixedFlag) {
+      const flag = btn.hasClass(this.flgClass)
+      const list = elem.find('li')
+      const listWidth = list.width()
+      let listOpenWidth = 0
 
-      //閉じた時の長さ
-      var listCloseWidth =
+      // 閉じた時の長さ
+      const listCloseWidth =
         (listWidth + parseInt(list.css('margin-bottom'), 10)) * 4
 
       // すべての要素の長さ格納
-      for (var j = 0; j < list.length; j++) {
-        if ('none' === list.eq(j).css('display')) {
+      for (let j = 0; j < list.length; j++) {
+        if (list.eq(j).css('display') === 'none') {
           continue
         }
         listOpenWidth =
@@ -2199,12 +2197,10 @@ jQuery(document).ready(function($) {
         } else {
           elem.children('ul').css({ width: listCloseWidth + 'px' })
         }
+      } else if (fixedFlag) {
+        elem.children('ul').css({ height: listOpenWidth + 'px' })
       } else {
-        if (fixedFlag) {
-          elem.children('ul').css({ height: listOpenWidth + 'px' })
-        } else {
-          elem.children('ul').css({ width: listOpenWidth + 'px' })
-        }
+        elem.children('ul').css({ width: listOpenWidth + 'px' })
       }
     }
   }
@@ -2219,16 +2215,16 @@ jQuery(document).ready(function($) {
     cookiename: '',
 
     // _targetにjQueryオブジェクトを指定
-    init: function(_target) {
+    init(_target) {
       // 自身を変数に格納
-      var self = stInfoBox
+      const self = stInfoBox
       // 各要素を格納
       this.target = _target
       this.closeBtn = _target.find('.stInfoBoxClose')
 
-      //cookieが無効の場合は離脱
+      // cookieが無効の場合は離脱
       if (!navigator.cookieEnabled) return
-      //インフォメーションボックスがない場合は離脱
+      // インフォメーションボックスがない場合は離脱
       if (!this.target) return
       // 設定する要素のcookieの名前を取得
       this.cookiename = this.target.data('cookiename')
@@ -2243,43 +2239,45 @@ jQuery(document).ready(function($) {
     },
 
     // cookieを取得する
-    getCookie: function() {
+    getCookie() {
       return Cookies.get(this.cookiename)
     },
 
     // cookieをセットする
-    setCookie: function() {
-      var cExpires = new Date(new Date().getTime() + 60 * 60 * 24 * 1000 * 730) //2年後の日付を設定
+    setCookie() {
+      const cExpires = new Date(
+        new Date().getTime() + 60 * 60 * 24 * 1000 * 730
+      ) // 2年後の日付を設定
       Cookies.set(this.cookiename, '1', { expires: cExpires, path: '/' })
     },
 
-    //インフォメーションボックスがない場合は離脱
-    toggleDisplay: function() {
+    // インフォメーションボックスがない場合は離脱
+    toggleDisplay() {
       if (this.cookie === '1') {
-        //1の場合は削除ずみ
+        // 1の場合は削除ずみ
         this.target.hide()
       } else {
         this.target.show()
       }
     },
 
-    hide: function() {
+    hide() {
       this.target.hide()
       this.setCookie()
     }
   }
 
-  var $stInfoBox = $('.stInfoBox')
-  for (var i = 0; $stInfoBox.length > i; i++) {
+  const $stInfoBox = $('.stInfoBox')
+  for (let i = 0; $stInfoBox.length > i; i++) {
     stInfoBox.init($('.stInfoBox'))
   }
 
   stCpSnsList.init()
 
-  //欲しい本リンク（♡）機能の適用
+  // 欲しい本リンク（♡）機能の適用
   wantBookLink.initRegist()
 
-  //ドキュメント読み込み時スクリプト機能適用
+  // ドキュメント読み込み時スクリプト機能適用
   onInit($(this))
 })
 
@@ -2298,30 +2296,30 @@ jQuery(document).ready(function($) {
       { column: 0, clear: 0, height: 'minHeight', reset: '' },
       a || {}
     )
-    var d = g(this)
-    'reset' === a.reset && d.removeAttr('style')
-    var b = d
-        .map(function() {
-          return g(this).height()
-        })
-        .get(),
-      e = []
-    if (1 < a.column)
+    const d = g(this)
+    a.reset === 'reset' && d.removeAttr('style')
+    let b = d
+      .map(function() {
+        return g(this).height()
+      })
+      .get()
+    let e = []
+    if (a.column > 1)
       for (var f = 0, c = b.length; f < Math.ceil(c / a.column); f++) {
-        var h = f * a.column
+        const h = f * a.column
         e.push(Math.max.apply(null, b.slice(h, h + a.column)))
       }
     f =
-      'undefined' === typeof window.addEventListener &&
-      'undefined' === typeof document.documentElement.style.maxHeight
-    if (1 < a.column)
+      typeof window.addEventListener === 'undefined' &&
+      typeof document.documentElement.style.maxHeight === 'undefined'
+    if (a.column > 1)
       for (b = 0; b < e.length; b++)
         for (c = 0; c < a.column; c++)
           f
             ? d.eq(b * a.column + c).height(e[b])
             : d.eq(b * a.column + c).css(a.height, e[b]),
-            0 === c &&
-              0 !== a.clear &&
+            c === 0 &&
+              a.clear !== 0 &&
               d.eq(b * a.column + c).css('clear', 'both')
     else (e = Math.max.apply(null, b)), f ? d.height(e) : d.css(a.height, e)
   }
@@ -2330,7 +2328,7 @@ jQuery(document).ready(function($) {
 // jQuery setHeight plugin
 ;(function(a) {
   a.fn.set_height = function(q) {
-    var g = { items_per_row: false, delay: 1000, group_by_parent: false }
+    const g = { items_per_row: false, delay: 1000, group_by_parent: false }
     if (q) {
       jQuery.extend(g, q)
     }
@@ -2344,22 +2342,22 @@ jQuery(document).ready(function($) {
         .find('#js_etalon')
         .get(0)
     }
-    var e = function(t, s) {
-      for (var r = 0; r < t.length; r++) {
+    const e = function(t, s) {
+      for (let r = 0; r < t.length; r++) {
         if (t[r] == s) {
           return
         }
       }
       t.push(s)
     }
-    var b = this
-    var f = []
-    var m = []
-    var l = []
-    var k = function() {
-      for (var t = 0; t < f.length; t++) {
-        var s = 0
-        var u = f[t][0].currentStyle
+    const b = this
+    const f = []
+    let m = []
+    const l = []
+    const k = function() {
+      for (let t = 0; t < f.length; t++) {
+        let s = 0
+        const u = f[t][0].currentStyle
           ? parseInt(f[t][0].currentStyle.paddingTop) +
             parseInt(f[t][0].currentStyle.paddingBottom)
           : parseInt(
@@ -2381,13 +2379,13 @@ jQuery(document).ready(function($) {
         }
       }
     }
-    var n = function() {
-      var z = 0
-      var x = 0
-      var r = null
-      var u = null
+    const n = function() {
+      let z = 0
+      let x = 0
+      let r = null
+      let u = null
       f[z] = []
-      var A = false
+      let A = false
       for (var v = 0; v < b.length; v++) {
         if (g.group_by_parent) {
           r = a(b[v]).parents(g.group_by_parent)[0]
@@ -2410,15 +2408,15 @@ jQuery(document).ready(function($) {
       }
       for (var v = 0; v < f.length; v++) {
         if (!f[v][0].offsetHeight) {
-          var y = f[v][0]
+          let y = f[v][0]
           while (y.style.display != 'none') {
             y = y.parentNode
           }
           m.push(y)
         }
-        for (var t = 0; t < f[v].length; t++) {
-          var w = f[v][t].getElementsByTagName('img')
-          for (var s = 0; s < w.length; s++) {
+        for (let t = 0; t < f[v].length; t++) {
+          const w = f[v][t].getElementsByTagName('img')
+          for (let s = 0; s < w.length; s++) {
             e(l, w[s].src)
           }
         }
@@ -2426,20 +2424,20 @@ jQuery(document).ready(function($) {
     }
     if (b.length) {
       n()
-      var d = o.offsetHeight
-      var c = setInterval(function() {
-        var t = o.offsetHeight
+      let d = o.offsetHeight
+      const c = setInterval(function() {
+        const t = o.offsetHeight
         if (t != d) {
           d = t
           k()
         }
-        for (var s = 0; s < m.length; s++) {
+        for (let s = 0; s < m.length; s++) {
           if (m[s].style.display != 'none') {
             k()
             m = []
-            for (var r = 0; r < f.length; r++) {
+            for (let r = 0; r < f.length; r++) {
               if (!f[r][0].offsetHeight) {
-                var u = f[r][0]
+                let u = f[r][0]
                 while (u.style.display != 'none') {
                   u = u.parentNode
                 }
@@ -2451,9 +2449,9 @@ jQuery(document).ready(function($) {
       }, g.delay)
       k()
       if (l.length) {
-        var h = []
-        var p = 0
-        for (var j = 0; j < l.length; j++) {
+        const h = []
+        let p = 0
+        for (let j = 0; j < l.length; j++) {
           h[j] = document.createElement('img')
           h[j].onload = function() {
             p++
@@ -2469,7 +2467,7 @@ jQuery(document).ready(function($) {
   }
 })(jQuery)
 
-//StarRating plugin
+// StarRating plugin
 /*
  ### jQuery Star Rating Plugin v3.13 - 2009-03-26 ###
  * Home: http://www.fyneworks.com/jquery/star-rating/
@@ -2488,9 +2486,9 @@ if (window.jQuery)
       } catch (e) {}
     $.fn.rating = function(options) {
       if (this.length == 0) return this
-      if (typeof arguments[0] == 'string') {
+      if (typeof arguments[0] === 'string') {
         if (this.length > 1) {
-          var args = arguments
+          const args = arguments
           return this.each(function() {
             $.fn.rating.apply($(this), args)
           })
@@ -2506,16 +2504,16 @@ if (window.jQuery)
       this.not('.star-rating-applied')
         .addClass('star-rating-applied')
         .each(function() {
-          var control,
-            input = $(this)
-          var eid = (this.name || 'unnamed-rating')
+          let control
+          const input = $(this)
+          const eid = (this.name || 'unnamed-rating')
             .replace(/\[|\]/g, '_')
             .replace(/^\_+|\_+$/g, '')
-          var context = $(this.form || document.body)
-          var raters = context.data('rating')
+          const context = $(this.form || document.body)
+          let raters = context.data('rating')
           if (!raters || raters.call != $.fn.rating.calls)
             raters = { count: 0, call: $.fn.rating.calls }
-          var rater = raters[eid]
+          let rater = raters[eid]
           if (rater) control = rater.data('rating')
           if (rater && control) control.count++
           else {
@@ -2532,7 +2530,7 @@ if (window.jQuery)
             rater.addClass('rating-to-be-drawn')
             if (input.attr('disabled')) control.readOnly = true
           }
-          var star = $(
+          const star = $(
             '<div class="star-rating rater-' +
               control.serial +
               '"><a title="' +
@@ -2545,10 +2543,10 @@ if (window.jQuery)
           if (this.id) star.attr('id', this.id)
           if (this.className) star.addClass(this.className)
           if (control.half) control.split = 2
-          if (typeof control.split == 'number' && control.split > 0) {
-            var stw = ($.fn.width ? star.width() : 0) || control.starWidth
-            var spi = control.count % control.split,
-              spw = Math.floor(stw / control.split)
+          if (typeof control.split === 'number' && control.split > 0) {
+            const stw = ($.fn.width ? star.width() : 0) || control.starWidth
+            const spi = control.count % control.split
+            const spw = Math.floor(stw / control.split)
             star
               .width(spw)
               .find('a')
@@ -2591,11 +2589,11 @@ if (window.jQuery)
     }
     $.extend($.fn.rating, {
       calls: 0,
-      focus: function() {
-        var control = this.data('rating')
+      focus() {
+        const control = this.data('rating')
         if (!control) return this
         if (!control.focus) return this
-        var input =
+        const input =
           $(this).data('rating.input') ||
           $(this.tagName == 'INPUT' ? this : null)
         if (control.focus)
@@ -2604,11 +2602,11 @@ if (window.jQuery)
             $('a', input.data('rating.star'))[0]
           ])
       },
-      blur: function() {
-        var control = this.data('rating')
+      blur() {
+        const control = this.data('rating')
         if (!control) return this
         if (!control.blur) return this
-        var input =
+        const input =
           $(this).data('rating.input') ||
           $(this.tagName == 'INPUT' ? this : null)
         if (control.blur)
@@ -2617,8 +2615,8 @@ if (window.jQuery)
             $('a', input.data('rating.star'))[0]
           ])
       },
-      fill: function() {
-        var control = this.data('rating')
+      fill() {
+        const control = this.data('rating')
         if (!control) return this
         if (control.readOnly) return
         this.rating('drain')
@@ -2627,8 +2625,8 @@ if (window.jQuery)
           .filter('.rater-' + control.serial)
           .addClass('star-rating-hover')
       },
-      drain: function() {
-        var control = this.data('rating')
+      drain() {
+        const control = this.data('rating')
         if (!control) return this
         if (control.readOnly) return
         control.rater
@@ -2637,8 +2635,8 @@ if (window.jQuery)
           .removeClass('star-rating-on')
           .removeClass('star-rating-hover')
       },
-      draw: function() {
-        var control = this.data('rating')
+      draw() {
+        const control = this.data('rating')
         if (!control) return this
         this.rating('drain')
         if (control.current) {
@@ -2650,19 +2648,19 @@ if (window.jQuery)
             .addClass('star-rating-on')
         } else $(control.inputs).removeAttr('checked')
       },
-      select: function(value, wantCallBack) {
-        var control = this.data('rating')
+      select(value, wantCallBack) {
+        const control = this.data('rating')
         if (!control) return this
         if (control.readOnly) return
         control.current = null
-        if (typeof value != 'undefined') {
-          if (typeof value == 'number')
+        if (typeof value !== 'undefined') {
+          if (typeof value === 'number')
             return $(control.stars[value]).rating(
               'select',
               undefined,
               wantCallBack
             )
-          if (typeof value == 'string')
+          if (typeof value === 'string')
             $.each(control.stars, function() {
               if (
                 $(this)
@@ -2680,7 +2678,7 @@ if (window.jQuery)
               : null
         this.data('rating', control)
         this.rating('draw')
-        var input = $(
+        const input = $(
           control.current ? control.current.data('rating.input') : null
         )
         if ((wantCallBack || wantCallBack == undefined) && control.callback)
@@ -2689,19 +2687,19 @@ if (window.jQuery)
             $('a', control.current)[0]
           ])
       },
-      readOnly: function(toggle, disable) {
-        var control = this.data('rating')
+      readOnly(toggle, disable) {
+        const control = this.data('rating')
         if (!control) return this
-        control.readOnly = toggle || toggle == undefined ? true : false
+        control.readOnly = !!(toggle || toggle == undefined)
         if (disable) $(control.inputs).attr('disabled', 'disabled')
         else $(control.inputs).removeAttr('disabled')
         this.data('rating', control)
         this.rating('draw')
       },
-      disable: function() {
+      disable() {
         this.rating('readOnly', true, true)
       },
-      enable: function() {
+      enable() {
         this.rating('readOnly', false, false)
       }
     })
@@ -2754,9 +2752,9 @@ if (window.jQuery)
         'End diagnostics -> results vary by browser and when diagnostics are requested'
       )
     }
-    var r
+    let r
     if (e.browser === r) {
-      var o = []
+      const o = []
       return (
         o.push(
           'WARNING: you appear to be using a newer version of jquery which does not support the $.browser variable.'
@@ -2775,7 +2773,7 @@ if (window.jQuery)
       {
         heightOffset: 0,
         minHeight: 0,
-        callback: function() {},
+        callback() {},
         animate: !1,
         debug: !1,
         diagnostics: !1,
@@ -2789,12 +2787,12 @@ if (window.jQuery)
       i(s),
       this.each(function() {
         function t(e) {
-          var t = null
+          let t = null
           return (
             jQuery.each(o, function(i, n) {
               return e[n] ? ((t = h[n]), !1) : void 0
             }),
-            null === t && (t = h['default']),
+            t === null && (t = h.default),
             t
           )
         }
@@ -2803,11 +2801,11 @@ if (window.jQuery)
             s.resetToMinHeight &&
               s.resetToMinHeight === !0 &&
               (r.style.height = s.minHeight + 'px')
-          var o = e(r, window.top.document)
-              .contents()
-              .find('body'),
-            h = t(e.browser),
-            a = h(r, o, s, e.browser)
+          const o = e(r, window.top.document)
+            .contents()
+            .find('body')
+          const h = t(e.browser)
+          let a = h(r, o, s, e.browser)
           i(a),
             a < s.minHeight &&
               (i('new height is less than minHeight'),
@@ -2818,25 +2816,25 @@ if (window.jQuery)
               : (r.style.height = a + 'px'),
             s.callback.apply(e(r), [{ newFrameHeight: a }])
         }
-        var o = ['webkit', 'mozilla', 'msie', 'opera'],
-          h = []
-        ;(h['default'] = function(e, t, i) {
+        var o = ['webkit', 'mozilla', 'msie', 'opera']
+        var h = []
+        ;(h.default = function(e, t, i) {
           return t[0].scrollHeight + i.heightOffset
         }),
           jQuery.each(o, function(e, t) {
-            h[t] = h['default']
+            h[t] = h.default
           }),
           jQuery.each(s.heightCalculationOverrides, function(e, t) {
             h[t.browser] = t.calculation
           })
-        var a = 0
+        const a = 0
         if (
           (i(this),
           s.diagnostics && n(this, 'each iframe'),
           s.triggerFunctions.length > 0)
         ) {
           i(s.triggerFunctions.length + ' trigger Functions')
-          for (var u = 0; u < s.triggerFunctions.length; u++)
+          for (let u = 0; u < s.triggerFunctions.length; u++)
             s.triggerFunctions[u](r, this)
         }
         e(this).load(function() {
@@ -2911,28 +2909,28 @@ if (window.jQuery)
         cre: /({.*})/,
         single: 'metadata'
       },
-      setType: function(type, name) {
+      setType(type, name) {
         this.defaults.type = type
         this.defaults.name = name
       },
-      get: function(elem, opts) {
-        var settings = $.extend({}, this.defaults, opts)
+      get(elem, opts) {
+        const settings = $.extend({}, this.defaults, opts)
         if (!settings.single.length) settings.single = 'metadata'
-        var data = $.data(elem, settings.single)
+        let data = $.data(elem, settings.single)
         if (data) return data
         data = '{}'
         if (settings.type == 'class') {
-          var m = settings.cre.exec(elem.className)
+          const m = settings.cre.exec(elem.className)
           if (m) data = m[1]
         } else if (settings.type == 'elem') {
           if (!elem.getElementsByTagName) return
-          var e = elem.getElementsByTagName(settings.name)
+          const e = elem.getElementsByTagName(settings.name)
           if (e.length) data = $.trim(e[0].innerHTML)
         } else if (elem.getAttribute != undefined) {
-          var attr = elem.getAttribute(settings.name)
+          const attr = elem.getAttribute(settings.name)
           if (attr) data = attr
         }
-        if (data.indexOf('{') < 0) data = '{' + data + '}'
+        if (!data.includes('{')) data = '{' + data + '}'
         data = eval('(' + data + ')')
         $.data(elem, settings.single, data)
         return data
@@ -2970,601 +2968,592 @@ if (window.jQuery)
  *   http://www.gnu.org/licenses/gpl.html
  */
 !(function(a) {
-  var b,
-    c,
-    d,
-    e,
-    f,
-    g,
-    h,
-    i,
-    j,
-    k,
-    l,
-    m,
-    n,
-    o = 0,
-    p = {},
-    q = [],
-    r = 0,
-    s = {},
-    t = [],
-    u = null,
-    v = new Image(),
-    w = /\.(jpg|gif|png|bmp|jpeg)(.*)?$/i,
-    x = /[^\.]\.(swf)\s*$/i,
-    y = 1,
-    z = 0,
-    A = '',
-    B = !1,
-    C = a.extend(a('<div/>')[0], { prop: 0 }),
-    D = a.browser.msie && a.browser.version < 7 && !window.XMLHttpRequest,
-    E = function() {
-      c.hide(), (v.onerror = v.onload = null), u && u.abort(), b.empty()
-    },
-    F = function() {
-      return !1 === p.onError(q, o, p)
-        ? (c.hide(), void (B = !1))
-        : ((p.titleShow = !1),
-          (p.width = 'auto'),
-          (p.height = 'auto'),
-          b.html(
-            '<p id="fancybox-error">The requested content cannot be loaded.<br />Please try again later.</p>'
-          ),
-          void H())
-    },
-    G = function() {
-      var d,
-        e,
-        f,
-        h,
-        i,
-        j,
-        k = q[o]
-      if (
-        (E(),
-        (p = a.extend(
-          {},
-          a.fn.fancybox.defaults,
-          'undefined' == typeof a(k).data('fancybox')
-            ? p
-            : a(k).data('fancybox')
-        )),
-        (j = p.onStart(q, o, p)),
-        j === !1)
-      )
-        return void (B = !1)
-      if (
-        ('object' == typeof j && (p = a.extend(p, j)),
-        (f = p.title || (k.nodeName ? a(k).attr('title') : k.title) || ''),
-        k.nodeName &&
-          !p.orig &&
-          (p.orig = a(k).children('img:first').length
-            ? a(k).children('img:first')
-            : a(k)),
-        '' === f && p.orig && p.titleFromAlt && (f = p.orig.attr('alt')),
-        (d = p.href || (k.nodeName ? a(k).attr('href') : k.href) || null),
-        (/^(?:javascript)/i.test(d) || '#' == d) && (d = null),
-        p.type
-          ? ((e = p.type), d || (d = p.content))
-          : p.content
-          ? (e = 'html')
-          : d &&
-            (e = d.match(w)
-              ? 'image'
-              : d.match(x)
-              ? 'swf'
-              : a(k).hasClass('iframe')
-              ? 'iframe'
-              : 0 === d.indexOf('#')
-              ? 'inline'
-              : 'ajax'),
-        !e)
-      )
-        return void F()
-      switch (
-        ('inline' == e &&
-          ((k = d.substr(d.indexOf('#'))),
-          (e = a(k).length > 0 ? 'inline' : 'ajax')),
-        (p.type = e),
-        (p.href = d),
-        (p.title = f),
-        p.autoDimensions &&
-          ('html' == p.type || 'inline' == p.type || 'ajax' == p.type
-            ? ((p.width = p.width), (p.height = 'auto'))
-            : (p.autoDimensions = !1)),
-        p.modal &&
-          ((p.overlayShow = !0),
-          (p.hideOnOverlayClick = !1),
-          (p.hideOnContentClick = !1),
-          (p.enableEscapeButton = !1),
-          (p.showCloseButton = !1)),
-        (p.padding = parseInt(p.padding, 10)),
-        (p.margin = parseInt(p.margin, 10)),
-        b.css('padding', p.padding + p.margin),
-        a('.fancybox-inline-tmp')
-          .unbind('fancybox-cancel')
-          .bind('fancybox-change', function() {
-            a(this).replaceWith(g.children())
-          }),
-        e)
-      ) {
-        case 'html':
-          b.html(p.content), H()
-          break
-        case 'inline':
-          if (
-            a(k)
-              .parent()
-              .is('#fancybox-content') === !0
-          )
-            return void (B = !1)
-          a('<div class="fancybox-inline-tmp" />')
-            .hide()
-            .insertBefore(a(k))
-            .bind('fancybox-cleanup', function() {
-              a(this).replaceWith(g.children())
-            })
-            .bind('fancybox-cancel', function() {
-              a(this).replaceWith(b.children())
-            }),
-            a(k).appendTo(b),
-            H()
-          break
-        case 'image':
-          ;(B = !1),
-            a.fancybox.showActivity(),
-            (v = new Image()),
-            (v.onerror = function() {
-              F()
-            }),
-            (v.onload = function() {
-              ;(B = !0), (v.onerror = v.onload = null), I()
-            }),
-            (v.src = d)
-          break
-        case 'swf':
-          ;(p.scrolling = 'no'),
-            (h =
-              '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="' +
-              p.width +
-              '" height="' +
-              p.height +
-              '"><param name="movie" value="' +
-              d +
-              '"></param>'),
-            (i = ''),
-            a.each(p.swf, function(a, b) {
-              ;(h += '<param name="' + a + '" value="' + b + '"></param>'),
-                (i += ' ' + a + '="' + b + '"')
-            }),
-            (h +=
-              '<embed src="' +
-              d +
-              '" type="application/x-shockwave-flash" width="' +
-              p.width +
-              '" height="' +
-              p.height +
-              '"' +
-              i +
-              '></embed></object>'),
-            b.html(h),
-            H()
-          break
-        case 'ajax':
-          ;(B = !1),
-            a.fancybox.showActivity(),
-            (p.ajax.win = p.ajax.success),
-            (u = a.ajax(
-              a.extend({}, p.ajax, {
-                url: d,
-                data: p.ajax.data || {},
-                error: function(a) {
-                  a.status > 0 && F()
-                },
-                success: function(a, e, f) {
-                  var g = 'object' == typeof f ? f : u
-                  if (200 == g.status || 304 == g.status) {
-                    if ('function' == typeof p.ajax.win) {
-                      if (((j = p.ajax.win(d, a, e, f)), j === !1))
-                        return void c.hide()
-                      ;('string' == typeof j || 'object' == typeof j) && (a = j)
-                    }
-                    b.html(a), H()
-                  }
-                }
-              })
-            ))
-          break
-        case 'iframe':
-          J()
-      }
-    },
-    H = function() {
-      var c = p.width,
-        d = p.height
-      ;(c =
-        c.toString().indexOf('%') > -1
-          ? parseInt(
-              ((a(window).width() - 2 * p.margin) * parseFloat(c)) / 100,
-              10
-            ) + 'px'
-          : 'auto' == c
-          ? 'auto'
-          : c + 'px'),
-        (d =
-          d.toString().indexOf('%') > -1
-            ? parseInt(
-                ((a(window).height() - 2 * p.margin) * parseFloat(d)) / 100,
-                10
-              ) + 'px'
-            : 'auto' == d
-            ? 'auto'
-            : d + 'px'),
-        b.wrapInner(
-          '<div style="width:' +
-            c +
-            ';height:' +
-            d +
-            ';overflow: ' +
-            ('auto' == p.scrolling
-              ? 'auto'
-              : 'yes' == p.scrolling
-              ? 'scroll'
-              : 'hidden') +
-            ';position:relative;"></div>'
+  let b
+  let c
+  let d
+  let e
+  let f
+  let g
+  let h
+  let i
+  let j
+  let k
+  let l
+  let m
+  let n
+  let o = 0
+  let p = {}
+  let q = []
+  let r = 0
+  let s = {}
+  let t = []
+  let u = null
+  let v = new Image()
+  const w = /\.(jpg|gif|png|bmp|jpeg)(.*)?$/i
+  const x = /[^\.]\.(swf)\s*$/i
+  let y = 1
+  let z = 0
+  let A = ''
+  let B = !1
+  const C = a.extend(a('<div/>')[0], { prop: 0 })
+  const D = a.browser.msie && a.browser.version < 7 && !window.XMLHttpRequest
+  const E = function() {
+    c.hide(), (v.onerror = v.onload = null), u && u.abort(), b.empty()
+  }
+  const F = function() {
+    return !1 === p.onError(q, o, p)
+      ? (c.hide(), void (B = !1))
+      : ((p.titleShow = !1),
+        (p.width = 'auto'),
+        (p.height = 'auto'),
+        b.html(
+          '<p id="fancybox-error">The requested content cannot be loaded.<br />Please try again later.</p>'
         ),
-        (p.width = b.width()),
-        (p.height = b.height()),
-        J()
-    },
-    I = function() {
-      ;(p.width = v.width),
-        (p.height = v.height),
-        a('<img />')
-          .attr({ id: 'fancybox-img', src: v.src, alt: p.title })
-          .appendTo(b),
-        J()
-    },
-    J = function() {
-      var f, l
-      return (
-        c.hide(),
-        e.is(':visible') && !1 === s.onCleanup(t, r, s)
-          ? (a.event.trigger('fancybox-cancel'), void (B = !1))
-          : ((B = !0),
-            a(g.add(d)).unbind(),
-            a(window).unbind('resize.fb scroll.fb'),
-            a(document).unbind('keydown.fb'),
-            e.is(':visible') &&
-              'outside' !== s.titlePosition &&
-              e.css('height', e.height()),
-            (t = q),
-            (r = o),
-            (s = p),
-            s.overlayShow
-              ? (d.css({
-                  'background-color': s.overlayColor,
-                  opacity: s.overlayOpacity,
-                  cursor: s.hideOnOverlayClick ? 'pointer' : 'auto',
-                  height: a(document).height()
-                }),
-                d.is(':visible') ||
-                  (D &&
-                    a('select:not(#fancybox-tmp select)')
-                      .filter(function() {
-                        return 'hidden' !== this.style.visibility
-                      })
-                      .css({ visibility: 'hidden' })
-                      .one('fancybox-cleanup', function() {
-                        this.style.visibility = 'inherit'
-                      }),
-                  d.show()))
-              : d.hide(),
-            (n = R()),
-            L(),
-            e.is(':visible')
-              ? (a(h.add(j).add(k)).hide(),
-                (f = e.position()),
-                (m = {
-                  top: f.top,
-                  left: f.left,
-                  width: e.width(),
-                  height: e.height()
-                }),
-                (l = m.width == n.width && m.height == n.height),
-                void g.fadeTo(s.changeFade, 0.3, function() {
-                  var c = function() {
-                    g.html(b.contents()).fadeTo(s.changeFade, 1, N)
+        void H())
+  }
+  const G = function() {
+    let d
+    let e
+    let f
+    let h
+    let i
+    let j
+    let k = q[o]
+    if (
+      (E(),
+      (p = a.extend(
+        {},
+        a.fn.fancybox.defaults,
+        typeof a(k).data('fancybox') === 'undefined' ? p : a(k).data('fancybox')
+      )),
+      (j = p.onStart(q, o, p)),
+      j === !1)
+    )
+      return void (B = !1)
+    if (
+      (typeof j === 'object' && (p = a.extend(p, j)),
+      (f = p.title || (k.nodeName ? a(k).attr('title') : k.title) || ''),
+      k.nodeName &&
+        !p.orig &&
+        (p.orig = a(k).children('img:first').length
+          ? a(k).children('img:first')
+          : a(k)),
+      f === '' && p.orig && p.titleFromAlt && (f = p.orig.attr('alt')),
+      (d = p.href || (k.nodeName ? a(k).attr('href') : k.href) || null),
+      (/^(?:javascript)/i.test(d) || d == '#') && (d = null),
+      p.type
+        ? ((e = p.type), d || (d = p.content))
+        : p.content
+        ? (e = 'html')
+        : d &&
+          (e = d.match(w)
+            ? 'image'
+            : d.match(x)
+            ? 'swf'
+            : a(k).hasClass('iframe')
+            ? 'iframe'
+            : d.indexOf('#') === 0
+            ? 'inline'
+            : 'ajax'),
+      !e)
+    )
+      return void F()
+    switch (
+      (e == 'inline' &&
+        ((k = d.substr(d.indexOf('#'))),
+        (e = a(k).length > 0 ? 'inline' : 'ajax')),
+      (p.type = e),
+      (p.href = d),
+      (p.title = f),
+      p.autoDimensions &&
+        (p.type == 'html' || p.type == 'inline' || p.type == 'ajax'
+          ? ((p.width = p.width), (p.height = 'auto'))
+          : (p.autoDimensions = !1)),
+      p.modal &&
+        ((p.overlayShow = !0),
+        (p.hideOnOverlayClick = !1),
+        (p.hideOnContentClick = !1),
+        (p.enableEscapeButton = !1),
+        (p.showCloseButton = !1)),
+      (p.padding = parseInt(p.padding, 10)),
+      (p.margin = parseInt(p.margin, 10)),
+      b.css('padding', p.padding + p.margin),
+      a('.fancybox-inline-tmp')
+        .unbind('fancybox-cancel')
+        .bind('fancybox-change', function() {
+          a(this).replaceWith(g.children())
+        }),
+      e)
+    ) {
+      case 'html':
+        b.html(p.content), H()
+        break
+      case 'inline':
+        if (
+          a(k)
+            .parent()
+            .is('#fancybox-content') === !0
+        )
+          return void (B = !1)
+        a('<div class="fancybox-inline-tmp" />')
+          .hide()
+          .insertBefore(a(k))
+          .bind('fancybox-cleanup', function() {
+            a(this).replaceWith(g.children())
+          })
+          .bind('fancybox-cancel', function() {
+            a(this).replaceWith(b.children())
+          }),
+          a(k).appendTo(b),
+          H()
+        break
+      case 'image':
+        ;(B = !1),
+          a.fancybox.showActivity(),
+          (v = new Image()),
+          (v.onerror = function() {
+            F()
+          }),
+          (v.onload = function() {
+            ;(B = !0), (v.onerror = v.onload = null), I()
+          }),
+          (v.src = d)
+        break
+      case 'swf':
+        ;(p.scrolling = 'no'),
+          (h =
+            '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="' +
+            p.width +
+            '" height="' +
+            p.height +
+            '"><param name="movie" value="' +
+            d +
+            '"></param>'),
+          (i = ''),
+          a.each(p.swf, function(a, b) {
+            ;(h += '<param name="' + a + '" value="' + b + '"></param>'),
+              (i += ' ' + a + '="' + b + '"')
+          }),
+          (h +=
+            '<embed src="' +
+            d +
+            '" type="application/x-shockwave-flash" width="' +
+            p.width +
+            '" height="' +
+            p.height +
+            '"' +
+            i +
+            '></embed></object>'),
+          b.html(h),
+          H()
+        break
+      case 'ajax':
+        ;(B = !1),
+          a.fancybox.showActivity(),
+          (p.ajax.win = p.ajax.success),
+          (u = a.ajax(
+            a.extend({}, p.ajax, {
+              url: d,
+              data: p.ajax.data || {},
+              error(a) {
+                a.status > 0 && F()
+              },
+              success(a, e, f) {
+                const g = typeof f === 'object' ? f : u
+                if (g.status == 200 || g.status == 304) {
+                  if (typeof p.ajax.win === 'function') {
+                    if (((j = p.ajax.win(d, a, e, f)), j === !1))
+                      return void c.hide()
+                    ;(typeof j === 'string' || typeof j === 'object') && (a = j)
                   }
-                  a.event.trigger('fancybox-change'),
-                    g
-                      .empty()
-                      .removeAttr('filter')
-                      .css({
-                        'border-width': s.padding,
-                        width: n.width - 2 * s.padding,
-                        height: p.autoDimensions
-                          ? 'auto'
-                          : n.height - z - 2 * s.padding
-                      }),
-                    l
-                      ? c()
-                      : ((C.prop = 0),
-                        a(C).animate(
-                          { prop: 1 },
-                          {
-                            duration: s.changeSpeed,
-                            easing: s.easingChange,
-                            step: P,
-                            complete: c
-                          }
-                        ))
-                }))
-              : (e.removeAttr('style'),
-                g.css('border-width', s.padding),
-                'elastic' == s.transitionIn
-                  ? ((m = T()),
-                    g.html(b.contents()),
-                    e.show(),
-                    s.opacity && (n.opacity = 0),
-                    (C.prop = 0),
-                    void a(C).animate(
-                      { prop: 1 },
-                      {
-                        duration: s.speedIn,
-                        easing: s.easingIn,
-                        step: P,
-                        complete: N
-                      }
-                    ))
-                  : ('inside' == s.titlePosition && z > 0 && i.show(),
-                    g
-                      .css({
-                        width: n.width - 2 * s.padding,
-                        height: p.autoDimensions
-                          ? 'auto'
-                          : n.height - z - 2 * s.padding
-                      })
-                      .html(b.contents()),
-                    void e
-                      .css(n)
-                      .fadeIn('none' == s.transitionIn ? 0 : s.speedIn, N))))
-      )
-    },
-    K = function(a) {
-      return a && a.length
-        ? 'float' == s.titlePosition
-          ? '<table id="fancybox-title-float-wrap" cellpadding="0" cellspacing="0"><tr><td id="fancybox-title-float-left"></td><td id="fancybox-title-float-main">' +
-            a +
-            '</td><td id="fancybox-title-float-right"></td></tr></table>'
-          : '<div id="fancybox-title-' + s.titlePosition + '">' + a + '</div>'
-        : !1
-    },
-    L = function() {
-      if (
-        ((A = s.title || ''),
-        (z = 0),
-        i
-          .empty()
-          .removeAttr('style')
-          .removeClass(),
-        s.titleShow === !1)
-      )
-        return void i.hide()
-      if (
-        ((A = a.isFunction(s.titleFormat) ? s.titleFormat(A, t, r, s) : K(A)),
-        !A || '' === A)
-      )
-        return void i.hide()
-      switch (
-        (i
-          .addClass('fancybox-title-' + s.titlePosition)
-          .html(A)
-          .appendTo('body')
-          .show(),
-        s.titlePosition)
-      ) {
-        case 'inside':
-          i.css({
-            width: n.width - 2 * s.padding,
-            marginLeft: s.padding,
-            marginRight: s.padding
-          }),
-            (z = i.outerHeight(!0)),
-            i.appendTo(f),
-            (n.height += z)
-          break
-        case 'over':
-          i.css({
-            marginLeft: s.padding,
-            width: n.width - 2 * s.padding,
-            bottom: s.padding
-          }).appendTo(f)
-          break
-        case 'float':
-          i.css(
-            'left',
-            -1 * parseInt((i.width() - n.width - 40) / 2, 10)
-          ).appendTo(e)
-          break
-        default:
-          i.css({
-            width: n.width - 2 * s.padding,
-            paddingLeft: s.padding,
-            paddingRight: s.padding
-          }).appendTo(e)
-      }
-      i.hide()
-    },
-    M = function() {
-      return (
-        (s.enableEscapeButton || s.enableKeyboardNav) &&
-          a(document).bind('keydown.fb', function(b) {
-            27 == b.keyCode && s.enableEscapeButton
-              ? (b.preventDefault(), a.fancybox.close())
-              : (37 != b.keyCode && 39 != b.keyCode) ||
-                !s.enableKeyboardNav ||
-                'INPUT' === b.target.tagName ||
-                'TEXTAREA' === b.target.tagName ||
-                'SELECT' === b.target.tagName ||
-                (b.preventDefault(),
-                a.fancybox[37 == b.keyCode ? 'prev' : 'next']())
-          }),
-        s.showNavArrows
-          ? (((s.cyclic && t.length > 1) || 0 !== r) && j.show(),
-            void (
-              ((s.cyclic && t.length > 1) || r != t.length - 1) &&
-              k.show()
-            ))
-          : (j.hide(), void k.hide())
-      )
-    },
-    N = function() {
-      a.support.opacity ||
-        (g.get(0).style.removeAttribute('filter'),
-        e.get(0).style.removeAttribute('filter')),
-        p.autoDimensions && g.css('height', 'auto'),
-        e.css('height', 'auto'),
-        A && A.length && i.show(),
-        s.showCloseButton && h.show(),
-        M(),
-        s.hideOnContentClick && g.bind('click', a.fancybox.close),
-        s.hideOnOverlayClick && d.bind('click', a.fancybox.close),
-        a(window).bind('resize.fb', a.fancybox.resize),
-        s.centerOnScroll && a(window).bind('scroll.fb', a.fancybox.center),
-        'iframe' == s.type &&
-          a(
-            '<iframe id="fancybox-frame" name="fancybox-frame' +
-              new Date().getTime() +
-              '" frameborder="0" hspace="0" ' +
-              (a.browser.msie ? 'allowtransparency="true""' : '') +
-              ' scrolling="' +
-              p.scrolling +
-              '" src="' +
-              s.href +
-              '"></iframe>'
-          ).appendTo(g),
-        e.show(),
-        (B = !1),
-        a.fancybox.center(),
-        s.onComplete(t, r, s),
-        O()
-    },
-    O = function() {
-      var a, b
-      t.length - 1 > r &&
-        ((a = t[r + 1].href),
-        'undefined' != typeof a &&
-          a.match(w) &&
-          ((b = new Image()), (b.src = a))),
-        r > 0 &&
-          ((a = t[r - 1].href),
-          'undefined' != typeof a &&
-            a.match(w) &&
-            ((b = new Image()), (b.src = a)))
-    },
-    P = function(a) {
-      var b = {
-        width: parseInt(m.width + (n.width - m.width) * a, 10),
-        height: parseInt(m.height + (n.height - m.height) * a, 10),
-        top: parseInt(m.top + (n.top - m.top) * a, 10),
-        left: parseInt(m.left + (n.left - m.left) * a, 10)
-      }
-      'undefined' != typeof n.opacity && (b.opacity = 0.5 > a ? 0.5 : a),
-        e.css(b),
-        g.css({
-          width: b.width - 2 * s.padding,
-          height: b.height - z * a - 2 * s.padding
-        })
-    },
-    Q = function() {
-      return [
-        a(window).width() - 2 * s.margin,
-        a(window).height() - 2 * s.margin,
-        a(document).scrollLeft() + s.margin,
-        a(document).scrollTop() + s.margin
-      ]
-    },
-    R = function() {
-      var a,
-        b = Q(),
-        c = {},
-        d = s.autoScale,
-        e = 2 * s.padding
-      return (
-        (c.width =
-          s.width.toString().indexOf('%') > -1
-            ? parseInt((b[0] * parseFloat(s.width)) / 100, 10)
-            : s.width + e),
-        (c.height =
-          s.height.toString().indexOf('%') > -1
-            ? parseInt((b[1] * parseFloat(s.height)) / 100, 10)
-            : s.height + e),
-        d &&
-          (c.width > b[0] || c.height > b[1]) &&
-          ('image' == p.type || 'swf' == p.type
-            ? ((a = s.width / s.height),
-              c.width > b[0] &&
-                ((c.width = b[0]),
-                (c.height = parseInt((c.width - e) / a + e, 10))),
-              c.height > b[1] &&
-                ((c.height = b[1]),
-                (c.width = parseInt((c.height - e) * a + e, 10))))
-            : ((c.width = Math.min(c.width, b[0])),
-              (c.height = Math.min(c.height, b[1])))),
-        (c.top = parseInt(
-          Math.max(b[3] - 20, b[3] + 0.5 * (b[1] - c.height - 40)),
-          10
-        )),
-        (c.left = parseInt(
-          Math.max(b[2] - 20, b[2] + 0.5 * (b[0] - c.width - 40)),
-          10
-        )),
-        c
-      )
-    },
-    S = function(a) {
-      var b = a.offset()
-      return (
-        (b.top += parseInt(a.css('paddingTop'), 10) || 0),
-        (b.left += parseInt(a.css('paddingLeft'), 10) || 0),
-        (b.top += parseInt(a.css('border-top-width'), 10) || 0),
-        (b.left += parseInt(a.css('border-left-width'), 10) || 0),
-        (b.width = a.width()),
-        (b.height = a.height()),
-        b
-      )
-    },
-    T = function() {
-      var b,
-        c,
-        d = p.orig ? a(p.orig) : !1,
-        e = {}
-      return (
-        d && d.length
-          ? ((b = S(d)),
-            (e = {
-              width: b.width + 2 * s.padding,
-              height: b.height + 2 * s.padding,
-              top: b.top - s.padding - 20,
-              left: b.left - s.padding - 20
-            }))
-          : ((c = Q()),
-            (e = {
-              width: 2 * s.padding,
-              height: 2 * s.padding,
-              top: parseInt(c[3] + 0.5 * c[1], 10),
-              left: parseInt(c[2] + 0.5 * c[0], 10)
-            })),
-        e
-      )
-    },
-    U = function() {
-      return c.is(':visible')
-        ? (a('div', c).css('top', -60 * y + 'px'), void (y = (y + 1) % 12))
-        : void clearInterval(l)
+                  b.html(a), H()
+                }
+              }
+            })
+          ))
+        break
+      case 'iframe':
+        J()
     }
+  }
+  var H = function() {
+    let c = p.width
+    let d = p.height
+    ;(c = c.toString().includes('%')
+      ? parseInt(
+          ((a(window).width() - 2 * p.margin) * parseFloat(c)) / 100,
+          10
+        ) + 'px'
+      : c == 'auto'
+      ? 'auto'
+      : c + 'px'),
+      (d = d.toString().includes('%')
+        ? parseInt(
+            ((a(window).height() - 2 * p.margin) * parseFloat(d)) / 100,
+            10
+          ) + 'px'
+        : d == 'auto'
+        ? 'auto'
+        : d + 'px'),
+      b.wrapInner(
+        '<div style="width:' +
+          c +
+          ';height:' +
+          d +
+          ';overflow: ' +
+          (p.scrolling == 'auto'
+            ? 'auto'
+            : p.scrolling == 'yes'
+            ? 'scroll'
+            : 'hidden') +
+          ';position:relative;"></div>'
+      ),
+      (p.width = b.width()),
+      (p.height = b.height()),
+      J()
+  }
+  var I = function() {
+    ;(p.width = v.width),
+      (p.height = v.height),
+      a('<img />')
+        .attr({ id: 'fancybox-img', src: v.src, alt: p.title })
+        .appendTo(b),
+      J()
+  }
+  var J = function() {
+    let f, l
+    return (
+      c.hide(),
+      e.is(':visible') && !1 === s.onCleanup(t, r, s)
+        ? (a.event.trigger('fancybox-cancel'), void (B = !1))
+        : ((B = !0),
+          a(g.add(d)).unbind(),
+          a(window).unbind('resize.fb scroll.fb'),
+          a(document).unbind('keydown.fb'),
+          e.is(':visible') &&
+            s.titlePosition !== 'outside' &&
+            e.css('height', e.height()),
+          (t = q),
+          (r = o),
+          (s = p),
+          s.overlayShow
+            ? (d.css({
+                'background-color': s.overlayColor,
+                opacity: s.overlayOpacity,
+                cursor: s.hideOnOverlayClick ? 'pointer' : 'auto',
+                height: a(document).height()
+              }),
+              d.is(':visible') ||
+                (D &&
+                  a('select:not(#fancybox-tmp select)')
+                    .filter(function() {
+                      return this.style.visibility !== 'hidden'
+                    })
+                    .css({ visibility: 'hidden' })
+                    .one('fancybox-cleanup', function() {
+                      this.style.visibility = 'inherit'
+                    }),
+                d.show()))
+            : d.hide(),
+          (n = R()),
+          L(),
+          e.is(':visible')
+            ? (a(h.add(j).add(k)).hide(),
+              (f = e.position()),
+              (m = {
+                top: f.top,
+                left: f.left,
+                width: e.width(),
+                height: e.height()
+              }),
+              (l = m.width == n.width && m.height == n.height),
+              void g.fadeTo(s.changeFade, 0.3, function() {
+                const c = function() {
+                  g.html(b.contents()).fadeTo(s.changeFade, 1, N)
+                }
+                a.event.trigger('fancybox-change'),
+                  g
+                    .empty()
+                    .removeAttr('filter')
+                    .css({
+                      'border-width': s.padding,
+                      width: n.width - 2 * s.padding,
+                      height: p.autoDimensions
+                        ? 'auto'
+                        : n.height - z - 2 * s.padding
+                    }),
+                  l
+                    ? c()
+                    : ((C.prop = 0),
+                      a(C).animate(
+                        { prop: 1 },
+                        {
+                          duration: s.changeSpeed,
+                          easing: s.easingChange,
+                          step: P,
+                          complete: c
+                        }
+                      ))
+              }))
+            : (e.removeAttr('style'),
+              g.css('border-width', s.padding),
+              s.transitionIn == 'elastic'
+                ? ((m = T()),
+                  g.html(b.contents()),
+                  e.show(),
+                  s.opacity && (n.opacity = 0),
+                  (C.prop = 0),
+                  void a(C).animate(
+                    { prop: 1 },
+                    {
+                      duration: s.speedIn,
+                      easing: s.easingIn,
+                      step: P,
+                      complete: N
+                    }
+                  ))
+                : (s.titlePosition == 'inside' && z > 0 && i.show(),
+                  g
+                    .css({
+                      width: n.width - 2 * s.padding,
+                      height: p.autoDimensions
+                        ? 'auto'
+                        : n.height - z - 2 * s.padding
+                    })
+                    .html(b.contents()),
+                  void e
+                    .css(n)
+                    .fadeIn(s.transitionIn == 'none' ? 0 : s.speedIn, N))))
+    )
+  }
+  const K = function(a) {
+    return a && a.length
+      ? s.titlePosition == 'float'
+        ? '<table id="fancybox-title-float-wrap" cellpadding="0" cellspacing="0"><tr><td id="fancybox-title-float-left"></td><td id="fancybox-title-float-main">' +
+          a +
+          '</td><td id="fancybox-title-float-right"></td></tr></table>'
+        : '<div id="fancybox-title-' + s.titlePosition + '">' + a + '</div>'
+      : !1
+  }
+  var L = function() {
+    if (
+      ((A = s.title || ''),
+      (z = 0),
+      i
+        .empty()
+        .removeAttr('style')
+        .removeClass(),
+      s.titleShow === !1)
+    )
+      return void i.hide()
+    if (
+      ((A = a.isFunction(s.titleFormat) ? s.titleFormat(A, t, r, s) : K(A)),
+      !A || A === '')
+    )
+      return void i.hide()
+    switch (
+      (i
+        .addClass('fancybox-title-' + s.titlePosition)
+        .html(A)
+        .appendTo('body')
+        .show(),
+      s.titlePosition)
+    ) {
+      case 'inside':
+        i.css({
+          width: n.width - 2 * s.padding,
+          marginLeft: s.padding,
+          marginRight: s.padding
+        }),
+          (z = i.outerHeight(!0)),
+          i.appendTo(f),
+          (n.height += z)
+        break
+      case 'over':
+        i.css({
+          marginLeft: s.padding,
+          width: n.width - 2 * s.padding,
+          bottom: s.padding
+        }).appendTo(f)
+        break
+      case 'float':
+        i.css(
+          'left',
+          -1 * parseInt((i.width() - n.width - 40) / 2, 10)
+        ).appendTo(e)
+        break
+      default:
+        i.css({
+          width: n.width - 2 * s.padding,
+          paddingLeft: s.padding,
+          paddingRight: s.padding
+        }).appendTo(e)
+    }
+    i.hide()
+  }
+  const M = function() {
+    return (
+      (s.enableEscapeButton || s.enableKeyboardNav) &&
+        a(document).bind('keydown.fb', function(b) {
+          b.keyCode == 27 && s.enableEscapeButton
+            ? (b.preventDefault(), a.fancybox.close())
+            : (b.keyCode != 37 && b.keyCode != 39) ||
+              !s.enableKeyboardNav ||
+              b.target.tagName === 'INPUT' ||
+              b.target.tagName === 'TEXTAREA' ||
+              b.target.tagName === 'SELECT' ||
+              (b.preventDefault(),
+              a.fancybox[b.keyCode == 37 ? 'prev' : 'next']())
+        }),
+      s.showNavArrows
+        ? (((s.cyclic && t.length > 1) || r !== 0) && j.show(),
+          void (((s.cyclic && t.length > 1) || r != t.length - 1) && k.show()))
+        : (j.hide(), void k.hide())
+    )
+  }
+  var N = function() {
+    a.support.opacity ||
+      (g.get(0).style.removeAttribute('filter'),
+      e.get(0).style.removeAttribute('filter')),
+      p.autoDimensions && g.css('height', 'auto'),
+      e.css('height', 'auto'),
+      A && A.length && i.show(),
+      s.showCloseButton && h.show(),
+      M(),
+      s.hideOnContentClick && g.bind('click', a.fancybox.close),
+      s.hideOnOverlayClick && d.bind('click', a.fancybox.close),
+      a(window).bind('resize.fb', a.fancybox.resize),
+      s.centerOnScroll && a(window).bind('scroll.fb', a.fancybox.center),
+      s.type == 'iframe' &&
+        a(
+          '<iframe id="fancybox-frame" name="fancybox-frame' +
+            new Date().getTime() +
+            '" frameborder="0" hspace="0" ' +
+            (a.browser.msie ? 'allowtransparency="true""' : '') +
+            ' scrolling="' +
+            p.scrolling +
+            '" src="' +
+            s.href +
+            '"></iframe>'
+        ).appendTo(g),
+      e.show(),
+      (B = !1),
+      a.fancybox.center(),
+      s.onComplete(t, r, s),
+      O()
+  }
+  var O = function() {
+    let a, b
+    t.length - 1 > r &&
+      ((a = t[r + 1].href),
+      typeof a !== 'undefined' &&
+        a.match(w) &&
+        ((b = new Image()), (b.src = a))),
+      r > 0 &&
+        ((a = t[r - 1].href),
+        typeof a !== 'undefined' &&
+          a.match(w) &&
+          ((b = new Image()), (b.src = a)))
+  }
+  var P = function(a) {
+    const b = {
+      width: parseInt(m.width + (n.width - m.width) * a, 10),
+      height: parseInt(m.height + (n.height - m.height) * a, 10),
+      top: parseInt(m.top + (n.top - m.top) * a, 10),
+      left: parseInt(m.left + (n.left - m.left) * a, 10)
+    }
+    typeof n.opacity !== 'undefined' && (b.opacity = a < 0.5 ? 0.5 : a),
+      e.css(b),
+      g.css({
+        width: b.width - 2 * s.padding,
+        height: b.height - z * a - 2 * s.padding
+      })
+  }
+  const Q = function() {
+    return [
+      a(window).width() - 2 * s.margin,
+      a(window).height() - 2 * s.margin,
+      a(document).scrollLeft() + s.margin,
+      a(document).scrollTop() + s.margin
+    ]
+  }
+  var R = function() {
+    let a
+    const b = Q()
+    const c = {}
+    const d = s.autoScale
+    const e = 2 * s.padding
+    return (
+      (c.width = s.width.toString().includes('%')
+        ? parseInt((b[0] * parseFloat(s.width)) / 100, 10)
+        : s.width + e),
+      (c.height = s.height.toString().includes('%')
+        ? parseInt((b[1] * parseFloat(s.height)) / 100, 10)
+        : s.height + e),
+      d &&
+        (c.width > b[0] || c.height > b[1]) &&
+        (p.type == 'image' || p.type == 'swf'
+          ? ((a = s.width / s.height),
+            c.width > b[0] &&
+              ((c.width = b[0]),
+              (c.height = parseInt((c.width - e) / a + e, 10))),
+            c.height > b[1] &&
+              ((c.height = b[1]),
+              (c.width = parseInt((c.height - e) * a + e, 10))))
+          : ((c.width = Math.min(c.width, b[0])),
+            (c.height = Math.min(c.height, b[1])))),
+      (c.top = parseInt(
+        Math.max(b[3] - 20, b[3] + 0.5 * (b[1] - c.height - 40)),
+        10
+      )),
+      (c.left = parseInt(
+        Math.max(b[2] - 20, b[2] + 0.5 * (b[0] - c.width - 40)),
+        10
+      )),
+      c
+    )
+  }
+  const S = function(a) {
+    const b = a.offset()
+    return (
+      (b.top += parseInt(a.css('paddingTop'), 10) || 0),
+      (b.left += parseInt(a.css('paddingLeft'), 10) || 0),
+      (b.top += parseInt(a.css('border-top-width'), 10) || 0),
+      (b.left += parseInt(a.css('border-left-width'), 10) || 0),
+      (b.width = a.width()),
+      (b.height = a.height()),
+      b
+    )
+  }
+  var T = function() {
+    let b
+    let c
+    const d = p.orig ? a(p.orig) : !1
+    let e = {}
+    return (
+      d && d.length
+        ? ((b = S(d)),
+          (e = {
+            width: b.width + 2 * s.padding,
+            height: b.height + 2 * s.padding,
+            top: b.top - s.padding - 20,
+            left: b.left - s.padding - 20
+          }))
+        : ((c = Q()),
+          (e = {
+            width: 2 * s.padding,
+            height: 2 * s.padding,
+            top: parseInt(c[3] + 0.5 * c[1], 10),
+            left: parseInt(c[2] + 0.5 * c[0], 10)
+          })),
+      e
+    )
+  }
+  const U = function() {
+    return c.is(':visible')
+      ? (a('div', c).css('top', -60 * y + 'px'), void (y = (y + 1) % 12))
+      : void clearInterval(l)
+  }
   ;(a.fn.fancybox = function(b) {
     return a(this).length
       ? (a(this)
@@ -3576,8 +3565,8 @@ if (window.jQuery)
           .bind('click.fb', function(b) {
             if ((b.preventDefault(), !B)) {
               ;(B = !0), a(this).blur(), (q = []), (o = 0)
-              var c = a(this).attr('rel') || ''
-              c && '' != c && 'nofollow' !== c
+              const c = a(this).attr('rel') || ''
+              c && c != '' && c !== 'nofollow'
                 ? ((q = a('a[rel=' + c + '], area[rel=' + c + ']')),
                   (o = q.index(this)))
                 : q.push(this),
@@ -3588,26 +3577,26 @@ if (window.jQuery)
       : this
   }),
     (a.fancybox = function(b) {
-      var c
+      let c
       if (!B) {
         if (
           ((B = !0),
-          (c = 'undefined' != typeof arguments[1] ? arguments[1] : {}),
+          (c = typeof arguments[1] !== 'undefined' ? arguments[1] : {}),
           (q = []),
           (o = parseInt(c.index, 10) || 0),
           a.isArray(b))
         ) {
-          for (var d = 0, e = b.length; e > d; d++)
-            'object' == typeof b[d]
+          for (let d = 0, e = b.length; e > d; d++)
+            typeof b[d] === 'object'
               ? a(b[d]).data('fancybox', a.extend({}, c, b[d]))
               : (b[d] = a({}).data('fancybox', a.extend({ content: b[d] }, c)))
           q = jQuery.merge(q, b)
         } else
-          'object' == typeof b
+          typeof b === 'object'
             ? a(b).data('fancybox', a.extend({}, c, b))
             : (b = a({}).data('fancybox', a.extend({ content: b }, c))),
             q.push(b)
-        ;(o > q.length || 0 > o) && (o = 0), G()
+        ;(o > q.length || o < 0) && (o = 0), G()
       }
     }),
     (a.fancybox.showActivity = function() {
@@ -3669,12 +3658,12 @@ if (window.jQuery)
                 ? 'javascript:void(false)'
                 : 'about:blank'
             ),
-          'inside' !== s.titlePosition && i.empty(),
+          s.titlePosition !== 'inside' && i.empty(),
           e.stop(),
-          'elastic' == s.transitionOut)
+          s.transitionOut == 'elastic')
         ) {
           m = T()
-          var c = e.position()
+          const c = e.position()
           ;(n = {
             top: c.top,
             left: c.left,
@@ -3693,7 +3682,7 @@ if (window.jQuery)
                 complete: b
               }
             )
-        } else e.fadeOut('none' == s.transitionOut ? 0 : s.speedOut, b)
+        } else e.fadeOut(s.transitionOut == 'none' ? 0 : s.speedOut, b)
       }
     }),
     (a.fancybox.resize = function() {
@@ -3701,7 +3690,7 @@ if (window.jQuery)
         a.fancybox.center(!0)
     }),
     (a.fancybox.center = function() {
-      var a, b
+      let a, b
       B ||
         ((b = arguments[0] === !0 ? 1 : 0),
         (a = Q()),
@@ -3721,7 +3710,7 @@ if (window.jQuery)
                 )
               )
             },
-            'number' == typeof arguments[0] ? arguments[0] : 200
+            typeof arguments[0] === 'number' ? arguments[0] : 200
           ))
     }),
     (a.fancybox.init = function() {
@@ -3760,7 +3749,7 @@ if (window.jQuery)
           e.bind('mousewheel.fb', function(b, c) {
             B
               ? b.preventDefault()
-              : (0 == a(b.target).get(0).clientHeight ||
+              : (a(b.target).get(0).clientHeight == 0 ||
                   a(b.target).get(0).scrollHeight ===
                     a(b.target).get(0).clientHeight) &&
                 (b.preventDefault(), a.fancybox[c > 0 ? 'prev' : 'next']())
@@ -3812,12 +3801,12 @@ if (window.jQuery)
       showNavArrows: !0,
       enableEscapeButton: !0,
       enableKeyboardNav: !0,
-      onStart: function() {},
-      onCancel: function() {},
-      onComplete: function() {},
-      onCleanup: function() {},
-      onClosed: function() {},
-      onError: function() {}
+      onStart() {},
+      onCancel() {},
+      onComplete() {},
+      onCleanup() {},
+      onClosed() {},
+      onError() {}
     }),
     a(document).ready(function() {
       a.fancybox.init()
@@ -3833,130 +3822,130 @@ jQuery(document).ready(function() {
 }),
   jQuery.noConflict()
 var wantBookLink = {
-    acquired: !1,
-    initRegist: function() {
-      var t = wantBookLink.getRequestParam(window.location.search),
-        e = t.wantBookMode,
-        i = t.wantPrdId
-      if ('regist' == e && i) {
-        var n = registStateManage.getWantBookState(i),
-          s = new WantBookRegist(i, n, !0)
-        s.execute()
-      }
-    },
-    getRequestParam: function(t) {
-      var e = t.split('?'),
-        i = {}
-      if (e.length > 1)
-        for (var n = e[1], s = n.split('&'), o = s.length, a = o; a--; ) {
-          var r = s[a].split('='),
-            c = decodeURIComponent(r[0]),
-            u = decodeURIComponent(r[1])
-          i[c] = u
-        }
-      return i
-    },
-    init: function(t) {
-      0 != t.find('.stBookItem').length &&
-        (wantBookLink.acquired ||
-          ((wantBookLink.acquired = !0), wantBookListGet.execute()))
-    },
-    hoverAction: function(t) {
-      var e = $(t).find('.stFav'),
-        i = $(t)
-          .find('a')
-          .attr('href')
-      if (
-        ((i = i.replace(/(\.html).*$/, '')),
-        (productId = i.substr(i.length - 8)),
-        e)
-      ) {
-        var n = registStateManage.getWantBookState(productId),
-          s = $(t).find('.stFav span')
-        n.displayLink() &&
-          (n.isRegistered()
-            ? (e.addClass('stCurrent'),
-              s.unbind('click'),
-              s.on(
-                'click',
-                (function(t, e, i) {
-                  return function() {
-                    wantBookLink.deleteAction(t, e, i)
-                  }
-                })(productId, n, s)
-              ))
-            : (e.removeClass('stCurrent'),
-              s.unbind('click'),
-              s.on(
-                'click',
-                (function(t, e, i) {
-                  return function() {
-                    return wantBookLink.registAction(t, e, i)
-                  }
-                })(productId, n, e)
-              )))
-      }
-    },
-    registAction: function(t, e, i) {
-      var n = new WantBookRegist(t, e, !1)
-      n.execute()
-      var s = wantBookLink.getCampaign(i)
-      e.setCampaign(s)
-    },
-    getCampaign: function(t) {
-      var e = ''
-      return (
-        jQuery('a', t.parent()).each(function() {
-          var t = jQuery(this).attr('href'),
-            i = wantBookLink.getRequestParam(t)
-          i.recid ? (e = i.recid) : i.cid && (e = i.cid)
-        }),
-        e
-      )
-    },
-    deleteAction: function(t, e, i) {
-      var n = new WantBookDelete(t, e)
-      n.execute()
+  acquired: !1,
+  initRegist() {
+    const t = wantBookLink.getRequestParam(window.location.search)
+    const e = t.wantBookMode
+    const i = t.wantPrdId
+    if (e == 'regist' && i) {
+      const n = registStateManage.getWantBookState(i)
+      const s = new WantBookRegist(i, n, !0)
+      s.execute()
     }
   },
-  wantBookListGet = {
-    execute: function() {
-      var t = 'wantBookMode=list'
-      this.json(t)
-    },
-    json: function(t) {
-      ;(t = this.getParameters(t, { isPart: !0, noResponse: !1 })),
-        jQuery.ajax({
-          cache: !1,
-          data: t,
-          dataType: 'json',
-          type: 'post',
-          url: HC.Ajax.url,
-          success: function(t) {
-            if (t)
-              for (var e = t.productIdList.length, i = e; i--; ) {
-                var n = registStateManage.getWantBookState(t.productIdList[i])
-                n.setRegist()
-              }
-          },
-          error: function(t, e, i) {}
-        })
-    },
-    getParameters: function(t, e) {
-      return (
-        (t = t.toQueryParams()),
-        (t = Object.extend(t, e)),
-        Object.extend(t, { className: 'MemWantBookAjax' })
-      )
+  getRequestParam(t) {
+    const e = t.split('?')
+    const i = {}
+    if (e.length > 1)
+      for (let n = e[1], s = n.split('&'), o = s.length, a = o; a--; ) {
+        const r = s[a].split('=')
+        const c = decodeURIComponent(r[0])
+        const u = decodeURIComponent(r[1])
+        i[c] = u
+      }
+    return i
+  },
+  init(t) {
+    t.find('.stBookItem').length != 0 &&
+      (wantBookLink.acquired ||
+        ((wantBookLink.acquired = !0), wantBookListGet.execute()))
+  },
+  hoverAction(t) {
+    const e = $(t).find('.stFav')
+    let i = $(t)
+      .find('a')
+      .attr('href')
+    if (
+      ((i = i.replace(/(\.html).*$/, '')),
+      (productId = i.substr(i.length - 8)),
+      e)
+    ) {
+      const n = registStateManage.getWantBookState(productId)
+      const s = $(t).find('.stFav span')
+      n.displayLink() &&
+        (n.isRegistered()
+          ? (e.addClass('stCurrent'),
+            s.unbind('click'),
+            s.on(
+              'click',
+              (function(t, e, i) {
+                return function() {
+                  wantBookLink.deleteAction(t, e, i)
+                }
+              })(productId, n, s)
+            ))
+          : (e.removeClass('stCurrent'),
+            s.unbind('click'),
+            s.on(
+              'click',
+              (function(t, e, i) {
+                return function() {
+                  return wantBookLink.registAction(t, e, i)
+                }
+              })(productId, n, e)
+            )))
     }
   },
-  WantBookRegist = function(t, e, i) {
-    ;(this.productId = t),
-      (this.wantBookRegistState = e),
-      (this.displaySuccessMessage = i)
+  registAction(t, e, i) {
+    const n = new WantBookRegist(t, e, !1)
+    n.execute()
+    const s = wantBookLink.getCampaign(i)
+    e.setCampaign(s)
+  },
+  getCampaign(t) {
+    let e = ''
+    return (
+      jQuery('a', t.parent()).each(function() {
+        const t = jQuery(this).attr('href')
+        const i = wantBookLink.getRequestParam(t)
+        i.recid ? (e = i.recid) : i.cid && (e = i.cid)
+      }),
+      e
+    )
+  },
+  deleteAction(t, e, i) {
+    const n = new WantBookDelete(t, e)
+    n.execute()
   }
+}
+var wantBookListGet = {
+  execute() {
+    const t = 'wantBookMode=list'
+    this.json(t)
+  },
+  json(t) {
+    ;(t = this.getParameters(t, { isPart: !0, noResponse: !1 })),
+      jQuery.ajax({
+        cache: !1,
+        data: t,
+        dataType: 'json',
+        type: 'post',
+        url: HC.Ajax.url,
+        success(t) {
+          if (t)
+            for (let e = t.productIdList.length, i = e; i--; ) {
+              const n = registStateManage.getWantBookState(t.productIdList[i])
+              n.setRegist()
+            }
+        },
+        error(t, e, i) {}
+      })
+  },
+  getParameters(t, e) {
+    return (
+      (t = t.toQueryParams()),
+      (t = Object.extend(t, e)),
+      Object.extend(t, { className: 'MemWantBookAjax' })
+    )
+  }
+}
+var WantBookRegist = function(t, e, i) {
+  ;(this.productId = t),
+    (this.wantBookRegistState = e),
+    (this.displaySuccessMessage = i)
+}
 WantBookRegist.prototype = {
-  execute: function() {
+  execute() {
     if (this.wantBookRegistState.isProcessing())
       return void this.wantBookRegistState.setWaitRegist()
     this.wantBookRegistState.setProcessRegist()
@@ -3968,13 +3957,13 @@ WantBookRegist.prototype = {
       e[i].match(
         /^(regWant=|prdid=|delHst=|delHstAll=|wantPrdId=|havePrdId=)/
       ) || t.push(e[i])
-    var n = 'https:' == document.location.protocol ? 'https' : 'http',
-      s =
-        window.location.pathname +
-        '?wantBookMode=regist&wantPrdId=' +
-        this.productId
+    const n = document.location.protocol == 'https:' ? 'https' : 'http'
+    let s =
+      window.location.pathname +
+      '?wantBookMode=regist&wantPrdId=' +
+      this.productId
     t.length > 0 && (s = s + '&' + t.join('&'))
-    var o =
+    const o =
       '?wantBookMode=regist&wantPrdId=' +
       this.productId +
       '&returnuri=' +
@@ -3983,7 +3972,7 @@ WantBookRegist.prototype = {
       n
     this.json(o, this)
   },
-  json: function(t, e) {
+  json(t, e) {
     ;(t = this.getParameters(t, { isPart: !0, noResponse: !1 })),
       jQuery.ajax({
         cache: !1,
@@ -3992,16 +3981,16 @@ WantBookRegist.prototype = {
         type: 'post',
         url: HC.Ajax.url,
         context: e,
-        success: function(t) {
+        success(t) {
           if (!t) return void this.error(this)
           if (t.redirecturi) return void (window.location.href = t.redirecturi)
-          if ('1' == t.result.status) {
+          if (t.result.status == '1') {
             if (
               (this.wantBookRegistState.setRegist(),
               this.wantBookRegistState.setProcessNothing(),
               this.wantBookRegistState.waitingDelete())
             ) {
-              var e = new WantBookDelete(
+              const e = new WantBookDelete(
                 this.productId,
                 this.wantBookRegistState
               )
@@ -4016,27 +4005,27 @@ WantBookRegist.prototype = {
               this.wantBookRegistState.setProcessNothing(),
               this.message(t.result.msg)
         },
-        error: function(t, e, i) {
+        error(t, e, i) {
           this.error(this)
         }
       })
   },
-  getParameters: function(t, e) {
+  getParameters(t, e) {
     return (
       (t = t.toQueryParams()),
       (t = Object.extend(t, e)),
       Object.extend(t, { className: 'MemWantBookAjax' })
     )
   },
-  error: function(t) {
+  error(t) {
     this.setAllRegistAction(t),
       this.wantBookRegistState.setProcessNothing(),
       this.wantBookRegistState.setWaitNothing(),
       this.message('システムエラーが発生しました。')
   },
-  successMessage: function() {},
-  message: function(t) {},
-  sendCatalystData: function(t) {
+  successMessage() {},
+  message(t) {},
+  sendCatalystData(t) {
     try {
       ;(s.events = 'event18'),
         (s.campaign = t.getCampaign()),
@@ -4047,9 +4036,9 @@ WantBookRegist.prototype = {
       return !0
     }
   },
-  setAllRegistAction: function(t) {
+  setAllRegistAction(t) {
     jQuery("a[href*='" + t.productId + ".html']").each(function() {
-      var e = jQuery(this).find('.stFav')
+      const e = jQuery(this).find('.stFav')
       e &&
         (jQuery(e).unbind('click'),
         jQuery(e).on(
@@ -4067,14 +4056,14 @@ var WantBookDelete = function(t, e) {
   ;(this.productId = t), (this.wantBookRegistState = e)
 }
 WantBookDelete.prototype = {
-  execute: function() {
+  execute() {
     if (this.wantBookRegistState.isProcessing())
       return void this.wantBookRegistState.setWaitDelete()
     this.wantBookRegistState.setProcessDelete()
-    var t = '?wantBookMode=delete&wantPrdId=' + this.productId
+    const t = '?wantBookMode=delete&wantPrdId=' + this.productId
     this.json(t, this)
   },
-  json: function(t, e) {
+  json(t, e) {
     ;(t = this.getParameters(t, { isPart: !0, noResponse: !1 })),
       jQuery.ajax({
         cache: !1,
@@ -4083,14 +4072,14 @@ WantBookDelete.prototype = {
         type: 'post',
         url: HC.Ajax.url,
         context: e,
-        success: function(t) {
+        success(t) {
           if (!t) return void this.error(this)
           if (
             (this.wantBookRegistState.setDelete(),
             this.wantBookRegistState.setProcessNothing(),
             this.wantBookRegistState.waitingRegist())
           ) {
-            var e = new WantBookRegist(
+            const e = new WantBookRegist(
               this.productId,
               this.wantBookRegistState,
               !1
@@ -4099,28 +4088,28 @@ WantBookDelete.prototype = {
           }
           this.wantBookRegistState.setWaitNothing()
         },
-        error: function(t, e, i) {
+        error(t, e, i) {
           this.error(this)
         }
       })
   },
-  getParameters: function(t, e) {
+  getParameters(t, e) {
     return (
       (t = t.toQueryParams()),
       (t = Object.extend(t, e)),
       Object.extend(t, { className: 'MemWantBookAjax' })
     )
   },
-  error: function(t) {
+  error(t) {
     this.setAllDeleteAction(t),
       this.wantBookRegistState.setProcessNothing(),
       this.wantBookRegistState.setWaitNothing(),
       this.message('システムエラーが発生しました。')
   },
-  message: function(t) {},
-  setAllDeleteAction: function(t) {
+  message(t) {},
+  setAllDeleteAction(t) {
     jQuery("a[href*='" + t.productId + ".html']").each(function() {
-      var e = jQuery(this).find('.stFav')
+      const e = jQuery(this).find('.stFav')
       e &&
         (jQuery(e).html('apathy'),
         jQuery(e).unbind('click'),
@@ -4136,77 +4125,77 @@ WantBookDelete.prototype = {
   }
 }
 var registStateManage = {
-    stateList: {},
-    getWantBookState: function(t) {
-      if (null != registStateManage.stateList[t])
-        return registStateManage.stateList[t]
-      var e = new WantBookRegistState(
-        t,
-        !1,
-        WantBookRegistState.NOTHING,
-        WantBookRegistState.NOTHING
-      )
-      return (registStateManage.stateList[t] = e), e
-    }
-  },
-  WantBookRegistState = function(t, e, i, n) {
-    ;(this.productId = t),
-      (this.registered = e),
-      (this.runningProcess = i),
-      (this.waitingProcess = n),
-      (this.campaign = '')
+  stateList: {},
+  getWantBookState(t) {
+    if (registStateManage.stateList[t] != null)
+      return registStateManage.stateList[t]
+    const e = new WantBookRegistState(
+      t,
+      !1,
+      WantBookRegistState.NOTHING,
+      WantBookRegistState.NOTHING
+    )
+    return (registStateManage.stateList[t] = e), e
   }
+}
+var WantBookRegistState = function(t, e, i, n) {
+  ;(this.productId = t),
+    (this.registered = e),
+    (this.runningProcess = i),
+    (this.waitingProcess = n),
+    (this.campaign = '')
+}
 ;(WantBookRegistState.NOTHING = 'nothing'),
   (WantBookRegistState.REGIST = 'regist'),
   (WantBookRegistState.DELETE = 'delete'),
   (WantBookRegistState.prototype = {
-    setRegist: function() {
+    setRegist() {
       this.registered = !0
     },
-    setDelete: function() {
+    setDelete() {
       this.registered = !1
     },
-    setProcessNothing: function() {
+    setProcessNothing() {
       this.runningProcess = WantBookRegistState.NOTHING
     },
-    setProcessRegist: function() {
+    setProcessRegist() {
       this.runningProcess = WantBookRegistState.REGIST
     },
-    setProcessDelete: function() {
+    setProcessDelete() {
       this.runningProcess = WantBookRegistState.DELETE
     },
-    setWaitNothing: function() {
+    setWaitNothing() {
       this.waitingProcess = WantBookRegistState.NOTHING
     },
-    setWaitRegist: function() {
+    setWaitRegist() {
       this.waitingProcess = WantBookRegistState.REGIST
     },
-    setWaitDelete: function() {
+    setWaitDelete() {
       this.waitingProcess = WantBookRegistState.DELETE
     },
-    setCampaign: function(t) {
+    setCampaign(t) {
       this.campaign = t
     },
-    getCampaign: function() {
+    getCampaign() {
       return this.campaign
     },
-    isCdDvd: function() {
-      var t = new RegExp('^8[0-9]+')
+    isCdDvd() {
+      const t = new RegExp('^8[0-9]+')
       return !!t.test(this.productId)
     },
-    displayLink: function() {
+    displayLink() {
       return !this.isCdDvd()
     },
-    isProcessing: function() {
+    isProcessing() {
       return this.runningProcess != WantBookRegistState.NOTHING
     },
-    waitingRegist: function() {
+    waitingRegist() {
       return this.waitingProcess == WantBookRegistState.REGIST
     },
-    waitingDelete: function() {
+    waitingDelete() {
       return this.waitingProcess == WantBookRegistState.DELETE
     },
-    isRegistered: function() {
+    isRegistered() {
       return this.waitingProcess == WantBookRegistState.REGIST
         ? !0
         : this.waitingProcess == WantBookRegistState.DELETE
@@ -4223,38 +4212,38 @@ var registStateManage = {
 /*! VelocityJS.org jQuery Shim (1.0.1). (C) 2014 The jQuery Foundation. MIT @license: en.wikipedia.org/wiki/MIT_License. */
 !(function(a) {
   function b(a) {
-    var b = a.length,
-      d = c.type(a)
-    return 'function' === d || c.isWindow(a)
+    const b = a.length
+    const d = c.type(a)
+    return d === 'function' || c.isWindow(a)
       ? !1
-      : 1 === a.nodeType && b
+      : a.nodeType === 1 && b
       ? !0
-      : 'array' === d ||
-        0 === b ||
-        ('number' == typeof b && b > 0 && b - 1 in a)
+      : d === 'array' ||
+        b === 0 ||
+        (typeof b === 'number' && b > 0 && b - 1 in a)
   }
   if (!a.jQuery) {
     var c = function(a, b) {
       return new c.fn.init(a, b)
     }
     ;(c.isWindow = function(a) {
-      return null != a && a == a.window
+      return a != null && a == a.window
     }),
       (c.type = function(a) {
-        return null == a
+        return a == null
           ? a + ''
-          : 'object' == typeof a || 'function' == typeof a
+          : typeof a === 'object' || typeof a === 'function'
           ? e[g.call(a)] || 'object'
           : typeof a
       }),
       (c.isArray =
         Array.isArray ||
         function(a) {
-          return 'array' === c.type(a)
+          return c.type(a) === 'array'
         }),
       (c.isPlainObject = function(a) {
-        var b
-        if (!a || 'object' !== c.type(a) || a.nodeType || c.isWindow(a))
+        let b
+        if (!a || c.type(a) !== 'object' || a.nodeType || c.isWindow(a))
           return !1
         try {
           if (
@@ -4270,10 +4259,10 @@ var registStateManage = {
         return void 0 === b || f.call(a, b)
       }),
       (c.each = function(a, c, d) {
-        var e,
-          f = 0,
-          g = a.length,
-          h = b(a)
+        let e
+        let f = 0
+        const g = a.length
+        const h = b(a)
         if (d) {
           if (h) for (; g > f && ((e = c.apply(a[f], d)), e !== !1); f++);
           else for (f in a) if (((e = c.apply(a[f], d)), e === !1)) break
@@ -4284,8 +4273,8 @@ var registStateManage = {
       }),
       (c.data = function(a, b, e) {
         if (void 0 === e) {
-          var f = a[c.expando],
-            g = f && d[f]
+          var f = a[c.expando]
+          const g = f && d[f]
           if (void 0 === b) return g
           if (g && b in g) return g[b]
         } else if (void 0 !== b) {
@@ -4294,32 +4283,32 @@ var registStateManage = {
         }
       }),
       (c.removeData = function(a, b) {
-        var e = a[c.expando],
-          f = e && d[e]
+        const e = a[c.expando]
+        const f = e && d[e]
         f &&
           c.each(b, function(a, b) {
             delete f[b]
           })
       }),
       (c.extend = function() {
-        var a,
-          b,
-          d,
-          e,
-          f,
-          g,
-          h = arguments[0] || {},
-          i = 1,
-          j = arguments.length,
-          k = !1
+        let a
+        let b
+        let d
+        let e
+        let f
+        let g
+        let h = arguments[0] || {}
+        let i = 1
+        const j = arguments.length
+        let k = !1
         for (
-          'boolean' == typeof h && ((k = h), (h = arguments[i] || {}), i++),
-            'object' != typeof h && 'function' !== c.type(h) && (h = {}),
+          typeof h === 'boolean' && ((k = h), (h = arguments[i] || {}), i++),
+            typeof h !== 'object' && c.type(h) !== 'function' && (h = {}),
             i === j && ((h = this), i--);
           j > i;
           i++
         )
-          if (null != (f = arguments[i]))
+          if ((f = arguments[i]) != null)
             for (e in f)
               (a = h[e]),
                 (d = f[e]),
@@ -4334,23 +4323,23 @@ var registStateManage = {
       }),
       (c.queue = function(a, d, e) {
         function f(a, c) {
-          var d = c || []
+          const d = c || []
           return (
-            null != a &&
+            a != null &&
               (b(Object(a))
                 ? !(function(a, b) {
                     for (var c = +b.length, d = 0, e = a.length; c > d; )
                       a[e++] = b[d++]
                     if (c !== c) for (; void 0 !== b[d]; ) a[e++] = b[d++]
                     return (a.length = e), a
-                  })(d, 'string' == typeof a ? [a] : a)
+                  })(d, typeof a === 'string' ? [a] : a)
                 : [].push.call(d, a)),
             d
           )
         }
         if (a) {
           d = (d || 'fx') + 'queue'
-          var g = c.data(a, d)
+          let g = c.data(a, d)
           return e
             ? (!g || c.isArray(e) ? (g = c.data(a, d, f(e))) : g.push(e), g)
             : g || []
@@ -4359,23 +4348,23 @@ var registStateManage = {
       (c.dequeue = function(a, b) {
         c.each(a.nodeType ? [a] : a, function(a, d) {
           b = b || 'fx'
-          var e = c.queue(d, b),
-            f = e.shift()
-          'inprogress' === f && (f = e.shift()),
+          const e = c.queue(d, b)
+          let f = e.shift()
+          f === 'inprogress' && (f = e.shift()),
             f &&
-              ('fx' === b && e.unshift('inprogress'),
+              (b === 'fx' && e.unshift('inprogress'),
               f.call(d, function() {
                 c.dequeue(d, b)
               }))
         })
       }),
       (c.fn = c.prototype = {
-        init: function(a) {
+        init(a) {
           if (a.nodeType) return (this[0] = a), this
           throw new Error('Not a DOM node.')
         },
-        offset: function() {
-          var b = this[0].getBoundingClientRect
+        offset() {
+          const b = this[0].getBoundingClientRect
             ? this[0].getBoundingClientRect()
             : { top: 0, left: 0 }
           return {
@@ -4389,24 +4378,24 @@ var registStateManage = {
               (document.clientLeft || 0)
           }
         },
-        position: function() {
+        position() {
           function a() {
             for (
               var a = this.offsetParent || document;
               a &&
-              'html' === !a.nodeType.toLowerCase &&
-              'static' === a.style.position;
+              !a.nodeType.toLowerCase === 'html' &&
+              a.style.position === 'static';
 
             )
               a = a.offsetParent
             return a || document
           }
-          var b = this[0],
-            a = a.apply(b),
-            d = this.offset(),
-            e = /^(?:body|html)$/i.test(a.nodeName)
-              ? { top: 0, left: 0 }
-              : c(a).offset()
+          const b = this[0]
+          var a = a.apply(b)
+          const d = this.offset()
+          const e = /^(?:body|html)$/i.test(a.nodeName)
+            ? { top: 0, left: 0 }
+            : c(a).offset()
           return (
             (d.top -= parseFloat(b.style.marginTop) || 0),
             (d.left -= parseFloat(b.style.marginLeft) || 0),
@@ -4435,16 +4424,16 @@ var registStateManage = {
   }
 })(window),
   (function(a) {
-    'object' == typeof module && 'object' == typeof module.exports
+    typeof module === 'object' && typeof module.exports === 'object'
       ? (module.exports = a())
-      : 'function' == typeof define && define.amd
+      : typeof define === 'function' && define.amd
       ? define(a)
       : a()
   })(function() {
     return (function(a, b, c, d) {
       function e(a) {
         for (var b = -1, c = a ? a.length : 0, d = []; ++b < c; ) {
-          var e = a[b]
+          const e = a[b]
           e && d.push(e)
         }
         return d
@@ -4455,8 +4444,8 @@ var registStateManage = {
         )
       }
       function g(a) {
-        var b = m.data(a, 'velocity')
-        return null === b ? d : b
+        const b = m.data(a, 'velocity')
+        return b === null ? d : b
       }
       function h(a) {
         return function(b) {
@@ -4480,21 +4469,21 @@ var registStateManage = {
           return 3 * f(b, c) * a * a + 2 * g(b, c) * a + h(b)
         }
         function k(b, c) {
-          for (var e = 0; p > e; ++e) {
-            var f = j(c, a, d)
-            if (0 === f) return c
-            var g = i(c, a, d) - b
+          for (let e = 0; p > e; ++e) {
+            const f = j(c, a, d)
+            if (f === 0) return c
+            const g = i(c, a, d) - b
             c -= g / f
           }
           return c
         }
         function l() {
-          for (var b = 0; t > b; ++b) x[b] = i(b * u, a, d)
+          for (let b = 0; t > b; ++b) x[b] = i(b * u, a, d)
         }
         function m(b, c, e) {
-          var f,
-            g,
-            h = 0
+          let f
+          let g
+          let h = 0
           do
             (g = c + (e - c) / 2),
               (f = i(g, a, d) - b),
@@ -4505,25 +4494,25 @@ var registStateManage = {
         function n(b) {
           for (var c = 0, e = 1, f = t - 1; e != f && x[e] <= b; ++e) c += u
           --e
-          var g = (b - x[e]) / (x[e + 1] - x[e]),
-            h = c + g * u,
-            i = j(h, a, d)
-          return i >= q ? k(b, h) : 0 == i ? h : m(b, c, c + u)
+          const g = (b - x[e]) / (x[e + 1] - x[e])
+          const h = c + g * u
+          const i = j(h, a, d)
+          return i >= q ? k(b, h) : i == 0 ? h : m(b, c, c + u)
         }
         function o() {
           ;(y = !0), (a != c || d != e) && l()
         }
-        var p = 4,
-          q = 0.001,
-          r = 1e-7,
-          s = 10,
-          t = 11,
-          u = 1 / (t - 1),
-          v = 'Float32Array' in b
-        if (4 !== arguments.length) return !1
-        for (var w = 0; 4 > w; ++w)
+        var p = 4
+        var q = 0.001
+        var r = 1e-7
+        var s = 10
+        var t = 11
+        var u = 1 / (t - 1)
+        const v = 'Float32Array' in b
+        if (arguments.length !== 4) return !1
+        for (let w = 0; w < 4; ++w)
           if (
-            'number' != typeof arguments[w] ||
+            typeof arguments[w] !== 'number' ||
             isNaN(arguments[w]) ||
             !isFinite(arguments[w])
           )
@@ -4532,21 +4521,21 @@ var registStateManage = {
           (d = Math.min(d, 1)),
           (a = Math.max(a, 0)),
           (d = Math.max(d, 0))
-        var x = v ? new Float32Array(t) : new Array(t),
-          y = !1,
-          z = function(b) {
-            return (
-              y || o(),
-              a === c && d === e ? b : 0 === b ? 0 : 1 === b ? 1 : i(n(b), c, e)
-            )
-          }
+        var x = v ? new Float32Array(t) : new Array(t)
+        var y = !1
+        const z = function(b) {
+          return (
+            y || o(),
+            a === c && d === e ? b : b === 0 ? 0 : b === 1 ? 1 : i(n(b), c, e)
+          )
+        }
         z.getControlPoints = function() {
           return [
             { x: a, y: c },
             { x: d, y: e }
           ]
         }
-        var A = 'generateBezier(' + [a, c, d, e] + ')'
+        const A = 'generateBezier(' + [a, c, d, e] + ')'
         return (
           (z.toString = function() {
             return A
@@ -4555,16 +4544,16 @@ var registStateManage = {
         )
       }
       function j(a, b) {
-        var c = a
+        let c = a
         return (
           p.isString(a)
             ? t.Easings[a] || (c = !1)
             : (c =
-                p.isArray(a) && 1 === a.length
+                p.isArray(a) && a.length === 1
                   ? h.apply(null, a)
-                  : p.isArray(a) && 2 === a.length
+                  : p.isArray(a) && a.length === 2
                   ? u.apply(null, a.concat([b]))
-                  : p.isArray(a) && 4 === a.length
+                  : p.isArray(a) && a.length === 4
                   ? i.apply(null, a)
                   : !1),
           c === !1 &&
@@ -4574,34 +4563,34 @@ var registStateManage = {
       }
       function k(a) {
         if (a) {
-          var b = new Date().getTime(),
-            c = t.State.calls.length
+          const b = new Date().getTime()
+          const c = t.State.calls.length
           c > 1e4 && (t.State.calls = e(t.State.calls))
-          for (var f = 0; c > f; f++)
+          for (let f = 0; c > f; f++)
             if (t.State.calls[f]) {
-              var h = t.State.calls[f],
-                i = h[0],
-                j = h[2],
-                n = h[3],
-                o = !!n,
-                q = null
+              const h = t.State.calls[f]
+              const i = h[0]
+              const j = h[2]
+              let n = h[3]
+              const o = !!n
+              let q = null
               n || (n = t.State.calls[f][3] = b - 16)
               for (
                 var r = Math.min((b - n) / j.duration, 1), s = 0, u = i.length;
                 u > s;
                 s++
               ) {
-                var w = i[s],
-                  y = w.element
+                const w = i[s]
+                var y = w.element
                 if (g(y)) {
-                  var z = !1
+                  let z = !1
                   if (
                     j.display !== d &&
-                    null !== j.display &&
-                    'none' !== j.display
+                    j.display !== null &&
+                    j.display !== 'none'
                   ) {
-                    if ('flex' === j.display) {
-                      var A = [
+                    if (j.display === 'flex') {
+                      const A = [
                         '-webkit-box',
                         '-moz-box',
                         '-ms-flexbox',
@@ -4614,36 +4603,36 @@ var registStateManage = {
                     v.setPropertyValue(y, 'display', j.display)
                   }
                   j.visibility !== d &&
-                    'hidden' !== j.visibility &&
+                    j.visibility !== 'hidden' &&
                     v.setPropertyValue(y, 'visibility', j.visibility)
-                  for (var B in w)
-                    if ('element' !== B) {
-                      var C,
-                        D = w[B],
-                        E = p.isString(D.easing)
-                          ? t.Easings[D.easing]
-                          : D.easing
-                      if (1 === r) C = D.endValue
+                  for (const B in w)
+                    if (B !== 'element') {
+                      var C
+                      const D = w[B]
+                      const E = p.isString(D.easing)
+                        ? t.Easings[D.easing]
+                        : D.easing
+                      if (r === 1) C = D.endValue
                       else {
-                        var F = D.endValue - D.startValue
+                        const F = D.endValue - D.startValue
                         if (
                           ((C = D.startValue + F * E(r, j, F)),
                           !o && C === D.currentValue)
                         )
                           continue
                       }
-                      if (((D.currentValue = C), 'tween' === B)) q = C
+                      if (((D.currentValue = C), B === 'tween')) q = C
                       else {
                         if (v.Hooks.registered[B]) {
-                          var G = v.Hooks.getRoot(B),
-                            H = g(y).rootPropertyValueCache[G]
+                          var G = v.Hooks.getRoot(B)
+                          const H = g(y).rootPropertyValueCache[G]
                           H && (D.rootPropertyValue = H)
                         }
-                        var I = v.setPropertyValue(
+                        const I = v.setPropertyValue(
                           y,
                           B,
                           D.currentValue +
-                            (0 === parseFloat(C) ? '' : D.unitType),
+                            (parseFloat(C) === 0 ? '' : D.unitType),
                           D.rootPropertyValue,
                           D.scrollData
                         )
@@ -4656,7 +4645,7 @@ var registStateManage = {
                                 I[1]
                               )
                             : I[1]),
-                          'transform' === I[0] && (z = !0)
+                          I[0] === 'transform' && (z = !0)
                       }
                     }
                   j.mobileHA &&
@@ -4667,10 +4656,10 @@ var registStateManage = {
                 }
               }
               j.display !== d &&
-                'none' !== j.display &&
+                j.display !== 'none' &&
                 (t.State.calls[f][2].display = !1),
                 j.visibility !== d &&
-                  'hidden' !== j.visibility &&
+                  j.visibility !== 'hidden' &&
                   (t.State.calls[f][2].visibility = !1),
                 j.progress &&
                   j.progress.call(
@@ -4681,7 +4670,7 @@ var registStateManage = {
                     n,
                     q
                   ),
-                1 === r && l(f)
+                r === 1 && l(f)
             }
         }
         t.State.isTicking && x(k)
@@ -4703,9 +4692,9 @@ var registStateManage = {
           if (
             (b ||
               f.loop ||
-              ('none' === f.display &&
+              (f.display === 'none' &&
                 v.setPropertyValue(l, 'display', f.display),
-              'hidden' === f.visibility &&
+              f.visibility === 'hidden' &&
                 v.setPropertyValue(l, 'visibility', f.visibility)),
             f.loop !== !0 &&
               (m.queue(l)[1] === d ||
@@ -4715,8 +4704,8 @@ var registStateManage = {
             ;(g(l).isAnimating = !1), (g(l).rootPropertyValueCache = {})
             var n = !1
             m.each(v.Lists.transforms3D, function(a, b) {
-              var c = /^scale/.test(b) ? 1 : 0,
-                e = g(l).transformCache[b]
+              const c = /^scale/.test(b) ? 1 : 0
+              const e = g(l).transformCache[b]
               g(l).transformCache[b] !== d &&
                 new RegExp('^\\(' + c + '[^.]').test(e) &&
                 ((n = !0), delete g(l).transformCache[b])
@@ -4739,18 +4728,18 @@ var registStateManage = {
               !b &&
               (m.each(g(l).tweensContainer, function(a, b) {
                 ;/^rotate/.test(a) &&
-                  360 === parseFloat(b.endValue) &&
+                  parseFloat(b.endValue) === 360 &&
                   ((b.endValue = 0), (b.startValue = 360)),
                   /^backgroundPosition/.test(a) &&
-                    100 === parseFloat(b.endValue) &&
-                    '%' === b.unitType &&
+                    parseFloat(b.endValue) === 100 &&
+                    b.unitType === '%' &&
                     ((b.endValue = 0), (b.startValue = 100))
               }),
               t(l, 'reverse', { loop: !0, delay: f.delay })),
             f.queue !== !1 && m.dequeue(l, f.queue)
         }
         t.State.calls[a] = !1
-        for (var p = 0, q = t.State.calls.length; q > p; p++)
+        for (let p = 0, q = t.State.calls.length; q > p; p++)
           if (t.State.calls[p] !== !1) {
             i = !0
             break
@@ -4758,136 +4747,135 @@ var registStateManage = {
         i === !1 &&
           ((t.State.isTicking = !1), delete t.State.calls, (t.State.calls = []))
       }
-      var m,
-        n = (function() {
-          if (c.documentMode) return c.documentMode
-          for (var a = 7; a > 4; a--) {
-            var b = c.createElement('div')
-            if (
-              ((b.innerHTML =
-                '<!--[if IE ' + a + ']><span></span><![endif]-->'),
-              b.getElementsByTagName('span').length)
-            )
-              return (b = null), a
-          }
-          return d
-        })(),
-        o = (function() {
-          var a = 0
-          return (
-            b.webkitRequestAnimationFrame ||
-            b.mozRequestAnimationFrame ||
-            function(b) {
-              var c,
-                d = new Date().getTime()
-              return (
-                (c = Math.max(0, 16 - (d - a))),
-                (a = d + c),
-                setTimeout(function() {
-                  b(d + c)
-                }, c)
-              )
-            }
+      let m
+      const n = (function() {
+        if (c.documentMode) return c.documentMode
+        for (let a = 7; a > 4; a--) {
+          let b = c.createElement('div')
+          if (
+            ((b.innerHTML = '<!--[if IE ' + a + ']><span></span><![endif]-->'),
+            b.getElementsByTagName('span').length)
           )
-        })(),
-        p = {
-          isString: function(a) {
-            return 'string' == typeof a
-          },
-          isArray:
-            Array.isArray ||
-            function(a) {
-              return '[object Array]' === Object.prototype.toString.call(a)
-            },
-          isFunction: function(a) {
-            return '[object Function]' === Object.prototype.toString.call(a)
-          },
-          isNode: function(a) {
-            return a && a.nodeType
-          },
-          isNodeList: function(a) {
+            return (b = null), a
+        }
+        return d
+      })()
+      const o = (function() {
+        let a = 0
+        return (
+          b.webkitRequestAnimationFrame ||
+          b.mozRequestAnimationFrame ||
+          function(b) {
+            let c
+            const d = new Date().getTime()
             return (
-              'object' == typeof a &&
-              /^\[object (HTMLCollection|NodeList|Object)\]$/.test(
-                Object.prototype.toString.call(a)
-              ) &&
-              a.length !== d &&
-              (0 === a.length || ('object' == typeof a[0] && a[0].nodeType > 0))
+              (c = Math.max(0, 16 - (d - a))),
+              (a = d + c),
+              setTimeout(function() {
+                b(d + c)
+              }, c)
             )
-          },
-          isWrapped: function(a) {
-            return a && (a.jquery || (b.Zepto && b.Zepto.zepto.isZ(a)))
-          },
-          isSVG: function(a) {
-            return b.SVGElement && a instanceof b.SVGElement
-          },
-          isEmptyObject: function(a) {
-            for (var b in a) return !1
-            return !0
           }
+        )
+      })()
+      var p = {
+        isString(a) {
+          return typeof a === 'string'
         },
-        q = !1
+        isArray:
+          Array.isArray ||
+          function(a) {
+            return Object.prototype.toString.call(a) === '[object Array]'
+          },
+        isFunction(a) {
+          return Object.prototype.toString.call(a) === '[object Function]'
+        },
+        isNode(a) {
+          return a && a.nodeType
+        },
+        isNodeList(a) {
+          return (
+            typeof a === 'object' &&
+            /^\[object (HTMLCollection|NodeList|Object)\]$/.test(
+              Object.prototype.toString.call(a)
+            ) &&
+            a.length !== d &&
+            (a.length === 0 || (typeof a[0] === 'object' && a[0].nodeType > 0))
+          )
+        },
+        isWrapped(a) {
+          return a && (a.jquery || (b.Zepto && b.Zepto.zepto.isZ(a)))
+        },
+        isSVG(a) {
+          return b.SVGElement && a instanceof b.SVGElement
+        },
+        isEmptyObject(a) {
+          for (const b in a) return !1
+          return !0
+        }
+      }
+      let q = !1
       if (
         (a.fn && a.fn.jquery ? ((m = a), (q = !0)) : (m = b.Velocity.Utilities),
-        8 >= n && !q)
+        n <= 8 && !q)
       )
         throw new Error(
           'Velocity: IE8 and below require jQuery to be loaded before Velocity.'
         )
-      if (7 >= n) return void (jQuery.fn.velocity = jQuery.fn.animate)
-      var r = 400,
-        s = 'swing',
-        t = {
-          State: {
-            isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-              navigator.userAgent
-            ),
-            isAndroid: /Android/i.test(navigator.userAgent),
-            isGingerbread: /Android 2\.3\.[3-7]/i.test(navigator.userAgent),
-            isChrome: b.chrome,
-            isFirefox: /Firefox/i.test(navigator.userAgent),
-            prefixElement: c.createElement('div'),
-            prefixMatches: {},
-            scrollAnchor: null,
-            scrollPropertyLeft: null,
-            scrollPropertyTop: null,
-            isTicking: !1,
-            calls: []
-          },
-          CSS: {},
-          Utilities: m,
-          Redirects: {},
-          Easings: {},
-          Promise: b.Promise,
-          defaults: {
-            queue: '',
-            duration: r,
-            easing: s,
-            begin: d,
-            complete: d,
-            progress: d,
-            display: d,
-            visibility: d,
-            loop: !1,
-            delay: !1,
-            mobileHA: !0,
-            _cacheValues: !0
-          },
-          init: function(a) {
-            m.data(a, 'velocity', {
-              isSVG: p.isSVG(a),
-              isAnimating: !1,
-              computedStyle: null,
-              tweensContainer: null,
-              rootPropertyValueCache: {},
-              transformCache: {}
-            })
-          },
-          hook: null,
-          mock: !1,
-          version: { major: 1, minor: 2, patch: 2 },
-          debug: !1
-        }
+      if (n <= 7) return void (jQuery.fn.velocity = jQuery.fn.animate)
+      const r = 400
+      var s = 'swing'
+      var t = {
+        State: {
+          isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+            navigator.userAgent
+          ),
+          isAndroid: /Android/i.test(navigator.userAgent),
+          isGingerbread: /Android 2\.3\.[3-7]/i.test(navigator.userAgent),
+          isChrome: b.chrome,
+          isFirefox: /Firefox/i.test(navigator.userAgent),
+          prefixElement: c.createElement('div'),
+          prefixMatches: {},
+          scrollAnchor: null,
+          scrollPropertyLeft: null,
+          scrollPropertyTop: null,
+          isTicking: !1,
+          calls: []
+        },
+        CSS: {},
+        Utilities: m,
+        Redirects: {},
+        Easings: {},
+        Promise: b.Promise,
+        defaults: {
+          queue: '',
+          duration: r,
+          easing: s,
+          begin: d,
+          complete: d,
+          progress: d,
+          display: d,
+          visibility: d,
+          loop: !1,
+          delay: !1,
+          mobileHA: !0,
+          _cacheValues: !0
+        },
+        init(a) {
+          m.data(a, 'velocity', {
+            isSVG: p.isSVG(a),
+            isAnimating: !1,
+            computedStyle: null,
+            tweensContainer: null,
+            rootPropertyValueCache: {},
+            transformCache: {}
+          })
+        },
+        hook: null,
+        mock: !1,
+        version: { major: 1, minor: 2, patch: 2 },
+        debug: !1
+      }
       b.pageYOffset !== d
         ? ((t.State.scrollAnchor = b),
           (t.State.scrollPropertyLeft = 'pageXOffset'),
@@ -4901,7 +4889,7 @@ var registStateManage = {
           return -a.tension * a.x - a.friction * a.v
         }
         function b(b, c, d) {
-          var e = {
+          const e = {
             x: b.x + d.dx * c,
             v: b.v + d.dv * c,
             tension: b.tension,
@@ -4910,30 +4898,30 @@ var registStateManage = {
           return { dx: e.v, dv: a(e) }
         }
         function c(c, d) {
-          var e = { dx: c.v, dv: a(c) },
-            f = b(c, 0.5 * d, e),
-            g = b(c, 0.5 * d, f),
-            h = b(c, d, g),
-            i = (1 / 6) * (e.dx + 2 * (f.dx + g.dx) + h.dx),
-            j = (1 / 6) * (e.dv + 2 * (f.dv + g.dv) + h.dv)
+          const e = { dx: c.v, dv: a(c) }
+          const f = b(c, 0.5 * d, e)
+          const g = b(c, 0.5 * d, f)
+          const h = b(c, d, g)
+          const i = (1 / 6) * (e.dx + 2 * (f.dx + g.dx) + h.dx)
+          const j = (1 / 6) * (e.dv + 2 * (f.dv + g.dv) + h.dv)
           return (c.x = c.x + i * d), (c.v = c.v + j * d), c
         }
         return function d(a, b, e) {
-          var f,
-            g,
-            h,
-            i = { x: -1, v: 0, tension: null, friction: null },
-            j = [0],
-            k = 0,
-            l = 1e-4,
-            m = 0.016
+          let f
+          let g
+          let h
+          const i = { x: -1, v: 0, tension: null, friction: null }
+          const j = [0]
+          let k = 0
+          const l = 1e-4
+          const m = 0.016
           for (
             a = parseFloat(a) || 500,
               b = parseFloat(b) || 20,
               e = e || null,
               i.tension = a,
               i.friction = b,
-              f = null !== e,
+              f = e !== null,
               f ? ((k = d(a, b)), (g = (k / e) * m)) : (g = m);
             ;
 
@@ -4953,13 +4941,13 @@ var registStateManage = {
         }
       })()
       ;(t.Easings = {
-        linear: function(a) {
+        linear(a) {
           return a
         },
-        swing: function(a) {
+        swing(a) {
           return 0.5 - Math.cos(a * Math.PI) / 2
         },
-        spring: function(a) {
+        spring(a) {
           return 1 - Math.cos(4.5 * a * Math.PI) * Math.exp(6 * -a)
         }
       }),
@@ -5044,18 +5032,18 @@ var registStateManage = {
             perspectiveOrigin: ['X Y', '50% 50%']
           },
           registered: {},
-          register: function() {
+          register() {
             for (var a = 0; a < v.Lists.colors.length; a++) {
-              var b =
-                'color' === v.Lists.colors[a] ? '0 0 0 1' : '255 255 255 1'
+              const b =
+                v.Lists.colors[a] === 'color' ? '0 0 0 1' : '255 255 255 1'
               v.Hooks.templates[v.Lists.colors[a]] = ['Red Green Blue Alpha', b]
             }
-            var c, d, e
+            let c, d, e
             if (n)
               for (c in v.Hooks.templates) {
                 ;(d = v.Hooks.templates[c]), (e = d[0].split(' '))
-                var f = d[1].match(v.RegEx.valueSplit)
-                'Color' === e[0] &&
+                const f = d[1].match(v.RegEx.valueSplit)
+                e[0] === 'Color' &&
                   (e.push(e.shift()),
                   f.push(f.shift()),
                   (v.Hooks.templates[c] = [e.join(' '), f.join(' ')]))
@@ -5063,17 +5051,17 @@ var registStateManage = {
             for (c in v.Hooks.templates) {
               ;(d = v.Hooks.templates[c]), (e = d[0].split(' '))
               for (var a in e) {
-                var g = c + e[a],
-                  h = a
+                const g = c + e[a]
+                const h = a
                 v.Hooks.registered[g] = [c, h]
               }
             }
           },
-          getRoot: function(a) {
-            var b = v.Hooks.registered[a]
+          getRoot(a) {
+            const b = v.Hooks.registered[a]
             return b ? b[0] : a
           },
-          cleanRootPropertyValue: function(a, b) {
+          cleanRootPropertyValue(a, b) {
             return (
               v.RegEx.valueUnwrap.test(b) &&
                 (b = b.match(v.RegEx.valueUnwrap)[1]),
@@ -5081,11 +5069,11 @@ var registStateManage = {
               b
             )
           },
-          extractValue: function(a, b) {
-            var c = v.Hooks.registered[a]
+          extractValue(a, b) {
+            const c = v.Hooks.registered[a]
             if (c) {
-              var d = c[0],
-                e = c[1]
+              const d = c[0]
+              const e = c[1]
               return (
                 (b = v.Hooks.cleanRootPropertyValue(d, b)),
                 b.toString().match(v.RegEx.valueSplit)[e]
@@ -5093,13 +5081,13 @@ var registStateManage = {
             }
             return b
           },
-          injectValue: function(a, b, c) {
-            var d = v.Hooks.registered[a]
+          injectValue(a, b, c) {
+            const d = v.Hooks.registered[a]
             if (d) {
-              var e,
-                f,
-                g = d[0],
-                h = d[1]
+              let e
+              let f
+              const g = d[0]
+              const h = d[1]
               return (
                 (c = v.Hooks.cleanRootPropertyValue(g, c)),
                 (e = c.toString().match(v.RegEx.valueSplit)),
@@ -5112,7 +5100,7 @@ var registStateManage = {
         },
         Normalizations: {
           registered: {
-            clip: function(a, b, c) {
+            clip(a, b, c) {
               switch (a) {
                 case 'name':
                   return 'clip'
@@ -5129,14 +5117,14 @@ var registStateManage = {
                   return 'rect(' + c + ')'
               }
             },
-            blur: function(a, b, c) {
+            blur(a, b, c) {
               switch (a) {
                 case 'name':
                   return t.State.isFirefox ? 'filter' : '-webkit-filter'
                 case 'extract':
                   var d = parseFloat(c)
-                  if (!d && 0 !== d) {
-                    var e = c.toString().match(/blur\(([0-9]+[A-z]+)\)/i)
+                  if (!d && d !== 0) {
+                    const e = c.toString().match(/blur\(([0-9]+[A-z]+)\)/i)
                     d = e ? e[1] : 0
                   }
                   return d
@@ -5144,8 +5132,8 @@ var registStateManage = {
                   return parseFloat(c) ? 'blur(' + c + ')' : 'none'
               }
             },
-            opacity: function(a, b, c) {
-              if (8 >= n)
+            opacity(a, b, c) {
+              if (n <= 8)
                 switch (a) {
                   case 'name':
                     return 'filter'
@@ -5173,15 +5161,15 @@ var registStateManage = {
                 }
             }
           },
-          register: function() {
-            9 >= n ||
+          register() {
+            n <= 9 ||
               t.State.isGingerbread ||
               (v.Lists.transformsBase = v.Lists.transformsBase.concat(
                 v.Lists.transforms3D
               ))
             for (var a = 0; a < v.Lists.transformsBase.length; a++)
               !(function() {
-                var b = v.Lists.transformsBase[a]
+                const b = v.Lists.transformsBase[a]
                 v.Normalizations.registered[b] = function(a, c, e) {
                   switch (a) {
                     case 'name':
@@ -5202,7 +5190,7 @@ var registStateManage = {
                         case 'scale':
                           t.State.isAndroid &&
                             g(c).transformCache[b] === d &&
-                            1 > e &&
+                            e < 1 &&
                             (e = 1),
                             (f = !/(\d)$/i.test(e))
                           break
@@ -5221,7 +5209,7 @@ var registStateManage = {
               })()
             for (var a = 0; a < v.Lists.colors.length; a++)
               !(function() {
-                var b = v.Lists.colors[a]
+                const b = v.Lists.colors[a]
                 v.Normalizations.registered[b] = function(a, c, e) {
                   switch (a) {
                     case 'name':
@@ -5230,15 +5218,15 @@ var registStateManage = {
                       var f
                       if (v.RegEx.wrappedValueAlreadyExtracted.test(e)) f = e
                       else {
-                        var g,
-                          h = {
-                            black: 'rgb(0, 0, 0)',
-                            blue: 'rgb(0, 0, 255)',
-                            gray: 'rgb(128, 128, 128)',
-                            green: 'rgb(0, 128, 0)',
-                            red: 'rgb(255, 0, 0)',
-                            white: 'rgb(255, 255, 255)'
-                          }
+                        let g
+                        const h = {
+                          black: 'rgb(0, 0, 0)',
+                          blue: 'rgb(0, 0, 255)',
+                          gray: 'rgb(128, 128, 128)',
+                          green: 'rgb(0, 128, 0)',
+                          red: 'rgb(255, 0, 0)',
+                          white: 'rgb(255, 255, 255)'
+                        }
                         ;/^[A-z]+$/i.test(e)
                           ? (g = h[e] !== d ? h[e] : h.black)
                           : v.RegEx.isHex.test(e)
@@ -5250,18 +5238,18 @@ var registStateManage = {
                             .replace(/,(\s+)?/g, ' '))
                       }
                       return (
-                        8 >= n || 3 !== f.split(' ').length || (f += ' 1'), f
+                        n <= 8 || f.split(' ').length !== 3 || (f += ' 1'), f
                       )
                     case 'inject':
                       return (
-                        8 >= n
-                          ? 4 === e.split(' ').length &&
+                        n <= 8
+                          ? e.split(' ').length === 4 &&
                             (e = e
                               .split(/\s+/)
                               .slice(0, 3)
                               .join(' '))
-                          : 3 === e.split(' ').length && (e += ' 1'),
-                        (8 >= n ? 'rgb' : 'rgba') +
+                          : e.split(' ').length === 3 && (e += ' 1'),
+                        (n <= 8 ? 'rgb' : 'rgba') +
                           '(' +
                           e.replace(/\s+/g, ',').replace(/\.(\d)+(?=,)/g, '') +
                           ')'
@@ -5272,30 +5260,30 @@ var registStateManage = {
           }
         },
         Names: {
-          camelCase: function(a) {
+          camelCase(a) {
             return a.replace(/-(\w)/g, function(a, b) {
               return b.toUpperCase()
             })
           },
-          SVGAttribute: function(a) {
-            var b = 'width|height|x|y|cx|cy|r|rx|ry|x1|x2|y1|y2'
+          SVGAttribute(a) {
+            let b = 'width|height|x|y|cx|cy|r|rx|ry|x1|x2|y1|y2'
             return (
               (n || (t.State.isAndroid && !t.State.isChrome)) &&
                 (b += '|transform'),
               new RegExp('^(' + b + ')$', 'i').test(a)
             )
           },
-          prefixCheck: function(a) {
+          prefixCheck(a) {
             if (t.State.prefixMatches[a]) return [t.State.prefixMatches[a], !0]
             for (
-              var b = ['', 'Webkit', 'Moz', 'ms', 'O'], c = 0, d = b.length;
+              let b = ['', 'Webkit', 'Moz', 'ms', 'O'], c = 0, d = b.length;
               d > c;
               c++
             ) {
               var e
               if (
                 ((e =
-                  0 === c
+                  c === 0
                     ? a
                     : b[c] +
                       a.replace(/^\w/, function(a) {
@@ -5309,10 +5297,10 @@ var registStateManage = {
           }
         },
         Values: {
-          hexToRgb: function(a) {
-            var b,
-              c = /^#?([a-f\d])([a-f\d])([a-f\d])$/i,
-              d = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i
+          hexToRgb(a) {
+            let b
+            const c = /^#?([a-f\d])([a-f\d])([a-f\d])$/i
+            const d = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i
             return (
               (a = a.replace(c, function(a, b, c, d) {
                 return b + b + c + c + d + d
@@ -5323,13 +5311,13 @@ var registStateManage = {
                 : [0, 0, 0]
             )
           },
-          isCSSNullValue: function(a) {
+          isCSSNullValue(a) {
             return (
-              0 == a ||
+              a == 0 ||
               /^(none|auto|transparent|(rgba\(0, ?0, ?0, ?0\)))$/i.test(a)
             )
           },
-          getUnitType: function(a) {
+          getUnitType(a) {
             return /^(rotate|skew)/i.test(a)
               ? 'deg'
               : /(^(scale|scaleX|scaleY|scaleZ|alpha|flexGrow|flexHeight|zIndex|fontWeight)$)|((opacity|red|green|blue|alpha)$)/i.test(
@@ -5338,8 +5326,8 @@ var registStateManage = {
               ? ''
               : 'px'
           },
-          getDisplayType: function(a) {
-            var b = a && a.tagName.toString().toLowerCase()
+          getDisplayType(a) {
+            const b = a && a.tagName.toString().toLowerCase()
             return /^(b|big|i|small|tt|abbr|acronym|cite|code|dfn|em|kbd|strong|samp|var|a|bdo|br|img|map|object|q|script|span|sub|sup|button|input|label|select|textarea)$/i.test(
               b
             )
@@ -5354,12 +5342,12 @@ var registStateManage = {
               ? 'table-row-group'
               : 'block'
           },
-          addClass: function(a, b) {
+          addClass(a, b) {
             a.classList
               ? a.classList.add(b)
               : (a.className += (a.className.length ? ' ' : '') + b)
           },
-          removeClass: function(a, b) {
+          removeClass(a, b) {
             a.classList
               ? a.classList.remove(b)
               : (a.className = a.className
@@ -5373,31 +5361,30 @@ var registStateManage = {
                   ))
           }
         },
-        getPropertyValue: function(a, c, e, f) {
+        getPropertyValue(a, c, e, f) {
           function h(a, c) {
             function e() {
               j && v.setPropertyValue(a, 'display', 'none')
             }
-            var i = 0
-            if (8 >= n) i = m.css(a, c)
+            let i = 0
+            if (n <= 8) i = m.css(a, c)
             else {
               var j = !1
               if (
                 (/^(width|height)$/.test(c) &&
-                  0 === v.getPropertyValue(a, 'display') &&
+                  v.getPropertyValue(a, 'display') === 0 &&
                   ((j = !0),
                   v.setPropertyValue(a, 'display', v.Values.getDisplayType(a))),
                 !f)
               ) {
                 if (
-                  'height' === c &&
-                  'border-box' !==
-                    v
-                      .getPropertyValue(a, 'boxSizing')
-                      .toString()
-                      .toLowerCase()
+                  c === 'height' &&
+                  v
+                    .getPropertyValue(a, 'boxSizing')
+                    .toString()
+                    .toLowerCase() !== 'border-box'
                 ) {
-                  var k =
+                  const k =
                     a.offsetHeight -
                     (parseFloat(v.getPropertyValue(a, 'borderTopWidth')) || 0) -
                     (parseFloat(v.getPropertyValue(a, 'borderBottomWidth')) ||
@@ -5407,14 +5394,13 @@ var registStateManage = {
                   return e(), k
                 }
                 if (
-                  'width' === c &&
-                  'border-box' !==
-                    v
-                      .getPropertyValue(a, 'boxSizing')
-                      .toString()
-                      .toLowerCase()
+                  c === 'width' &&
+                  v
+                    .getPropertyValue(a, 'boxSizing')
+                    .toString()
+                    .toLowerCase() !== 'border-box'
                 ) {
-                  var l =
+                  const l =
                     a.offsetWidth -
                     (parseFloat(v.getPropertyValue(a, 'borderLeftWidth')) ||
                       0) -
@@ -5425,37 +5411,37 @@ var registStateManage = {
                   return e(), l
                 }
               }
-              var o
+              let o
               ;(o =
                 g(a) === d
                   ? b.getComputedStyle(a, null)
                   : g(a).computedStyle
                   ? g(a).computedStyle
                   : (g(a).computedStyle = b.getComputedStyle(a, null))),
-                'borderColor' === c && (c = 'borderTopColor'),
-                (i = 9 === n && 'filter' === c ? o.getPropertyValue(c) : o[c]),
-                ('' === i || null === i) && (i = a.style[c]),
+                c === 'borderColor' && (c = 'borderTopColor'),
+                (i = n === 9 && c === 'filter' ? o.getPropertyValue(c) : o[c]),
+                (i === '' || i === null) && (i = a.style[c]),
                 e()
             }
-            if ('auto' === i && /^(top|right|bottom|left)$/i.test(c)) {
-              var p = h(a, 'position')
-              ;('fixed' === p || ('absolute' === p && /top|left/i.test(c))) &&
+            if (i === 'auto' && /^(top|right|bottom|left)$/i.test(c)) {
+              const p = h(a, 'position')
+              ;(p === 'fixed' || (p === 'absolute' && /top|left/i.test(c))) &&
                 (i = m(a).position()[c] + 'px')
             }
             return i
           }
-          var i
+          let i
           if (v.Hooks.registered[c]) {
-            var j = c,
-              k = v.Hooks.getRoot(j)
+            const j = c
+            const k = v.Hooks.getRoot(j)
             e === d && (e = v.getPropertyValue(a, v.Names.prefixCheck(k)[0])),
               v.Normalizations.registered[k] &&
                 (e = v.Normalizations.registered[k]('extract', a, e)),
               (i = v.Hooks.extractValue(j, e))
           } else if (v.Normalizations.registered[c]) {
-            var l, o
+            let l, o
             ;(l = v.Normalizations.registered[c]('name', a)),
-              'transform' !== l &&
+              l !== 'transform' &&
                 ((o = h(a, v.Names.prefixCheck(l)[0])),
                 v.Values.isCSSNullValue(o) &&
                   v.Hooks.templates[c] &&
@@ -5478,25 +5464,25 @@ var registStateManage = {
             i
           )
         },
-        setPropertyValue: function(a, c, d, e, f) {
-          var h = c
-          if ('scroll' === c)
+        setPropertyValue(a, c, d, e, f) {
+          let h = c
+          if (c === 'scroll')
             f.container
               ? (f.container['scroll' + f.direction] = d)
-              : 'Left' === f.direction
+              : f.direction === 'Left'
               ? b.scrollTo(d, f.alternateValue)
               : b.scrollTo(f.alternateValue, d)
           else if (
             v.Normalizations.registered[c] &&
-            'transform' === v.Normalizations.registered[c]('name', a)
+            v.Normalizations.registered[c]('name', a) === 'transform'
           )
             v.Normalizations.registered[c]('inject', a, d),
               (h = 'transform'),
               (d = g(a).transformCache[c])
           else {
             if (v.Hooks.registered[c]) {
-              var i = c,
-                j = v.Hooks.getRoot(c)
+              const i = c
+              const j = v.Hooks.getRoot(c)
               ;(e = e || v.getPropertyValue(a, j)),
                 (d = v.Hooks.injectValue(i, d, e)),
                 (c = j)
@@ -5506,7 +5492,7 @@ var registStateManage = {
                 ((d = v.Normalizations.registered[c]('inject', a, d)),
                 (c = v.Normalizations.registered[c]('name', a))),
               (h = v.Names.prefixCheck(c)[0]),
-              8 >= n)
+              n <= 8)
             )
               try {
                 a.style[h] = d
@@ -5524,18 +5510,18 @@ var registStateManage = {
           }
           return [h, d]
         },
-        flushTransformCache: function(a) {
+        flushTransformCache(a) {
           function b(b) {
             return parseFloat(v.getPropertyValue(a, b))
           }
-          var c = ''
+          let c = ''
           if ((n || (t.State.isAndroid && !t.State.isChrome)) && g(a).isSVG) {
-            var d = {
+            const d = {
               translate: [b('translateX'), b('translateY')],
               skewX: [b('skewX')],
               skewY: [b('skewY')],
               scale:
-                1 !== b('scale')
+                b('scale') !== 1
                   ? [b('scale'), b('scale')]
                   : [b('scaleX'), b('scaleY')],
               rotate: [b('rotateZ'), 0, 0]
@@ -5549,13 +5535,13 @@ var registStateManage = {
                 d[a] && ((c += a + '(' + d[a].join(' ') + ') '), delete d[a])
             })
           } else {
-            var e, f
+            let e, f
             m.each(g(a).transformCache, function(b) {
               return (
                 (e = g(a).transformCache[b]),
-                'transformPerspective' === b
+                b === 'transformPerspective'
                   ? ((f = e), !0)
-                  : (9 === n && 'rotateZ' === b && (b = 'rotate'),
+                  : (n === 9 && b === 'rotateZ' && (b = 'rotate'),
                     void (c += b + e + ' '))
               )
             }),
@@ -5567,15 +5553,15 @@ var registStateManage = {
       v.Hooks.register(),
         v.Normalizations.register(),
         (t.hook = function(a, b, c) {
-          var e = d
+          let e = d
           return (
             (a = f(a)),
             m.each(a, function(a, f) {
               if ((g(f) === d && t.init(f), c === d))
                 e === d && (e = t.CSS.getPropertyValue(f, b))
               else {
-                var h = t.CSS.setPropertyValue(f, b, c)
-                'transform' === h[0] && t.CSS.flushTransformCache(f), (e = h)
+                const h = t.CSS.setPropertyValue(f, b, c)
+                h[0] === 'transform' && t.CSS.flushTransformCache(f), (e = h)
               }
             }),
             e
@@ -5588,9 +5574,9 @@ var registStateManage = {
         function e() {
           function a() {
             function a(a, b) {
-              var c = d,
-                e = d,
-                g = d
+              let c = d
+              let e = d
+              let g = d
               return (
                 p.isArray(a)
                   ? ((c = a[0]),
@@ -5610,7 +5596,7 @@ var registStateManage = {
               )
             }
             function l(a, b) {
-              var c, d
+              let c, d
               return (
                 (d = (b || '0')
                   .toString()
@@ -5623,25 +5609,25 @@ var registStateManage = {
               )
             }
             function n() {
-              var a = {
-                  myParent: f.parentNode || c.body,
-                  position: v.getPropertyValue(f, 'position'),
-                  fontSize: v.getPropertyValue(f, 'fontSize')
-                },
-                d =
-                  a.position === I.lastPosition && a.myParent === I.lastParent,
-                e = a.fontSize === I.lastFontSize
+              const a = {
+                myParent: f.parentNode || c.body,
+                position: v.getPropertyValue(f, 'position'),
+                fontSize: v.getPropertyValue(f, 'fontSize')
+              }
+              const d =
+                a.position === I.lastPosition && a.myParent === I.lastParent
+              const e = a.fontSize === I.lastFontSize
               ;(I.lastParent = a.myParent),
                 (I.lastPosition = a.position),
                 (I.lastFontSize = a.fontSize)
-              var h = 100,
-                i = {}
+              const h = 100
+              const i = {}
               if (e && d)
                 (i.emToPx = I.lastEmToPx),
                   (i.percentToPxWidth = I.lastPercentToPxWidth),
                   (i.percentToPxHeight = I.lastPercentToPxHeight)
               else {
-                var j = g(f).isSVG
+                const j = g(f).isSVG
                   ? c.createElementNS('//www.w3.org/2000/svg', 'rect')
                   : c.createElement('div')
                 t.init(j),
@@ -5681,10 +5667,10 @@ var registStateManage = {
                   a.myParent.removeChild(j)
               }
               return (
-                null === I.remToPx &&
+                I.remToPx === null &&
                   (I.remToPx =
                     parseFloat(v.getPropertyValue(c.body, 'fontSize')) || 16),
-                null === I.vwToPx &&
+                I.vwToPx === null &&
                   ((I.vwToPx = parseFloat(b.innerWidth) / 100),
                   (I.vhToPx = parseFloat(b.innerHeight) / 100)),
                 (i.remToPx = I.remToPx),
@@ -5695,7 +5681,7 @@ var registStateManage = {
                 i
               )
             }
-            if (h.begin && 0 === y)
+            if (h.begin && y === 0)
               try {
                 h.begin.call(o, o)
               } catch (r) {
@@ -5703,12 +5689,12 @@ var registStateManage = {
                   throw r
                 }, 1)
               }
-            if ('scroll' === C) {
-              var u,
-                w,
-                z,
-                A = /^x$/i.test(h.axis) ? 'Left' : 'Top',
-                D = parseFloat(h.offset) || 0
+            if (C === 'scroll') {
+              let u
+              let w
+              let z
+              const A = /^x$/i.test(h.axis) ? 'Left' : 'Top'
+              const D = parseFloat(h.offset) || 0
               h.container
                 ? p.isWrapped(h.container) || p.isNode(h.container)
                   ? ((h.container = h.container[0] || h.container),
@@ -5719,7 +5705,7 @@ var registStateManage = {
                   (w =
                     t.State.scrollAnchor[
                       t.State[
-                        'scrollProperty' + ('Left' === A ? 'Top' : 'Left')
+                        'scrollProperty' + (A === 'Left' ? 'Top' : 'Left')
                       ]
                     ]),
                   (z = m(f).offset()[A.toLowerCase()] + D)),
@@ -5741,10 +5727,10 @@ var registStateManage = {
                 }),
                 t.debug &&
                   console.log('tweensContainer (scroll): ', i.scroll, f)
-            } else if ('reverse' === C) {
+            } else if (C === 'reverse') {
               if (!g(f).tweensContainer) return void m.dequeue(f, h.queue)
-              'none' === g(f).opts.display && (g(f).opts.display = 'auto'),
-                'hidden' === g(f).opts.visibility &&
+              g(f).opts.display === 'none' && (g(f).opts.display = 'auto'),
+                g(f).opts.visibility === 'hidden' &&
                   (g(f).opts.visibility = 'visible'),
                 (g(f).opts.loop = !1),
                 (g(f).opts.begin = null),
@@ -5753,9 +5739,9 @@ var registStateManage = {
                 s.duration || delete h.duration,
                 (h = m.extend({}, g(f).opts, h))
               var E = m.extend(!0, {}, g(f).tweensContainer)
-              for (var F in E)
-                if ('element' !== F) {
-                  var G = E[F].startValue
+              for (const F in E)
+                if (F !== 'element') {
+                  const G = E[F].startValue
                   ;(E[F].startValue = E[F].currentValue = E[F].endValue),
                     (E[F].endValue = G),
                     p.isEmptyObject(s) || (E[F].easing = h.easing),
@@ -5769,27 +5755,27 @@ var registStateManage = {
                       )
                 }
               i = E
-            } else if ('start' === C) {
+            } else if (C === 'start') {
               var E
               g(f).tweensContainer &&
                 g(f).isAnimating === !0 &&
                 (E = g(f).tweensContainer),
                 m.each(q, function(b, c) {
                   if (RegExp('^' + v.Lists.colors.join('$|^') + '$').test(b)) {
-                    var e = a(c, !0),
-                      f = e[0],
-                      g = e[1],
-                      h = e[2]
+                    const e = a(c, !0)
+                    const f = e[0]
+                    const g = e[1]
+                    const h = e[2]
                     if (v.RegEx.isHex.test(f)) {
                       for (
-                        var i = ['Red', 'Green', 'Blue'],
+                        let i = ['Red', 'Green', 'Blue'],
                           j = v.Values.hexToRgb(f),
                           k = h ? v.Values.hexToRgb(h) : d,
                           l = 0;
                         l < i.length;
                         l++
                       ) {
-                        var m = [j[l]]
+                        const m = [j[l]]
                         g && m.push(g),
                           k !== d && m.push(k[l]),
                           (q[b + i[l]] = m)
@@ -5798,27 +5784,27 @@ var registStateManage = {
                     }
                   }
                 })
-              for (var H in q) {
-                var K = a(q[H]),
-                  L = K[0],
-                  M = K[1],
-                  N = K[2]
+              for (let H in q) {
+                const K = a(q[H])
+                let L = K[0]
+                const M = K[1]
+                let N = K[2]
                 H = v.Names.camelCase(H)
-                var O = v.Hooks.getRoot(H),
-                  P = !1
+                const O = v.Hooks.getRoot(H)
+                let P = !1
                 if (
                   g(f).isSVG ||
-                  'tween' === O ||
+                  O === 'tween' ||
                   v.Names.prefixCheck(O)[1] !== !1 ||
                   v.Normalizations.registered[O] !== d
                 ) {
                   ;((h.display !== d &&
-                    null !== h.display &&
-                    'none' !== h.display) ||
-                    (h.visibility !== d && 'hidden' !== h.visibility)) &&
+                    h.display !== null &&
+                    h.display !== 'none') ||
+                    (h.visibility !== d && h.visibility !== 'hidden')) &&
                     /opacity|filter/.test(H) &&
                     !N &&
-                    0 !== L &&
+                    L !== 0 &&
                     (N = 0),
                     h._cacheValues && E && E[H]
                       ? (N === d && (N = E[H].endValue + E[H].unitType),
@@ -5829,10 +5815,10 @@ var registStateManage = {
                           (N = v.getPropertyValue(f, H, P)))
                         : (P = v.Hooks.templates[O][1])
                       : N === d && (N = v.getPropertyValue(f, H))
-                  var Q,
-                    R,
-                    S,
-                    T = !1
+                  var Q
+                  var R
+                  var S
+                  var T = !1
                   if (
                     ((Q = l(H, N)),
                     (N = Q[0]),
@@ -5844,7 +5830,7 @@ var registStateManage = {
                     (R = Q[1]),
                     (N = parseFloat(N) || 0),
                     (L = parseFloat(L) || 0),
-                    '%' === R &&
+                    R === '%' &&
                       (/^(fontSize|lineHeight)$/.test(H)
                         ? ((L /= 100), (R = 'em'))
                         : /^scale/.test(H)
@@ -5854,22 +5840,22 @@ var registStateManage = {
                     /[\/*]/.test(T))
                   )
                     R = S
-                  else if (S !== R && 0 !== N)
-                    if (0 === L) R = S
+                  else if (S !== R && N !== 0)
+                    if (L === 0) R = S
                     else {
                       e = e || n()
-                      var U =
+                      const U =
                         /margin|padding|left|right|width|text|word|letter/i.test(
                           H
                         ) ||
                         /X$/.test(H) ||
-                        'x' === H
+                        H === 'x'
                           ? 'x'
                           : 'y'
                       switch (S) {
                         case '%':
                           N *=
-                            'x' === U ? e.percentToPxWidth : e.percentToPxHeight
+                            U === 'x' ? e.percentToPxWidth : e.percentToPxHeight
                           break
                         case 'px':
                           break
@@ -5880,7 +5866,7 @@ var registStateManage = {
                         case '%':
                           N *=
                             1 /
-                            ('x' === U
+                            (U === 'x'
                               ? e.percentToPxWidth
                               : e.percentToPxHeight)
                           break
@@ -5927,17 +5913,17 @@ var registStateManage = {
             i.element &&
               (v.Values.addClass(f, 'velocity-animating'),
               J.push(i),
-              '' === h.queue && ((g(f).tweensContainer = i), (g(f).opts = h)),
+              h.queue === '' && ((g(f).tweensContainer = i), (g(f).opts = h)),
               (g(f).isAnimating = !0),
               y === x - 1
                 ? (t.State.calls.push([J, o, h, null, B.resolver]),
                   t.State.isTicking === !1 && ((t.State.isTicking = !0), k()))
                 : y++)
           }
-          var e,
-            f = this,
-            h = m.extend({}, t.defaults, s),
-            i = {}
+          let e
+          var f = this
+          var h = m.extend({}, t.defaults, s)
+          var i = {}
           switch (
             (g(f) === d && t.init(f),
             parseFloat(h.delay) &&
@@ -5973,12 +5959,12 @@ var registStateManage = {
             h.progress && !p.isFunction(h.progress) && (h.progress = null),
             h.complete && !p.isFunction(h.complete) && (h.complete = null),
             h.display !== d &&
-              null !== h.display &&
+              h.display !== null &&
               ((h.display = h.display.toString().toLowerCase()),
-              'auto' === h.display &&
+              h.display === 'auto' &&
                 (h.display = t.CSS.Values.getDisplayType(f))),
             h.visibility !== d &&
-              null !== h.visibility &&
+              h.visibility !== null &&
               (h.visibility = h.visibility.toString().toLowerCase()),
             (h.mobileHA =
               h.mobileHA && t.State.isMobile && !t.State.isGingerbread),
@@ -5991,22 +5977,22 @@ var registStateManage = {
                     ? (B.promise && B.resolver(o), !0)
                     : ((t.velocityQueueEntryFlag = !0), void a(b))
                 }),
-            ('' !== h.queue && 'fx' !== h.queue) ||
-              'inprogress' === m.queue(f)[0] ||
+            (h.queue !== '' && h.queue !== 'fx') ||
+              m.queue(f)[0] === 'inprogress' ||
               m.dequeue(f)
         }
-        var h,
-          i,
-          n,
-          o,
-          q,
-          s,
-          u =
-            arguments[0] &&
-            (arguments[0].p ||
-              (m.isPlainObject(arguments[0].properties) &&
-                !arguments[0].properties.names) ||
-              p.isString(arguments[0].properties))
+        let h
+        let i
+        let n
+        let o
+        let q
+        let s
+        const u =
+          arguments[0] &&
+          (arguments[0].p ||
+            (m.isPlainObject(arguments[0].properties) &&
+              !arguments[0].properties.names) ||
+            p.isString(arguments[0].properties))
         if (
           (p.isWrapped(this)
             ? ((h = !1), (n = 0), (o = this), (i = this))
@@ -6019,12 +6005,12 @@ var registStateManage = {
             ? ((q = arguments[0].properties || arguments[0].p),
               (s = arguments[0].options || arguments[0].o))
             : ((q = arguments[n]), (s = arguments[n + 1]))
-          var x = o.length,
-            y = 0
+          var x = o.length
+          var y = 0
           if (!/^(stop|finish|finishAll)$/i.test(q) && !m.isPlainObject(s)) {
-            var z = n + 1
+            const z = n + 1
             s = {}
-            for (var A = z; A < arguments.length; A++)
+            for (let A = z; A < arguments.length; A++)
               p.isArray(arguments[A]) ||
               (!/^(fast|normal|slow)$/i.test(arguments[A]) &&
                 !/^\d/.test(arguments[A]))
@@ -6056,7 +6042,7 @@ var registStateManage = {
                   (clearTimeout(g(b).delayTimer.setTimeout),
                   g(b).delayTimer.next && g(b).delayTimer.next(),
                   delete g(b).delayTimer),
-                  'finishAll' !== q ||
+                  q !== 'finishAll' ||
                     (s !== !0 && !p.isString(s)) ||
                     (m.each(m.queue(b, p.isString(s) ? s : ''), function(a, b) {
                       p.isFunction(b) && b()
@@ -6068,7 +6054,7 @@ var registStateManage = {
                 m.each(t.State.calls, function(a, b) {
                   b &&
                     m.each(b[1], function(c, e) {
-                      var f = s === d ? '' : s
+                      const f = s === d ? '' : s
                       return f === !0 ||
                         b[2].queue === f ||
                         (s === d && b[2].queue === !1)
@@ -6082,7 +6068,7 @@ var registStateManage = {
                                   }
                                 ),
                                 m.queue(d, p.isString(s) ? s : '', [])),
-                              'stop' === q
+                              q === 'stop'
                                 ? (g(d) &&
                                     g(d).tweensContainer &&
                                     f !== !1 &&
@@ -6093,13 +6079,13 @@ var registStateManage = {
                                       b.endValue = b.currentValue
                                     }),
                                   D.push(a))
-                                : ('finish' === q || 'finishAll' === q) &&
+                                : (q === 'finish' || q === 'finishAll') &&
                                   (b[2].duration = 1))
                           })
                         : !0
                     })
                 }),
-                'stop' === q &&
+                q === 'stop' &&
                   (m.each(D, function(a, b) {
                     l(b, !0)
                   }),
@@ -6109,9 +6095,9 @@ var registStateManage = {
             default:
               if (!m.isPlainObject(q) || p.isEmptyObject(q)) {
                 if (p.isString(q) && t.Redirects[q]) {
-                  var E = m.extend({}, s),
-                    F = E.duration,
-                    G = E.delay || 0
+                  var E = m.extend({}, s)
+                  const F = E.duration
+                  const G = E.delay || 0
                   return (
                     E.backwards === !0 && (o = m.extend(!0, [], o).reverse()),
                     m.each(o, function(a, b) {
@@ -6142,7 +6128,7 @@ var registStateManage = {
                     a()
                   )
                 }
-                var H =
+                const H =
                   'Velocity: First argument (' +
                   q +
                   ') was not a property map, a known action, or a registered redirect. Aborting.'
@@ -6153,25 +6139,25 @@ var registStateManage = {
               C = 'start'
           }
           var I = {
-              lastParent: null,
-              lastPosition: null,
-              lastFontSize: null,
-              lastPercentToPxWidth: null,
-              lastPercentToPxHeight: null,
-              lastEmToPx: null,
-              remToPx: null,
-              vwToPx: null,
-              vhToPx: null
-            },
-            J = []
+            lastParent: null,
+            lastPosition: null,
+            lastFontSize: null,
+            lastPercentToPxWidth: null,
+            lastPercentToPxHeight: null,
+            lastEmToPx: null,
+            remToPx: null,
+            vwToPx: null,
+            vhToPx: null
+          }
+          var J = []
           m.each(o, function(a, b) {
             p.isNode(b) && e.call(b)
           })
-          var K,
-            E = m.extend({}, t.defaults, s)
+          let K
+          var E = m.extend({}, t.defaults, s)
           if (((E.loop = parseInt(E.loop)), (K = 2 * E.loop - 1), E.loop))
-            for (var L = 0; K > L; L++) {
-              var M = { delay: E.delay, progress: E.progress }
+            for (let L = 0; K > L; L++) {
+              const M = { delay: E.delay, progress: E.progress }
               L === K - 1 &&
                 ((M.display = E.display),
                 (M.visibility = E.visibility),
@@ -6200,35 +6186,35 @@ var registStateManage = {
         a !== b && ((a.fn.velocity = w), (a.fn.velocity.defaults = t.defaults)),
         m.each(['Down', 'Up'], function(a, b) {
           t.Redirects['slide' + b] = function(a, c, e, f, g, h) {
-            var i = m.extend({}, c),
-              j = i.begin,
-              k = i.complete,
-              l = {
-                height: '',
-                marginTop: '',
-                marginBottom: '',
-                paddingTop: '',
-                paddingBottom: ''
-              },
-              n = {}
+            const i = m.extend({}, c)
+            const j = i.begin
+            const k = i.complete
+            const l = {
+              height: '',
+              marginTop: '',
+              marginBottom: '',
+              paddingTop: '',
+              paddingBottom: ''
+            }
+            const n = {}
             i.display === d &&
               (i.display =
-                'Down' === b
-                  ? 'inline' === t.CSS.Values.getDisplayType(a)
+                b === 'Down'
+                  ? t.CSS.Values.getDisplayType(a) === 'inline'
                     ? 'inline-block'
                     : 'block'
                   : 'none'),
               (i.begin = function() {
                 j && j.call(g, g)
-                for (var c in l) {
+                for (const c in l) {
                   n[c] = a.style[c]
-                  var d = t.CSS.getPropertyValue(a, c)
-                  l[c] = 'Down' === b ? [d, 0] : [0, d]
+                  const d = t.CSS.getPropertyValue(a, c)
+                  l[c] = b === 'Down' ? [d, 0] : [0, d]
                 }
                 ;(n.overflow = a.style.overflow), (a.style.overflow = 'hidden')
               }),
               (i.complete = function() {
-                for (var b in n) a.style[b] = n[b]
+                for (const b in n) a.style[b] = n[b]
                 k && k.call(g, g), h && h.resolver(g)
               }),
               t(a, l, i)
@@ -6236,16 +6222,16 @@ var registStateManage = {
         }),
         m.each(['In', 'Out'], function(a, b) {
           t.Redirects['fade' + b] = function(a, c, e, f, g, h) {
-            var i = m.extend({}, c),
-              j = { opacity: 'In' === b ? 1 : 0 },
-              k = i.complete
+            const i = m.extend({}, c)
+            const j = { opacity: b === 'In' ? 1 : 0 }
+            const k = i.complete
             ;(i.complete =
               e !== f - 1
                 ? (i.begin = null)
                 : function() {
                     k && k.call(g, g), h && h.resolver(g)
                   }),
-              i.display === d && (i.display = 'In' === b ? 'auto' : 'none'),
+              i.display === d && (i.display = b === 'In' ? 'auto' : 'none'),
               t(this, j, i)
           }
         }),
@@ -6267,67 +6253,67 @@ var registStateManage = {
     e.attachEvent &&
     e.detachEvent
   ) {
-    var r = function(e) {
-        return 'function' == typeof e
-      },
-      a = function(e, t) {
-        var r = t[n]
-        if (r)
-          for (var a, i = r.length; i--; )
-            if (((a = r[i]), a[0] === e)) return a[1]
-      },
-      i = function(e, t, r) {
-        var i = t[n] || (t[n] = [])
-        return a(e, t) || ((i[i.length] = [e, r]), r)
-      },
-      o = function(e) {
-        var n = t[e]
-        t[e] = function(e) {
-          return u(n(e))
-        }
-      },
-      v = function(n, a) {
-        if (r(a)) {
-          var o = this
-          o.attachEvent(
-            'on' + n,
-            i(o, a, function(n) {
-              ;(n = n || e.event),
-                (n.preventDefault =
-                  n.preventDefault ||
-                  function() {
-                    n.returnValue = !1
-                  }),
-                (n.stopPropagation =
-                  n.stopPropagation ||
-                  function() {
-                    n.cancelBubble = !0
-                  }),
-                (n.target = n.target || n.srcElement || t.documentElement),
-                (n.currentTarget = n.currentTarget || o),
-                (n.timeStamp = n.timeStamp || new Date().getTime()),
-                a.call(o, n)
-            })
-          )
-        }
-      },
-      c = function(e, t) {
-        if (r(t)) {
-          var n = this,
-            i = a(n, t)
-          i && n.detachEvent('on' + e, i)
-        }
-      },
-      u = function(e) {
-        var t = e.length
-        if (t)
-          for (; t--; )
-            (e[t].addEventListener = v), (e[t].removeEventListener = c)
-        else (e.addEventListener = v), (e.removeEventListener = c)
-        return e
+    const r = function(e) {
+      return typeof e === 'function'
+    }
+    const a = function(e, t) {
+      const r = t[n]
+      if (r)
+        for (var a, i = r.length; i--; )
+          if (((a = r[i]), a[0] === e)) return a[1]
+    }
+    const i = function(e, t, r) {
+      const i = t[n] || (t[n] = [])
+      return a(e, t) || ((i[i.length] = [e, r]), r)
+    }
+    const o = function(e) {
+      const n = t[e]
+      t[e] = function(e) {
+        return u(n(e))
       }
+    }
+    const v = function(n, a) {
+      if (r(a)) {
+        const o = this
+        o.attachEvent(
+          'on' + n,
+          i(o, a, function(n) {
+            ;(n = n || e.event),
+              (n.preventDefault =
+                n.preventDefault ||
+                function() {
+                  n.returnValue = !1
+                }),
+              (n.stopPropagation =
+                n.stopPropagation ||
+                function() {
+                  n.cancelBubble = !0
+                }),
+              (n.target = n.target || n.srcElement || t.documentElement),
+              (n.currentTarget = n.currentTarget || o),
+              (n.timeStamp = n.timeStamp || new Date().getTime()),
+              a.call(o, n)
+          })
+        )
+      }
+    }
+    const c = function(e, t) {
+      if (r(t)) {
+        const n = this
+        const i = a(n, t)
+        i && n.detachEvent('on' + e, i)
+      }
+    }
+    var u = function(e) {
+      let t = e.length
+      if (t)
+        for (; t--; )
+          (e[t].addEventListener = v), (e[t].removeEventListener = c)
+      else (e.addEventListener = v), (e.removeEventListener = c)
+      return e
+    }
     if ((u([t, e]), 'Element' in e)) {
-      var f = e.Element
+      const f = e.Element
       ;(f.prototype.addEventListener = v), (f.prototype.removeEventListener = c)
     } else
       t.attachEvent('onreadystatechange', function() {
@@ -6348,14 +6334,14 @@ var registStateManage = {
   function A(a) {
     return a.replace(B, h).replace(C, function(a, d, b) {
       for (var a = b.split(','), b = 0, e = a.length; b < e; b++) {
-        var s = D(a[b].replace(E, h).replace(F, h)) + o,
-          l = []
+        var s = D(a[b].replace(E, h).replace(F, h)) + o
+        var l = []
         a[b] = s.replace(G, function(a, b, c, d, e) {
           if (b) {
             if (l.length > 0) {
-              var a = l,
-                f,
-                e = s.substring(0, e).replace(H, i)
+              var a = l
+              let f
+              var e = s.substring(0, e).replace(H, i)
               if (e == i || e.charAt(e.length - 1) == o) e += '*'
               try {
                 f = t(e)
@@ -6368,7 +6354,7 @@ var registStateManage = {
                     j < m;
                     j++
                   ) {
-                    var g = a[j]
+                    const g = a[j]
                     if (
                       !RegExp('(^|\\s)' + g.className + '(\\s|$)').test(
                         d.className
@@ -6401,13 +6387,13 @@ var registStateManage = {
     })
   }
   function I(a) {
-    var c = !0,
-      d = w(a.slice(1)),
-      b = a.substring(0, 5) == ':not(',
-      e,
-      f
+    let c = !0
+    const d = w(a.slice(1))
+    let b = a.substring(0, 5) == ':not('
+    let e
+    let f
     b && (a = a.slice(5, -1))
-    var l = a.indexOf('(')
+    const l = a.indexOf('(')
     l > -1 && (a = a.substring(0, l))
     if (a.charAt(0) == ':')
       switch (a.slice(1)) {
@@ -6420,8 +6406,8 @@ var registStateManage = {
           if (m == 8) {
             c = function(a) {
               function c() {
-                var d = location.hash,
-                  e = d.slice(1)
+                const d = location.hash
+                const e = d.slice(1)
                 return b ? d == i || a.id != e : d != i && a.id == e
               }
               k(j, 'hashchange', function() {
@@ -6491,13 +6477,13 @@ var registStateManage = {
     return a.replace(x, h).replace(Q, o)
   }
   function g(a, c, d) {
-    var b = a.className,
-      c = u(b, c, d)
+    const b = a.className
+    var c = u(b, c, d)
     if (c != b) (a.className = c), (a.parentNode.className += i)
   }
   function u(a, c, d) {
-    var b = RegExp('(^|\\s)' + c + '(\\s|$)'),
-      e = b.test(a)
+    const b = RegExp('(^|\\s)' + c + '(\\s|$)')
+    const e = b.test(a)
     return d ? (e ? a : a + o + c) : e ? a.replace(b, h).replace(x, h) : a
   }
   function k(a, c, d) {
@@ -6510,7 +6496,7 @@ var registStateManage = {
         ? a
         : null
     if (a.charAt(0) == '/') return c.substring(0, c.indexOf('/', 8)) + a
-    var d = c.split(/[?#]/)[0]
+    let d = c.split(/[?#]/)[0]
     a.charAt(0) != '?' &&
       d.charAt(d.length - 1) != '/' &&
       (d = d.substring(0, d.lastIndexOf('/') + 1))
@@ -6534,10 +6520,10 @@ var registStateManage = {
     return i
   }
   function U() {
-    var a, c
+    let a, c
     a = f.getElementsByTagName('BASE')
     for (
-      var d = a.length > 0 ? a[0].href : f.location.href, b = 0;
+      let d = a.length > 0 ? a[0].href : f.location.href, b = 0;
       b < f.styleSheets.length;
       b++
     )
@@ -6545,8 +6531,8 @@ var registStateManage = {
         c.cssText = A(y(a))
     q.length > 0 &&
       setInterval(function() {
-        for (var a = 0, c = q.length; a < c; a++) {
-          var b = q[a]
+        for (let a = 0, c = q.length; a < c; a++) {
+          const b = q[a]
           if (b.disabled !== b.a)
             b.disabled
               ? ((b.disabled = !1), (b.a = !0), (b.disabled = !0))
@@ -6554,53 +6540,53 @@ var registStateManage = {
         }
       }, 250)
   }
-  if (!(/*@cc_on!@*/ true)) {
-    var f = document,
-      p = f.documentElement,
-      n = (function() {
-        if (j.XMLHttpRequest) return new XMLHttpRequest()
-        try {
-          return new ActiveXObject('Microsoft.XMLHTTP')
-        } catch (a) {
-          return null
-        }
-      })(),
-      m = /MSIE (\d+)/.exec(navigator.userAgent)[1]
+  if (!(/* @cc_on!@ */ true)) {
+    var f = document
+    var p = f.documentElement
+    var n = (function() {
+      if (j.XMLHttpRequest) return new XMLHttpRequest()
+      try {
+        return new ActiveXObject('Microsoft.XMLHTTP')
+      } catch (a) {
+        return null
+      }
+    })()
+    var m = /MSIE (\d+)/.exec(navigator.userAgent)[1]
     if (!(f.compatMode != 'CSS1Compat' || m < 6 || m > 8 || !n)) {
-      var z = {
-          NW: '*.Dom.select',
-          MooTools: '$$',
-          DOMAssistant: '*.$',
-          Prototype: '$$',
-          YAHOO: '*.util.Selector.query',
-          Sizzle: '*',
-          jQuery: '*',
-          dojo: '*.query'
-        },
-        t,
-        q = [],
-        O = 0,
-        N = !0,
-        M = 'slvzr',
-        R = /(\/\*[^*]*\*+([^\/][^*]*\*+)*\/)\s*/g,
-        S = /@import\s*(?:(?:(?:url\(\s*(['"]?)(.*)\1)\s*\))|(?:(['"])(.*)\3))[^;]*;/g,
-        T = /\burl\(\s*(["']?)(?!data:)([^"')]+)\1\s*\)/g,
-        L = /^:(empty|(first|last|only|nth(-last)?)-(child|of-type))$/,
-        B = /:(:first-(?:line|letter))/g,
-        C = /(^|})\s*([^\{]*?[\[:][^{]+)/g,
-        G = /([ +~>])|(:[a-z-]+(?:\(.*?\)+)?)|(\[.*?\])/g,
-        H = /(:not\()?:(hover|enabled|disabled|focus|checked|target|active|visited|first-line|first-letter)\)?/g,
-        P = /[^\w-]/g,
-        K = /^(INPUT|SELECT|TEXTAREA|BUTTON)$/,
-        J = /^(checkbox|radio)$/,
-        v = m > 6 ? /[\$\^*]=(['"])\1/ : null,
-        E = /([(\[+~])\s+/g,
-        F = /\s+([)\]+~])/g,
-        Q = /\s+/g,
-        x = /^\s*((?:[\S\s]*\S)?)\s*$/,
-        i = '',
-        o = ' ',
-        h = '$1'
+      const z = {
+        NW: '*.Dom.select',
+        MooTools: '$$',
+        DOMAssistant: '*.$',
+        Prototype: '$$',
+        YAHOO: '*.util.Selector.query',
+        Sizzle: '*',
+        jQuery: '*',
+        dojo: '*.query'
+      }
+      var t
+      var q = []
+      var O = 0
+      var N = !0
+      var M = 'slvzr'
+      var R = /(\/\*[^*]*\*+([^\/][^*]*\*+)*\/)\s*/g
+      var S = /@import\s*(?:(?:(?:url\(\s*(['"]?)(.*)\1)\s*\))|(?:(['"])(.*)\3))[^;]*;/g
+      var T = /\burl\(\s*(["']?)(?!data:)([^"')]+)\1\s*\)/g
+      var L = /^:(empty|(first|last|only|nth(-last)?)-(child|of-type))$/
+      var B = /:(:first-(?:line|letter))/g
+      var C = /(^|})\s*([^\{]*?[\[:][^{]+)/g
+      var G = /([ +~>])|(:[a-z-]+(?:\(.*?\)+)?)|(\[.*?\])/g
+      var H = /(:not\()?:(hover|enabled|disabled|focus|checked|target|active|visited|first-line|first-letter)\)?/g
+      var P = /[^\w-]/g
+      var K = /^(INPUT|SELECT|TEXTAREA|BUTTON)$/
+      var J = /^(checkbox|radio)$/
+      var v = m > 6 ? /[\$\^*]=(['"])\1/ : null
+      var E = /([(\[+~])\s+/g
+      var F = /\s+([)\]+~])/g
+      var Q = /\s+/g
+      var x = /^\s*((?:[\S\s]*\S)?)\s*$/
+      var i = ''
+      var o = ' '
+      var h = '$1'
       ;(function(a, c) {
         function d() {
           try {
@@ -6619,8 +6605,8 @@ var registStateManage = {
           )
             c.call(a, d.type || d)
         }
-        var e = !1,
-          g = !0
+        var e = !1
+        let g = !0
         if (f.readyState == 'complete') c.call(a, i)
         else {
           if (f.createEventObject && p.doScroll) {
@@ -6633,17 +6619,17 @@ var registStateManage = {
           k(a, 'load', b)
         }
       })(j, function() {
-        for (var a in z) {
-          var c,
-            d,
-            b = j
+        for (const a in z) {
+          var c
+          var d
+          let b = j
           if (j[a]) {
             for (
               c = z[a].replace('*', a).split('.');
               (d = c.shift()) && (b = b[d]);
 
             );
-            if (typeof b == 'function') {
+            if (typeof b === 'function') {
               t = b
               U()
               break
@@ -6668,8 +6654,8 @@ var registStateManage = {
   } else if (typeof exports === 'object') {
     module.exports = factory()
   } else {
-    var OldCookies = window.Cookies
-    var api = (window.Cookies = factory())
+    const OldCookies = window.Cookies
+    const api = (window.Cookies = factory())
     api.noConflict = function() {
       window.Cookies = OldCookies
       return api
@@ -6677,11 +6663,11 @@ var registStateManage = {
   }
 })(function() {
   function extend() {
-    var i = 0
-    var result = {}
+    let i = 0
+    const result = {}
     for (; i < arguments.length; i++) {
-      var attributes = arguments[i]
-      for (var key in attributes) {
+      const attributes = arguments[i]
+      for (const key in attributes) {
         result[key] = attributes[key]
       }
     }
@@ -6690,7 +6676,7 @@ var registStateManage = {
 
   function init(converter) {
     function api(key, value, attributes) {
-      var result
+      let result
       if (typeof document === 'undefined') {
         return
       }
@@ -6707,7 +6693,7 @@ var registStateManage = {
         )
 
         if (typeof attributes.expires === 'number') {
-          var expires = new Date()
+          const expires = new Date()
           expires.setMilliseconds(
             expires.getMilliseconds() + attributes.expires * 864e5
           )
@@ -6754,14 +6740,14 @@ var registStateManage = {
       // To prevent the for loop in the first place assign an empty array
       // in case there are no cookies at all. Also prevents odd result when
       // calling "get()"
-      var cookies = document.cookie ? document.cookie.split('; ') : []
-      var rdecode = /(%[0-9A-Z]{2})+/g
-      var i = 0
+      const cookies = document.cookie ? document.cookie.split('; ') : []
+      const rdecode = /(%[0-9A-Z]{2})+/g
+      let i = 0
 
       for (; i < cookies.length; i++) {
-        var parts = cookies[i].split('=')
-        var name = parts[0].replace(rdecode, decodeURIComponent)
-        var cookie = parts.slice(1).join('=')
+        const parts = cookies[i].split('=')
+        const name = parts[0].replace(rdecode, decodeURIComponent)
+        let cookie = parts.slice(1).join('=')
 
         if (cookie.charAt(0) === '"') {
           cookie = cookie.slice(1, -1)
@@ -6831,7 +6817,7 @@ var registStateManage = {
 !(function(modules) {
   function __webpack_require__(moduleId) {
     if (installedModules[moduleId]) return installedModules[moduleId].exports
-    var module = (installedModules[moduleId] = {
+    const module = (installedModules[moduleId] = {
       exports: {},
       id: moduleId,
       loaded: !1
@@ -6857,33 +6843,33 @@ var registStateManage = {
 })([
   function(module, exports, __webpack_require__) {
     'use strict'
-    var _d = __webpack_require__(1),
-      Statics = __webpack_require__(2),
-      MouseEvent = __webpack_require__(3),
-      Header = __webpack_require__(4),
-      BookDetail = __webpack_require__(10),
-      BookItem = __webpack_require__(13),
-      Accordion = __webpack_require__(14),
-      ForceBtn = __webpack_require__(16),
-      Carousel = __webpack_require__(17),
-      LineClamper = __webpack_require__(20),
-      stAccMenu = __webpack_require__(21),
-      BookJadge = __webpack_require__(22),
-      ClipSelect = __webpack_require__(23),
-      RecommendBook = __webpack_require__(24),
-      TimeLine = __webpack_require__(25),
-      Selection = __webpack_require__(28),
-      BookShelf = __webpack_require__(29),
-      GenreNavi = __webpack_require__(30),
-      BookShelfLiquid = __webpack_require__(32),
-      StBoxStore = __webpack_require__(34),
-      MoreAccordion = __webpack_require__(35),
-      JapanMap = __webpack_require__(36),
-      BookTreeCarousel = __webpack_require__(37),
-      BookTreeDetailCarousel = __webpack_require__(38),
-      PullDown = __webpack_require__(39),
-      CouponDetailAccordion = __webpack_require__(40),
-      HdgSearch = __webpack_require__(41)
+    const _d = __webpack_require__(1)
+    const Statics = __webpack_require__(2)
+    const MouseEvent = __webpack_require__(3)
+    const Header = __webpack_require__(4)
+    const BookDetail = __webpack_require__(10)
+    const BookItem = __webpack_require__(13)
+    const Accordion = __webpack_require__(14)
+    const ForceBtn = __webpack_require__(16)
+    const Carousel = __webpack_require__(17)
+    const LineClamper = __webpack_require__(20)
+    const stAccMenu = __webpack_require__(21)
+    const BookJadge = __webpack_require__(22)
+    const ClipSelect = __webpack_require__(23)
+    const RecommendBook = __webpack_require__(24)
+    const TimeLine = __webpack_require__(25)
+    const Selection = __webpack_require__(28)
+    const BookShelf = __webpack_require__(29)
+    const GenreNavi = __webpack_require__(30)
+    const BookShelfLiquid = __webpack_require__(32)
+    const StBoxStore = __webpack_require__(34)
+    const MoreAccordion = __webpack_require__(35)
+    const JapanMap = __webpack_require__(36)
+    const BookTreeCarousel = __webpack_require__(37)
+    const BookTreeDetailCarousel = __webpack_require__(38)
+    const PullDown = __webpack_require__(39)
+    const CouponDetailAccordion = __webpack_require__(40)
+    const HdgSearch = __webpack_require__(41)
     if (
       ((window.requestAnimFrame = (function() {
         return (
@@ -6917,47 +6903,46 @@ var registStateManage = {
       (window._userAgent = window.navigator.userAgent.toLowerCase()),
       (window._appVersion = window.navigator.appVersion.toLowerCase()),
       (window._isLegacy = !1),
-      window._userAgent.indexOf('msie') != -1)
+      window._userAgent.includes('msie'))
     ) {
       if (
-        window._appVersion.indexOf('msie 6.') != -1 ||
-        window._appVersion.indexOf('msie 7.') != -1 ||
-        window._appVersion.indexOf('msie 8.') != -1 ||
-        window._appVersion.indexOf('msie 9.') != -1
+        window._appVersion.includes('msie 6.') ||
+        window._appVersion.includes('msie 7.') ||
+        window._appVersion.includes('msie 8.') ||
+        window._appVersion.includes('msie 9.')
       ) {
-        var _prefix_timeStamp = document
-            .getElementsByTagName('head')[0]
-            .getElementsByTagName('link'),
-          i = 0,
-          _ts_prefix = ''
+        const _prefix_timeStamp = document
+          .getElementsByTagName('head')[0]
+          .getElementsByTagName('link')
+        let i = 0
+        let _ts_prefix = ''
         for (i = 0; i < _prefix_timeStamp.length; i++)
-          _prefix_timeStamp[i].getAttribute('href').indexOf('import') >= 0 &&
+          _prefix_timeStamp[i].getAttribute('href').includes('import') &&
             (_ts_prefix +=
               '?' + _prefix_timeStamp[i].getAttribute('href').split('?')[1])
-        var cssPath,
-          _splitStyleSheet = document.createElement('link'),
-          domain = location.hostname
+        let cssPath
+        const _splitStyleSheet = document.createElement('link')
+        const domain = location.hostname
         ;(cssPath =
-          'honto.jp' !== domain
+          domain !== 'honto.jp'
             ? '//honto.jp/library/css/pc/import2.css'
             : '/library/css/pc/import2.css'),
           _splitStyleSheet.setAttribute('rel', 'stylesheet'),
           _splitStyleSheet.setAttribute('href', cssPath + _ts_prefix),
           document.getElementsByTagName('head')[0].appendChild(_splitStyleSheet)
       }
-      window._userAgent.indexOf('msie') != -1 &&
-        (window._appVersion.indexOf('msie 6.') != -1
+      window._userAgent.includes('msie') &&
+        (window._appVersion.includes('msie 6.')
           ? (Statics.IS_LEGACY = !0)
-          : window._appVersion.indexOf('msie 7.') != -1
+          : window._appVersion.includes('msie 7.')
           ? (Statics.IS_LEGACY = !0)
-          : window._appVersion.indexOf('msie 8.') != -1
+          : window._appVersion.includes('msie 8.')
           ? (Statics.IS_LEGACY = !0)
-          : window._appVersion.indexOf('msie 9.') != -1 &&
-            (Statics.IS_LEGACY = !0))
+          : window._appVersion.includes('msie 9.') && (Statics.IS_LEGACY = !0))
     }
-    var Main = (function() {
+    const Main = (function() {
       function Main() {
-        var _this = this
+        const _this = this
         ;(this.jadgeTouchEvent = function() {
           if (
             ((MouseEvent.MOUSE_DOWN =
@@ -6966,17 +6951,17 @@ var registStateManage = {
               'ontouchend' in window ? 'touchend' : 'mouseup'),
             (MouseEvent.MOUSE_MOVE =
               'ontouchmove' in window ? 'touchmove' : 'mousemove'),
-            (Statics.HAS_TOUCH = 'tablet' === _this.getDevice()),
+            (Statics.HAS_TOUCH = _this.getDevice() === 'tablet'),
             Statics.HAS_TOUCH)
           ) {
-            var viewport = document.createElement('meta')
+            const viewport = document.createElement('meta')
             viewport.setAttribute('name', 'viewport'),
               viewport.setAttribute('content', 'width=1084'),
               document.head.appendChild(viewport)
           }
         }),
           (this.getDevice = function() {
-            var ua = navigator.userAgent
+            const ua = navigator.userAgent
             return ua.indexOf('iPhone') > 0 ||
               ua.indexOf('iPod') > 0 ||
               (ua.indexOf('Android') > 0 && ua.indexOf('Mobile') > 0)
@@ -6987,98 +6972,100 @@ var registStateManage = {
           }),
           (this.getIE = function() {
             return (
-              'Microsoft Internet Explorer' == navigator.appName ||
-              ('Netscape' == navigator.appName &&
-                navigator.appVersion.indexOf('Trident') > -1)
+              navigator.appName == 'Microsoft Internet Explorer' ||
+              (navigator.appName == 'Netscape' &&
+                navigator.appVersion.includes('Trident'))
             )
           }),
           (this.getChrome = function() {
             return !!navigator.appVersion.indexOf('Chrome')
           }),
           (this.addCoreElements = function() {
-            var i = 0,
-              _header = document.querySelectorAll('.stHeader')
+            let i = 0
+            const _header = document.querySelectorAll('.stHeader')
             for (i = 0; i < _header.length; i++) new Header(_header[i])
-            var _carousel = document.querySelectorAll('.stCorusel01')
+            const _carousel = document.querySelectorAll('.stCorusel01')
             for (i = 0; i < _carousel.length; i++) new Carousel(_carousel[i])
-            var _forcebtn = document.querySelectorAll('.stBtn')
+            const _forcebtn = document.querySelectorAll('.stBtn')
             for (i = 0; i < _forcebtn.length; i++) new ForceBtn(_forcebtn[i])
           }),
           (this.addSubModules = function() {
-            var i = 0,
-              _store01 = document.querySelectorAll('.stBoxStore01')
+            let i = 0
+            const _store01 = document.querySelectorAll('.stBoxStore01')
             for (i = 0; i < _store01.length; i++) new StBoxStore(_store01[i])
-            var _store02 = document.querySelectorAll('.stBoxStore02')
+            const _store02 = document.querySelectorAll('.stBoxStore02')
             for (i = 0; i < _store02.length; i++) new StBoxStore(_store02[i])
-            var _map = document.querySelectorAll('.stMap01')
+            const _map = document.querySelectorAll('.stMap01')
             for (i = 0; i < _map.length; i++) new JapanMap(_map[i])
-            var _moreAccordion = document.querySelectorAll('.stMoreAccordion')
+            const _moreAccordion = document.querySelectorAll('.stMoreAccordion')
             for (i = 0; i < _moreAccordion.length; i++)
               new MoreAccordion(_moreAccordion[i])
-            var _selection = document.querySelectorAll('.stSelectionViewer01')
+            const _selection = document.querySelectorAll('.stSelectionViewer01')
             for (i = 0; i < _selection.length; i++) new Selection(_selection[i])
-            var _timeline = document.querySelectorAll('.stBookTimeLine01')
+            const _timeline = document.querySelectorAll('.stBookTimeLine01')
             for (i = 0; i < _timeline.length; i++) new TimeLine(_timeline[i])
-            var _product1 = document.querySelectorAll('.stBookDetail01')
+            const _product1 = document.querySelectorAll('.stBookDetail01')
             for (i = 0; i < _product1.length; i++) new BookDetail(_product1[i])
-            var _accordion = document.querySelectorAll('[class*=stAccordion0]')
+            const _accordion = document.querySelectorAll(
+              '[class*=stAccordion0]'
+            )
             for (i = 0; i < _accordion.length; i++) new Accordion(_accordion[i])
-            var _recommend = document.querySelectorAll('.stRecommendBook01')
+            const _recommend = document.querySelectorAll('.stRecommendBook01')
             for (i = 0; i < _recommend.length; i++)
               new RecommendBook(_recommend[i])
-            var _item = document.querySelectorAll('.stBookItem')
+            const _item = document.querySelectorAll('.stBookItem')
             for (i = 0; i < _item.length; i++) new BookItem(_item[i])
-            var _genreNavi = document.querySelectorAll('.genreNavi')
+            const _genreNavi = document.querySelectorAll('.genreNavi')
             for (i = 0; i < _genreNavi.length; i++) new GenreNavi(_genreNavi[i])
-            var _accMenu = document.querySelectorAll("[class*='stAccMenu']")
+            const _accMenu = document.querySelectorAll("[class*='stAccMenu']")
             for (i = 0; i < _accMenu.length; i++) new stAccMenu(_accMenu[i])
-            var _details = document.querySelectorAll('[class*=stProduct0]')
+            const _details = document.querySelectorAll('[class*=stProduct0]')
             for (i = 0; i < _details.length; i++) new BookJadge(_details[i])
-            var _bookShelf03 = document.querySelectorAll('.stShelf03')
+            const _bookShelf03 = document.querySelectorAll('.stShelf03')
             for (i = 0; i < _bookShelf03.length; i++)
               new BookShelfLiquid(_bookShelf03[i])
-            var _clipSelect = document.querySelectorAll('.stClipSelect')
+            const _clipSelect = document.querySelectorAll('.stClipSelect')
             for (i = 0; i < _clipSelect.length; i++)
               new ClipSelect(_clipSelect[i])
-            var _storeNews = document.querySelector('.stStoreNews01'),
-              _footer = document.querySelector('.stFooter')
+            const _storeNews = document.querySelector('.stStoreNews01')
+            const _footer = document.querySelector('.stFooter')
             _storeNews &&
               (_d.addClass(_footer, 'stBranch01'),
               (document.getElementById('footerArea').style.marginTop =
                 '-100px'))
-            var _pullDown = document.querySelectorAll('.stPullDown01')
+            const _pullDown = document.querySelectorAll('.stPullDown01')
             for (i = 0; i < _pullDown.length; i++) new PullDown(_pullDown[i])
-            var _booktreeCarousel = document.querySelectorAll(
+            const _booktreeCarousel = document.querySelectorAll(
               '.stBookTreeCarousel01'
             )
             for (i = 0; i < _booktreeCarousel.length; i++)
               new BookTreeCarousel(_booktreeCarousel[i])
-            var _booktreeCarousel2 = document.querySelectorAll(
+            const _booktreeCarousel2 = document.querySelectorAll(
               '.stBookTreeCarousel02'
             )
             for (i = 0; i < _booktreeCarousel2.length; i++)
               new BookTreeCarousel(_booktreeCarousel2[i])
-            var _booktreeCarousel3 = document.querySelectorAll(
+            const _booktreeCarousel3 = document.querySelectorAll(
               '.stBookTreeCarousel03'
             )
             for (i = 0; i < _booktreeCarousel3.length; i++)
               new BookTreeDetailCarousel(
                 _booktreeCarousel3[i].querySelector('.stContents')
               )
-            var _couponDetailAccordion = document.querySelectorAll(
+            const _couponDetailAccordion = document.querySelectorAll(
               '.coupon-detail-accordion'
             )
             for (i = 0; i < _couponDetailAccordion.length; i++)
               new CouponDetailAccordion(_couponDetailAccordion[i])
-            var _hdgSearch = document.querySelectorAll('.stHdgSearch')
+            const _hdgSearch = document.querySelectorAll('.stHdgSearch')
             for (i = 0; i < _hdgSearch.length; i++)
               new HdgSearch(_hdgSearch[i], !1)
           }),
           (this.getIE() || this.getChrome()) &&
             jQuery(window).on('click', '.stOverview a[href^=#]', function() {
-              var href = jQuery(this).attr('href'),
-                target = jQuery('#' == href || '' == href ? 'html' : href),
-                position = target.offset().top
+              const href = jQuery(this).attr('href')
+              const target = jQuery(href == '#' || href == '' ? 'html' : href)
+              const position = target.offset().top
               return (
                 jQuery('html, body').animate(
                   { scrollTop: position },
@@ -7096,27 +7083,27 @@ var registStateManage = {
     })()
     jQuery(function() {
       window.jQuery && (window.Velocity = window.jQuery.fn.velocity)
-      var _div = document.createElement('div')
-      ;(Statics.HAS_CSS = 'string' == typeof _div.style.transform),
+      const _div = document.createElement('div')
+      ;(Statics.HAS_CSS = typeof _div.style.transform === 'string'),
         Statics.HAS_CSS ||
-          (Statics.HAS_CSS = 'string' == typeof _div.style['-ms-transform']),
-        void 0 == _div.innerText &&
+          (Statics.HAS_CSS = typeof _div.style['-ms-transform'] === 'string'),
+        void 0 == _div.textContent &&
           Object.defineProperty(HTMLElement.prototype, 'innerText', {
-            get: function() {
+            get() {
               return this.textContent
             },
-            set: function(v) {
+            set(v) {
               this.textContent = v
             }
           }),
         jQuery(window).on('ajaxLoad', function(e, container) {
-          var _carousel = container.querySelectorAll('.stCorusel01')
+          const _carousel = container.querySelectorAll('.stCorusel01')
           for (i = 0; i < _carousel.length; i++) new Carousel(_carousel[i])
-          var _item = container.querySelectorAll('.stBookItem'),
-            _bookShelf = container.querySelector('.stShelf02')
+          const _item = container.querySelectorAll('.stBookItem')
+          const _bookShelf = container.querySelector('.stShelf02')
           for (i = 0; i < _item.length; i++) new BookItem(_item[i])
           if (_bookShelf)
-            if (navigator.userAgent.indexOf('CriOS') >= 0)
+            if (navigator.userAgent.includes('CriOS'))
               for (
                 var imgLength = _bookShelf.querySelectorAll('img').length,
                   loadCount = 0,
@@ -7139,46 +7126,46 @@ var registStateManage = {
                 },
                 !1
               )
-          var _details = container.querySelectorAll('[class*=stProduct0]')
+          const _details = container.querySelectorAll('[class*=stProduct0]')
           for (i = 0; i < _details.length; i++) new BookJadge(_details[i])
-          var _forcebtn = container.querySelectorAll('.stBtn')
+          const _forcebtn = container.querySelectorAll('.stBtn')
           for (i = 0; i < _forcebtn.length; i++) new ForceBtn(_forcebtn[i])
-          var _booktreeCarousel = container.querySelectorAll(
+          const _booktreeCarousel = container.querySelectorAll(
             '.stBookTreeCarousel01'
           )
           for (i = 0; i < _booktreeCarousel.length; i++)
             new BookTreeCarousel(_booktreeCarousel[i])
-          var _booktreeCarousel2 = container.querySelectorAll(
+          const _booktreeCarousel2 = container.querySelectorAll(
             '.stBookTreeCarousel02'
           )
           for (i = 0; i < _booktreeCarousel2.length; i++)
             new BookTreeCarousel(_booktreeCarousel2[i])
-          var _booktreeCarousel3 = container.querySelectorAll(
+          const _booktreeCarousel3 = container.querySelectorAll(
             '.stBookTreeCarousel03'
           )
           for (i = 0; i < _booktreeCarousel3.length; i++)
             new BookTreeDetailCarousel(
               _booktreeCarousel3[i].querySelector('.stContents')
             )
-          var i = 0,
-            _lineClamp = document.querySelectorAll('.stLineClamp')
+          var i = 0
+          const _lineClamp = document.querySelectorAll('.stLineClamp')
           for (i = 0; i < _lineClamp.length; i++) new LineClamper(_lineClamp[i])
-          var _hdgSearch = document.querySelectorAll('.stHdgSearch')
+          const _hdgSearch = document.querySelectorAll('.stHdgSearch')
           for (i = 0; i < _hdgSearch.length; i++)
             new HdgSearch(_hdgSearch[i], !0)
         }),
         new Main()
     }),
       (window.onload = function() {
-        var i = 0,
-          _lineClamp = document.querySelectorAll('.stLineClamp')
+        let i = 0
+        const _lineClamp = document.querySelectorAll('.stLineClamp')
         for (i = 0; i < _lineClamp.length; i++) new LineClamper(_lineClamp[i])
       }),
       (module.exports = Main)
   },
   function(module, exports) {
     'use strict'
-    var _s = (function() {
+    const _s = (function() {
       function _s() {}
       return (
         (_s.addClass = function(_elem, _class) {
@@ -7211,7 +7198,7 @@ var registStateManage = {
   },
   function(module, exports) {
     'use strict'
-    var Statics = (function() {
+    const Statics = (function() {
       function Statics() {}
       return (
         (Statics.PREFIX = new Date().getTime()),
@@ -7228,7 +7215,7 @@ var registStateManage = {
   },
   function(module, exports) {
     'use strict'
-    var MouseEvent = (function() {
+    const MouseEvent = (function() {
       function MouseEvent() {}
       return (
         (MouseEvent.CLICK = 'click'),
@@ -7246,135 +7233,135 @@ var registStateManage = {
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var _s = __webpack_require__(1),
-      Event = __webpack_require__(5),
-      Ease = __webpack_require__(6),
-      UserAgent = __webpack_require__(7),
-      GlobalNavi = __webpack_require__(8),
-      CheckBox = __webpack_require__(9),
-      Header = (function() {
-        function Header(_node) {
-          var _this = this
-          ;(this._node = _node),
-            (this._isShow = !1),
-            (this._isPadding = !1),
-            (this.onResizeHD = function() {
-              document.body.clientWidth >= 1084 && !_this._isPadding
-                ? ((_this._isPadding = !0),
-                  _s.addClass(_this._header, 'stPadding'))
-                : document.body.clientWidth < 1084 &&
-                  _this._isPadding &&
-                  ((_this._isPadding = !1),
-                  _s.removeClass(_this._header, 'stPadding'))
-            }),
-            (this.fixMe = function() {
-              ;(_this._node.style.display = 'none'),
-                window.addEventListener(Event.SCROLL, _this.onScrollHD, !1)
-            }),
-            (this.onScrollHD = function() {
-              var _top =
-                (document.documentElement &&
-                  document.documentElement.scrollTop) ||
-                document.body.scrollTop
-              _top >= 220 ? _this.show() : _this.hide()
-            }),
-            (this.show = function() {
-              _this._isShow ||
-                ((_this._isShow = !0),
-                (_this._node.style.display = 'block'),
-                Velocity(_this._node, 'stop'),
-                Velocity(
-                  _this._node,
-                  { top: 0 },
-                  { duration: 500, delay: 0, easing: Ease.EaseOutCubic }
-                ))
-            }),
-            (this.hide = function() {
-              _this._isShow &&
-                ((_this._isShow = !1),
-                Velocity(_this._node, 'stop'),
-                Velocity(
-                  _this._node,
-                  { top: -90 },
-                  {
-                    duration: 500,
-                    delay: 0,
-                    easing: Ease.EaseOutCubic,
-                    complete: _this.hideComplete
-                  }
-                ))
-            }),
-            (this.hideComplete = function() {
-              _this._node.style.display = 'none'
-            }),
-            (this.jadgeCouponSize = function() {
-              var _target = _this._header.querySelector('li.stCart')
-              if (_target) {
-                var _length = 0,
-                  _num = _target.querySelectorAll('.stNum'),
-                  i = 0
-                for (i = 0; i < _num.length; i++)
-                  _length = Math.max(_length, _num[i].innerText.length)
-                _length > 2 && _s.addClass(_target, 'stMinify')
+    const _s = __webpack_require__(1)
+    const Event = __webpack_require__(5)
+    const Ease = __webpack_require__(6)
+    const UserAgent = __webpack_require__(7)
+    const GlobalNavi = __webpack_require__(8)
+    const CheckBox = __webpack_require__(9)
+    const Header = (function() {
+      function Header(_node) {
+        const _this = this
+        ;(this._node = _node),
+          (this._isShow = !1),
+          (this._isPadding = !1),
+          (this.onResizeHD = function() {
+            document.body.clientWidth >= 1084 && !_this._isPadding
+              ? ((_this._isPadding = !0),
+                _s.addClass(_this._header, 'stPadding'))
+              : document.body.clientWidth < 1084 &&
+                _this._isPadding &&
+                ((_this._isPadding = !1),
+                _s.removeClass(_this._header, 'stPadding'))
+          }),
+          (this.fixMe = function() {
+            ;(_this._node.style.display = 'none'),
+              window.addEventListener(Event.SCROLL, _this.onScrollHD, !1)
+          }),
+          (this.onScrollHD = function() {
+            const _top =
+              (document.documentElement &&
+                document.documentElement.scrollTop) ||
+              document.body.scrollTop
+            _top >= 220 ? _this.show() : _this.hide()
+          }),
+          (this.show = function() {
+            _this._isShow ||
+              ((_this._isShow = !0),
+              (_this._node.style.display = 'block'),
+              Velocity(_this._node, 'stop'),
+              Velocity(
+                _this._node,
+                { top: 0 },
+                { duration: 500, delay: 0, easing: Ease.EaseOutCubic }
+              ))
+          }),
+          (this.hide = function() {
+            _this._isShow &&
+              ((_this._isShow = !1),
+              Velocity(_this._node, 'stop'),
+              Velocity(
+                _this._node,
+                { top: -90 },
+                {
+                  duration: 500,
+                  delay: 0,
+                  easing: Ease.EaseOutCubic,
+                  complete: _this.hideComplete
+                }
+              ))
+          }),
+          (this.hideComplete = function() {
+            _this._node.style.display = 'none'
+          }),
+          (this.jadgeCouponSize = function() {
+            const _target = _this._header.querySelector('li.stCart')
+            if (_target) {
+              let _length = 0
+              const _num = _target.querySelectorAll('.stNum')
+              let i = 0
+              for (i = 0; i < _num.length; i++)
+                _length = Math.max(_length, _num[i].textContent.length)
+              _length > 2 && _s.addClass(_target, 'stMinify')
+            }
+          }),
+          (this.jadgeTextSize = function() {
+            const _target = _this._header.querySelector(
+              'p.stPoint > span.stNum'
+            )
+            if (_target) {
+              const _length = _target.textContent.length
+              _length > 5 &&
+                _s.addClass(
+                  _this._header.querySelector('p.stPoint'),
+                  'stMinify'
+                )
+            }
+          }),
+          (this.addGlobalNavigation = function() {
+            let i = 0
+            const _item = _this._header.querySelectorAll('.stHdNavItem')
+            if (_item.length)
+              for (i = 0; i < _item.length; i++) new GlobalNavi(_item[i])
+          }),
+          (this.addCheckBox = function() {
+            const _checkBox = _this._header.querySelector('.stFormCheck')
+            _checkBox && new CheckBox(_checkBox, _this._header)
+          }),
+          (this.removeIconHref = function() {
+            const header = document.getElementsByClassName('stHeader')[0]
+            if (header) {
+              const icons = [
+                header.getElementsByClassName('stInfo')[0],
+                header.getElementsByClassName('stMyMenu')[0]
+              ]
+              const removeChildHref = function(el) {
+                let a
+                el && (a = el.getElementsByTagName('a')[0]),
+                  a && a.removeAttribute('href')
               }
-            }),
-            (this.jadgeTextSize = function() {
-              var _target = _this._header.querySelector(
-                'p.stPoint > span.stNum'
-              )
-              if (_target) {
-                var _length = _target.innerText.length
-                _length > 5 &&
-                  _s.addClass(
-                    _this._header.querySelector('p.stPoint'),
-                    'stMinify'
-                  )
-              }
-            }),
-            (this.addGlobalNavigation = function() {
-              var i = 0,
-                _item = _this._header.querySelectorAll('.stHdNavItem')
-              if (_item.length)
-                for (i = 0; i < _item.length; i++) new GlobalNavi(_item[i])
-            }),
-            (this.addCheckBox = function() {
-              var _checkBox = _this._header.querySelector('.stFormCheck')
-              _checkBox && new CheckBox(_checkBox, _this._header)
-            }),
-            (this.removeIconHref = function() {
-              var header = document.getElementsByClassName('stHeader')[0]
-              if (header) {
-                var icons = [
-                    header.getElementsByClassName('stInfo')[0],
-                    header.getElementsByClassName('stMyMenu')[0]
-                  ],
-                  removeChildHref = function(el) {
-                    var a
-                    el && (a = el.getElementsByTagName('a')[0]),
-                      a && a.removeAttribute('href')
-                  }
-                icons.forEach(function(icon) {
-                  removeChildHref(icon)
-                })
-              }
-            }),
-            (this._header = this._node),
-            this.addGlobalNavigation(),
-            this.addCheckBox(),
-            UserAgent.isTablet && this.removeIconHref(),
-            this.jadgeTextSize(),
-            this.jadgeCouponSize(),
-            _s.hasClass(this._header, 'stFixed') && this.fixMe(),
-            window.addEventListener(Event.RESIZE, this.onResizeHD, !1),
-            this.onResizeHD()
-        }
-        return Header
-      })()
+              icons.forEach(function(icon) {
+                removeChildHref(icon)
+              })
+            }
+          }),
+          (this._header = this._node),
+          this.addGlobalNavigation(),
+          this.addCheckBox(),
+          UserAgent.isTablet && this.removeIconHref(),
+          this.jadgeTextSize(),
+          this.jadgeCouponSize(),
+          _s.hasClass(this._header, 'stFixed') && this.fixMe(),
+          window.addEventListener(Event.RESIZE, this.onResizeHD, !1),
+          this.onResizeHD()
+      }
+      return Header
+    })()
     module.exports = Header
   },
   function(module, exports) {
     'use strict'
-    var Event = (function() {
+    const Event = (function() {
       function Event(type) {
         ;(this.type = type), (this.data = {}), (this.defaultPrevented = !1)
       }
@@ -7400,7 +7387,7 @@ var registStateManage = {
   },
   function(module, exports) {
     'use strict'
-    var Ease
+    let Ease
     !(function(Ease_1) {
       ;(Ease_1.Linear = 'linear'),
         (Ease_1.Ease = 'ease'),
@@ -7433,42 +7420,42 @@ var registStateManage = {
   },
   function(module, exports) {
     'use strict'
-    var UserAgent = (function() {
+    const UserAgent = (function() {
       function UserAgent() {}
       return (
         Object.defineProperty(UserAgent, 'isIPad', {
-          get: function() {
-            var ua = navigator.userAgent.toLowerCase()
-            return ua.indexOf('ipad') > -1
+          get() {
+            const ua = navigator.userAgent.toLowerCase()
+            return ua.includes('ipad')
           },
           enumerable: !0,
           configurable: !0
         }),
         Object.defineProperty(UserAgent, 'isAndroid', {
-          get: function() {
-            var ua = navigator.userAgent.toLowerCase()
-            return ua.indexOf('android') > -1
+          get() {
+            const ua = navigator.userAgent.toLowerCase()
+            return ua.includes('android')
           },
           enumerable: !0,
           configurable: !0
         }),
         Object.defineProperty(UserAgent, 'isSP', {
-          get: function() {
-            var ua = navigator.userAgent.toLowerCase()
-            return ua.indexOf('mobile') > -1
+          get() {
+            const ua = navigator.userAgent.toLowerCase()
+            return ua.includes('mobile')
           },
           enumerable: !0,
           configurable: !0
         }),
         Object.defineProperty(UserAgent, 'isAndroidTablet', {
-          get: function() {
+          get() {
             return this.isAndroid && !this.isSP
           },
           enumerable: !0,
           configurable: !0
         }),
         Object.defineProperty(UserAgent, 'isTablet', {
-          get: function() {
+          get() {
             return this.isIPad || this.isAndroidTablet
           },
           enumerable: !0,
@@ -7481,41 +7468,41 @@ var registStateManage = {
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var UserAgent = __webpack_require__(7),
-      GlobalNavi = (function() {
-        function GlobalNavi(_node) {
-          var _this = this
-          return (
-            (this._node = _node),
-            (this.addElem = function() {
-              var anchor = _this._node.querySelector('a'),
-                href = anchor.getAttribute('href')
-              anchor.removeAttribute('href')
-              var a = document.createElement('a')
-              ;(a.innerHTML = anchor.querySelector('span').innerHTML),
-                a.setAttribute('href', href),
-                a.classList.add('header-sub-navigation__link')
-              var li = document.createElement('li')
-              li.appendChild(a)
-              var ul = _this._subNav.querySelector('ul'),
-                liElms = _this._subNav.querySelectorAll('li')
-              ul.insertBefore(li, liElms[0])
-            }),
-            (this._subNav = this._node.querySelector('.stHdSubNav')),
-            this._subNav
-              ? void (UserAgent.isTablet && this.addElem())
-              : void (this._node = void 0)
-          )
-        }
-        return GlobalNavi
-      })()
+    const UserAgent = __webpack_require__(7)
+    const GlobalNavi = (function() {
+      function GlobalNavi(_node) {
+        const _this = this
+        return (
+          (this._node = _node),
+          (this.addElem = function() {
+            const anchor = _this._node.querySelector('a')
+            const href = anchor.getAttribute('href')
+            anchor.removeAttribute('href')
+            const a = document.createElement('a')
+            ;(a.innerHTML = anchor.querySelector('span').innerHTML),
+              a.setAttribute('href', href),
+              a.classList.add('header-sub-navigation__link')
+            const li = document.createElement('li')
+            li.appendChild(a)
+            const ul = _this._subNav.querySelector('ul')
+            const liElms = _this._subNav.querySelectorAll('li')
+            ul.insertBefore(li, liElms[0])
+          }),
+          (this._subNav = this._node.querySelector('.stHdSubNav')),
+          this._subNav
+            ? void (UserAgent.isTablet && this.addElem())
+            : void (this._node = void 0)
+        )
+      }
+      return GlobalNavi
+    })()
     module.exports = GlobalNavi
   },
   function(module, exports) {
     'use strict'
-    var CheckBox = (function() {
+    const CheckBox = (function() {
       function CheckBox(_node, _header) {
-        var _this = this
+        const _this = this
         ;(this._node = _node),
           (this._checkState = [!0, !0]),
           (this.onChangeHD = function(e) {
@@ -7574,1342 +7561,1323 @@ var registStateManage = {
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var Event = __webpack_require__(5),
-      MouseEvent = __webpack_require__(3),
-      Cart = __webpack_require__(11),
-      SNS = __webpack_require__(12),
-      _s = __webpack_require__(1),
-      BookDetail = (function() {
-        function BookDetail(_node) {
-          var _this = this
-          ;(this._node = _node),
-            (this._currentIndex = 0),
-            (this._dw = 265),
-            (this._dh = 360),
-            (this.changePhoto = function(e) {
-              var _index = Array.prototype.indexOf.call(
-                _this._thumbnails,
-                e.currentTarget
-              )
-              if (_this._currentIndex !== _index) {
-                ;(_this._currentIndex = _index),
-                  (_this._photoArea.innerHTML = e.currentTarget.innerHTML)
-                var i = 0
-                for (i = 0; i < _this._thumbnails.length; i++)
-                  i === _index
-                    ? _s.addClass(_this._thumbnails[i], 'stCurrent')
-                    : _s.removeClass(_this._thumbnails[i], 'stCurrent')
-              }
-            }),
-            (this.onResizeHD = function() {
-              _this._node.offsetWidth >= 1388
-                ? _s.addClass(_this._node, 'stLong')
-                : _s.removeClass(_this._node, 'stLong')
-            }),
-            (this._photoArea = this._node.querySelector('.stCover'))
-          var i = 0,
-            _cart = this._node.querySelectorAll('.stCart01')
-          for (i = 0; i < _cart.length; i++) new Cart(_cart[i])
-          var _sns = this._node.querySelectorAll('.stSns01')
-          for (i = 0; i < _sns.length; i++) new SNS(_sns[i])
-          for (
-            this._thumbnails = this._node.querySelectorAll(
-              '.stCoverList01 > li'
-            ),
-              i = 0;
-            i < this._thumbnails.length;
-            i++
-          )
-            this._thumbnails[i].addEventListener(
-              MouseEvent.MOUSE_ENTER,
-              this.changePhoto,
-              !1
+    const Event = __webpack_require__(5)
+    const MouseEvent = __webpack_require__(3)
+    const Cart = __webpack_require__(11)
+    const SNS = __webpack_require__(12)
+    const _s = __webpack_require__(1)
+    const BookDetail = (function() {
+      function BookDetail(_node) {
+        const _this = this
+        ;(this._node = _node),
+          (this._currentIndex = 0),
+          (this._dw = 265),
+          (this._dh = 360),
+          (this.changePhoto = function(e) {
+            const _index = Array.prototype.indexOf.call(
+              _this._thumbnails,
+              e.currentTarget
             )
-          window.addEventListener(Event.RESIZE, this.onResizeHD, !1),
-            this.onResizeHD()
-        }
-        return BookDetail
-      })()
+            if (_this._currentIndex !== _index) {
+              ;(_this._currentIndex = _index),
+                (_this._photoArea.innerHTML = e.currentTarget.innerHTML)
+              let i = 0
+              for (i = 0; i < _this._thumbnails.length; i++)
+                i === _index
+                  ? _s.addClass(_this._thumbnails[i], 'stCurrent')
+                  : _s.removeClass(_this._thumbnails[i], 'stCurrent')
+            }
+          }),
+          (this.onResizeHD = function() {
+            _this._node.offsetWidth >= 1388
+              ? _s.addClass(_this._node, 'stLong')
+              : _s.removeClass(_this._node, 'stLong')
+          }),
+          (this._photoArea = this._node.querySelector('.stCover'))
+        let i = 0
+        const _cart = this._node.querySelectorAll('.stCart01')
+        for (i = 0; i < _cart.length; i++) new Cart(_cart[i])
+        const _sns = this._node.querySelectorAll('.stSns01')
+        for (i = 0; i < _sns.length; i++) new SNS(_sns[i])
+        for (
+          this._thumbnails = this._node.querySelectorAll('.stCoverList01 > li'),
+            i = 0;
+          i < this._thumbnails.length;
+          i++
+        )
+          this._thumbnails[i].addEventListener(
+            MouseEvent.MOUSE_ENTER,
+            this.changePhoto,
+            !1
+          )
+        window.addEventListener(Event.RESIZE, this.onResizeHD, !1),
+          this.onResizeHD()
+      }
+      return BookDetail
+    })()
     module.exports = BookDetail
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var _s = __webpack_require__(1),
-      MouseEvent = __webpack_require__(3),
-      Ease = __webpack_require__(6),
-      Cart = (function() {
-        function Cart(_node) {
-          var _this = this
-          ;(this._node = _node),
-            (this._currentChecked = 0),
-            (this._details = []),
-            (this._radios = []),
-            (this._headers = []),
-            (this.changeItem = function(e) {
-              _this._currentChecked = Array.prototype.indexOf.call(
-                _this._headers,
-                e.currentTarget
+    const _s = __webpack_require__(1)
+    const MouseEvent = __webpack_require__(3)
+    const Ease = __webpack_require__(6)
+    const Cart = (function() {
+      function Cart(_node) {
+        const _this = this
+        ;(this._node = _node),
+          (this._currentChecked = 0),
+          (this._details = []),
+          (this._radios = []),
+          (this._headers = []),
+          (this.changeItem = function(e) {
+            _this._currentChecked = Array.prototype.indexOf.call(
+              _this._headers,
+              e.currentTarget
+            )
+            let i = 0
+            for (i = 0; i < _this._details.length; i++)
+              i === _this._currentChecked ? _this.show(i) : _this.hide(i)
+          }),
+          (this.show = function(_num) {
+            const _target = _this._details[_num]
+            ;(_this._radios[_num].checked = !0),
+              _s.addClass(_this._headers[_num], 'stCurrent')
+            const _toHeight = _target.querySelector('.stBlockInner')
+              .offsetHeight
+            Velocity(_target, 'stop'),
+              Velocity(
+                _target,
+                { height: _toHeight },
+                { duration: 500, delay: 0, easing: Ease.EaseOutCubic }
               )
-              var i = 0
-              for (i = 0; i < _this._details.length; i++)
-                i === _this._currentChecked ? _this.show(i) : _this.hide(i)
-            }),
-            (this.show = function(_num) {
-              var _target = _this._details[_num]
-              ;(_this._radios[_num].checked = !0),
-                _s.addClass(_this._headers[_num], 'stCurrent')
-              var _toHeight = _target.querySelector('.stBlockInner')
-                .offsetHeight
+          }),
+          (this.hide = function(_num) {
+            const _target = _this._details[_num]
+            ;(_this._radios[_num].checked = !1),
+              _s.removeClass(_this._headers[_num], 'stCurrent'),
               Velocity(_target, 'stop'),
-                Velocity(
-                  _target,
-                  { height: _toHeight },
-                  { duration: 500, delay: 0, easing: Ease.EaseOutCubic }
-                )
-            }),
-            (this.hide = function(_num) {
-              var _target = _this._details[_num]
-              ;(_this._radios[_num].checked = !1),
-                _s.removeClass(_this._headers[_num], 'stCurrent'),
-                Velocity(_target, 'stop'),
-                Velocity(
-                  _target,
-                  { height: 0 },
-                  { duration: 500, delay: 0, easing: Ease.EaseOutCubic }
-                )
-            }),
-            (this._details = this._node.querySelectorAll('.stContents')),
-            (this._radios = this._node.querySelectorAll('input[type="radio"]')),
-            (this._headers = this._node.querySelectorAll('.stHeading'))
-          var i = 0,
-            _checkedItem = 0
-          for (i = 0; i < this._radios.length; i++)
-            this._headers[i].addEventListener(
-              MouseEvent.CLICK,
-              this.changeItem,
-              !1
-            ),
-              this._radios[i].checked &&
-                ((_checkedItem = i), _s.addClass(this._headers[i], 'stCurrent'))
-          this._details[_checkedItem].style.height = 'auto'
-        }
-        return Cart
-      })()
+              Velocity(
+                _target,
+                { height: 0 },
+                { duration: 500, delay: 0, easing: Ease.EaseOutCubic }
+              )
+          }),
+          (this._details = this._node.querySelectorAll('.stContents')),
+          (this._radios = this._node.querySelectorAll('input[type="radio"]')),
+          (this._headers = this._node.querySelectorAll('.stHeading'))
+        let i = 0
+        let _checkedItem = 0
+        for (i = 0; i < this._radios.length; i++)
+          this._headers[i].addEventListener(
+            MouseEvent.CLICK,
+            this.changeItem,
+            !1
+          ),
+            this._radios[i].checked &&
+              ((_checkedItem = i), _s.addClass(this._headers[i], 'stCurrent'))
+        this._details[_checkedItem].style.height = 'auto'
+      }
+      return Cart
+    })()
     module.exports = Cart
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var _s = __webpack_require__(1),
-      MouseEvent = __webpack_require__(3),
-      Ease = __webpack_require__(6),
-      SNS = (function() {
-        function SNS(_node) {
-          var _this = this
-          ;(this._node = _node),
-            (this._isOpen = !1),
-            (this._listOpenWidth = 0),
-            (this.toggleHD = function() {
-              ;(_this._isOpen = !_this._isOpen),
-                _this._isOpen ? _this.show() : _this.hide()
-            }),
-            (this.show = function() {
-              _s.addClass(_this._trigger, 'stCurrent'),
-                Velocity(_this._ul, 'stop'),
-                Velocity(_this._node, 'stop'),
-                Velocity(
-                  _this._ul,
-                  { width: _this._listOpenWidth },
-                  { duration: 100, delay: 0, easing: Ease.EaseOutCubic }
-                ),
-                Velocity(
-                  _this._node,
-                  { width: _this._listOpenWidth },
-                  { duration: 100, delay: 0, easing: Ease.EaseOutCubic }
-                )
-            }),
-            (this.hide = function() {
-              _s.removeClass(_this._trigger, 'stCurrent'),
-                Velocity(_this._ul, 'stop'),
-                Velocity(_this._node, 'stop'),
-                Velocity(
-                  _this._ul,
-                  { width: 112 },
-                  { duration: 100, delay: 0, easing: Ease.EaseOutCubic }
-                ),
-                Velocity(
-                  _this._node,
-                  { width: 112 },
-                  { duration: 100, delay: 0, easing: Ease.EaseOutCubic }
-                )
-            }),
-            (this.calcOpenListWidth = function(ul) {
-              var list = ul.querySelectorAll('li'),
-                listItem = list.item(0),
-                listWidth = listItem.clientWidth,
-                marginLeftValue = 0
-              list.length > 1 &&
-                (marginLeftValue = parseInt(
-                  window
-                    .getComputedStyle(list.item(1))
-                    .getPropertyValue('margin-left')
-                    .replace('px', '')
-                ))
-              var listOpenWidth = (listWidth + marginLeftValue) * list.length
-              return listOpenWidth
-            }),
-            (this._ul = this._node.querySelector('ul')),
-            (this._listOpenWidth = this.calcOpenListWidth(this._ul)),
-            (this._trigger = this._node.querySelector('.stPlus')),
-            this._trigger.addEventListener(MouseEvent.CLICK, this.toggleHD, !1)
-        }
-        return SNS
-      })()
+    const _s = __webpack_require__(1)
+    const MouseEvent = __webpack_require__(3)
+    const Ease = __webpack_require__(6)
+    const SNS = (function() {
+      function SNS(_node) {
+        const _this = this
+        ;(this._node = _node),
+          (this._isOpen = !1),
+          (this._listOpenWidth = 0),
+          (this.toggleHD = function() {
+            ;(_this._isOpen = !_this._isOpen),
+              _this._isOpen ? _this.show() : _this.hide()
+          }),
+          (this.show = function() {
+            _s.addClass(_this._trigger, 'stCurrent'),
+              Velocity(_this._ul, 'stop'),
+              Velocity(_this._node, 'stop'),
+              Velocity(
+                _this._ul,
+                { width: _this._listOpenWidth },
+                { duration: 100, delay: 0, easing: Ease.EaseOutCubic }
+              ),
+              Velocity(
+                _this._node,
+                { width: _this._listOpenWidth },
+                { duration: 100, delay: 0, easing: Ease.EaseOutCubic }
+              )
+          }),
+          (this.hide = function() {
+            _s.removeClass(_this._trigger, 'stCurrent'),
+              Velocity(_this._ul, 'stop'),
+              Velocity(_this._node, 'stop'),
+              Velocity(
+                _this._ul,
+                { width: 112 },
+                { duration: 100, delay: 0, easing: Ease.EaseOutCubic }
+              ),
+              Velocity(
+                _this._node,
+                { width: 112 },
+                { duration: 100, delay: 0, easing: Ease.EaseOutCubic }
+              )
+          }),
+          (this.calcOpenListWidth = function(ul) {
+            const list = ul.querySelectorAll('li')
+            const listItem = list.item(0)
+            const listWidth = listItem.clientWidth
+            let marginLeftValue = 0
+            list.length > 1 &&
+              (marginLeftValue = parseInt(
+                window
+                  .getComputedStyle(list.item(1))
+                  .getPropertyValue('margin-left')
+                  .replace('px', '')
+              ))
+            const listOpenWidth = (listWidth + marginLeftValue) * list.length
+            return listOpenWidth
+          }),
+          (this._ul = this._node.querySelector('ul')),
+          (this._listOpenWidth = this.calcOpenListWidth(this._ul)),
+          (this._trigger = this._node.querySelector('.stPlus')),
+          this._trigger.addEventListener(MouseEvent.CLICK, this.toggleHD, !1)
+      }
+      return SNS
+    })()
     module.exports = SNS
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var Statics = __webpack_require__(2),
-      _s = __webpack_require__(1),
-      MouseEvent = __webpack_require__(3),
-      Ease = __webpack_require__(6),
-      BookItem = (function() {
-        function BookItem(_node) {
-          var _this = this
-          ;(this._node = _node),
-            (this.CLICKHD = function(e) {
-              _s.hasClass(_this._btn, 'stCurrent')
-                ? _s.removeClass(_this._btn, 'stCurrent')
-                : _s.addClass(_this._btn, 'stCurrent'),
-                e.preventDefault()
-            }),
-            (this.overHD = function() {
-              Statics.HAS_TOUCH ||
-                (Velocity(_this._aTag, 'stop'),
-                Velocity(
-                  _this._aTag,
-                  { opacity: 1 },
-                  { duration: 300, delay: 0, easing: Ease.EaseOutCubic }
-                ),
-                Velocity(_this._btn, 'stop'),
-                Velocity(
-                  _this._btn,
-                  { right: 0, top: 0 },
-                  { duration: 300, delay: 0, easing: Ease.EaseOutCubic }
-                ))
-            }),
-            (this.outHD = function() {
-              Statics.HAS_TOUCH ||
-                (Velocity(_this._aTag, 'stop'),
-                Velocity(
-                  _this._aTag,
-                  { opacity: 0 },
-                  { duration: 300, delay: 300, easing: Ease.EaseOutCubic }
-                ),
-                Velocity(_this._btn, 'stop'),
-                Velocity(
-                  _this._btn,
-                  { right: -56, top: -56 },
-                  { duration: 300, delay: 300, easing: Ease.EaseOutCubic }
-                ))
-            }),
-            (this._aTag = this._node.getElementsByTagName('a')[0]),
-            (this._btn = this._aTag.getElementsByTagName('span')[0]),
-            this._btn &&
-              (Velocity.hook(this._btn, 'right', '-56px'),
-              Velocity.hook(this._btn, 'top', '-56px'),
-              this._btn.insertAdjacentHTML('afterbegin', '<span></span>'),
-              (this._hit = this._btn.getElementsByTagName('span')[0]),
-              this._node.addEventListener(
-                MouseEvent.MOUSE_ENTER,
-                this.overHD,
-                !1
+    const Statics = __webpack_require__(2)
+    const _s = __webpack_require__(1)
+    const MouseEvent = __webpack_require__(3)
+    const Ease = __webpack_require__(6)
+    const BookItem = (function() {
+      function BookItem(_node) {
+        const _this = this
+        ;(this._node = _node),
+          (this.CLICKHD = function(e) {
+            _s.hasClass(_this._btn, 'stCurrent')
+              ? _s.removeClass(_this._btn, 'stCurrent')
+              : _s.addClass(_this._btn, 'stCurrent'),
+              e.preventDefault()
+          }),
+          (this.overHD = function() {
+            Statics.HAS_TOUCH ||
+              (Velocity(_this._aTag, 'stop'),
+              Velocity(
+                _this._aTag,
+                { opacity: 1 },
+                { duration: 300, delay: 0, easing: Ease.EaseOutCubic }
               ),
-              this._node.addEventListener(
-                MouseEvent.MOUSE_LEAVE,
-                this.outHD,
-                !1
+              Velocity(_this._btn, 'stop'),
+              Velocity(
+                _this._btn,
+                { right: 0, top: 0 },
+                { duration: 300, delay: 0, easing: Ease.EaseOutCubic }
+              ))
+          }),
+          (this.outHD = function() {
+            Statics.HAS_TOUCH ||
+              (Velocity(_this._aTag, 'stop'),
+              Velocity(
+                _this._aTag,
+                { opacity: 0 },
+                { duration: 300, delay: 300, easing: Ease.EaseOutCubic }
               ),
-              this._hit.addEventListener(MouseEvent.CLICK, this.CLICKHD, !1))
-        }
-        return BookItem
-      })()
+              Velocity(_this._btn, 'stop'),
+              Velocity(
+                _this._btn,
+                { right: -56, top: -56 },
+                { duration: 300, delay: 300, easing: Ease.EaseOutCubic }
+              ))
+          }),
+          (this._aTag = this._node.getElementsByTagName('a')[0]),
+          (this._btn = this._aTag.getElementsByTagName('span')[0]),
+          this._btn &&
+            (Velocity.hook(this._btn, 'right', '-56px'),
+            Velocity.hook(this._btn, 'top', '-56px'),
+            this._btn.insertAdjacentHTML('afterbegin', '<span></span>'),
+            (this._hit = this._btn.getElementsByTagName('span')[0]),
+            this._node.addEventListener(
+              MouseEvent.MOUSE_ENTER,
+              this.overHD,
+              !1
+            ),
+            this._node.addEventListener(MouseEvent.MOUSE_LEAVE, this.outHD, !1),
+            this._hit.addEventListener(MouseEvent.CLICK, this.CLICKHD, !1))
+      }
+      return BookItem
+    })()
     module.exports = BookItem
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var Statics = __webpack_require__(2),
-      _s = __webpack_require__(1),
-      MouseEvent = __webpack_require__(3),
-      Ease = __webpack_require__(6),
-      Cookie = __webpack_require__(15),
-      Accordion = (function() {
-        function Accordion(_node) {
-          var _this = this
-          ;(this._node = _node),
-            (this._isOpen = !1),
-            (this._isBookLife = !1),
-            (this._isScrollTop = !0),
-            (this.toggleHD = function() {
-              ;(_this._isOpen = !_this._isOpen),
-                _this._isOpen ? _this.show() : _this.hide()
-            }),
-            (this.hideHD = function() {
-              ;(_this._isOpen = !1), _this.hide()
-            }),
-            (this.show = function() {
-              ;(Statics.ACCORDION = !0), Cookie.setCookie()
-              var _toHeight = _this._inner.offsetHeight
-              ;(_this._spd = (1e3 * _toHeight) / 1500),
-                _s.addClass(_this._trigger, 'stCurrent'),
-                Velocity(_this._wrapper, 'stop'),
-                Velocity(
-                  _this._wrapper,
-                  { height: _toHeight },
-                  { duration: _this._spd, delay: 0, easing: Ease.EaseOutCubic }
-                )
-            }),
-            (this.hide = function() {
-              ;(Statics.ACCORDION = !1),
-                Cookie.setCookie(),
-                _s.removeClass(_this._trigger, 'stCurrent'),
-                Velocity(_this._wrapper, 'stop'),
-                Velocity(
-                  _this._wrapper,
-                  { height: 0 },
-                  { duration: _this._spd, delay: 0, easing: Ease.EaseOutCubic }
-                ),
-                _this._isScrollTop &&
-                  Velocity(_this._node, 'scroll', {
-                    duration: _this._spd,
-                    delay: 0,
-                    easing: Ease.EaseOutCubic
-                  })
-            }),
-            (this._isBookLife =
-              this._node.getAttribute('class').indexOf('stAccordion01') >= 0),
-            (this._trigger = this._node.querySelector('.stTrigger')),
-            (this._wrapper = this._node.querySelector('.stAccordionView')),
-            'false' === this._trigger.getAttribute('data-scrollTop') &&
-              (this._isScrollTop = !1),
-            this._isBookLife &&
-              ((this._cookie = Cookie.getCookie()),
-              (this._isOpen = !this._cookie || this._cookie.accordion),
-              this._isOpen
-                ? (_s.addClass(this._trigger, 'stCurrent'),
-                  (this._wrapper.style.height = 'auto'))
-                : (_s.removeClass(this._trigger, 'stCurrent'),
-                  (this._wrapper.style.height = '0px'))),
-            (this._inner = this._node.querySelector('.stAccordionInner')),
-            (this._force_close = this._node.querySelector(
-              '.stAccordionClose01'
-            )),
-            this._isBookLife ||
-              ('true' === this._trigger.getAttribute('data-default') &&
-                ((this._isOpen = !0),
-                _s.addClass(this._trigger, 'stCurrent'),
-                (this._wrapper.style.height = 'auto'))),
-            this._trigger.addEventListener(MouseEvent.CLICK, this.toggleHD, !1),
-            this._force_close &&
-              this._force_close.addEventListener(
-                MouseEvent.CLICK,
-                this.hideHD,
-                !1
+    const Statics = __webpack_require__(2)
+    const _s = __webpack_require__(1)
+    const MouseEvent = __webpack_require__(3)
+    const Ease = __webpack_require__(6)
+    const Cookie = __webpack_require__(15)
+    const Accordion = (function() {
+      function Accordion(_node) {
+        const _this = this
+        ;(this._node = _node),
+          (this._isOpen = !1),
+          (this._isBookLife = !1),
+          (this._isScrollTop = !0),
+          (this.toggleHD = function() {
+            ;(_this._isOpen = !_this._isOpen),
+              _this._isOpen ? _this.show() : _this.hide()
+          }),
+          (this.hideHD = function() {
+            ;(_this._isOpen = !1), _this.hide()
+          }),
+          (this.show = function() {
+            ;(Statics.ACCORDION = !0), Cookie.setCookie()
+            const _toHeight = _this._inner.offsetHeight
+            ;(_this._spd = (1e3 * _toHeight) / 1500),
+              _s.addClass(_this._trigger, 'stCurrent'),
+              Velocity(_this._wrapper, 'stop'),
+              Velocity(
+                _this._wrapper,
+                { height: _toHeight },
+                { duration: _this._spd, delay: 0, easing: Ease.EaseOutCubic }
               )
-        }
-        return Accordion
-      })()
+          }),
+          (this.hide = function() {
+            ;(Statics.ACCORDION = !1),
+              Cookie.setCookie(),
+              _s.removeClass(_this._trigger, 'stCurrent'),
+              Velocity(_this._wrapper, 'stop'),
+              Velocity(
+                _this._wrapper,
+                { height: 0 },
+                { duration: _this._spd, delay: 0, easing: Ease.EaseOutCubic }
+              ),
+              _this._isScrollTop &&
+                Velocity(_this._node, 'scroll', {
+                  duration: _this._spd,
+                  delay: 0,
+                  easing: Ease.EaseOutCubic
+                })
+          }),
+          (this._isBookLife = this._node
+            .getAttribute('class')
+            .includes('stAccordion01')),
+          (this._trigger = this._node.querySelector('.stTrigger')),
+          (this._wrapper = this._node.querySelector('.stAccordionView')),
+          this._trigger.getAttribute('data-scrollTop') === 'false' &&
+            (this._isScrollTop = !1),
+          this._isBookLife &&
+            ((this._cookie = Cookie.getCookie()),
+            (this._isOpen = !this._cookie || this._cookie.accordion),
+            this._isOpen
+              ? (_s.addClass(this._trigger, 'stCurrent'),
+                (this._wrapper.style.height = 'auto'))
+              : (_s.removeClass(this._trigger, 'stCurrent'),
+                (this._wrapper.style.height = '0px'))),
+          (this._inner = this._node.querySelector('.stAccordionInner')),
+          (this._force_close = this._node.querySelector('.stAccordionClose01')),
+          this._isBookLife ||
+            (this._trigger.getAttribute('data-default') === 'true' &&
+              ((this._isOpen = !0),
+              _s.addClass(this._trigger, 'stCurrent'),
+              (this._wrapper.style.height = 'auto'))),
+          this._trigger.addEventListener(MouseEvent.CLICK, this.toggleHD, !1),
+          this._force_close &&
+            this._force_close.addEventListener(
+              MouseEvent.CLICK,
+              this.hideHD,
+              !1
+            )
+      }
+      return Accordion
+    })()
     module.exports = Accordion
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var Statics = __webpack_require__(2),
-      Cookie = (function() {
-        function Cookie() {}
-        return (
-          (Cookie.removeCookie = function(key) {
-            Cookies.remove(key)
-          }),
-          (Cookie.getCookie = function() {
-            var _path = '/'
-            location.href.indexOf('/ebook') >= 0 && (_path = 'ebook'),
-              location.href.indexOf('/netstore') >= 0 && (_path = 'netstore')
-            var _key = ''
-            switch (_path) {
-              case 'netstore':
-                _key = 'netstore'
-                break
-              case 'ebook':
-                _key = 'ebook'
-                break
-              default:
-                _key = 'home'
-            }
-            var _cookie = Cookies.getJSON('setting')
-            return (
-              (_cookie && _cookie[_key]) || Cookie.setCookie(),
-              (_cookie = Cookies.getJSON('setting')),
-              _cookie[_key]
-            )
-          }),
-          (Cookie.setCookie = function() {
-            var _path = '/'
-            location.href.indexOf('/ebook') >= 0 && (_path = 'ebook'),
-              location.href.indexOf('/netstore') >= 0 && (_path = 'netstore')
-            var _key = ''
-            switch (_path) {
-              case 'netstore':
-                _key = 'netstore'
-                break
-              case 'ebook':
-                _key = 'ebook'
-                break
-              default:
-                _key = 'home'
-            }
-            var _obj = {}
-            _obj[_key] = {
-              timeline: Statics.TIMELINE,
-              genrenavi: Statics.GENRENAVI,
-              accordion: Statics.ACCORDION
-            }
-            var _cookie = Cookies.getJSON('setting')
-            _cookie &&
-              ('home' != _key && _cookie.home && (_obj.home = _cookie.home),
-              'ebook' != _key && _cookie.ebook && (_obj.ebook = _cookie.ebook),
-              'netstore' != _key &&
-                _cookie.netstore &&
-                (_obj.netstore = _cookie.netstore)),
-              Cookies.set('setting', JSON.stringify(_obj), {
-                expires: 30,
-                path: '/'
-              })
-          }),
-          Cookie
-        )
-      })()
+    const Statics = __webpack_require__(2)
+    const Cookie = (function() {
+      function Cookie() {}
+      return (
+        (Cookie.removeCookie = function(key) {
+          Cookies.remove(key)
+        }),
+        (Cookie.getCookie = function() {
+          let _path = '/'
+          location.href.includes('/ebook') && (_path = 'ebook'),
+            location.href.includes('/netstore') && (_path = 'netstore')
+          let _key = ''
+          switch (_path) {
+            case 'netstore':
+              _key = 'netstore'
+              break
+            case 'ebook':
+              _key = 'ebook'
+              break
+            default:
+              _key = 'home'
+          }
+          let _cookie = Cookies.getJSON('setting')
+          return (
+            (_cookie && _cookie[_key]) || Cookie.setCookie(),
+            (_cookie = Cookies.getJSON('setting')),
+            _cookie[_key]
+          )
+        }),
+        (Cookie.setCookie = function() {
+          let _path = '/'
+          location.href.includes('/ebook') && (_path = 'ebook'),
+            location.href.includes('/netstore') && (_path = 'netstore')
+          let _key = ''
+          switch (_path) {
+            case 'netstore':
+              _key = 'netstore'
+              break
+            case 'ebook':
+              _key = 'ebook'
+              break
+            default:
+              _key = 'home'
+          }
+          const _obj = {}
+          _obj[_key] = {
+            timeline: Statics.TIMELINE,
+            genrenavi: Statics.GENRENAVI,
+            accordion: Statics.ACCORDION
+          }
+          const _cookie = Cookies.getJSON('setting')
+          _cookie &&
+            (_key != 'home' && _cookie.home && (_obj.home = _cookie.home),
+            _key != 'ebook' && _cookie.ebook && (_obj.ebook = _cookie.ebook),
+            _key != 'netstore' &&
+              _cookie.netstore &&
+              (_obj.netstore = _cookie.netstore)),
+            Cookies.set('setting', JSON.stringify(_obj), {
+              expires: 30,
+              path: '/'
+            })
+        }),
+        Cookie
+      )
+    })()
     module.exports = Cookie
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var _s = __webpack_require__(1),
-      ForceBtn = (function() {
-        function ForceBtn(_node) {
-          this._node = _node
-          var _node = this._node.parentNode
-          if (
-            ((_node.style.textDecoration = 'none'),
-            (_s.hasClass(this._node, 'stCart') ||
-              _s.hasClass(this._node, 'stSeriesZero') ||
-              _s.hasClass(this._node, 'stForceBtn')) &&
-              'A' === _node.tagName)
-          ) {
-            ;(_node.style.textDecoration = 'none'),
-              (_node.style.display = 'inline-block'),
-              (_node.style.verticalAlign = 'bottom'),
-              (_node.style.position = 'relative')
-            var _height = Math.max(this._node.offsetHeight, 52)
-            _node.style.height = _height + 'px'
-          }
+    const _s = __webpack_require__(1)
+    const ForceBtn = (function() {
+      function ForceBtn(_node) {
+        this._node = _node
+        var _node = this._node.parentNode
+        if (
+          ((_node.style.textDecoration = 'none'),
+          (_s.hasClass(this._node, 'stCart') ||
+            _s.hasClass(this._node, 'stSeriesZero') ||
+            _s.hasClass(this._node, 'stForceBtn')) &&
+            _node.tagName === 'A')
+        ) {
+          ;(_node.style.textDecoration = 'none'),
+            (_node.style.display = 'inline-block'),
+            (_node.style.verticalAlign = 'bottom'),
+            (_node.style.position = 'relative')
+          const _height = Math.max(this._node.offsetHeight, 52)
+          _node.style.height = _height + 'px'
         }
-        return ForceBtn
-      })()
+      }
+      return ForceBtn
+    })()
     module.exports = ForceBtn
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var CarouselEngine = __webpack_require__(18),
-      _s = __webpack_require__(1),
-      BookItem = __webpack_require__(13),
-      Carousel = (function() {
-        function Carousel(_target) {
-          var _this = this
-          ;(this._target = _target),
-            (this.loadHD = function() {
-              if (
-                ((_this._pageBlockID = _this._target
-                  .querySelector('.stLazyLoad')
-                  .getAttribute('pageBlockId')),
-                !_this._pageBlockID)
-              )
-                return void _this.setUpHD()
-              ;(_this._coruselParam = _this._target
+    const CarouselEngine = __webpack_require__(18)
+    const _s = __webpack_require__(1)
+    const BookItem = __webpack_require__(13)
+    const Carousel = (function() {
+      function Carousel(_target) {
+        const _this = this
+        ;(this._target = _target),
+          (this.loadHD = function() {
+            if (
+              ((_this._pageBlockID = _this._target
                 .querySelector('.stLazyLoad')
-                .getAttribute('coruselParam')),
-                (_this._coruselParam = _this._coruselParam
-                  ? _this._coruselParam.toQueryParams()
-                  : {})
-              var _self = _this,
-                i = 0
-              window.HC.Ajax.request(
-                _this._pageBlockID,
-                function(data) {
-                  var node = jQuery(_self._ul).html(data)
-                  window.HC.Ajax.onUpdateFunction(node),
-                    _self.setUpHD(),
-                    'undefined' != typeof window.CidSetting &&
-                      window.CidSetting.setCid(
-                        _self._pageBlockID,
-                        window.DY.device
-                      )
-                  var _item = _self._ul.querySelectorAll('.stBookItem')
-                  if (_item)
-                    for (i = 0; i < _item.length; i++) new BookItem(_item[i])
-                },
-                jQuery.extend(_this._coruselParam, {
-                  type: 'carousel',
-                  filteredItemNum: 0,
-                  startItemNum: 0,
-                  cashLength: 0
-                })
-              )
-            }),
-            (this.setUpHD = function() {
-              new CarouselEngine({
-                _node: _this._target,
-                auto: !1,
-                responsive: !0,
-                snap: !0
+                .getAttribute('pageBlockId')),
+              !_this._pageBlockID)
+            )
+              return void _this.setUpHD()
+            ;(_this._coruselParam = _this._target
+              .querySelector('.stLazyLoad')
+              .getAttribute('coruselParam')),
+              (_this._coruselParam = _this._coruselParam
+                ? _this._coruselParam.toQueryParams()
+                : {})
+            const _self = _this
+            let i = 0
+            window.HC.Ajax.request(
+              _this._pageBlockID,
+              function(data) {
+                const node = jQuery(_self._ul).html(data)
+                window.HC.Ajax.onUpdateFunction(node),
+                  _self.setUpHD(),
+                  typeof window.CidSetting !== 'undefined' &&
+                    window.CidSetting.setCid(
+                      _self._pageBlockID,
+                      window.DY.device
+                    )
+                const _item = _self._ul.querySelectorAll('.stBookItem')
+                if (_item)
+                  for (i = 0; i < _item.length; i++) new BookItem(_item[i])
+              },
+              jQuery.extend(_this._coruselParam, {
+                type: 'carousel',
+                filteredItemNum: 0,
+                startItemNum: 0,
+                cashLength: 0
               })
-            }),
-            (this._ul = this._target.querySelector('ul')),
-            (this._isLazyLoad = _s.hasClass(this._ul, 'stLazyLoad')),
-            this._isLazyLoad ? this.loadHD() : this.setUpHD()
-        }
-        return Carousel
-      })()
+            )
+          }),
+          (this.setUpHD = function() {
+            new CarouselEngine({
+              _node: _this._target,
+              auto: !1,
+              responsive: !0,
+              snap: !0
+            })
+          }),
+          (this._ul = this._target.querySelector('ul')),
+          (this._isLazyLoad = _s.hasClass(this._ul, 'stLazyLoad')),
+          this._isLazyLoad ? this.loadHD() : this.setUpHD()
+      }
+      return Carousel
+    })()
     module.exports = Carousel
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var __extends =
-        (this && this.__extends) ||
-        function(d, b) {
-          function __() {
-            this.constructor = d
-          }
-          for (var p in b) b.hasOwnProperty(p) && (d[p] = b[p])
-          d.prototype =
-            null === b
-              ? Object.create(b)
-              : ((__.prototype = b.prototype), new __())
-        },
-      Statics = __webpack_require__(2),
-      EventDispatcher = __webpack_require__(19),
-      Event = __webpack_require__(5),
-      MouseEvent = __webpack_require__(3),
-      Ease = __webpack_require__(6),
-      _d = __webpack_require__(1),
-      CarouselEngine = (function(_super) {
-        function CarouselEngine(_options) {
-          var _this = this
-          if (
-            (void 0 === _options && (_options = null),
-            _super.call(this),
-            (this._options = _options),
-            (this._indicatorNodes = []),
-            (this._hasNavigation = !1),
-            (this._hasIndicator = !1),
-            (this._isPause = !1),
-            (this._isAutoSlide = !1),
-            (this._isSerialMove = !0),
-            (this._isAnimate = !1),
-            (this._isLoop = !1),
-            (this._isSnap = !1),
-            (this._autoTime = 8e3),
-            (this._startTime = 0),
-            (this._endTime = 0),
-            (this._offsetX = 0),
-            (this._velocityX = 0),
-            (this._currentX = 0),
-            (this._needsW = 0),
-            (this._slideSpan = 0),
-            (this._padding = 0),
-            (this._maxSlide = 0),
-            (this._prevSlide = 0),
-            (this._currentSlide = 0),
-            (this._startTouch = 0),
-            (this._currentTouch = 0),
-            (this._prevTouch = 0),
-            (this._endTouch = 0),
-            (this._captureCount = 0),
-            (this._captureX = 0),
-            (this._captureY = 0),
-            (this._responsive = 0),
-            (this._hasInfo = !1),
-            (this._hasItems = !1),
-            (this._isPrev = !1),
-            (this.setup = function() {
-              if (
-                (_this._needsW ||
-                  (_this._needsW = _this._slideSpan * _this._maxSlide),
-                (_this._slideList.style.width = _this._needsW + 'px'),
-                _this._isLoop && _this.setUpLoop(),
-                'touchstart' === MouseEvent.MOUSE_DOWN &&
-                  _this._slideList.addEventListener(
-                    MouseEvent.MOUSE_DOWN,
-                    _this.startFlick
+    const __extends =
+      (this && this.__extends) ||
+      function(d, b) {
+        function __() {
+          this.constructor = d
+        }
+        for (const p in b) b.hasOwnProperty(p) && (d[p] = b[p])
+        d.prototype =
+          b === null
+            ? Object.create(b)
+            : ((__.prototype = b.prototype), new __())
+      }
+    const Statics = __webpack_require__(2)
+    const EventDispatcher = __webpack_require__(19)
+    const Event = __webpack_require__(5)
+    const MouseEvent = __webpack_require__(3)
+    const Ease = __webpack_require__(6)
+    const _d = __webpack_require__(1)
+    const CarouselEngine = (function(_super) {
+      function CarouselEngine(_options) {
+        const _this = this
+        if (
+          (void 0 === _options && (_options = null),
+          _super.call(this),
+          (this._options = _options),
+          (this._indicatorNodes = []),
+          (this._hasNavigation = !1),
+          (this._hasIndicator = !1),
+          (this._isPause = !1),
+          (this._isAutoSlide = !1),
+          (this._isSerialMove = !0),
+          (this._isAnimate = !1),
+          (this._isLoop = !1),
+          (this._isSnap = !1),
+          (this._autoTime = 8e3),
+          (this._startTime = 0),
+          (this._endTime = 0),
+          (this._offsetX = 0),
+          (this._velocityX = 0),
+          (this._currentX = 0),
+          (this._needsW = 0),
+          (this._slideSpan = 0),
+          (this._padding = 0),
+          (this._maxSlide = 0),
+          (this._prevSlide = 0),
+          (this._currentSlide = 0),
+          (this._startTouch = 0),
+          (this._currentTouch = 0),
+          (this._prevTouch = 0),
+          (this._endTouch = 0),
+          (this._captureCount = 0),
+          (this._captureX = 0),
+          (this._captureY = 0),
+          (this._responsive = 0),
+          (this._hasInfo = !1),
+          (this._hasItems = !1),
+          (this._isPrev = !1),
+          (this.setup = function() {
+            if (
+              (_this._needsW ||
+                (_this._needsW = _this._slideSpan * _this._maxSlide),
+              (_this._slideList.style.width = _this._needsW + 'px'),
+              _this._isLoop && _this.setUpLoop(),
+              MouseEvent.MOUSE_DOWN === 'touchstart' &&
+                _this._slideList.addEventListener(
+                  MouseEvent.MOUSE_DOWN,
+                  _this.startFlick
+                ),
+              _this.onSlideChange(),
+              _this.setSlidePosition(),
+              Velocity(_this._slideView, 'stop'),
+              _this._navigation &&
+                ((_this._hasNavigation = !0),
+                (_this._btnPrev = _this._node.querySelector('.stPrev')),
+                (_this._btnNext = _this._node.querySelector('.stNext')),
+                (_this._btnPause = _this._node.querySelector('.btn_pause')),
+                _this._btnPause &&
+                  _this._btnPause.addEventListener(
+                    MouseEvent.CLICK,
+                    _this.pauseHD
+                  ),
+                _this._btnPrev &&
+                  _this._btnPrev.addEventListener(
+                    MouseEvent.CLICK,
+                    _this.prevHD
+                  ),
+                _this._btnNext &&
+                  _this._btnNext.addEventListener(
+                    MouseEvent.CLICK,
+                    _this.nextHD
                   ),
                 _this.onSlideChange(),
-                _this.setSlidePosition(),
-                Velocity(_this._slideView, 'stop'),
-                _this._navigation &&
-                  ((_this._hasNavigation = !0),
-                  (_this._btnPrev = _this._node.querySelector('.stPrev')),
-                  (_this._btnNext = _this._node.querySelector('.stNext')),
-                  (_this._btnPause = _this._node.querySelector('.btn_pause')),
-                  _this._btnPause &&
-                    _this._btnPause.addEventListener(
-                      MouseEvent.CLICK,
-                      _this.pauseHD
-                    ),
-                  _this._btnPrev &&
-                    _this._btnPrev.addEventListener(
-                      MouseEvent.CLICK,
-                      _this.prevHD
-                    ),
-                  _this._btnNext &&
-                    _this._btnNext.addEventListener(
-                      MouseEvent.CLICK,
-                      _this.nextHD
-                    ),
-                  _this.onSlideChange(),
-                  _this._indicator))
-              ) {
-                _this._hasIndicator = !0
-                var i = 0,
-                  _html = ''
-                for (i = 0; i < _this._maxSlide; i++)
-                  _html += 0 === i ? '<li class="active"></li>' : '<li></li>'
-                for (
-                  _this._indicator.innerHTML = _html,
-                    _this._indicatorNodes = _this._indicator.querySelectorAll(
-                      'li'
-                    ),
-                    i = 0;
-                  i < _this._indicatorNodes.length;
-                  i++
+                _this._indicator))
+            ) {
+              _this._hasIndicator = !0
+              let i = 0
+              let _html = ''
+              for (i = 0; i < _this._maxSlide; i++)
+                _html += i === 0 ? '<li class="active"></li>' : '<li></li>'
+              for (
+                _this._indicator.innerHTML = _html,
+                  _this._indicatorNodes = _this._indicator.querySelectorAll(
+                    'li'
+                  ),
+                  i = 0;
+                i < _this._indicatorNodes.length;
+                i++
+              )
+                _this._indicatorNodes[i].addEventListener(
+                  MouseEvent.CLICK,
+                  _this.directChange
                 )
-                  _this._indicatorNodes[i].addEventListener(
-                    MouseEvent.CLICK,
-                    _this.directChange
-                  )
-                _this.onSlideChange()
-              }
-            }),
-            (this.directChange = function(e) {
-              _this._isAnimate ||
-                (_this._slideTimer && window.cancelAnimFrame(_this._slideTimer),
+              _this.onSlideChange()
+            }
+          }),
+          (this.directChange = function(e) {
+            _this._isAnimate ||
+              (_this._slideTimer && window.cancelAnimFrame(_this._slideTimer),
+              _this._autoTimer && clearInterval(_this._autoTimer),
+              Velocity(_this._slideList, 'stop'),
+              (_this._slideTimer = window.requestAnimFrame(
+                _this.onSlideChange
+              )))
+          }),
+          (this.pauseHD = function() {
+            ;(_this._isPause = !_this._isPause),
+              _this._isPause
+                ? _this._btnPause.addClass('active')
+                : _this._btnPause.removeClass('active')
+          }),
+          (this.prevHD = function(e) {
+            return _this._isAnimate
+              ? void e.preventDefault()
+              : _d.hasClass(e.currentTarget, 'stDisabled')
+              ? void e.preventDefault()
+              : ((_this._isAnimate = !0),
+                _this._slideTimer && window.cancelAnimFrame(_this._slideTimer),
                 _this._autoTimer && clearInterval(_this._autoTimer),
                 Velocity(_this._slideList, 'stop'),
+                (_this._prevSlide = _this._currentSlide),
+                _this._currentSlide--,
+                (_this._isPrev = !0),
+                _this._isLoop &&
+                  _this._currentSlide < 0 &&
+                  !_this._hasItems &&
+                  ((_this._currentSlide = _this._maxSlide - 1),
+                  (_this._currentX -= _this._needsW),
+                  _this.setSlidePosition()),
                 (_this._slideTimer = window.requestAnimFrame(
                   _this.onSlideChange
-                )))
-            }),
-            (this.pauseHD = function() {
-              ;(_this._isPause = !_this._isPause),
-                _this._isPause
-                  ? _this._btnPause.addClass('active')
-                  : _this._btnPause.removeClass('active')
-            }),
-            (this.prevHD = function(e) {
-              return _this._isAnimate
-                ? void e.preventDefault()
-                : _d.hasClass(e.currentTarget, 'stDisabled')
-                ? void e.preventDefault()
-                : ((_this._isAnimate = !0),
-                  _this._slideTimer &&
-                    window.cancelAnimFrame(_this._slideTimer),
-                  _this._autoTimer && clearInterval(_this._autoTimer),
-                  Velocity(_this._slideList, 'stop'),
-                  (_this._prevSlide = _this._currentSlide),
-                  _this._currentSlide--,
-                  (_this._isPrev = !0),
-                  _this._isLoop &&
-                    _this._currentSlide < 0 &&
-                    !_this._hasItems &&
-                    ((_this._currentSlide = _this._maxSlide - 1),
-                    (_this._currentX -= _this._needsW),
-                    _this.setSlidePosition()),
-                  (_this._slideTimer = window.requestAnimFrame(
-                    _this.onSlideChange
-                  )),
-                  void e.preventDefault())
-            }),
-            (this.nextHD = function(e) {
-              return _this._isAnimate
-                ? void e.preventDefault()
-                : _d.hasClass(e.currentTarget, 'stDisabled')
-                ? void e.preventDefault()
-                : ((_this._isAnimate = !0),
-                  _this._slideTimer &&
-                    window.cancelAnimFrame(_this._slideTimer),
-                  _this._autoTimer && clearInterval(_this._autoTimer),
-                  Velocity(_this._slideList, 'stop'),
-                  (_this._prevSlide = _this._currentSlide),
-                  _this._currentSlide++,
-                  (_this._isPrev = !1),
-                  _this._isLoop &&
-                    _this._currentSlide >= _this._maxSlide &&
-                    !_this._hasItems &&
-                    ((_this._currentSlide = 0),
-                    (_this._currentX = -_this._needsW + _this._slideSpan),
-                    _this.setSlidePosition()),
-                  (_this._slideTimer = window.requestAnimFrame(
-                    _this.onSlideChange
-                  )),
-                  void e.preventDefault())
-            }),
-            (this.prepResize = function() {
-              _this._resizeTimer && clearTimeout(_this._resizeTimer),
-                (_this._resizeTimer = setTimeout(_this.onResizeHD, 400))
-            }),
-            (this.onResizeHD = function() {
-              var i = 0
-              if (_this._responsive) {
-                var _width = _this._node.offsetWidth,
-                  _ItemPerSlide = Math.floor(_width / 133)
-                _ItemPerSlide = Math.min(10, _ItemPerSlide)
-                var _margin = Math.floor(
-                  (_width - 133 * _ItemPerSlide) / (_ItemPerSlide - 1)
-                )
-                for (
-                  _margin < 10 &&
-                    (_ItemPerSlide--,
-                    (_margin = Math.floor(
-                      (_width - 133 * _ItemPerSlide) / (_ItemPerSlide - 1)
-                    ))),
-                    _this._needsW =
-                      (133 + _margin) * _this._slides.length - _margin,
-                    _this._slideList.style.width = _this._needsW + 'px',
-                    _this._slideSpan = (133 + _margin) * _ItemPerSlide,
-                    i = 0;
-                  i < _this._slides.length;
-                  i++
-                )
-                  i < _this._slides.length &&
-                    (_this._slides[i].style.marginRight = _margin + 'px')
-                _this._maxSlide = Math.floor(_this._needsW / _this._slideSpan)
-              } else
-                (_this._slideSpan = window.innerWidth - _this._padding),
-                  (_this._needsW = _this._slideSpan * _this._maxSlide)
-              _this._isLoop
-                ? ((_this._needsW = _this._slideSpan * _this._maxSlide),
-                  (_this._slideList.style.width = 3 * _this._needsW + 'px'),
-                  (_this._offsetX = -_this._needsW))
-                : (_this._slideList.style.width = _this._needsW + 'px'),
-                _this.setSlidePosition(),
-                _this.onSlideChange()
-            }),
-            (this.setUpLoop = function() {
-              ;(_this._offsetX = -_this._needsW),
-                (_this._currentX = _this._offsetX),
-                Statics.HAS_CSS &&
-                  (_this._slideList.style.transform = 'translate(0px 0px)')
-              var _dummy = _this._slideList.innerHTML
-              ;(_this._slideList.innerHTML += _dummy),
-                (_this._slideList.innerHTML += _dummy),
-                (_this._slides = _this._slideList.querySelectorAll('li')),
-                (_this._slideList.style.width = 3 * _this._needsW + 'px'),
-                _this.setSlidePosition()
-            }),
-            (this.resize = function(_slideSpan) {
-              ;(_this._slideSpan = _slideSpan),
-                (_this._needsW = (_this._slideSpan * _this._slides.length) / 3),
-                (_this._slideList.style.width = 3 * _this._needsW + 'px'),
-                (_this._offsetX = -_this._needsW),
-                (_this._currentX =
-                  _this._offsetX - _this._currentSlide * _this._slideSpan)
-              var i = 0
-              for (i = 0; i < _this._slides.length; i++)
-                _this._slides[i].style.width = _this._slideSpan + 'px'
-              ;(_this._isAnimate = !1), _this.setSlidePosition()
-            }),
-            (this.startFlick = function(e) {
-              _this._slideTimer && window.cancelAnimFrame(_this._slideTimer),
+                )),
+                void e.preventDefault())
+          }),
+          (this.nextHD = function(e) {
+            return _this._isAnimate
+              ? void e.preventDefault()
+              : _d.hasClass(e.currentTarget, 'stDisabled')
+              ? void e.preventDefault()
+              : ((_this._isAnimate = !0),
+                _this._slideTimer && window.cancelAnimFrame(_this._slideTimer),
                 _this._autoTimer && clearInterval(_this._autoTimer),
                 Velocity(_this._slideList, 'stop'),
-                (_this._startTime = new Date().getTime()),
-                (_this._startTouch =
-                  'touchstart' === MouseEvent.MOUSE_DOWN
-                    ? e.touches[0].clientX
-                    : e.pageX),
-                (_this._captureCount = 0),
-                (_this._captureX =
-                  'touchstart' === MouseEvent.MOUSE_DOWN
-                    ? e.touches[0].clientX
-                    : e.pageX),
-                (_this._captureY =
-                  'touchstart' === MouseEvent.MOUSE_DOWN
-                    ? e.touches[0].clientY
-                    : e.pageY),
-                _this.dispatcher.addEventListener(
-                  MouseEvent.MOUSE_MOVE,
-                  _this.captureDirection
-                )
-            }),
-            (this.captureDirection = function(e) {
-              if ((_this._captureCount++, _this._captureCount > 5)) {
-                _this.dispatcher.removeEventListener(
-                  MouseEvent.MOUSE_MOVE,
-                  _this.captureDirection
-                )
-                var _captureEndX =
-                    'touchstart' === MouseEvent.MOUSE_DOWN
-                      ? e.touches[0].clientX
-                      : e.pageX,
-                  _captureEndY =
-                    'touchstart' === MouseEvent.MOUSE_DOWN
-                      ? e.touches[0].clientY
-                      : e.pageY,
-                  _jadgeX = Math.abs(_captureEndX - _this._captureX),
-                  _jadgeY = Math.abs(_captureEndY - _this._captureY)
-                _jadgeX > _jadgeY
-                  ? ((_this._startTime = new Date().getTime()),
-                    (_this._startTouch =
-                      'touchstart' === MouseEvent.MOUSE_DOWN
-                        ? e.touches[0].clientX
-                        : e.pageX),
-                    (_this._currentTouch = _this._startTouch),
-                    (_this._prevTouch = _this._startTouch),
-                    _this.dispatcher.addEventListener(
-                      MouseEvent.MOUSE_UP,
-                      _this.stopFlick
-                    ),
-                    _this.dispatcher.addEventListener(
-                      MouseEvent.MOUSE_MOVE,
-                      _this.flicking
-                    ))
-                  : _this._isAutoSlide &&
-                    (_this._autoTimer = setInterval(
-                      _this.autoSlide,
-                      _this._autoTime
-                    ))
-              }
-            }),
-            (this.flicking = function(e) {
-              _this._autoTimer && clearInterval(_this._autoTimer),
-                (_this._prevTouch = _this._currentTouch),
-                (_this._currentTouch =
-                  'touchmove' === MouseEvent.MOUSE_MOVE
-                    ? e.touches[0].clientX
-                    : e.pageX)
-              var _diff = _this._prevTouch - _this._currentTouch
-              ;(_this._currentX -= _diff),
-                _this._isLoop ? _this.jadgeLoop() : _this.setSlideMax(),
-                _this.setSlidePosition()
-            }),
-            (this.stopFlick = function(e) {
-              if (
-                (_this.dispatcher.removeEventListener(
-                  MouseEvent.MOUSE_UP,
-                  _this.stopFlick
-                ),
-                _this.dispatcher.removeEventListener(
-                  MouseEvent.MOUSE_MOVE,
-                  _this.flicking
-                ),
-                (_this._endTime = new Date().getTime()),
-                (_this._endTouch =
-                  'touchend' === MouseEvent.MOUSE_UP
-                    ? e.changedTouches[0].clientX
-                    : e.pageX),
-                _this._isSnap)
-              )
-                _this._isLoop && _this.jadgeLoop(),
-                  _this._endTouch > _this._startTouch &&
-                    ((_this._prevSlide = _this._currentSlide),
-                    _this._currentSlide--,
-                    (_this._isPrev = !0),
-                    _this._isLoop
-                      ? _this._currentSlide < 0 &&
-                        ((_this._currentSlide = _this._maxSlide - 1),
-                        (_this._currentX -= _this._needsW),
-                        _this.setSlidePosition())
-                      : (_this._currentSlide = Math.max(
-                          0,
-                          _this._currentSlide
-                        ))),
-                  _this._endTouch < _this._startTouch &&
-                    ((_this._prevSlide = _this._currentSlide),
-                    _this._currentSlide++,
-                    (_this._isPrev = !1),
-                    _this._isLoop
-                      ? _this._currentSlide >= _this._maxSlide &&
-                        ((_this._currentSlide = 0),
-                        (_this._currentX += _this._needsW),
-                        _this.setSlidePosition())
-                      : (_this._currentSlide = Math.min(
-                          _this._maxSlide,
-                          _this._currentSlide
-                        ))),
-                  (_this._slideTimer = window.requestAnimFrame(
-                    _this.onSlideChange
-                  )),
-                  _this._isAutoSlide &&
-                    (_this._autoTimer = setInterval(
-                      _this.autoSlide,
-                      _this._autoTime
-                    ))
-              else {
-                var _moveRatio = 1 - (_this._endTime - _this._startTime) / 200
-                ;(_moveRatio = Math.max(0, _moveRatio)),
-                  (_this._velocityX =
-                    (_this._endTouch - _this._startTouch) * _moveRatio),
-                  (_this._slideTimer = window.requestAnimFrame(_this.accelHD))
-              }
-            }),
-            (this.accelHD = function() {
-              ;(_this._velocityX *= 0.9),
-                (_this._currentX += _this._velocityX),
-                _this._isLoop ? _this.jadgeLoop() : _this.setSlideMax(),
-                (_this._currentSlide = _this.getCurrentSlide()),
-                _this._hasNavigation && _this.setNavigation(),
-                _this.setSlidePosition(),
-                Math.abs(_this._velocityX) < 0.5
-                  ? _this._isAutoSlide &&
-                    (_this._autoTimer = setInterval(
-                      _this.autoSlide,
-                      _this._autoTime
-                    ))
-                  : (_this._slideTimer = window.requestAnimFrame(_this.accelHD))
-            }),
-            (this.setSlideMax = function() {
-              ;(_this._currentX = Math.min(0, _this._currentX)),
-                (_this._currentX = Math.max(
-                  _this._slideView.offsetWidth - _this._needsW,
-                  _this._currentX
-                ))
-            }),
-            (this.autoSlide = function() {
-              _this._isPause ||
-                (_this._currentSlide++,
-                _this._currentSlide >= _this._maxSlide &&
+                (_this._prevSlide = _this._currentSlide),
+                _this._currentSlide++,
+                (_this._isPrev = !1),
+                _this._isLoop &&
+                  _this._currentSlide >= _this._maxSlide &&
+                  !_this._hasItems &&
                   ((_this._currentSlide = 0),
                   (_this._currentX = -_this._needsW + _this._slideSpan),
                   _this.setSlidePosition()),
                 (_this._slideTimer = window.requestAnimFrame(
                   _this.onSlideChange
-                )))
-            }),
-            (this.onSlideChange = function() {
-              _this._isAnimate = !0
-              var i = 0,
-                _gotoX = _this._offsetX - _this._slideSpan * _this._currentSlide
-              if (
-                (_this._isLoop ||
-                  ((_gotoX = Math.max(
-                    _this._slideView.offsetWidth - _this._needsW,
-                    _gotoX
-                  )),
-                  (_gotoX = Math.min(0, _gotoX))),
-                !_this._isLoop)
+                )),
+                void e.preventDefault())
+          }),
+          (this.prepResize = function() {
+            _this._resizeTimer && clearTimeout(_this._resizeTimer),
+              (_this._resizeTimer = setTimeout(_this.onResizeHD, 400))
+          }),
+          (this.onResizeHD = function() {
+            let i = 0
+            if (_this._responsive) {
+              const _width = _this._node.offsetWidth
+              let _ItemPerSlide = Math.floor(_width / 133)
+              _ItemPerSlide = Math.min(10, _ItemPerSlide)
+              let _margin = Math.floor(
+                (_width - 133 * _ItemPerSlide) / (_ItemPerSlide - 1)
               )
-                try {
-                  _this._currentSlide === _this._maxSlide
-                    ? _d.addClass(_this._btnNext, 'stDisabled')
-                    : _d.removeClass(_this._btnNext, 'stDisabled'),
-                    0 === _this._currentSlide
-                      ? _d.addClass(_this._btnPrev, 'stDisabled')
-                      : _d.removeClass(_this._btnPrev, 'stDisabled')
-                } catch (e) {}
-              if (_this._isLoop && _this._hasItems) {
-                var _gotoX = 0
-                ;(_gotoX = _this._isPrev
-                  ? Number(_this._currentX) + _this._slideSpan
-                  : _this._currentX - _this._slideSpan),
-                  _this._prevSlide === _this._currentSlide &&
-                    (_gotoX = _this._currentX),
-                  _gotoX > _this._offsetX &&
-                    ((_this._currentX -= _this._needsW),
-                    (_gotoX -= _this._needsW),
-                    _this.setSlidePosition()),
-                  _gotoX < _this._offsetX - _this._needsW &&
-                    ((_this._currentX =
-                      Number(_this._currentX) + Number(_this._needsW)),
-                    (_gotoX += Number(_this._needsW)),
-                    _this.setSlidePosition())
-              }
-              if (
-                (Velocity(_this._slideList, 'stop'),
-                Statics.HAS_CSS
-                  ? Velocity(
-                      _this._slideList,
-                      { translateX: _gotoX },
-                      {
-                        duration: 800,
-                        delay: 0,
-                        easing: Ease.EaseInOutCubic,
-                        progress: _this.onVelocityProgress,
-                        complete: _this.slideComplete
-                      }
-                    )
-                  : Velocity(
-                      _this._slideList,
-                      { 'margin-left': _gotoX },
-                      {
-                        duration: 800,
-                        delay: 0,
-                        easing: Ease.EaseInOutCubic,
-                        progress: _this.onVelocityProgress,
-                        complete: _this.slideComplete
-                      }
-                    ),
-                _this._isAutoSlide &&
-                  (clearInterval(_this._autoTimer),
+              for (
+                _margin < 10 &&
+                  (_ItemPerSlide--,
+                  (_margin = Math.floor(
+                    (_width - 133 * _ItemPerSlide) / (_ItemPerSlide - 1)
+                  ))),
+                  _this._needsW =
+                    (133 + _margin) * _this._slides.length - _margin,
+                  _this._slideList.style.width = _this._needsW + 'px',
+                  _this._slideSpan = (133 + _margin) * _ItemPerSlide,
+                  i = 0;
+                i < _this._slides.length;
+                i++
+              )
+                i < _this._slides.length &&
+                  (_this._slides[i].style.marginRight = _margin + 'px')
+              _this._maxSlide = Math.floor(_this._needsW / _this._slideSpan)
+            } else
+              (_this._slideSpan = window.innerWidth - _this._padding),
+                (_this._needsW = _this._slideSpan * _this._maxSlide)
+            _this._isLoop
+              ? ((_this._needsW = _this._slideSpan * _this._maxSlide),
+                (_this._slideList.style.width = 3 * _this._needsW + 'px'),
+                (_this._offsetX = -_this._needsW))
+              : (_this._slideList.style.width = _this._needsW + 'px'),
+              _this.setSlidePosition(),
+              _this.onSlideChange()
+          }),
+          (this.setUpLoop = function() {
+            ;(_this._offsetX = -_this._needsW),
+              (_this._currentX = _this._offsetX),
+              Statics.HAS_CSS &&
+                (_this._slideList.style.transform = 'translate(0px 0px)')
+            const _dummy = _this._slideList.innerHTML
+            ;(_this._slideList.innerHTML += _dummy),
+              (_this._slideList.innerHTML += _dummy),
+              (_this._slides = _this._slideList.querySelectorAll('li')),
+              (_this._slideList.style.width = 3 * _this._needsW + 'px'),
+              _this.setSlidePosition()
+          }),
+          (this.resize = function(_slideSpan) {
+            ;(_this._slideSpan = _slideSpan),
+              (_this._needsW = (_this._slideSpan * _this._slides.length) / 3),
+              (_this._slideList.style.width = 3 * _this._needsW + 'px'),
+              (_this._offsetX = -_this._needsW),
+              (_this._currentX =
+                _this._offsetX - _this._currentSlide * _this._slideSpan)
+            let i = 0
+            for (i = 0; i < _this._slides.length; i++)
+              _this._slides[i].style.width = _this._slideSpan + 'px'
+            ;(_this._isAnimate = !1), _this.setSlidePosition()
+          }),
+          (this.startFlick = function(e) {
+            _this._slideTimer && window.cancelAnimFrame(_this._slideTimer),
+              _this._autoTimer && clearInterval(_this._autoTimer),
+              Velocity(_this._slideList, 'stop'),
+              (_this._startTime = new Date().getTime()),
+              (_this._startTouch =
+                MouseEvent.MOUSE_DOWN === 'touchstart'
+                  ? e.touches[0].clientX
+                  : e.pageX),
+              (_this._captureCount = 0),
+              (_this._captureX =
+                MouseEvent.MOUSE_DOWN === 'touchstart'
+                  ? e.touches[0].clientX
+                  : e.pageX),
+              (_this._captureY =
+                MouseEvent.MOUSE_DOWN === 'touchstart'
+                  ? e.touches[0].clientY
+                  : e.pageY),
+              _this.dispatcher.addEventListener(
+                MouseEvent.MOUSE_MOVE,
+                _this.captureDirection
+              )
+          }),
+          (this.captureDirection = function(e) {
+            if ((_this._captureCount++, _this._captureCount > 5)) {
+              _this.dispatcher.removeEventListener(
+                MouseEvent.MOUSE_MOVE,
+                _this.captureDirection
+              )
+              const _captureEndX =
+                MouseEvent.MOUSE_DOWN === 'touchstart'
+                  ? e.touches[0].clientX
+                  : e.pageX
+              const _captureEndY =
+                MouseEvent.MOUSE_DOWN === 'touchstart'
+                  ? e.touches[0].clientY
+                  : e.pageY
+              const _jadgeX = Math.abs(_captureEndX - _this._captureX)
+              const _jadgeY = Math.abs(_captureEndY - _this._captureY)
+              _jadgeX > _jadgeY
+                ? ((_this._startTime = new Date().getTime()),
+                  (_this._startTouch =
+                    MouseEvent.MOUSE_DOWN === 'touchstart'
+                      ? e.touches[0].clientX
+                      : e.pageX),
+                  (_this._currentTouch = _this._startTouch),
+                  (_this._prevTouch = _this._startTouch),
+                  _this.dispatcher.addEventListener(
+                    MouseEvent.MOUSE_UP,
+                    _this.stopFlick
+                  ),
+                  _this.dispatcher.addEventListener(
+                    MouseEvent.MOUSE_MOVE,
+                    _this.flicking
+                  ))
+                : _this._isAutoSlide &&
                   (_this._autoTimer = setInterval(
                     _this.autoSlide,
                     _this._autoTime
-                  ))),
-                _this._hasIndicator)
-              )
-                for (i = 0; i < _this._indicatorNodes.length; i++)
-                  i === _this._currentSlide
-                    ? _d.addClass(_this._indicatorNodes[i], 'active')
-                    : _d.removeClass(_this._indicatorNodes[i], 'active')
-              try {
-                _this.dispatchEvent(Event.CHANGE)
-              } catch (e) {
-                jQuery(window).trigger('SLIDE_CHANGE')
-              }
-            }),
-            (this.onVelocityProgress = function(e) {
-              if (Statics.HAS_CSS) {
-                var _matrix = Velocity.hook(_this._slideList, 'transform')
-                0 !== _matrix &&
-                  ((_matrix = _matrix.replace(/[^0-9\-.,]/g, '').split(',')),
-                  (_this._currentX = _matrix[12] || _matrix[4]))
-              } else
-                _this._currentX = Number(
-                  _this._slideList.style.marginLeft.replace('px', '')
-                )
-              _this._isLoop && (_this._currentSlide = _this.getCurrentSlide()),
-                _this._hasNavigation && _this.setNavigation()
-            }),
-            (this.slideComplete = function() {
-              _this._isAnimate = !1
-            }),
-            (this.jadgeLoop = function() {
-              _this._currentX < _this._offsetX - _this._slideSpan / 2 &&
-                (_this._currentX += _this._needsW),
-                _this._currentX > _this._offsetX + _this._slideSpan / 2 &&
-                  (_this._currentX -= _this._needsW),
-                _this.setSlidePosition()
-            }),
-            (this.getCurrentSlide = function() {
-              var _slide = Math.abs(
-                Math.round(
-                  (_this._currentX - _this._offsetX) / _this._slideSpan
-                )
-              )
-              return (
-                _slide === _this._maxSlide && (_slide = 0),
-                _slide != _this._currentSlide && (_this._currentSlide = _slide),
-                _slide
-              )
-            }),
-            (this.setSlidePosition = function() {
-              if (!_this._isLoop) {
-                var _width = _this._node.offsetWidth
-                _this._currentX + _this._needsW < _width &&
-                  (_this._currentX = _width - _this._needsW),
-                  _this._currentX > 0 && (_this._currentX = 0),
-                  (_this._currentSlide = Math.abs(
-                    Math.round(
-                      (_this._currentX - _this._offsetX) / _this._slideSpan
-                    )
                   ))
-              }
-              Velocity(_this._slideList, 'stop'),
-                Statics.HAS_CSS
-                  ? Velocity.hook(
-                      _this._slideList,
-                      'translateX',
-                      _this._currentX + 'px'
-                    )
-                  : Velocity.hook(
-                      _this._slideList,
-                      'margin-left',
-                      _this._currentX + 'px'
-                    )
-            }),
-            (this.setNavigation = function() {}),
-            (this.dispatcher = window),
-            void 0 !== _options._node)
-          ) {
-            _options.autoTime && (this._autoTime = _options.autoTime),
-              _options.padding && (this._padding = _options.padding),
-              _options.responsive && (this._responsive = _options.responsive),
-              _options.slideSpan && (this._slideSpan = _options.slideSpan),
-              _options.hasItems && (this._hasItems = _options.hasItems),
-              (this._isAutoSlide = _options.auto),
-              (this._isLoop = _options.loop),
-              (this._isSnap = _options.snap),
-              (this._node = _options._node),
+            }
+          }),
+          (this.flicking = function(e) {
+            _this._autoTimer && clearInterval(_this._autoTimer),
+              (_this._prevTouch = _this._currentTouch),
+              (_this._currentTouch =
+                MouseEvent.MOUSE_MOVE === 'touchmove'
+                  ? e.touches[0].clientX
+                  : e.pageX)
+            const _diff = _this._prevTouch - _this._currentTouch
+            ;(_this._currentX -= _diff),
+              _this._isLoop ? _this.jadgeLoop() : _this.setSlideMax(),
+              _this.setSlidePosition()
+          }),
+          (this.stopFlick = function(e) {
+            if (
+              (_this.dispatcher.removeEventListener(
+                MouseEvent.MOUSE_UP,
+                _this.stopFlick
+              ),
+              _this.dispatcher.removeEventListener(
+                MouseEvent.MOUSE_MOVE,
+                _this.flicking
+              ),
+              (_this._endTime = new Date().getTime()),
+              (_this._endTouch =
+                MouseEvent.MOUSE_UP === 'touchend'
+                  ? e.changedTouches[0].clientX
+                  : e.pageX),
+              _this._isSnap)
+            )
+              _this._isLoop && _this.jadgeLoop(),
+                _this._endTouch > _this._startTouch &&
+                  ((_this._prevSlide = _this._currentSlide),
+                  _this._currentSlide--,
+                  (_this._isPrev = !0),
+                  _this._isLoop
+                    ? _this._currentSlide < 0 &&
+                      ((_this._currentSlide = _this._maxSlide - 1),
+                      (_this._currentX -= _this._needsW),
+                      _this.setSlidePosition())
+                    : (_this._currentSlide = Math.max(0, _this._currentSlide))),
+                _this._endTouch < _this._startTouch &&
+                  ((_this._prevSlide = _this._currentSlide),
+                  _this._currentSlide++,
+                  (_this._isPrev = !1),
+                  _this._isLoop
+                    ? _this._currentSlide >= _this._maxSlide &&
+                      ((_this._currentSlide = 0),
+                      (_this._currentX += _this._needsW),
+                      _this.setSlidePosition())
+                    : (_this._currentSlide = Math.min(
+                        _this._maxSlide,
+                        _this._currentSlide
+                      ))),
+                (_this._slideTimer = window.requestAnimFrame(
+                  _this.onSlideChange
+                )),
+                _this._isAutoSlide &&
+                  (_this._autoTimer = setInterval(
+                    _this.autoSlide,
+                    _this._autoTime
+                  ))
+            else {
+              let _moveRatio = 1 - (_this._endTime - _this._startTime) / 200
+              ;(_moveRatio = Math.max(0, _moveRatio)),
+                (_this._velocityX =
+                  (_this._endTouch - _this._startTouch) * _moveRatio),
+                (_this._slideTimer = window.requestAnimFrame(_this.accelHD))
+            }
+          }),
+          (this.accelHD = function() {
+            ;(_this._velocityX *= 0.9),
+              (_this._currentX += _this._velocityX),
+              _this._isLoop ? _this.jadgeLoop() : _this.setSlideMax(),
+              (_this._currentSlide = _this.getCurrentSlide()),
+              _this._hasNavigation && _this.setNavigation(),
+              _this.setSlidePosition(),
+              Math.abs(_this._velocityX) < 0.5
+                ? _this._isAutoSlide &&
+                  (_this._autoTimer = setInterval(
+                    _this.autoSlide,
+                    _this._autoTime
+                  ))
+                : (_this._slideTimer = window.requestAnimFrame(_this.accelHD))
+          }),
+          (this.setSlideMax = function() {
+            ;(_this._currentX = Math.min(0, _this._currentX)),
+              (_this._currentX = Math.max(
+                _this._slideView.offsetWidth - _this._needsW,
+                _this._currentX
+              ))
+          }),
+          (this.autoSlide = function() {
+            _this._isPause ||
+              (_this._currentSlide++,
+              _this._currentSlide >= _this._maxSlide &&
+                ((_this._currentSlide = 0),
+                (_this._currentX = -_this._needsW + _this._slideSpan),
+                _this.setSlidePosition()),
+              (_this._slideTimer = window.requestAnimFrame(
+                _this.onSlideChange
+              )))
+          }),
+          (this.onSlideChange = function() {
+            _this._isAnimate = !0
+            let i = 0
+            var _gotoX = _this._offsetX - _this._slideSpan * _this._currentSlide
+            if (
+              (_this._isLoop ||
+                ((_gotoX = Math.max(
+                  _this._slideView.offsetWidth - _this._needsW,
+                  _gotoX
+                )),
+                (_gotoX = Math.min(0, _gotoX))),
+              !_this._isLoop)
+            )
+              try {
+                _this._currentSlide === _this._maxSlide
+                  ? _d.addClass(_this._btnNext, 'stDisabled')
+                  : _d.removeClass(_this._btnNext, 'stDisabled'),
+                  _this._currentSlide === 0
+                    ? _d.addClass(_this._btnPrev, 'stDisabled')
+                    : _d.removeClass(_this._btnPrev, 'stDisabled')
+              } catch (e) {}
+            if (_this._isLoop && _this._hasItems) {
+              var _gotoX = 0
+              ;(_gotoX = _this._isPrev
+                ? Number(_this._currentX) + _this._slideSpan
+                : _this._currentX - _this._slideSpan),
+                _this._prevSlide === _this._currentSlide &&
+                  (_gotoX = _this._currentX),
+                _gotoX > _this._offsetX &&
+                  ((_this._currentX -= _this._needsW),
+                  (_gotoX -= _this._needsW),
+                  _this.setSlidePosition()),
+                _gotoX < _this._offsetX - _this._needsW &&
+                  ((_this._currentX =
+                    Number(_this._currentX) + Number(_this._needsW)),
+                  (_gotoX += Number(_this._needsW)),
+                  _this.setSlidePosition())
+            }
+            if (
+              (Velocity(_this._slideList, 'stop'),
+              Statics.HAS_CSS
+                ? Velocity(
+                    _this._slideList,
+                    { translateX: _gotoX },
+                    {
+                      duration: 800,
+                      delay: 0,
+                      easing: Ease.EaseInOutCubic,
+                      progress: _this.onVelocityProgress,
+                      complete: _this.slideComplete
+                    }
+                  )
+                : Velocity(
+                    _this._slideList,
+                    { 'margin-left': _gotoX },
+                    {
+                      duration: 800,
+                      delay: 0,
+                      easing: Ease.EaseInOutCubic,
+                      progress: _this.onVelocityProgress,
+                      complete: _this.slideComplete
+                    }
+                  ),
+              _this._isAutoSlide &&
+                (clearInterval(_this._autoTimer),
+                (_this._autoTimer = setInterval(
+                  _this.autoSlide,
+                  _this._autoTime
+                ))),
+              _this._hasIndicator)
+            )
+              for (i = 0; i < _this._indicatorNodes.length; i++)
+                i === _this._currentSlide
+                  ? _d.addClass(_this._indicatorNodes[i], 'active')
+                  : _d.removeClass(_this._indicatorNodes[i], 'active')
+            try {
+              _this.dispatchEvent(Event.CHANGE)
+            } catch (e) {
+              jQuery(window).trigger('SLIDE_CHANGE')
+            }
+          }),
+          (this.onVelocityProgress = function(e) {
+            if (Statics.HAS_CSS) {
+              let _matrix = Velocity.hook(_this._slideList, 'transform')
+              _matrix !== 0 &&
+                ((_matrix = _matrix.replace(/[^0-9\-.,]/g, '').split(',')),
+                (_this._currentX = _matrix[12] || _matrix[4]))
+            } else
+              _this._currentX = Number(
+                _this._slideList.style.marginLeft.replace('px', '')
+              )
+            _this._isLoop && (_this._currentSlide = _this.getCurrentSlide()),
+              _this._hasNavigation && _this.setNavigation()
+          }),
+          (this.slideComplete = function() {
+            _this._isAnimate = !1
+          }),
+          (this.jadgeLoop = function() {
+            _this._currentX < _this._offsetX - _this._slideSpan / 2 &&
+              (_this._currentX += _this._needsW),
+              _this._currentX > _this._offsetX + _this._slideSpan / 2 &&
+                (_this._currentX -= _this._needsW),
+              _this.setSlidePosition()
+          }),
+          (this.getCurrentSlide = function() {
+            let _slide = Math.abs(
+              Math.round((_this._currentX - _this._offsetX) / _this._slideSpan)
+            )
+            return (
+              _slide === _this._maxSlide && (_slide = 0),
+              _slide != _this._currentSlide && (_this._currentSlide = _slide),
+              _slide
+            )
+          }),
+          (this.setSlidePosition = function() {
+            if (!_this._isLoop) {
+              const _width = _this._node.offsetWidth
+              _this._currentX + _this._needsW < _width &&
+                (_this._currentX = _width - _this._needsW),
+                _this._currentX > 0 && (_this._currentX = 0),
+                (_this._currentSlide = Math.abs(
+                  Math.round(
+                    (_this._currentX - _this._offsetX) / _this._slideSpan
+                  )
+                ))
+            }
+            Velocity(_this._slideList, 'stop'),
+              Statics.HAS_CSS
+                ? Velocity.hook(
+                    _this._slideList,
+                    'translateX',
+                    _this._currentX + 'px'
+                  )
+                : Velocity.hook(
+                    _this._slideList,
+                    'margin-left',
+                    _this._currentX + 'px'
+                  )
+          }),
+          (this.setNavigation = function() {}),
+          (this.dispatcher = window),
+          void 0 !== _options._node)
+        ) {
+          _options.autoTime && (this._autoTime = _options.autoTime),
+            _options.padding && (this._padding = _options.padding),
+            _options.responsive && (this._responsive = _options.responsive),
+            _options.slideSpan && (this._slideSpan = _options.slideSpan),
+            _options.hasItems && (this._hasItems = _options.hasItems),
+            (this._isAutoSlide = _options.auto),
+            (this._isLoop = _options.loop),
+            (this._isSnap = _options.snap),
+            (this._node = _options._node),
+            (this._slideView = this._node.querySelector('.stView')),
+            (this._slideList = this._slideView.querySelector('ul')),
+            this._slideList ||
+              (this._slideView.insertAdjacentHTML(
+                'beforebegin',
+                '<div class="stView"></div>'
+              ),
+              (this._slideList = this._node.querySelector('ul')),
               (this._slideView = this._node.querySelector('.stView')),
+              this._slideView.appendChild(this._slideList),
               (this._slideList = this._slideView.querySelector('ul')),
-              this._slideList ||
-                (this._slideView.insertAdjacentHTML(
-                  'beforebegin',
-                  '<div class="stView"></div>'
-                ),
-                (this._slideList = this._node.querySelector('ul')),
-                (this._slideView = this._node.querySelector('.stView')),
-                this._slideView.appendChild(this._slideList),
-                (this._slideList = this._slideView.querySelector('ul')),
-                (this._hasInfo = this._slideList.querySelector('.stTitle')),
-                this._hasInfo || (this._slideView.style.height = '180px')),
-              (this._slides = this._slideList.children)
-            var i = 0
-            for (i = 0; i < this._slides.length; i++)
-              this._slides[i].setAttribute('data-index', i)
-            ;(this._navigation = this._node.querySelector('.stPrev')),
-              (this._indicator = this._node.querySelector('.slide_indicator')),
-              this._hasItems
-                ? ((this._needsW = this._slides[0].offsetWidth),
-                  (this._currentSlide = 0),
-                  (this._maxSlide = Math.ceil(this._needsW / this._slideSpan)))
-                : (this._maxSlide = this._slides.length),
-              (this._style = this._slideList.style),
-              (void 0 !== _options.slideSpan && 0 == this._responsive) ||
-                (this.dispatcher.addEventListener(
-                  Event.RESIZE,
-                  this.prepResize
-                ),
-                setTimeout(this.onResizeHD, 1e3)),
-              this.setup()
-          }
+              (this._hasInfo = this._slideList.querySelector('.stTitle')),
+              this._hasInfo || (this._slideView.style.height = '180px')),
+            (this._slides = this._slideList.children)
+          let i = 0
+          for (i = 0; i < this._slides.length; i++)
+            this._slides[i].setAttribute('data-index', i)
+          ;(this._navigation = this._node.querySelector('.stPrev')),
+            (this._indicator = this._node.querySelector('.slide_indicator')),
+            this._hasItems
+              ? ((this._needsW = this._slides[0].offsetWidth),
+                (this._currentSlide = 0),
+                (this._maxSlide = Math.ceil(this._needsW / this._slideSpan)))
+              : (this._maxSlide = this._slides.length),
+            (this._style = this._slideList.style),
+            (void 0 !== _options.slideSpan && this._responsive == 0) ||
+              (this.dispatcher.addEventListener(Event.RESIZE, this.prepResize),
+              setTimeout(this.onResizeHD, 1e3)),
+            this.setup()
         }
-        return __extends(CarouselEngine, _super), CarouselEngine
-      })(EventDispatcher)
+      }
+      return __extends(CarouselEngine, _super), CarouselEngine
+    })(EventDispatcher)
     module.exports = CarouselEngine
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var Event = __webpack_require__(5),
-      EventDispatcher = (function() {
-        function EventDispatcher(_target) {
-          var _this = this
-          void 0 === _target && (_target = null),
-            (this._target = _target),
-            (this._listeners = {}),
-            (this.addEventListener = function(types, listener, useCapture) {
-              if ((void 0 === useCapture && (useCapture = !1), _this._target))
-                return void _this._target.addEventListener(
-                  types,
-                  listener,
-                  useCapture
-                )
-              for (
-                var typeList = types.split(/\s+/), i = 0, l = typeList.length;
-                i < l;
-                i++
+    const Event = __webpack_require__(5)
+    const EventDispatcher = (function() {
+      function EventDispatcher(_target) {
+        const _this = this
+        void 0 === _target && (_target = null),
+          (this._target = _target),
+          (this._listeners = {}),
+          (this.addEventListener = function(types, listener, useCapture) {
+            if ((void 0 === useCapture && (useCapture = !1), _this._target))
+              return void _this._target.addEventListener(
+                types,
+                listener,
+                useCapture
               )
-                _this._listeners[typeList[i]] = listener
-            }),
-            (this.removeEventListener = function(types, listener) {
-              if (_this._target)
-                return void _this._target.removeEventListener(types, listener)
-              for (
-                var type,
-                  typeList = types.split(/\s+/),
-                  i = 0,
-                  l = typeList.length;
-                i < l;
-                i++
-              )
-                (type = typeList[i]),
-                  (null != listener && _this._listeners[type] !== listener) ||
-                    delete _this._listeners[type]
-            }),
-            (this.dispatchEvent = function(type, data, context) {
-              if (
-                (void 0 === data && (data = {}),
-                void 0 === context && (context = _this),
-                _this._target)
-              ) {
-                if (window.CustomEvent)
-                  try {
-                    var event = new CustomEvent(type, data)
-                  } catch (e) {
-                    var event = document.createEvent('CustomEvent')
-                    event.initCustomEvent(type, !0, !0, data)
-                  }
-                else {
+            for (
+              let typeList = types.split(/\s+/), i = 0, l = typeList.length;
+              i < l;
+              i++
+            )
+              _this._listeners[typeList[i]] = listener
+          }),
+          (this.removeEventListener = function(types, listener) {
+            if (_this._target)
+              return void _this._target.removeEventListener(types, listener)
+            for (
+              var type,
+                typeList = types.split(/\s+/),
+                i = 0,
+                l = typeList.length;
+              i < l;
+              i++
+            )
+              (type = typeList[i]),
+                (listener != null && _this._listeners[type] !== listener) ||
+                  delete _this._listeners[type]
+          }),
+          (this.dispatchEvent = function(type, data, context) {
+            if (
+              (void 0 === data && (data = {}),
+              void 0 === context && (context = _this),
+              _this._target)
+            ) {
+              if (window.CustomEvent)
+                try {
+                  var event = new CustomEvent(type, data)
+                } catch (e) {
                   var event = document.createEvent('CustomEvent')
                   event.initCustomEvent(type, !0, !0, data)
                 }
-                return void _this._target.dispatchEvent(event)
+              else {
+                var event = document.createEvent('CustomEvent')
+                event.initCustomEvent(type, !0, !0, data)
               }
-              var listener
-              if ((listener = _this._listeners[type])) {
-                var e = new Event(type)
-                ;(e.data = data), listener.call(context, e)
-              }
-              return !0
-            }),
-            (this.clearEventListener = function() {
-              _this._listeners = {}
-            })
-        }
-        return EventDispatcher
-      })()
+              return void _this._target.dispatchEvent(event)
+            }
+            let listener
+            if ((listener = _this._listeners[type])) {
+              const e = new Event(type)
+              ;(e.data = data), listener.call(context, e)
+            }
+            return !0
+          }),
+          (this.clearEventListener = function() {
+            _this._listeners = {}
+          })
+      }
+      return EventDispatcher
+    })()
     module.exports = EventDispatcher
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var _s = __webpack_require__(1),
-      Event = __webpack_require__(5),
-      Statics = __webpack_require__(2),
-      LineClamper = (function() {
-        function LineClamper(_target) {
-          var _this = this
-          if (
-            ((this._target = _target),
-            (this._ellipsis = '…'),
-            (this._isCenter = !1),
-            (this.onResizeHD = function() {
-              ;(_this._target.style.display = 'inline-block'),
-                (_this._target.innerHTML = _this._origin)
-              for (
-                var _index = _this._origin.length,
-                  _height = Math.ceil(
-                    _this._target.offsetHeight / _this._lineHeight
-                  );
-                _height > _this._line;
+    const _s = __webpack_require__(1)
+    const Event = __webpack_require__(5)
+    const Statics = __webpack_require__(2)
+    const LineClamper = (function() {
+      function LineClamper(_target) {
+        const _this = this
+        if (
+          ((this._target = _target),
+          (this._ellipsis = '…'),
+          (this._isCenter = !1),
+          (this.onResizeHD = function() {
+            ;(_this._target.style.display = 'inline-block'),
+              (_this._target.innerHTML = _this._origin)
+            for (
+              let _index = _this._origin.length,
+                _height = Math.ceil(
+                  _this._target.offsetHeight / _this._lineHeight
+                );
+              _height > _this._line;
 
-              )
-                (_this._target.innerHTML =
-                  _this._origin.substr(0, _index) + _this._ellipsis),
-                  (_height = Math.ceil(
-                    _this._target.offsetHeight / _this._lineHeight
-                  )),
-                  _index--
-              _this._target.innerHTML.substr(
-                _this._target.innerHTML.length - 1,
-                1
-              ) === _this._ellipsis
-                ? _s.addClass(_this._target, 'stCurrent')
-                : _s.removeClass(_this._target, 'stCurrent')
-            }),
-            (this._line = Number(this._target.getAttribute('data-line'))),
-            (this._isCenter = !!this._target.getAttribute('data-center')),
-            this._line)
-          ) {
-            if (Statics.IS_LEGACY)
-              return (
-                (this._target.style.display = 'block'),
-                (this._target.style.width = '100%'),
-                (this._target.style.overflow = 'hidden'),
-                (this._target.style.whiteSpace = 'nowrap'),
-                void (this._target.style.textOverflow = 'ellipsis')
-              )
-            this._origin = this._target.innerHTML
-            var elemStyle =
-                this._target.currentStyle ||
-                document.defaultView.getComputedStyle(this._target, null),
-              _div = document.createElement('div')
-            ;(_div.innerHTML = '　'),
-              (_div.style.display = 'block'),
-              (_div.style.position = 'absolute'),
-              (_div.style.height = 'auto'),
-              (_div.style.lineHeight = elemStyle.lineHeight),
-              (_div.style.fontSize = elemStyle.fontSize),
-              document.body.appendChild(_div),
-              (this._lineHeight = _div.offsetHeight),
-              document.body.removeChild(_div),
-              (_div = void 0),
-              window.addEventListener(Event.RESIZE, this.onResizeHD, !1),
-              this.onResizeHD(),
-              (this._target.style.position = 'relative'),
-              this._isCenter &&
-                ((this._target.style.display = 'table-cell'),
-                (this._target.style.width =
-                  this._target.parentNode.offsetWidth + 'px'),
-                (this._target.style.height =
-                  this._lineHeight * this._line + 'px'),
-                (this._target.style.verticalAlign = 'middle'))
-          }
+            )
+              (_this._target.innerHTML =
+                _this._origin.substr(0, _index) + _this._ellipsis),
+                (_height = Math.ceil(
+                  _this._target.offsetHeight / _this._lineHeight
+                )),
+                _index--
+            _this._target.innerHTML.substr(
+              _this._target.innerHTML.length - 1,
+              1
+            ) === _this._ellipsis
+              ? _s.addClass(_this._target, 'stCurrent')
+              : _s.removeClass(_this._target, 'stCurrent')
+          }),
+          (this._line = Number(this._target.getAttribute('data-line'))),
+          (this._isCenter = !!this._target.getAttribute('data-center')),
+          this._line)
+        ) {
+          if (Statics.IS_LEGACY)
+            return (
+              (this._target.style.display = 'block'),
+              (this._target.style.width = '100%'),
+              (this._target.style.overflow = 'hidden'),
+              (this._target.style.whiteSpace = 'nowrap'),
+              void (this._target.style.textOverflow = 'ellipsis')
+            )
+          this._origin = this._target.innerHTML
+          const elemStyle =
+            this._target.currentStyle ||
+            document.defaultView.getComputedStyle(this._target, null)
+          let _div = document.createElement('div')
+          ;(_div.innerHTML = '　'),
+            (_div.style.display = 'block'),
+            (_div.style.position = 'absolute'),
+            (_div.style.height = 'auto'),
+            (_div.style.lineHeight = elemStyle.lineHeight),
+            (_div.style.fontSize = elemStyle.fontSize),
+            document.body.appendChild(_div),
+            (this._lineHeight = _div.offsetHeight),
+            document.body.removeChild(_div),
+            (_div = void 0),
+            window.addEventListener(Event.RESIZE, this.onResizeHD, !1),
+            this.onResizeHD(),
+            (this._target.style.position = 'relative'),
+            this._isCenter &&
+              ((this._target.style.display = 'table-cell'),
+              (this._target.style.width =
+                this._target.parentNode.offsetWidth + 'px'),
+              (this._target.style.height =
+                this._lineHeight * this._line + 'px'),
+              (this._target.style.verticalAlign = 'middle'))
         }
-        return LineClamper
-      })()
+      }
+      return LineClamper
+    })()
     module.exports = LineClamper
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var _s = __webpack_require__(1),
-      Ease = __webpack_require__(6),
-      MouseEvent = __webpack_require__(3),
-      stAccMenu = (function() {
-        function stAccMenu(_node) {
-          var _this = this
-          ;(this._node = _node),
-            (this._isOpen = !1),
-            (this.toggleHD = function(e) {
-              e.preventDefault(),
-                (_this._isOpen = !_this._isOpen),
-                _this._isOpen ? _this.show() : _this.hide()
-            }),
-            (this.show = function() {
-              _s.addClass(_this._node, 'stAccOpenL'),
-                Velocity(_this._target, 'stop'),
-                Velocity(
-                  _this._target,
-                  { height: _this._inner.offsetHeight },
-                  { duration: 300, delay: 0, easing: Ease.EaseOutCubic }
-                )
-            }),
-            (this.hide = function() {
-              _s.removeClass(_this._node, 'stAccOpenL'),
-                Velocity(_this._target, 'stop'),
-                Velocity(
-                  _this._target,
-                  { height: 0 },
-                  { duration: 300, delay: 0, easing: Ease.EaseOutCubic }
-                )
-            }),
-            (this._aTag = this._node.querySelector('a'))
-          var _href = this._aTag.getAttribute('href').replace('#', '')
-          ;(this._target = document.getElementById(_href)),
-            this._node.addEventListener(MouseEvent.CLICK, this.toggleHD, !1),
-            _s.hasClass(this._node, 'stAccOpenL')
-              ? (this._isOpen = !0)
-              : (this._target.style.height = '0px'),
-            (this._target.style.overflow = 'hidden'),
-            (this._inner = this._target.querySelector('*')),
-            (this._inner.style.paddingBottom = '15px'),
-            (this._inner.style.marginBottom = '0px')
-        }
-        return stAccMenu
-      })()
+    const _s = __webpack_require__(1)
+    const Ease = __webpack_require__(6)
+    const MouseEvent = __webpack_require__(3)
+    const stAccMenu = (function() {
+      function stAccMenu(_node) {
+        const _this = this
+        ;(this._node = _node),
+          (this._isOpen = !1),
+          (this.toggleHD = function(e) {
+            e.preventDefault(),
+              (_this._isOpen = !_this._isOpen),
+              _this._isOpen ? _this.show() : _this.hide()
+          }),
+          (this.show = function() {
+            _s.addClass(_this._node, 'stAccOpenL'),
+              Velocity(_this._target, 'stop'),
+              Velocity(
+                _this._target,
+                { height: _this._inner.offsetHeight },
+                { duration: 300, delay: 0, easing: Ease.EaseOutCubic }
+              )
+          }),
+          (this.hide = function() {
+            _s.removeClass(_this._node, 'stAccOpenL'),
+              Velocity(_this._target, 'stop'),
+              Velocity(
+                _this._target,
+                { height: 0 },
+                { duration: 300, delay: 0, easing: Ease.EaseOutCubic }
+              )
+          }),
+          (this._aTag = this._node.querySelector('a'))
+        const _href = this._aTag.getAttribute('href').replace('#', '')
+        ;(this._target = document.getElementById(_href)),
+          this._node.addEventListener(MouseEvent.CLICK, this.toggleHD, !1),
+          _s.hasClass(this._node, 'stAccOpenL')
+            ? (this._isOpen = !0)
+            : (this._target.style.height = '0px'),
+          (this._target.style.overflow = 'hidden'),
+          (this._inner = this._target.querySelector('*')),
+          (this._inner.style.paddingBottom = '15px'),
+          (this._inner.style.marginBottom = '0px')
+      }
+      return stAccMenu
+    })()
     module.exports = stAccMenu
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var _s = __webpack_require__(1),
-      BookJadge = (function() {
-        function BookJadge(_target) {
-          if (
-            ((this._target = _target), !_s.hasClass(_target, 'noBookJadge'))
-          ) {
-            var _flag = this._target.querySelectorAll('.stIdentifier')
-            _flag.length
-              ? _s.addClass(_target, 'stEb')
-              : _s.addClass(_target, 'stNs')
-          }
+    const _s = __webpack_require__(1)
+    const BookJadge = (function() {
+      function BookJadge(_target) {
+        if (((this._target = _target), !_s.hasClass(_target, 'noBookJadge'))) {
+          const _flag = this._target.querySelectorAll('.stIdentifier')
+          _flag.length
+            ? _s.addClass(_target, 'stEb')
+            : _s.addClass(_target, 'stNs')
         }
-        return BookJadge
-      })()
+      }
+      return BookJadge
+    })()
     module.exports = BookJadge
   },
   function(module, exports) {
     'use strict'
-    var ClipSelect = (function() {
+    const ClipSelect = (function() {
       function ClipSelect(_node) {
         ;(this._node = _node),
           (this._select = this._node.querySelectorAll('option'))
-        var i = 0
+        let i = 0
         for (i = 0; i < this._select.length; i++) {
-          var _label = this._select[i].getAttribute('label')
+          let _label = this._select[i].getAttribute('label')
           _label.length > 8 && (_label = _label.substr(0, 7) + '…'),
             this._select[i].setAttribute('label', _label)
         }
@@ -8920,713 +8888,691 @@ var registStateManage = {
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var _s = __webpack_require__(1),
-      Event = __webpack_require__(5),
-      BookItem = __webpack_require__(13),
-      RecommendBook = (function() {
-        function RecommendBook(_node) {
-          var _this = this
-          if (
-            ((this._node = _node),
-            (this._strLength = 25),
-            (this._blockHideFlag = !0),
-            (this._max = 0),
-            (this._current = 0),
-            (this.loadHD = function() {
-              function json(
+    const _s = __webpack_require__(1)
+    const Event = __webpack_require__(5)
+    const BookItem = __webpack_require__(13)
+    const RecommendBook = (function() {
+      function RecommendBook(_node) {
+        const _this = this
+        if (
+          ((this._node = _node),
+          (this._strLength = 25),
+          (this._blockHideFlag = !0),
+          (this._max = 0),
+          (this._current = 0),
+          (this.loadHD = function() {
+            function json(
+              pageBlockId,
+              container,
+              parameters,
+              isAppendQuery,
+              onComplete
+            ) {
+              ;(parameters = window.HC.Ajax._getParameters(
                 pageBlockId,
-                container,
                 parameters,
-                isAppendQuery,
-                onComplete
-              ) {
-                ;(parameters = window.HC.Ajax._getParameters(
-                  pageBlockId,
-                  parameters,
-                  { isPart: !0, noResponse: !(null != onComplete) },
-                  isAppendQuery
-                )),
-                  jQuery.ajax({
-                    cache: !1,
-                    data: parameters,
-                    dataType: 'json',
-                    type: 'post',
-                    url: window.HC.Ajax.url,
-                    success: function(data) {
-                      onComplete(data)
-                    },
-                    error: function(XMLHttpRequest, textStatus, errorThrown) {}
-                  })
-              }
-              function onComplete(json) {
-                if (json) {
-                  var productId = json.recmDspDescriptionDto.prdId,
-                    recmBookNum = 1
-                  null != json.recmDspDescriptionDto.prdListDesc
-                    ? (_self.isClass(
-                        'Array',
-                        json.recmDspDescriptionDto.prdListDesc
-                      )
-                        ? (recmBookNum =
-                            json.recmDspDescriptionDto.prdListDesc.length)
-                        : _self.isClass(
-                            'Object',
-                            json.recmDspDescriptionDto.prdListDesc
-                          ) && (recmBookNum = 1),
-                      (_self._blockHideFlag = !1))
-                    : null == json.recmDspDescriptionDto.prdListDesc &&
-                      ((recmBookNum = 0),
-                      jQuery('#dy_get_recommend_' + productId).remove())
-                  var deleteFlg = !1
-                  jQuery('.dy_replace_get_recommend_' + productId).each(
-                    function(i) {
-                      if (
-                        (0 === recmBookNum && jQuery(this).remove(),
-                        recmBookNum <= i)
-                      )
-                        (deleteFlg = !0),
-                          jQuery(this).css('visibility', 'hidden')
-                      else {
-                        var recmBook
-                        ;(recmBook =
-                          1 == recmBookNum
-                            ? json.recmDspDescriptionDto.prdListDesc
-                            : json.recmDspDescriptionDto.prdListDesc[i]),
-                          (recmBook.prdImgUrl = recmBook.prdImgUrl
-                            .replace('/75/', '/81/')
-                            .replace('.jpg', 'BC.png'))
-                        var html = ''
-                        if (
-                          ((html += '<div class="stItem">'),
-                          (html += '<div class="stPhoto">'),
-                          0 === i)
-                        ) {
-                          var wantBookNm = jQuery(
-                              '#dy_get_want_book_nm_' + productId
-                            ).text(),
-                            rcmLdBfTxt =
-                              'string' == typeof json.rcmLdBfTxt
-                                ? json.rcmLdBfTxt
-                                : '',
-                            rcmLdAfTxt =
-                              'string' == typeof json.rcmLdAfTxt
-                                ? json.rcmLdAfTxt
-                                : ''
-                          html +=
-                            '<h3 class="stSummary">' +
-                            rcmLdBfTxt +
-                            '<span class="stNum03">' +
-                            wantBookNm +
-                            '</span>' +
-                            rcmLdAfTxt +
-                            '</h3>'
-                        }
-                        ;(html += '<div class="stBookItem">'),
-                          (html += '<a href="' + recmBook.prdUrl + '">'),
-                          (html +=
-                            '<span class="stBtn stFav">' +
-                            recmBook.prdNm +
-                            '</span>'),
-                          (html +=
-                            '<div class="stSummary"><p class="stTitle" style="font-size:11px;">' +
-                            recmBook.prdNm +
-                            '</p></div>'),
-                          (html += '</a>'),
-                          (html += '<p class="stCover">'),
-                          (html +=
-                            '<img src="' +
-                            recmBook.prdImgUrl +
-                            '" width="75" height="110" alt="' +
-                            recmBook.prdNm +
-                            '">'),
-                          (html += '</p>'),
-                          (html += '</div>'),
-                          (html += '</div>'),
-                          (html += '</div>'),
-                          jQuery(this).html(html),
-                          _self.addBookItem(this)
-                      }
+                { isPart: !0, noResponse: !(onComplete != null) },
+                isAppendQuery
+              )),
+                jQuery.ajax({
+                  cache: !1,
+                  data: parameters,
+                  dataType: 'json',
+                  type: 'post',
+                  url: window.HC.Ajax.url,
+                  success(data) {
+                    onComplete(data)
+                  },
+                  error(XMLHttpRequest, textStatus, errorThrown) {}
+                })
+            }
+            function onComplete(json) {
+              if (json) {
+                const productId = json.recmDspDescriptionDto.prdId
+                let recmBookNum = 1
+                json.recmDspDescriptionDto.prdListDesc != null
+                  ? (_self.isClass(
+                      'Array',
+                      json.recmDspDescriptionDto.prdListDesc
+                    )
+                      ? (recmBookNum =
+                          json.recmDspDescriptionDto.prdListDesc.length)
+                      : _self.isClass(
+                          'Object',
+                          json.recmDspDescriptionDto.prdListDesc
+                        ) && (recmBookNum = 1),
+                    (_self._blockHideFlag = !1))
+                  : json.recmDspDescriptionDto.prdListDesc == null &&
+                    ((recmBookNum = 0),
+                    jQuery('#dy_get_recommend_' + productId).remove())
+                let deleteFlg = !1
+                jQuery('.dy_replace_get_recommend_' + productId).each(function(
+                  i
+                ) {
+                  if (
+                    (recmBookNum === 0 && jQuery(this).remove(),
+                    recmBookNum <= i)
+                  )
+                    (deleteFlg = !0), jQuery(this).css('visibility', 'hidden')
+                  else {
+                    let recmBook
+                    ;(recmBook =
+                      recmBookNum == 1
+                        ? json.recmDspDescriptionDto.prdListDesc
+                        : json.recmDspDescriptionDto.prdListDesc[i]),
+                      (recmBook.prdImgUrl = recmBook.prdImgUrl
+                        .replace('/75/', '/81/')
+                        .replace('.jpg', 'BC.png'))
+                    let html = ''
+                    if (
+                      ((html += '<div class="stItem">'),
+                      (html += '<div class="stPhoto">'),
+                      i === 0)
+                    ) {
+                      const wantBookNm = jQuery(
+                        '#dy_get_want_book_nm_' + productId
+                      ).text()
+                      const rcmLdBfTxt =
+                        typeof json.rcmLdBfTxt === 'string'
+                          ? json.rcmLdBfTxt
+                          : ''
+                      const rcmLdAfTxt =
+                        typeof json.rcmLdAfTxt === 'string'
+                          ? json.rcmLdAfTxt
+                          : ''
+                      html +=
+                        '<h3 class="stSummary">' +
+                        rcmLdBfTxt +
+                        '<span class="stNum03">' +
+                        wantBookNm +
+                        '</span>' +
+                        rcmLdAfTxt +
+                        '</h3>'
                     }
-                  ),
-                    _self._current++,
-                    _self._current >= _self._max &&
-                      _self._blockHideFlag &&
-                      jQuery('#pbBlock' + _self._pageBlockId).hide()
-                  var wantBookLink = void 0
-                  'undefined' != typeof wantBookLink &&
-                    wantBookLink.init(jQuery('#want_recommend_list')),
-                    _self.addBookItemClass(),
-                    _self.onResizeHD()
-                }
-              }
-              var _self = _this
-              document.getElementById('randomWantBookPageBlockId') &&
-                ((_self._pageBlockId = document
-                  .getElementById('randomWantBookPageBlockId')
-                  .getAttribute('value')),
-                jQuery('li[id^=dy_get_recommend]').each(function() {
-                  var productId = jQuery(this)
-                      .attr('id')
-                      .replace('dy_get_recommend_', ''),
-                    queryString =
-                      (jQuery('#pageAlias').attr('value'),
-                      'prdid=' + productId),
-                    i = 0
-                  jQuery('li[id^=dy_get_recommend]').each(function() {
-                    ;(queryString +=
-                      '&excludePrdIdList[' +
-                      i +
-                      ']=' +
-                      jQuery(this)
-                        .attr('id')
-                        .replace('dy_get_recommend_', '')),
-                      i++
-                  })
-                  var container = jQuery(
-                    '#dy_replace_get_recommend_' + productId
-                  )
-                  window.Honto.Common.Ajax.blockData[_self._pageBlockId]
-                  json(
-                    _self._pageBlockId,
-                    container,
-                    queryString,
-                    !1,
-                    onComplete
-                  )
-                }))
-            }),
-            (this.onResizeHD = function() {
-              var _count,
-                _width = _this._node.offsetWidth,
-                i = 0
-              _s.removeClass(_this._node, 'stCount3'),
-                _s.removeClass(_this._node, 'stCount4'),
-                _s.removeClass(_this._node, 'stCount5'),
-                _width >= 1378
-                  ? (_s.addClass(_this._node, 'stCount5'), (_count = 5))
-                  : _width >= 1197
-                  ? (_s.addClass(_this._node, 'stCount4'), (_count = 4))
-                  : (_s.addClass(_this._node, 'stCount3'), (_count = 3)),
-                (_this._evens = _this._node.querySelectorAll('.stEven')),
-                (_this._odds = _this._node.querySelectorAll('.stOdd')),
-                (_this._summarys = _this._node.querySelectorAll('h3.stSummary'))
-              var _itemW = 189 + 80 * _count + 10 * (_count - 1) + 20
-              for (i = 0; i < _this._evens.length; i++)
-                _this._evens[i].style.marginLeft =
-                  _this._node.offsetWidth - 30 - 2 * _itemW + 'px'
-              for (i = 0; i < _this._odds.length; i++)
-                _this._odds[i].style.marginLeft = '0px'
-              for (i = 0; i < _this._summarys.length; i++)
-                _this._summarys[i].style.width = _itemW - 189 + 'px'
-              for (i = 0; i < _this._stShelfBar.length; i++)
-                _this._stShelfBar[i].style.width = _itemW + 'px'
-            }),
-            (this.debugHD = function() {}),
-            (this.addBookItem = function(_elm) {
-              var i = 0,
-                _items = _elm.querySelectorAll('.stBookItem')
-              for (i = 0; i < _items.length; i++) new BookItem(_items[i])
-            }),
-            (this.addBookItemClass = function() {
-              var i = 0
-              for (
-                _this._heads = _this._node.querySelectorAll('.stRecommendHead'),
-                  i = 0;
-                i < _this._heads.length;
-                i++
-              )
-                i % 2 === 0
-                  ? (_s.removeClass(_this._heads[i], 'stEven'),
-                    _s.addClass(_this._heads[i], 'stOdd'))
-                  : (_s.removeClass(_this._heads[i], 'stOdd'),
-                    _s.addClass(_this._heads[i], 'stEven'))
-            }),
-            (this.isClass = function(type, obj) {
-              var clas = Object.prototype.toString.call(obj).slice(8, -1)
-              return void 0 !== obj && null !== obj && clas === type
-            }),
-            (this._list = this._node.querySelectorAll('li')),
-            this._list.length)
-          ) {
-            var _count = 0,
-              i = 0
-            for (i = 0; i < this._list.length; i++) {
-              this._list[i].getAttribute('id')
-                ? (_s.addClass(this._list[i], 'stRecommendHead'),
-                  (_count = 0),
-                  this._max++)
-                : _s.addClass(this._list[i], 'stCount' + _count),
-                _count++
-              var _str = this._list[i].querySelector('.stSummary span')
-              if (_str) {
-                var _string = _str.innerText
-                _string.length > this._strLength &&
-                  (_string = _string.substring(0, this._strLength) + '…'),
-                  (_str.innerText = _string)
+                    ;(html += '<div class="stBookItem">'),
+                      (html += '<a href="' + recmBook.prdUrl + '">'),
+                      (html +=
+                        '<span class="stBtn stFav">' +
+                        recmBook.prdNm +
+                        '</span>'),
+                      (html +=
+                        '<div class="stSummary"><p class="stTitle" style="font-size:11px;">' +
+                        recmBook.prdNm +
+                        '</p></div>'),
+                      (html += '</a>'),
+                      (html += '<p class="stCover">'),
+                      (html +=
+                        '<img src="' +
+                        recmBook.prdImgUrl +
+                        '" width="75" height="110" alt="' +
+                        recmBook.prdNm +
+                        '">'),
+                      (html += '</p>'),
+                      (html += '</div>'),
+                      (html += '</div>'),
+                      (html += '</div>'),
+                      jQuery(this).html(html),
+                      _self.addBookItem(this)
+                  }
+                }),
+                  _self._current++,
+                  _self._current >= _self._max &&
+                    _self._blockHideFlag &&
+                    jQuery('#pbBlock' + _self._pageBlockId).hide()
+                const wantBookLink = void 0
+                typeof wantBookLink !== 'undefined' &&
+                  wantBookLink.init(jQuery('#want_recommend_list')),
+                  _self.addBookItemClass(),
+                  _self.onResizeHD()
               }
             }
-            ;(this._evens = this._node.querySelectorAll('.stEven')),
-              (this._stShelfBar = this._node.querySelectorAll('.stShelfBar')),
-              window.addEventListener(
-                'catchRecommendItems',
-                this.addBookItem,
-                !1
-              ),
-              window.addEventListener(Event.RESIZE, this.onResizeHD, !1),
-              this.onResizeHD()
-            var _url = location.href
-            return _url.indexOf('test01') >= 0 || _url.indexOf('192.') >= 0
-              ? void this.debugHD()
-              : void this.loadHD()
+            var _self = _this
+            document.getElementById('randomWantBookPageBlockId') &&
+              ((_self._pageBlockId = document
+                .getElementById('randomWantBookPageBlockId')
+                .getAttribute('value')),
+              jQuery('li[id^=dy_get_recommend]').each(function() {
+                const productId = jQuery(this)
+                  .attr('id')
+                  .replace('dy_get_recommend_', '')
+                let queryString =
+                  (jQuery('#pageAlias').attr('value'), 'prdid=' + productId)
+                let i = 0
+                jQuery('li[id^=dy_get_recommend]').each(function() {
+                  ;(queryString +=
+                    '&excludePrdIdList[' +
+                    i +
+                    ']=' +
+                    jQuery(this)
+                      .attr('id')
+                      .replace('dy_get_recommend_', '')),
+                    i++
+                })
+                const container = jQuery(
+                  '#dy_replace_get_recommend_' + productId
+                )
+                window.Honto.Common.Ajax.blockData[_self._pageBlockId]
+                json(_self._pageBlockId, container, queryString, !1, onComplete)
+              }))
+          }),
+          (this.onResizeHD = function() {
+            let _count
+            const _width = _this._node.offsetWidth
+            let i = 0
+            _s.removeClass(_this._node, 'stCount3'),
+              _s.removeClass(_this._node, 'stCount4'),
+              _s.removeClass(_this._node, 'stCount5'),
+              _width >= 1378
+                ? (_s.addClass(_this._node, 'stCount5'), (_count = 5))
+                : _width >= 1197
+                ? (_s.addClass(_this._node, 'stCount4'), (_count = 4))
+                : (_s.addClass(_this._node, 'stCount3'), (_count = 3)),
+              (_this._evens = _this._node.querySelectorAll('.stEven')),
+              (_this._odds = _this._node.querySelectorAll('.stOdd')),
+              (_this._summarys = _this._node.querySelectorAll('h3.stSummary'))
+            const _itemW = 189 + 80 * _count + 10 * (_count - 1) + 20
+            for (i = 0; i < _this._evens.length; i++)
+              _this._evens[i].style.marginLeft =
+                _this._node.offsetWidth - 30 - 2 * _itemW + 'px'
+            for (i = 0; i < _this._odds.length; i++)
+              _this._odds[i].style.marginLeft = '0px'
+            for (i = 0; i < _this._summarys.length; i++)
+              _this._summarys[i].style.width = _itemW - 189 + 'px'
+            for (i = 0; i < _this._stShelfBar.length; i++)
+              _this._stShelfBar[i].style.width = _itemW + 'px'
+          }),
+          (this.debugHD = function() {}),
+          (this.addBookItem = function(_elm) {
+            let i = 0
+            const _items = _elm.querySelectorAll('.stBookItem')
+            for (i = 0; i < _items.length; i++) new BookItem(_items[i])
+          }),
+          (this.addBookItemClass = function() {
+            let i = 0
+            for (
+              _this._heads = _this._node.querySelectorAll('.stRecommendHead'),
+                i = 0;
+              i < _this._heads.length;
+              i++
+            )
+              i % 2 === 0
+                ? (_s.removeClass(_this._heads[i], 'stEven'),
+                  _s.addClass(_this._heads[i], 'stOdd'))
+                : (_s.removeClass(_this._heads[i], 'stOdd'),
+                  _s.addClass(_this._heads[i], 'stEven'))
+          }),
+          (this.isClass = function(type, obj) {
+            const clas = Object.prototype.toString.call(obj).slice(8, -1)
+            return void 0 !== obj && obj !== null && clas === type
+          }),
+          (this._list = this._node.querySelectorAll('li')),
+          this._list.length)
+        ) {
+          let _count = 0
+          let i = 0
+          for (i = 0; i < this._list.length; i++) {
+            this._list[i].getAttribute('id')
+              ? (_s.addClass(this._list[i], 'stRecommendHead'),
+                (_count = 0),
+                this._max++)
+              : _s.addClass(this._list[i], 'stCount' + _count),
+              _count++
+            const _str = this._list[i].querySelector('.stSummary span')
+            if (_str) {
+              let _string = _str.textContent
+              _string.length > this._strLength &&
+                (_string = _string.substring(0, this._strLength) + '…'),
+                (_str.textContent = _string)
+            }
           }
+          ;(this._evens = this._node.querySelectorAll('.stEven')),
+            (this._stShelfBar = this._node.querySelectorAll('.stShelfBar')),
+            window.addEventListener(
+              'catchRecommendItems',
+              this.addBookItem,
+              !1
+            ),
+            window.addEventListener(Event.RESIZE, this.onResizeHD, !1),
+            this.onResizeHD()
+          const _url = location.href
+          return _url.includes('test01') || _url.includes('192.')
+            ? void this.debugHD()
+            : void this.loadHD()
         }
-        return RecommendBook
-      })()
+      }
+      return RecommendBook
+    })()
     module.exports = RecommendBook
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var Statics = __webpack_require__(2),
-      API = __webpack_require__(26),
-      Loader = __webpack_require__(27),
-      Event = __webpack_require__(5),
-      Ease = __webpack_require__(6),
-      MouseEvent = __webpack_require__(3),
-      _s = __webpack_require__(1),
-      Cookie = __webpack_require__(15),
-      BookItem = __webpack_require__(13),
-      TimeLine = (function() {
-        function TimeLine(_node) {
-          var _this = this
-          ;(this._node = _node),
-            (this._alreadyItems = []),
-            (this._currentX = -546),
-            (this._isPause = !1),
-            (this._isOpen = !1),
-            (this._panelSize = { w: 0, h: 0 }),
-            (this._params = []),
-            (this._spd = 0),
-            (this._isNext = !1),
-            (this._isPrev = !1),
-            (this._isLoading = !1),
-            (this.prevHD = function() {
-              ;(_this._isPrev = !0),
-                _s.removeClass(_this._btnNext, 'stDisabled'),
-                _this._btnNext.addEventListener(
-                  MouseEvent.MOUSE_DOWN,
-                  _this.nextHD,
-                  !1
-                )
-            }),
-            (this.nextHD = function() {
-              _this._isNext = !0
-            }),
-            (this.resumeHD = function() {
-              ;(_this._isPrev = !1),
-                (_this._isNext = !1),
-                _this._currentX <= _this._nowX &&
-                  _s.addClass(_this._btnNext, 'stDisabled')
-            }),
-            (this.loadJson = function() {
+    const Statics = __webpack_require__(2)
+    const API = __webpack_require__(26)
+    const Loader = __webpack_require__(27)
+    const Event = __webpack_require__(5)
+    const Ease = __webpack_require__(6)
+    const MouseEvent = __webpack_require__(3)
+    const _s = __webpack_require__(1)
+    const Cookie = __webpack_require__(15)
+    const BookItem = __webpack_require__(13)
+    const TimeLine = (function() {
+      function TimeLine(_node) {
+        const _this = this
+        ;(this._node = _node),
+          (this._alreadyItems = []),
+          (this._currentX = -546),
+          (this._isPause = !1),
+          (this._isOpen = !1),
+          (this._panelSize = { w: 0, h: 0 }),
+          (this._params = []),
+          (this._spd = 0),
+          (this._isNext = !1),
+          (this._isPrev = !1),
+          (this._isLoading = !1),
+          (this.prevHD = function() {
+            ;(_this._isPrev = !0),
+              _s.removeClass(_this._btnNext, 'stDisabled'),
+              _this._btnNext.addEventListener(
+                MouseEvent.MOUSE_DOWN,
+                _this.nextHD,
+                !1
+              )
+          }),
+          (this.nextHD = function() {
+            _this._isNext = !0
+          }),
+          (this.resumeHD = function() {
+            ;(_this._isPrev = !1),
+              (_this._isNext = !1),
+              _this._currentX <= _this._nowX &&
+                _s.addClass(_this._btnNext, 'stDisabled')
+          }),
+          (this.loadJson = function() {
+            _this._isLoading = !0
+            const _pageBlockID = _this._node.getAttribute('pageblockid')
+            const _param = window.Honto.Common.Ajax._getParameters(_pageBlockID)
+            const _self = _this
+            jQuery.ajax({
+              cache: !1,
+              data: _param,
+              dataType: 'json',
+              type: 'post',
+              url: window.Honto.Common.Ajax.url,
+              success(data) {
+                _self.loadCompleteAPI(data)
+              },
+              error(XMLHttpRequest, textStatus, errorThrown) {
+                console.log('timeline_get_error')
+              }
+            })
+          }),
+          (this.loadCompleteAPI = function(data) {
+            _this._isLoading = !1
+            let i = 0
+            let _html = ''
+            if (
+              (_this._windowSize < 1700
+                ? (_this._stopThreshold = 25)
+                : _this._windowSize < 1200
+                ? (_this._stopThreshold = 20)
+                : (_this._stopThreshold = 30),
+              data.Array.length < _this._stopThreshold)
+            )
+              return (
+                (_this._disablePanel.style.display = 'block'),
+                void (_this._ul.style.display = 'none')
+              )
+            for (i = 0; i < data.Array.length; i++) {
+              var _item = data.Array[i].timeline_items
+              ;(_html += '<li id="' + _item.item.item_id + '">'),
+                (_html +=
+                  '<span class="stStore">' +
+                  _item.sales_result_group_name +
+                  '</span>'),
+                (_html += '<div class="stBookItem standBy">'),
+                (_html += '<div class="stImg">'),
+                (_html +=
+                  '<a href="' +
+                  _item.item.item_url +
+                  '"><span class="stBtn stFav"></span>'),
+                (_html +=
+                  '<div class="stSummary"><p class="stTitle" style="font-size:11px; line-height:1.3;">' +
+                  _item.item.dsp_item_name2 +
+                  '</p></div></a>'),
+                (_html +=
+                  '<img src="' +
+                  _item.item.image_url +
+                  '" alt="' +
+                  _item.item.dsp_item_name2 +
+                  '"/>'),
+                (_html += '</div>'),
+                (_html += '</div>'),
+                (_html += '</li>')
+            }
+            for (
+              _this._ul.insertAdjacentHTML('beforeend', _html);
+              _this._ul.getElementsByTagName('li').length >= 100;
+
+            )
+              _this._ul.removeChild(_this._ul.getElementsByTagName('li')[0]),
+                (_this._currentX += 91),
+                (_this._currentX = Math.min(0, _this._currentX))
+            Statics.HAS_CSS
+              ? Velocity.hook(_this._ul, 'translateX', _this._currentX + 'px')
+              : Velocity.hook(_this._ul, 'margin-left', _this._currentX + 'px'),
+              (_this._ul.style.width =
+                91 * _this._ul.getElementsByTagName('li').length + 'px')
+            var _item = _this._ul.querySelectorAll('.standBy')
+            for (i = 0; i < _item.length; i++)
+              _s.removeClass(_item[i], 'standBy'), new BookItem(_item[i])
+            data.stock_quantity < 500 ? (_this._spd = 0.5) : (_this._spd = 1),
+              _this._currentX + _this._ul.offsetWidth >=
+                document.body.clientWidth &&
+                (_this._timer ||
+                  (_this._timer = window.requestAnimFrame(_this.movingList))),
+              (_this._nowX = _this._currentX)
+          }),
+          (this.movingList = function() {
+            if (
+              ((_this._timer = window.requestAnimFrame(_this.movingList)),
+              _this._isPause)
+            )
+              return (
+                _this._isPrev &&
+                  ((_this._currentX += 3),
+                  (_this._currentX = Math.min(_this._currentX, 0))),
+                _this._isNext &&
+                  _this._currentX > _this._nowX &&
+                  ((_this._currentX -= 3),
+                  (_this._currentX = Math.max(
+                    _this._currentX,
+                    document.body.clientWidth - _this._ul.offsetWidth
+                  ))),
+                void (Statics.HAS_CSS
+                  ? Velocity.hook(
+                      _this._ul,
+                      'translateX',
+                      _this._currentX + 'px'
+                    )
+                  : Velocity.hook(
+                      _this._ul,
+                      'margin-left',
+                      _this._currentX + 'px'
+                    ))
+              )
+            if (
+              ((_this._currentX -= _this._spd),
+              _this._currentX < _this._nowX &&
+                ((_this._nowX = _this._currentX),
+                _s.addClass(_this._btnNext, 'stDisabled')),
+              _this._currentX + _this._ul.offsetWidth <=
+                document.body.clientWidth + 300 && !_this._isLoading)
+            ) {
               _this._isLoading = !0
-              var _pageBlockID = _this._node.getAttribute('pageblockid'),
-                _param = window.Honto.Common.Ajax._getParameters(_pageBlockID),
-                _self = _this
-              jQuery.ajax({
-                cache: !1,
-                data: _param,
-                dataType: 'json',
-                type: 'post',
-                url: window.Honto.Common.Ajax.url,
-                success: function(data) {
-                  _self.loadCompleteAPI(data)
-                },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                  console.log('timeline_get_error')
-                }
-              })
-            }),
-            (this.loadCompleteAPI = function(data) {
-              _this._isLoading = !1
-              var i = 0,
-                _html = ''
-              if (
-                (_this._windowSize < 1700
-                  ? (_this._stopThreshold = 25)
-                  : _this._windowSize < 1200
-                  ? (_this._stopThreshold = 20)
-                  : (_this._stopThreshold = 30),
-                data.Array.length < _this._stopThreshold)
-              )
-                return (
-                  (_this._disablePanel.style.display = 'block'),
-                  void (_this._ul.style.display = 'none')
-                )
-              for (i = 0; i < data.Array.length; i++) {
-                var _item = data.Array[i].timeline_items
-                ;(_html += '<li id="' + _item.item.item_id + '">'),
-                  (_html +=
-                    '<span class="stStore">' +
-                    _item.sales_result_group_name +
-                    '</span>'),
-                  (_html += '<div class="stBookItem standBy">'),
-                  (_html += '<div class="stImg">'),
-                  (_html +=
-                    '<a href="' +
-                    _item.item.item_url +
-                    '"><span class="stBtn stFav"></span>'),
-                  (_html +=
-                    '<div class="stSummary"><p class="stTitle" style="font-size:11px; line-height:1.3;">' +
-                    _item.item.dsp_item_name2 +
-                    '</p></div></a>'),
-                  (_html +=
-                    '<img src="' +
-                    _item.item.image_url +
-                    '" alt="' +
-                    _item.item.dsp_item_name2 +
-                    '"/>'),
-                  (_html += '</div>'),
-                  (_html += '</div>'),
-                  (_html += '</li>')
-              }
-              for (
-                _this._ul.insertAdjacentHTML('beforeend', _html);
-                _this._ul.getElementsByTagName('li').length >= 100;
+              const _url = location.href
+              return _url.includes('test01') || _url.includes('192.')
+                ? void _this.loadJson2()
+                : void _this.loadJson()
+            }
+            Statics.HAS_CSS
+              ? Velocity.hook(_this._ul, 'translateX', _this._currentX + 'px')
+              : Velocity.hook(_this._ul, 'margin-left', _this._currentX + 'px')
+          }),
+          (this.loadJson2 = function() {
+            ;(_this._loader = new Loader()),
+              _this._loader.addEventListener(
+                Event.COMPLETE,
+                _this.loadComplete,
+                !1
+              ),
+              _this._loader.load({ url: API.TIME_LINE })
+          }),
+          (this.loadComplete = function() {
+            const _data = _this._loader.content.timeline_items
+            _this._isLoading = !1
+            let i = 0
+            let _html = ''
+            const _date = _data[i].made_time
+            for (i = 0; i < _data.length; i++)
+              (_html += '<li id="stTimelineItem_' + _date + '">'),
+                (_html +=
+                  '<span class="stStore">' +
+                  _data[i].sales_result_group_name +
+                  '</span>'),
+                (_html += '<div class="stBookItem standBy">'),
+                (_html += '<div class="stImg">'),
+                (_html +=
+                  '<a href="' +
+                  _data[i].item.item_url +
+                  '"><span class="stBtn stFav"></span></a>'),
+                (_html +=
+                  '<img src="' +
+                  _data[i].item.image_url +
+                  '" alt="' +
+                  _data[i].item.dsp_item_name1 +
+                  '"/>'),
+                (_html += '</div>'),
+                (_html += '</div>'),
+                (_html += '</li>')
+            for (i = 0; i < 3; i++) _html += _html
+            for (
+              _this._ul.insertAdjacentHTML('beforeend', _html);
+              _this._ul.getElementsByTagName('li').length >= 100;
 
+            )
+              _this._ul.removeChild(_this._ul.getElementsByTagName('li')[0]),
+                (_this._currentX += 91),
+                (_this._currentX = Math.min(0, _this._currentX))
+            Statics.HAS_CSS
+              ? Velocity.hook(_this._ul, 'translateX', _this._currentX + 'px')
+              : Velocity.hook(_this._ul, 'margin-left', _this._currentX + 'px'),
+              (_this._ul.style.width =
+                91 * _this._ul.getElementsByTagName('li').length + 'px'),
+              (_this._spd =
+                (1 * _this._ul.getElementsByTagName('li').length) / 60)
+            const _item = _this._ul.querySelectorAll('.standBy')
+            for (i = 0; i < _item.length; i++)
+              _s.removeClass(_item[i], 'standBy'), new BookItem(_item[i])
+            _this._timer ||
+              (_this._timer = window.requestAnimFrame(_this.movingList))
+          }),
+          (this.openSettingPanel = function(e) {
+            _this.settingPanelInit(),
+              (_this._isPause = !0),
+              (_this._setting.style.display = 'block'),
+              Velocity(_this._bg, 'stop'),
+              Velocity(
+                _this._bg,
+                { opacity: 1 },
+                { duration: 500, delay: 0, easing: Ease.EaseOutCubic }
+              ),
+              e.preventDefault(),
+              _this.onScrollHD(),
+              Velocity(_this._panel, 'stop'),
+              Velocity(
+                _this._panel,
+                { opacity: 1, scale: 1 },
+                { duration: 500, delay: 0, easing: Ease.EaseOutCubic }
               )
-                _this._ul.removeChild(_this._ul.getElementsByTagName('li')[0]),
-                  (_this._currentX += 91),
-                  (_this._currentX = Math.min(0, _this._currentX))
-              Statics.HAS_CSS
-                ? Velocity.hook(_this._ul, 'translateX', _this._currentX + 'px')
-                : Velocity.hook(
-                    _this._ul,
-                    'margin-left',
-                    _this._currentX + 'px'
-                  ),
-                (_this._ul.style.width =
-                  91 * _this._ul.getElementsByTagName('li').length + 'px')
-              var _item = _this._ul.querySelectorAll('.standBy')
-              for (i = 0; i < _item.length; i++)
-                _s.removeClass(_item[i], 'standBy'), new BookItem(_item[i])
-              data.stock_quantity < 500 ? (_this._spd = 0.5) : (_this._spd = 1),
-                _this._currentX + _this._ul.offsetWidth >=
-                  document.body.clientWidth &&
-                  (_this._timer ||
-                    (_this._timer = window.requestAnimFrame(_this.movingList))),
-                (_this._nowX = _this._currentX)
-            }),
-            (this.movingList = function() {
-              if (
-                ((_this._timer = window.requestAnimFrame(_this.movingList)),
-                _this._isPause)
-              )
-                return (
-                  _this._isPrev &&
-                    ((_this._currentX += 3),
-                    (_this._currentX = Math.min(_this._currentX, 0))),
-                  _this._isNext &&
-                    _this._currentX > _this._nowX &&
-                    ((_this._currentX -= 3),
-                    (_this._currentX = Math.max(
-                      _this._currentX,
-                      document.body.clientWidth - _this._ul.offsetWidth
-                    ))),
-                  void (Statics.HAS_CSS
-                    ? Velocity.hook(
-                        _this._ul,
-                        'translateX',
-                        _this._currentX + 'px'
-                      )
-                    : Velocity.hook(
-                        _this._ul,
-                        'margin-left',
-                        _this._currentX + 'px'
-                      ))
-                )
-              if (
-                ((_this._currentX -= _this._spd),
-                _this._currentX < _this._nowX &&
-                  ((_this._nowX = _this._currentX),
-                  _s.addClass(_this._btnNext, 'stDisabled')),
-                _this._currentX + _this._ul.offsetWidth <=
-                  document.body.clientWidth + 300 && !_this._isLoading)
-              ) {
-                _this._isLoading = !0
-                var _url = location.href
-                return _url.indexOf('test01') >= 0 || _url.indexOf('192.') >= 0
-                  ? void _this.loadJson2()
-                  : void _this.loadJson()
-              }
-              Statics.HAS_CSS
-                ? Velocity.hook(_this._ul, 'translateX', _this._currentX + 'px')
-                : Velocity.hook(
-                    _this._ul,
-                    'margin-left',
-                    _this._currentX + 'px'
-                  )
-            }),
-            (this.loadJson2 = function() {
-              ;(_this._loader = new Loader()),
-                _this._loader.addEventListener(
-                  Event.COMPLETE,
-                  _this.loadComplete,
-                  !1
-                ),
-                _this._loader.load({ url: API.TIME_LINE })
-            }),
-            (this.loadComplete = function() {
-              var _data = _this._loader.content.timeline_items
-              _this._isLoading = !1
-              var i = 0,
-                _html = '',
-                _date = _data[i].made_time
-              for (i = 0; i < _data.length; i++)
-                (_html += '<li id="stTimelineItem_' + _date + '">'),
-                  (_html +=
-                    '<span class="stStore">' +
-                    _data[i].sales_result_group_name +
-                    '</span>'),
-                  (_html += '<div class="stBookItem standBy">'),
-                  (_html += '<div class="stImg">'),
-                  (_html +=
-                    '<a href="' +
-                    _data[i].item.item_url +
-                    '"><span class="stBtn stFav"></span></a>'),
-                  (_html +=
-                    '<img src="' +
-                    _data[i].item.image_url +
-                    '" alt="' +
-                    _data[i].item.dsp_item_name1 +
-                    '"/>'),
-                  (_html += '</div>'),
-                  (_html += '</div>'),
-                  (_html += '</li>')
-              for (i = 0; i < 3; i++) _html += _html
-              for (
-                _this._ul.insertAdjacentHTML('beforeend', _html);
-                _this._ul.getElementsByTagName('li').length >= 100;
-
-              )
-                _this._ul.removeChild(_this._ul.getElementsByTagName('li')[0]),
-                  (_this._currentX += 91),
-                  (_this._currentX = Math.min(0, _this._currentX))
-              Statics.HAS_CSS
-                ? Velocity.hook(_this._ul, 'translateX', _this._currentX + 'px')
-                : Velocity.hook(
-                    _this._ul,
-                    'margin-left',
-                    _this._currentX + 'px'
-                  ),
-                (_this._ul.style.width =
-                  91 * _this._ul.getElementsByTagName('li').length + 'px'),
-                (_this._spd =
-                  (1 * _this._ul.getElementsByTagName('li').length) / 60)
-              var _item = _this._ul.querySelectorAll('.standBy')
-              for (i = 0; i < _item.length; i++)
-                _s.removeClass(_item[i], 'standBy'), new BookItem(_item[i])
-              _this._timer ||
-                (_this._timer = window.requestAnimFrame(_this.movingList))
-            }),
-            (this.openSettingPanel = function(e) {
-              _this.settingPanelInit(),
-                (_this._isPause = !0),
-                (_this._setting.style.display = 'block'),
-                Velocity(_this._bg, 'stop'),
-                Velocity(
-                  _this._bg,
-                  { opacity: 1 },
-                  { duration: 500, delay: 0, easing: Ease.EaseOutCubic }
-                ),
-                e.preventDefault(),
-                _this.onScrollHD(),
-                Velocity(_this._panel, 'stop'),
-                Velocity(
-                  _this._panel,
-                  { opacity: 1, scale: 1 },
-                  { duration: 500, delay: 0, easing: Ease.EaseOutCubic }
-                )
-            }),
-            (this.settingPanelInit = function() {
-              Statics.TIMELINE &&
-                (_s.addClass(_this._settingToggles[0], 'stCurrent'),
-                (_this._settingChecks[0].checked = !0))
-              var i = 0
-              for (i = 1; i < _this._settingChecks.length; i++)
-                _this._settingChecks[i].checked &&
-                  _s.addClass(_this._settingToggles[i], 'stCurrent')
-            }),
-            (this.paramChange = function(e) {
-              var _index = Array.prototype.indexOf.call(
-                  _this._settingChecks,
-                  e.currentTarget
-                ),
-                _hasMoveing = 0 === _index
-              if (
-                (e.currentTarget.checked
-                  ? (_s.addClass(_this._settingToggles[_index], 'stCurrent'),
-                    _hasMoveing &&
-                      ((Statics.TIMELINE = !0), Cookie.setCookie()))
-                  : (_s.removeClass(_this._settingToggles[_index], 'stCurrent'),
-                    _hasMoveing &&
-                      ((Statics.TIMELINE = !1), Cookie.setCookie())),
-                window.CustomEvent)
-              )
-                try {
-                  var event = new CustomEvent('TIMELINE_PARAM_CHANGE', {})
-                } catch (e) {
-                  var event = document.createEvent('CustomEvent')
-                  event.initCustomEvent('TIMELINE_PARAM_CHANGE', !0, !0, {})
-                }
-              else {
+          }),
+          (this.settingPanelInit = function() {
+            Statics.TIMELINE &&
+              (_s.addClass(_this._settingToggles[0], 'stCurrent'),
+              (_this._settingChecks[0].checked = !0))
+            let i = 0
+            for (i = 1; i < _this._settingChecks.length; i++)
+              _this._settingChecks[i].checked &&
+                _s.addClass(_this._settingToggles[i], 'stCurrent')
+          }),
+          (this.paramChange = function(e) {
+            const _index = Array.prototype.indexOf.call(
+              _this._settingChecks,
+              e.currentTarget
+            )
+            const _hasMoveing = _index === 0
+            if (
+              (e.currentTarget.checked
+                ? (_s.addClass(_this._settingToggles[_index], 'stCurrent'),
+                  _hasMoveing && ((Statics.TIMELINE = !0), Cookie.setCookie()))
+                : (_s.removeClass(_this._settingToggles[_index], 'stCurrent'),
+                  _hasMoveing && ((Statics.TIMELINE = !1), Cookie.setCookie())),
+              window.CustomEvent)
+            )
+              try {
+                var event = new CustomEvent('TIMELINE_PARAM_CHANGE', {})
+              } catch (e) {
                 var event = document.createEvent('CustomEvent')
                 event.initCustomEvent('TIMELINE_PARAM_CHANGE', !0, !0, {})
               }
-              window.dispatchEvent(event)
-            }),
-            (this.onParamChange = function() {
-              _this._isPause = !Statics.TIMELINE
-            }),
-            (this.closeSettingPanel = function() {
-              Velocity(_this._bg, 'stop'),
-                Velocity(
-                  _this._bg,
-                  { opacity: 0 },
-                  { duration: 500, delay: 0, easing: Ease.EaseOutCubic }
-                ),
-                Velocity(_this._panel, 'stop'),
-                Velocity(
-                  _this._panel,
-                  { opacity: 0, scale: 0.8 },
-                  {
-                    duration: 500,
-                    delay: 0,
-                    easing: Ease.EaseOutCubic,
-                    complete: _this.hideSettingPanel
-                  }
-                )
-            }),
-            (this.hideSettingPanel = function() {
-              ;(_this._isPause = !1), (_this._setting.style.display = 'none')
-            }),
-            (this.onScrollHD = function() {
-              var _top =
-                (document.documentElement &&
-                  document.documentElement.scrollTop) ||
-                document.body.scrollTop
-              _this._panel.style.top = _top + 50 + 'px'
-            }),
-            (this.pauseHD = function() {
-              _this._isPause = !0
-            }),
-            (this.playHD = function() {
-              _this._isPause = !Statics.TIMELINE
-            })
-          var i = 0
-          ;(this._ul = this._node.getElementsByTagName('ul')[0]),
-            (this._timeLine = this._node.querySelector('.stBookTimeLine02')),
-            (this._btnPrev = this._node.querySelector('.stPrev')),
-            (this._btnNext = this._node.querySelector('.stNext')),
-            (this._disablePanel = this._node.querySelector('.stDisablePanel')),
-            (this._windowSize =
-              window.innerWidth || document.documentElement.clientWidth || 0)
-          try {
-            for (
-              this._setting = this._node.querySelector('.stTimelineSetting01'),
-                this._bg = this._node.querySelector('.stFloatBg'),
-                Velocity.hook(this._bg, 'opacity', '0'),
-                this._close = this._node.querySelector('.stBtn.stClose'),
-                this._trigger = this._node.querySelector('.stHdg2 a'),
-                this._panel = this._node.querySelector('.stSettingPanel01'),
-                this._panelBg = this._node.querySelector('.stFloatBg'),
-                this._panelSize.w = this._panel.offsetWidth,
-                this._panelSize.h = this._panel.offsetHeight,
-                Velocity.hook(this._panel, 'opacity', '0'),
-                Velocity.hook(this._panel, 'scale', '0.8'),
-                this._settingToggles = this._panel.querySelectorAll('p.stBtn'),
-                this._settingToggleBtn = this._panel.querySelectorAll('label'),
-                this._settingChecks = this._panel.querySelectorAll('input'),
-                this._trigger.addEventListener(
-                  MouseEvent.CLICK,
-                  this.openSettingPanel,
-                  !1
-                ),
-                this._close.addEventListener(
-                  MouseEvent.CLICK,
-                  this.closeSettingPanel,
-                  !1
-                ),
-                this._panelBg.addEventListener(
-                  MouseEvent.CLICK,
-                  this.closeSettingPanel,
-                  !1
-                ),
-                i = 0;
-              i < this._settingToggles.length;
-              i++
-            )
-              this._settingChecks[i].addEventListener(
-                'change',
-                this.paramChange,
-                !1
+            else {
+              var event = document.createEvent('CustomEvent')
+              event.initCustomEvent('TIMELINE_PARAM_CHANGE', !0, !0, {})
+            }
+            window.dispatchEvent(event)
+          }),
+          (this.onParamChange = function() {
+            _this._isPause = !Statics.TIMELINE
+          }),
+          (this.closeSettingPanel = function() {
+            Velocity(_this._bg, 'stop'),
+              Velocity(
+                _this._bg,
+                { opacity: 0 },
+                { duration: 500, delay: 0, easing: Ease.EaseOutCubic }
+              ),
+              Velocity(_this._panel, 'stop'),
+              Velocity(
+                _this._panel,
+                { opacity: 0, scale: 0.8 },
+                {
+                  duration: 500,
+                  delay: 0,
+                  easing: Ease.EaseOutCubic,
+                  complete: _this.hideSettingPanel
+                }
               )
-          } catch (e) {}
-          ;(this._cookie = Cookie.getCookie()),
-            (Statics.TIMELINE = !this._cookie || this._cookie.timeline),
-            (this._isPause = !Statics.TIMELINE)
-          var _url = location.href
-          return _url.indexOf('debug') >= 0
-            ? ((this._ul.style.display = 'none'),
-              _s.addClass(this._btnPrev, 'stDisabled'),
-              _s.addClass(this._btnNext, 'stDisabled'),
-              void (this._disablePanel.style.display = 'table'))
-            : (window.addEventListener(
-                'TIMELINE_PARAM_CHANGE',
-                this.onParamChange,
+          }),
+          (this.hideSettingPanel = function() {
+            ;(_this._isPause = !1), (_this._setting.style.display = 'none')
+          }),
+          (this.onScrollHD = function() {
+            const _top =
+              (document.documentElement &&
+                document.documentElement.scrollTop) ||
+              document.body.scrollTop
+            _this._panel.style.top = _top + 50 + 'px'
+          }),
+          (this.pauseHD = function() {
+            _this._isPause = !0
+          }),
+          (this.playHD = function() {
+            _this._isPause = !Statics.TIMELINE
+          })
+        let i = 0
+        ;(this._ul = this._node.getElementsByTagName('ul')[0]),
+          (this._timeLine = this._node.querySelector('.stBookTimeLine02')),
+          (this._btnPrev = this._node.querySelector('.stPrev')),
+          (this._btnNext = this._node.querySelector('.stNext')),
+          (this._disablePanel = this._node.querySelector('.stDisablePanel')),
+          (this._windowSize =
+            window.innerWidth || document.documentElement.clientWidth || 0)
+        try {
+          for (
+            this._setting = this._node.querySelector('.stTimelineSetting01'),
+              this._bg = this._node.querySelector('.stFloatBg'),
+              Velocity.hook(this._bg, 'opacity', '0'),
+              this._close = this._node.querySelector('.stBtn.stClose'),
+              this._trigger = this._node.querySelector('.stHdg2 a'),
+              this._panel = this._node.querySelector('.stSettingPanel01'),
+              this._panelBg = this._node.querySelector('.stFloatBg'),
+              this._panelSize.w = this._panel.offsetWidth,
+              this._panelSize.h = this._panel.offsetHeight,
+              Velocity.hook(this._panel, 'opacity', '0'),
+              Velocity.hook(this._panel, 'scale', '0.8'),
+              this._settingToggles = this._panel.querySelectorAll('p.stBtn'),
+              this._settingToggleBtn = this._panel.querySelectorAll('label'),
+              this._settingChecks = this._panel.querySelectorAll('input'),
+              this._trigger.addEventListener(
+                MouseEvent.CLICK,
+                this.openSettingPanel,
                 !1
               ),
-              this._btnPrev &&
-                (this._btnPrev.addEventListener(
-                  MouseEvent.MOUSE_DOWN,
-                  this.prevHD,
-                  !1
-                ),
-                this._btnPrev.addEventListener(
-                  MouseEvent.MOUSE_UP,
-                  this.resumeHD,
-                  !1
-                )),
-              this._btnNext &&
-                (_s.addClass(this._btnNext, 'stDisabled'),
-                this._btnNext.addEventListener(
-                  MouseEvent.MOUSE_UP,
-                  this.resumeHD,
-                  !1
-                )),
-              Statics.HAS_TOUCH ||
-                (this._node.addEventListener(
-                  MouseEvent.MOUSE_ENTER,
-                  this.pauseHD,
-                  !1
-                ),
-                this._node.addEventListener(
-                  MouseEvent.MOUSE_LEAVE,
-                  this.playHD,
-                  !1
-                )),
-              this._node.getAttribute('pageblockid')
-                ? _url.indexOf('test01') >= 0 || _url.indexOf('192.') >= 0
-                  ? void this.loadJson2()
-                  : void this.loadJson()
-                : void 0)
-        }
-        return TimeLine
-      })()
+              this._close.addEventListener(
+                MouseEvent.CLICK,
+                this.closeSettingPanel,
+                !1
+              ),
+              this._panelBg.addEventListener(
+                MouseEvent.CLICK,
+                this.closeSettingPanel,
+                !1
+              ),
+              i = 0;
+            i < this._settingToggles.length;
+            i++
+          )
+            this._settingChecks[i].addEventListener(
+              'change',
+              this.paramChange,
+              !1
+            )
+        } catch (e) {}
+        ;(this._cookie = Cookie.getCookie()),
+          (Statics.TIMELINE = !this._cookie || this._cookie.timeline),
+          (this._isPause = !Statics.TIMELINE)
+        const _url = location.href
+        return _url.includes('debug')
+          ? ((this._ul.style.display = 'none'),
+            _s.addClass(this._btnPrev, 'stDisabled'),
+            _s.addClass(this._btnNext, 'stDisabled'),
+            void (this._disablePanel.style.display = 'table'))
+          : (window.addEventListener(
+              'TIMELINE_PARAM_CHANGE',
+              this.onParamChange,
+              !1
+            ),
+            this._btnPrev &&
+              (this._btnPrev.addEventListener(
+                MouseEvent.MOUSE_DOWN,
+                this.prevHD,
+                !1
+              ),
+              this._btnPrev.addEventListener(
+                MouseEvent.MOUSE_UP,
+                this.resumeHD,
+                !1
+              )),
+            this._btnNext &&
+              (_s.addClass(this._btnNext, 'stDisabled'),
+              this._btnNext.addEventListener(
+                MouseEvent.MOUSE_UP,
+                this.resumeHD,
+                !1
+              )),
+            Statics.HAS_TOUCH ||
+              (this._node.addEventListener(
+                MouseEvent.MOUSE_ENTER,
+                this.pauseHD,
+                !1
+              ),
+              this._node.addEventListener(
+                MouseEvent.MOUSE_LEAVE,
+                this.playHD,
+                !1
+              )),
+            this._node.getAttribute('pageblockid')
+              ? _url.includes('test01') || _url.includes('192.')
+                ? void this.loadJson2()
+                : void this.loadJson()
+              : void 0)
+      }
+      return TimeLine
+    })()
     module.exports = TimeLine
   },
   function(module, exports) {
     'use strict'
-    var API = (function() {
+    const API = (function() {
       function API() {}
       return (API.TIME_LINE = '/library/json/timeline.json'), API
     })()
@@ -9634,1098 +9580,1078 @@ var registStateManage = {
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var __extends =
-        (this && this.__extends) ||
-        function(d, b) {
-          function __() {
-            this.constructor = d
-          }
-          for (var p in b) b.hasOwnProperty(p) && (d[p] = b[p])
-          d.prototype =
-            null === b
-              ? Object.create(b)
-              : ((__.prototype = b.prototype), new __())
-        },
-      EventDispatcher = __webpack_require__(19),
-      Event = __webpack_require__(5),
-      Loader = (function(_super) {
-        function Loader() {
-          var _this = this
-          _super.call(this),
-            (this.method = 'GET'),
-            (this.type = 'json'),
-            (this.load = function(_param) {
-              void 0 === _param && (_param = null)
-              var _self = _this
-              _param.type && (_this.type = _param.type),
-                (_this.request = new XMLHttpRequest()),
-                _this.request.open(_this.method, _param.url, !0)
-              var _sendData = {}
-              void 0 === _param.data || (_sendData = _param.data),
-                'POST' === _this.method.toUpperCase() &&
-                  _this.request.setRequestHeader(
-                    'Content-Type',
-                    'application/x-www-form-urlencoded; charset=UTF-8'
-                  ),
-                (_this.request.onreadystatechange = function() {
-                  4 === this.readyState &&
-                    (this.status >= 200 && this.status < 400
-                      ? ((_self.content = this.responseText),
-                        _self.type.indexOf('json') >= 0 &&
-                          (_self.content = JSON.parse(_self.content)),
-                        _self.dispatchEvent(Event.COMPLETE))
-                      : _self.dispatchEvent(Event.IO_ERROR))
-                }),
-                _this.request.send(_sendData)
-            }),
-            (this.unload = function() {
-              _this.content = void 0
-            }),
-            (this.close = function() {
-              _this.request.abort(),
-                _this.request.removeEventListener('onreadystatechange'),
-                (_this.request = void 0)
-            }),
-            (this.EncodeHTMLForm = function(data) {
-              var params = []
-              for (var name in data) {
-                var value = data[name],
-                  param =
-                    encodeURIComponent(name) + '=' + encodeURIComponent(value)
-                params.push(param)
-              }
-              return params.join('&').replace(/%20/g, '+')
-            })
+    const __extends =
+      (this && this.__extends) ||
+      function(d, b) {
+        function __() {
+          this.constructor = d
         }
-        return __extends(Loader, _super), Loader
-      })(EventDispatcher)
+        for (const p in b) b.hasOwnProperty(p) && (d[p] = b[p])
+        d.prototype =
+          b === null
+            ? Object.create(b)
+            : ((__.prototype = b.prototype), new __())
+      }
+    const EventDispatcher = __webpack_require__(19)
+    const Event = __webpack_require__(5)
+    const Loader = (function(_super) {
+      function Loader() {
+        const _this = this
+        _super.call(this),
+          (this.method = 'GET'),
+          (this.type = 'json'),
+          (this.load = function(_param) {
+            void 0 === _param && (_param = null)
+            const _self = _this
+            _param.type && (_this.type = _param.type),
+              (_this.request = new XMLHttpRequest()),
+              _this.request.open(_this.method, _param.url, !0)
+            let _sendData = {}
+            void 0 === _param.data || (_sendData = _param.data),
+              _this.method.toUpperCase() === 'POST' &&
+                _this.request.setRequestHeader(
+                  'Content-Type',
+                  'application/x-www-form-urlencoded; charset=UTF-8'
+                ),
+              (_this.request.onreadystatechange = function() {
+                this.readyState === 4 &&
+                  (this.status >= 200 && this.status < 400
+                    ? ((_self.content = this.responseText),
+                      _self.type.includes('json') &&
+                        (_self.content = JSON.parse(_self.content)),
+                      _self.dispatchEvent(Event.COMPLETE))
+                    : _self.dispatchEvent(Event.IO_ERROR))
+              }),
+              _this.request.send(_sendData)
+          }),
+          (this.unload = function() {
+            _this.content = void 0
+          }),
+          (this.close = function() {
+            _this.request.abort(),
+              _this.request.removeEventListener('onreadystatechange'),
+              (_this.request = void 0)
+          }),
+          (this.EncodeHTMLForm = function(data) {
+            const params = []
+            for (const name in data) {
+              const value = data[name]
+              const param =
+                encodeURIComponent(name) + '=' + encodeURIComponent(value)
+              params.push(param)
+            }
+            return params.join('&').replace(/%20/g, '+')
+          })
+      }
+      return __extends(Loader, _super), Loader
+    })(EventDispatcher)
     module.exports = Loader
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var __extends =
-        (this && this.__extends) ||
-        function(d, b) {
-          function __() {
-            this.constructor = d
-          }
-          for (var p in b) b.hasOwnProperty(p) && (d[p] = b[p])
-          d.prototype =
-            null === b
-              ? Object.create(b)
-              : ((__.prototype = b.prototype), new __())
-        },
-      _s = __webpack_require__(1),
-      CarouselEngine = __webpack_require__(18),
-      Event = __webpack_require__(5),
-      MouseEvent = __webpack_require__(3),
-      Selection = (function(_super) {
-        function Selection(_target) {
-          var _this = this
-          _super.call(this, {
-            _node: _target.querySelector('.stStaticCarousel01'),
-            slideSpan: 520,
-            loop: !0,
-            snap: !0,
-            auto: !1
-          }),
-            (this._target = _target),
-            (this._indexList = []),
-            (this._prevHeight = 0),
-            (this._ajustText = function() {
-              var i = 0,
-                _toHeight = 0
-              for (i = 0; i < _this._slideNodes.length; i++)
-                _toHeight = Math.max(
-                  _this._slideNodes[i].offsetHeight,
-                  _toHeight
-                )
-              _this._prevHeight !== _toHeight &&
-                ((_this._prevHeight = _toHeight),
-                (_this._view.style.height = _toHeight + 'px'))
-            }),
-            (this.onResize = function() {
-              var _toWidth = _this._target.offsetWidth - 407
-              ;(_this._targetNode.style.width = _toWidth + 'px'),
-                _this.resize(_toWidth)
-            }),
-            (this.directChoose = function(e) {
-              ;(_this._currentSlide = Array.prototype.indexOf.call(
-                _this._indexList,
-                e.currentTarget
-              )),
-                _this.directChange(null)
-            }),
-            (this._setIndexItem = function() {
-              var i = 0
-              for (i = 0; i < _this._indexList.length; i++)
-                i === _this._currentSlide
-                  ? _this.setCurrent(_this._indexList[i])
-                  : _this.resetCurrent(_this._indexList[i])
-            }),
-            (this.setCurrent = function(_item) {
-              _s.addClass(_item, 'stCurrent')
-            }),
-            (this.resetCurrent = function(_item) {
-              _s.removeClass(_item, 'stCurrent')
-            }),
-            (this.onChange = function(e) {
-              _this._setIndexItem()
-            }),
-            (this._targetNode = this._target.querySelector(
-              '.stStaticCarousel01'
-            )),
-            (this._view = this._targetNode.querySelector('.stView'))
-          var i = 0
-          for (
-            this._indexList = this._target.querySelectorAll(
-              '.stSelectionIndex li'
-            ),
-              i = 0;
-            i < this._indexList.length;
-            i++
-          )
-            this._indexList[i].addEventListener(
-              MouseEvent.CLICK,
-              this.directChoose,
-              !1
-            )
-          this._slideNodes = this._target.querySelectorAll(
-            '.stStaticCarousel01 li'
-          )
-          try {
-            this.addEventListener(Event.CHANGE, this.onChange, !1)
-          } catch (e) {
-            jQuery(window).bind('SLIDE_CHANGE', this.onChange)
-          }
-          this._setIndexItem(),
-            window.addEventListener(Event.RESIZE, this.onResize, !1),
-            this.onResize(),
-            setInterval(this._ajustText, 500)
+    const __extends =
+      (this && this.__extends) ||
+      function(d, b) {
+        function __() {
+          this.constructor = d
         }
-        return __extends(Selection, _super), Selection
-      })(CarouselEngine)
+        for (const p in b) b.hasOwnProperty(p) && (d[p] = b[p])
+        d.prototype =
+          b === null
+            ? Object.create(b)
+            : ((__.prototype = b.prototype), new __())
+      }
+    const _s = __webpack_require__(1)
+    const CarouselEngine = __webpack_require__(18)
+    const Event = __webpack_require__(5)
+    const MouseEvent = __webpack_require__(3)
+    const Selection = (function(_super) {
+      function Selection(_target) {
+        const _this = this
+        _super.call(this, {
+          _node: _target.querySelector('.stStaticCarousel01'),
+          slideSpan: 520,
+          loop: !0,
+          snap: !0,
+          auto: !1
+        }),
+          (this._target = _target),
+          (this._indexList = []),
+          (this._prevHeight = 0),
+          (this._ajustText = function() {
+            let i = 0
+            let _toHeight = 0
+            for (i = 0; i < _this._slideNodes.length; i++)
+              _toHeight = Math.max(_this._slideNodes[i].offsetHeight, _toHeight)
+            _this._prevHeight !== _toHeight &&
+              ((_this._prevHeight = _toHeight),
+              (_this._view.style.height = _toHeight + 'px'))
+          }),
+          (this.onResize = function() {
+            const _toWidth = _this._target.offsetWidth - 407
+            ;(_this._targetNode.style.width = _toWidth + 'px'),
+              _this.resize(_toWidth)
+          }),
+          (this.directChoose = function(e) {
+            ;(_this._currentSlide = Array.prototype.indexOf.call(
+              _this._indexList,
+              e.currentTarget
+            )),
+              _this.directChange(null)
+          }),
+          (this._setIndexItem = function() {
+            let i = 0
+            for (i = 0; i < _this._indexList.length; i++)
+              i === _this._currentSlide
+                ? _this.setCurrent(_this._indexList[i])
+                : _this.resetCurrent(_this._indexList[i])
+          }),
+          (this.setCurrent = function(_item) {
+            _s.addClass(_item, 'stCurrent')
+          }),
+          (this.resetCurrent = function(_item) {
+            _s.removeClass(_item, 'stCurrent')
+          }),
+          (this.onChange = function(e) {
+            _this._setIndexItem()
+          }),
+          (this._targetNode = this._target.querySelector(
+            '.stStaticCarousel01'
+          )),
+          (this._view = this._targetNode.querySelector('.stView'))
+        let i = 0
+        for (
+          this._indexList = this._target.querySelectorAll(
+            '.stSelectionIndex li'
+          ),
+            i = 0;
+          i < this._indexList.length;
+          i++
+        )
+          this._indexList[i].addEventListener(
+            MouseEvent.CLICK,
+            this.directChoose,
+            !1
+          )
+        this._slideNodes = this._target.querySelectorAll(
+          '.stStaticCarousel01 li'
+        )
+        try {
+          this.addEventListener(Event.CHANGE, this.onChange, !1)
+        } catch (e) {
+          jQuery(window).bind('SLIDE_CHANGE', this.onChange)
+        }
+        this._setIndexItem(),
+          window.addEventListener(Event.RESIZE, this.onResize, !1),
+          this.onResize(),
+          setInterval(this._ajustText, 500)
+      }
+      return __extends(Selection, _super), Selection
+    })(CarouselEngine)
     module.exports = Selection
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var Event = __webpack_require__(5),
-      Ease = __webpack_require__(6),
-      BookShelf = (function() {
-        function BookShelf(_node) {
-          var _this = this
-          ;(this._node = _node),
-            (this._items = []),
-            (this._images = []),
-            (this._prevX = []),
-            (this._prevY = []),
-            (this._gotoX = []),
-            (this._gotoY = []),
-            (this._isFirst = !0),
-            (this._img = new Image()),
-            (this._width = 0),
-            (this._height = 0),
-            (this.prepResizeHD = function() {
-              _this._resizeTimer && clearTimeout(_this._resizeTimer),
-                (_this._resizeTimer = setTimeout(_this.onResizeHD, 400))
-            }),
-            (this.onResizeHD = function() {
-              _this.clone()
-              var i = 0
-              for (i = 0; i < _this._items.length; i++)
-                _this._items[i].style.width = 'auto'
-            }),
-            (this.clone = function() {
-              var i = 0
-              for (
-                _this._prevX = [], _this._prevY = [], i = 0;
-                i < _this._gotoX.length;
-                i++
-              )
-                _this._prevX.push(_this._gotoX[i]),
-                  _this._prevY.push(_this._gotoY[i])
-            }),
-            (this.setUp = function() {
-              _this._isFirst = !1
-              var i = 0
-              for (i = 0; i < _this._items.length; i++)
-                (_this._items[i].style.left = _this._gotoX[i] + 'px'),
-                  (_this._items[i].style.top = _this._gotoY[i] + 'px')
-            }),
-            (this.update = function() {
-              var i = 0
-              for (i = 0; i < _this._items.length; i++) {
-                var _toX = _this._gotoX[i],
-                  _toY = _this._gotoY[i]
-                if (
-                  (Velocity(_this._items[i], 'stop'), _toY === _this._prevY[i])
+    const Event = __webpack_require__(5)
+    const Ease = __webpack_require__(6)
+    const BookShelf = (function() {
+      function BookShelf(_node) {
+        const _this = this
+        ;(this._node = _node),
+          (this._items = []),
+          (this._images = []),
+          (this._prevX = []),
+          (this._prevY = []),
+          (this._gotoX = []),
+          (this._gotoY = []),
+          (this._isFirst = !0),
+          (this._img = new Image()),
+          (this._width = 0),
+          (this._height = 0),
+          (this.prepResizeHD = function() {
+            _this._resizeTimer && clearTimeout(_this._resizeTimer),
+              (_this._resizeTimer = setTimeout(_this.onResizeHD, 400))
+          }),
+          (this.onResizeHD = function() {
+            _this.clone()
+            let i = 0
+            for (i = 0; i < _this._items.length; i++)
+              _this._items[i].style.width = 'auto'
+          }),
+          (this.clone = function() {
+            let i = 0
+            for (
+              _this._prevX = [], _this._prevY = [], i = 0;
+              i < _this._gotoX.length;
+              i++
+            )
+              _this._prevX.push(_this._gotoX[i]),
+                _this._prevY.push(_this._gotoY[i])
+          }),
+          (this.setUp = function() {
+            _this._isFirst = !1
+            let i = 0
+            for (i = 0; i < _this._items.length; i++)
+              (_this._items[i].style.left = _this._gotoX[i] + 'px'),
+                (_this._items[i].style.top = _this._gotoY[i] + 'px')
+          }),
+          (this.update = function() {
+            let i = 0
+            for (i = 0; i < _this._items.length; i++) {
+              const _toX = _this._gotoX[i]
+              const _toY = _this._gotoY[i]
+              if ((Velocity(_this._items[i], 'stop'), _toY === _this._prevY[i]))
+                Velocity(
+                  _this._items[i],
+                  { left: _toX, top: _toY },
+                  { duration: 500, delay: 0, easing: Ease.EaseOutCubic }
                 )
+              else {
+                const _hideX =
+                  _toY < _this._prevY[i]
+                    ? -_this._prevX[i] - 80
+                    : _this._node.offsetWidth
+                const _showX =
+                  _toY < _this._prevY[i]
+                    ? _this._node.offsetWidth + _this._prevX[i]
+                    : -_this._prevX[i]
+                Velocity(
+                  _this._items[i],
+                  { left: _hideX },
+                  { duration: 250, delay: 0, easing: Ease.EaseOutCubic }
+                ),
                   Velocity(
                     _this._items[i],
-                    { left: _toX, top: _toY },
-                    { duration: 500, delay: 0, easing: Ease.EaseOutCubic }
-                  )
-                else {
-                  var _hideX =
-                      _toY < _this._prevY[i]
-                        ? -_this._prevX[i] - 80
-                        : _this._node.offsetWidth,
-                    _showX =
-                      _toY < _this._prevY[i]
-                        ? _this._node.offsetWidth + _this._prevX[i]
-                        : -_this._prevX[i]
-                  Velocity(
-                    _this._items[i],
-                    { left: _hideX },
-                    { duration: 250, delay: 0, easing: Ease.EaseOutCubic }
+                    { top: _this._gotoY[i], left: _showX },
+                    { duration: 0, delay: 0, easing: Ease.EaseOutCubic }
                   ),
-                    Velocity(
-                      _this._items[i],
-                      { top: _this._gotoY[i], left: _showX },
-                      { duration: 0, delay: 0, easing: Ease.EaseOutCubic }
-                    ),
-                    Velocity(
-                      _this._items[i],
-                      { left: _this._gotoX[i] },
-                      { duration: 250, delay: 0, easing: Ease.EaseOutCubic }
-                    )
-                }
+                  Velocity(
+                    _this._items[i],
+                    { left: _this._gotoX[i] },
+                    { duration: 250, delay: 0, easing: Ease.EaseOutCubic }
+                  )
               }
-            }),
-            (this._contents = this._node.querySelector('.stContents')),
-            (this._items = this._contents.querySelectorAll('li')),
-            (this._images = this._contents.querySelectorAll('img')),
-            window.addEventListener(Event.RESIZE, this.prepResizeHD, !1),
-            window.addEventListener('load', this.onResizeHD, !1)
-        }
-        return BookShelf
-      })()
+            }
+          }),
+          (this._contents = this._node.querySelector('.stContents')),
+          (this._items = this._contents.querySelectorAll('li')),
+          (this._images = this._contents.querySelectorAll('img')),
+          window.addEventListener(Event.RESIZE, this.prepResizeHD, !1),
+          window.addEventListener('load', this.onResizeHD, !1)
+      }
+      return BookShelf
+    })()
     module.exports = BookShelf
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var Statics = __webpack_require__(2),
-      _s = __webpack_require__(1),
-      MouseEvent = __webpack_require__(3),
-      Ease = __webpack_require__(6),
-      Cookie = __webpack_require__(15),
-      GenreNaviDetail = __webpack_require__(31),
-      GenreNavi = (function() {
-        function GenreNavi(_node) {
-          var _this = this
-          if (
-            ((this._node = _node),
-            (this._currentIndex = 0),
-            (this._isSafe = !0),
-            (this._triAngle = []),
-            (this._safeTime = 1e3),
-            (this._isLoaded = []),
-            (this._isFirst = !1),
-            (this._hasContainer = !1),
-            (this._isOpen = !1),
-            (this.setUpCore = function() {
-              Statics.HAS_TOUCH
-                ? (_this._trigger.addEventListener(
+    const Statics = __webpack_require__(2)
+    const _s = __webpack_require__(1)
+    const MouseEvent = __webpack_require__(3)
+    const Ease = __webpack_require__(6)
+    const Cookie = __webpack_require__(15)
+    const GenreNaviDetail = __webpack_require__(31)
+    const GenreNavi = (function() {
+      function GenreNavi(_node) {
+        const _this = this
+        if (
+          ((this._node = _node),
+          (this._currentIndex = 0),
+          (this._isSafe = !0),
+          (this._triAngle = []),
+          (this._safeTime = 1e3),
+          (this._isLoaded = []),
+          (this._isFirst = !1),
+          (this._hasContainer = !1),
+          (this._isOpen = !1),
+          (this.setUpCore = function() {
+            Statics.HAS_TOUCH
+              ? (_this._trigger.addEventListener(
+                  MouseEvent.MOUSE_DOWN,
+                  _this.toggleHD,
+                  !1
+                ),
+                document
+                  .getElementById('areaWrapper1')
+                  .addEventListener(
                     MouseEvent.MOUSE_DOWN,
-                    _this.toggleHD,
-                    !1
-                  ),
-                  document
-                    .getElementById('areaWrapper1')
-                    .addEventListener(
-                      MouseEvent.MOUSE_DOWN,
-                      _this.hideNavigation,
-                      !1
-                    ))
-                : (_this._node.addEventListener(
-                    MouseEvent.MOUSE_ENTER,
-                    _this.showNavigation,
-                    !1
-                  ),
-                  _this._node.addEventListener(
-                    MouseEvent.MOUSE_LEAVE,
                     _this.hideNavigation,
                     !1
                   ))
-            }),
-            (this.setUpDetail = function() {
-              ;(_this._detailList = _this._node.querySelectorAll(
-                '.genreNaviDetail01'
-              )),
-                _this._detailList || (_this._detailList = void 0)
-            }),
-            (this.setUpList = function() {
-              if (
-                ((_this._list = _this._node.querySelector('.genreList01')),
-                _this._list ||
-                  (_this._list = _this._node.querySelector('.genreList03')),
-                _this._list)
-              ) {
-                ;(_this._listItem = _this._list.querySelectorAll('li')),
-                  _this._list.insertAdjacentHTML(
-                    'afterbegin',
-                    '<li class="stCurrent" id="el_' + Statics.PREFIX + '"></li>'
-                  ),
-                  (_this._current = document.getElementById(
-                    'el_' + Statics.PREFIX
-                  )),
-                  Statics.PREFIX++,
-                  (_this._current.style.opacity = 0)
-                var i = 0
-                for (i = 0; i < _this._listItem.length; i++)
-                  if (
-                    (_this._listItem[i].addEventListener(
-                      MouseEvent.MOUSE_ENTER,
-                      _this.onListOver,
-                      !1
-                    ),
-                    _this._isLoaded.push(!1),
-                    Statics.HAS_TOUCH)
-                  ) {
-                    var href = _this._listItem[i].querySelector('a').href
-                    if (_this._genreNaviDetails[i]) {
-                      var targetElm = _this._genreNaviDetails[i].querySelector(
-                        'h3'
-                      )
-                      targetElm.outerHTML =
-                        '<a href="' + href + '">' + targetElm.outerHTML + '</a>'
-                    }
-                  }
-              }
-            }),
-            (this.loadCookie = function() {
-              ;(_this._cookie = Cookie.getCookie()),
-                (Statics.GENRENAVI =
-                  !!_this._cookie && _this._cookie.genrenavi),
-                1 != Statics.GENRENAVI && _this.showNavigation()
-            }),
-            (this.onListOver = function(e) {
-              if (
-                ((_this._currentIndex = Array.prototype.indexOf.call(
-                  _this._listItem,
-                  e.currentTarget
+              : (_this._node.addEventListener(
+                  MouseEvent.MOUSE_ENTER,
+                  _this.showNavigation,
+                  !1
+                ),
+                _this._node.addEventListener(
+                  MouseEvent.MOUSE_LEAVE,
+                  _this.hideNavigation,
+                  !1
+                ))
+          }),
+          (this.setUpDetail = function() {
+            ;(_this._detailList = _this._node.querySelectorAll(
+              '.genreNaviDetail01'
+            )),
+              _this._detailList || (_this._detailList = void 0)
+          }),
+          (this.setUpList = function() {
+            if (
+              ((_this._list = _this._node.querySelector('.genreList01')),
+              _this._list ||
+                (_this._list = _this._node.querySelector('.genreList03')),
+              _this._list)
+            ) {
+              ;(_this._listItem = _this._list.querySelectorAll('li')),
+                _this._list.insertAdjacentHTML(
+                  'afterbegin',
+                  '<li class="stCurrent" id="el_' + Statics.PREFIX + '"></li>'
+                ),
+                (_this._current = document.getElementById(
+                  'el_' + Statics.PREFIX
                 )),
-                _s.addClass(_this._trigger, 'stCurrent'),
-                _this._detailList)
-              ) {
-                var _atag = e.currentTarget.querySelector('a'),
-                  _path = _atag.getAttribute('data-path')
-                !_this._isLoaded[_this._currentIndex] &&
-                  _path &&
-                  ((_this._isLoaded[_this._currentIndex] = !0),
-                  new GenreNaviDetail(
-                    _this._detailList[_this._currentIndex].querySelector(
-                      '.stContents'
-                    ),
-                    _path
-                  ))
-                var _rect = _this.getBounds(_this._list),
-                  _cursorX = e.pageX - _rect.left,
-                  _cursorY = e.pageY - _rect.top
-                if (
-                  (_cursorX ||
-                    ((_cursorX =
-                      e.clientX +
-                      document.body.scrollLeft +
-                      document.documentElement.scrollLeft -
-                      _rect.left),
-                    (_cursorY =
-                      e.clientY +
-                      document.body.scrollTop +
-                      document.documentElement.scrollTop -
-                      _rect.top)),
-                  !_this._isSafe &&
-                    _this.calc(
-                      _this._triAngle[0],
-                      _this._triAngle[1],
-                      _this._triAngle[2],
-                      { x: _cursorX, y: _cursorY }
-                    ))
-                )
-                  return
-                for (
-                  _this._safeTimer && clearTimeout(_this._safeTimer),
-                    _this._safeTimer = setTimeout(
-                      _this.toSafe,
-                      _this._safeTime
-                    ),
-                    _this._isSafe = !1,
-                    _this._triAngle = [],
-                    _this._triAngle.push({ x: _cursorX, y: _cursorY }),
-                    _this._triAngle.push({ x: 252, y: 0 }),
-                    _this._triAngle.push({
-                      x: 252,
-                      y: _this._inner.offsetHeight
-                    }),
-                    i = 0;
-                  i < _this._detailList.length;
-                  i++
-                )
-                  _this._detailList[i].style.display =
-                    i === _this._currentIndex ? 'block' : 'none'
-              }
-              var i = 0
+                Statics.PREFIX++,
+                (_this._current.style.opacity = 0)
+              let i = 0
               for (i = 0; i < _this._listItem.length; i++)
-                i === _this._currentIndex
-                  ? _s.addClass(_this._listItem[i], 'stActive')
-                  : _s.removeClass(_this._listItem[i], 'stActive')
-              Velocity(_this._current, 'stop'),
-                Velocity(
-                  _this._current,
-                  { top: e.currentTarget.offsetTop, opacity: 1 },
-                  { duration: 300, delay: 0, easing: Ease.EaseOutCubic }
-                )
-            }),
-            (this.toSafe = function() {
-              _this._isSafe = !0
-            }),
-            (this.calcVector = function(_a, _b) {
-              var _returnVec = { x: 0, y: 0 }
-              return (
-                (_returnVec.x = _a.x - _b.x),
-                (_returnVec.y = _a.y - _b.y),
-                _returnVec
-              )
-            }),
-            (this.calc = function(_a, _b, _c, _p) {
-              var _ab = _this.calcVector(_b, _a),
-                _bp = _this.calcVector(_p, _b),
-                _bc = _this.calcVector(_c, _b),
-                _cp = _this.calcVector(_p, _c),
-                _ca = _this.calcVector(_a, _c),
-                _ap = _this.calcVector(_p, _a),
-                _c1 = _ab.x * _bp.y - _ab.y * _bp.x,
-                _c2 = _bc.x * _cp.y - _bc.y * _cp.x,
-                _c3 = _ca.x * _ap.y - _ca.y * _ap.x
-              return (
-                (_c1 > 0 && _c2 > 0 && _c3 > 0) ||
-                (_c1 < 0 && _c2 < 0 && _c3 < 0)
-              )
-            }),
-            (this.getBounds = function(_elem) {
-              var rect = _elem.getBoundingClientRect()
-              return {
-                top: rect.top + document.body.scrollTop,
-                left: rect.left + document.body.scrollLeft
-              }
-            }),
-            (this.showNavigation = function() {
-              var self = _this
+                if (
+                  (_this._listItem[i].addEventListener(
+                    MouseEvent.MOUSE_ENTER,
+                    _this.onListOver,
+                    !1
+                  ),
+                  _this._isLoaded.push(!1),
+                  Statics.HAS_TOUCH)
+                ) {
+                  const href = _this._listItem[i].querySelector('a').href
+                  if (_this._genreNaviDetails[i]) {
+                    const targetElm = _this._genreNaviDetails[i].querySelector(
+                      'h3'
+                    )
+                    targetElm.outerHTML =
+                      '<a href="' + href + '">' + targetElm.outerHTML + '</a>'
+                  }
+                }
+            }
+          }),
+          (this.loadCookie = function() {
+            ;(_this._cookie = Cookie.getCookie()),
+              (Statics.GENRENAVI = !!_this._cookie && _this._cookie.genrenavi),
+              Statics.GENRENAVI != 1 && _this.showNavigation()
+          }),
+          (this.onListOver = function(e) {
+            if (
+              ((_this._currentIndex = Array.prototype.indexOf.call(
+                _this._listItem,
+                e.currentTarget
+              )),
               _s.addClass(_this._trigger, 'stCurrent'),
+              _this._detailList)
+            ) {
+              const _atag = e.currentTarget.querySelector('a')
+              const _path = _atag.getAttribute('data-path')
+              !_this._isLoaded[_this._currentIndex] &&
+                _path &&
+                ((_this._isLoaded[_this._currentIndex] = !0),
+                new GenreNaviDetail(
+                  _this._detailList[_this._currentIndex].querySelector(
+                    '.stContents'
+                  ),
+                  _path
+                ))
+              const _rect = _this.getBounds(_this._list)
+              let _cursorX = e.pageX - _rect.left
+              let _cursorY = e.pageY - _rect.top
+              if (
+                (_cursorX ||
+                  ((_cursorX =
+                    e.clientX +
+                    document.body.scrollLeft +
+                    document.documentElement.scrollLeft -
+                    _rect.left),
+                  (_cursorY =
+                    e.clientY +
+                    document.body.scrollTop +
+                    document.documentElement.scrollTop -
+                    _rect.top)),
+                !_this._isSafe &&
+                  _this.calc(
+                    _this._triAngle[0],
+                    _this._triAngle[1],
+                    _this._triAngle[2],
+                    { x: _cursorX, y: _cursorY }
+                  ))
+              )
+                return
+              for (
+                _this._safeTimer && clearTimeout(_this._safeTimer),
+                  _this._safeTimer = setTimeout(_this.toSafe, _this._safeTime),
+                  _this._isSafe = !1,
+                  _this._triAngle = [],
+                  _this._triAngle.push({ x: _cursorX, y: _cursorY }),
+                  _this._triAngle.push({ x: 252, y: 0 }),
+                  _this._triAngle.push({
+                    x: 252,
+                    y: _this._inner.offsetHeight
+                  }),
+                  i = 0;
+                i < _this._detailList.length;
+                i++
+              )
+                _this._detailList[i].style.display =
+                  i === _this._currentIndex ? 'block' : 'none'
+            }
+            var i = 0
+            for (i = 0; i < _this._listItem.length; i++)
+              i === _this._currentIndex
+                ? _s.addClass(_this._listItem[i], 'stActive')
+                : _s.removeClass(_this._listItem[i], 'stActive')
+            Velocity(_this._current, 'stop'),
+              Velocity(
+                _this._current,
+                { top: e.currentTarget.offsetTop, opacity: 1 },
+                { duration: 300, delay: 0, easing: Ease.EaseOutCubic }
+              )
+          }),
+          (this.toSafe = function() {
+            _this._isSafe = !0
+          }),
+          (this.calcVector = function(_a, _b) {
+            const _returnVec = { x: 0, y: 0 }
+            return (
+              (_returnVec.x = _a.x - _b.x),
+              (_returnVec.y = _a.y - _b.y),
+              _returnVec
+            )
+          }),
+          (this.calc = function(_a, _b, _c, _p) {
+            const _ab = _this.calcVector(_b, _a)
+            const _bp = _this.calcVector(_p, _b)
+            const _bc = _this.calcVector(_c, _b)
+            const _cp = _this.calcVector(_p, _c)
+            const _ca = _this.calcVector(_a, _c)
+            const _ap = _this.calcVector(_p, _a)
+            const _c1 = _ab.x * _bp.y - _ab.y * _bp.x
+            const _c2 = _bc.x * _cp.y - _bc.y * _cp.x
+            const _c3 = _ca.x * _ap.y - _ca.y * _ap.x
+            return (
+              (_c1 > 0 && _c2 > 0 && _c3 > 0) || (_c1 < 0 && _c2 < 0 && _c3 < 0)
+            )
+          }),
+          (this.getBounds = function(_elem) {
+            const rect = _elem.getBoundingClientRect()
+            return {
+              top: rect.top + document.body.scrollTop,
+              left: rect.left + document.body.scrollLeft
+            }
+          }),
+          (this.showNavigation = function() {
+            const self = _this
+            _s.addClass(_this._trigger, 'stCurrent'),
+              Velocity(_this._navigation, 'stop'),
+              Velocity(
+                _this._navigation,
+                { height: _this._inner.offsetHeight },
+                {
+                  duration: 500,
+                  delay: 0,
+                  easing: Ease.EaseOutCubic,
+                  complete() {
+                    self._isOpen = !0
+                  }
+                }
+              ),
+              _this._list &&
+                _this.onListOver({ currentTarget: _this._listItem[0] })
+          }),
+          (this.hideNavigation = function(e) {
+            let target = e.target
+            let flg = !0
+            if (Statics.HAS_TOUCH)
+              for (; target !== document.getElementById('page'); ) {
+                if (target === _this._stBtMyResult) {
+                  flg = !1
+                  break
+                }
+                if (target === _this._trigger) {
+                  flg = !!_this._isOpen
+                  break
+                }
+                target = target.parentNode
+              }
+            if (flg) {
+              if (
+                ((_this._isOpen = !1),
+                (Statics.GENRENAVI = !0),
+                Cookie.setCookie(),
+                _s.removeClass(_this._trigger, 'stCurrent'),
                 Velocity(_this._navigation, 'stop'),
                 Velocity(
                   _this._navigation,
-                  { height: _this._inner.offsetHeight },
-                  {
-                    duration: 500,
-                    delay: 0,
-                    easing: Ease.EaseOutCubic,
-                    complete: function() {
-                      self._isOpen = !0
-                    }
-                  }
+                  { height: 0 },
+                  { duration: 500, delay: 0, easing: Ease.EaseOutCubic }
                 ),
-                _this._list &&
-                  _this.onListOver({ currentTarget: _this._listItem[0] })
-            }),
-            (this.hideNavigation = function(e) {
-              var target = e.target,
-                flg = !0
-              if (Statics.HAS_TOUCH)
-                for (; target !== document.getElementById('page'); ) {
-                  if (target === _this._stBtMyResult) {
-                    flg = !1
-                    break
-                  }
-                  if (target === _this._trigger) {
-                    flg = !!_this._isOpen
-                    break
-                  }
-                  target = target.parentNode
-                }
-              if (flg) {
-                if (
-                  ((_this._isOpen = !1),
-                  (Statics.GENRENAVI = !0),
-                  Cookie.setCookie(),
-                  _s.removeClass(_this._trigger, 'stCurrent'),
-                  Velocity(_this._navigation, 'stop'),
-                  Velocity(
-                    _this._navigation,
-                    { height: 0 },
-                    { duration: 500, delay: 0, easing: Ease.EaseOutCubic }
-                  ),
-                  !_this._current)
-                )
-                  return
-                _this._current.style.opacity = 0
-              }
-            }),
-            (this.toggleHD = function(e) {
-              _this._isOpen ? _this.hideNavigation(e) : _this.showNavigation()
-            }),
-            (this._trigger = this._node.querySelector('.stTrigger')),
-            (this._navigation = this._node.querySelector('.stBlock')),
-            (this._inner = this._node.querySelector('.stBlockInner')),
-            (this._genreListTags = this._node.querySelector('.genreListTags')),
-            (this._tabContainer = document.body.querySelector(
-              '.stTabContainer01'
-            )),
-            (this._genreNaviDetails = this._inner.querySelectorAll(
-              '.genreNaviDetail01'
-            )),
-            (this._stBtMyResult = document.body.querySelector('.stBtMyResult')),
-            (this._wrapper = this._node.parentNode),
-            this.setUpCore(),
-            this.setUpDetail(),
-            this.setUpList(),
-            this.loadCookie(),
-            this._genreListTags && this._tabContainer)
-          ) {
-            for (
-              this._genreListTags.style.height =
-                this._inner.offsetHeight + 'px';
-              !this._hasContainer;
+                !_this._current)
+              )
+                return
+              _this._current.style.opacity = 0
+            }
+          }),
+          (this.toggleHD = function(e) {
+            _this._isOpen ? _this.hideNavigation(e) : _this.showNavigation()
+          }),
+          (this._trigger = this._node.querySelector('.stTrigger')),
+          (this._navigation = this._node.querySelector('.stBlock')),
+          (this._inner = this._node.querySelector('.stBlockInner')),
+          (this._genreListTags = this._node.querySelector('.genreListTags')),
+          (this._tabContainer = document.body.querySelector(
+            '.stTabContainer01'
+          )),
+          (this._genreNaviDetails = this._inner.querySelectorAll(
+            '.genreNaviDetail01'
+          )),
+          (this._stBtMyResult = document.body.querySelector('.stBtMyResult')),
+          (this._wrapper = this._node.parentNode),
+          this.setUpCore(),
+          this.setUpDetail(),
+          this.setUpList(),
+          this.loadCookie(),
+          this._genreListTags && this._tabContainer)
+        ) {
+          for (
+            this._genreListTags.style.height = this._inner.offsetHeight + 'px';
+            !this._hasContainer;
 
-            )
-              (this._wrapper = this._wrapper.parentNode),
-                (this._hasContainer = _s.hasClass(
-                  this._wrapper,
-                  'stTabContainer01'
-                ))
-            this._inner.offsetHeight > this._tabContainer.offsetHeight &&
-              (this._wrapper.style.height =
-                this._inner.offsetHeight + 150 + 'px')
-          }
+          )
+            (this._wrapper = this._wrapper.parentNode),
+              (this._hasContainer = _s.hasClass(
+                this._wrapper,
+                'stTabContainer01'
+              ))
+          this._inner.offsetHeight > this._tabContainer.offsetHeight &&
+            (this._wrapper.style.height = this._inner.offsetHeight + 150 + 'px')
         }
-        return GenreNavi
-      })()
+      }
+      return GenreNavi
+    })()
     module.exports = GenreNavi
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var Loader = __webpack_require__(27),
-      Event = __webpack_require__(5),
-      Ease = __webpack_require__(6),
-      BookItem = __webpack_require__(13),
-      GenreNaviDetail = (function() {
-        function GenreNaviDetail(_target, _path) {
-          var _this = this
-          ;(this._target = _target),
-            (this._path = _path),
-            (this.onLoadComplete = function() {
-              _this._loader.removeEventListener(
-                Event.COMPLETE,
-                _this.onLoadComplete,
-                !1
+    const Loader = __webpack_require__(27)
+    const Event = __webpack_require__(5)
+    const Ease = __webpack_require__(6)
+    const BookItem = __webpack_require__(13)
+    const GenreNaviDetail = (function() {
+      function GenreNaviDetail(_target, _path) {
+        const _this = this
+        ;(this._target = _target),
+          (this._path = _path),
+          (this.onLoadComplete = function() {
+            _this._loader.removeEventListener(
+              Event.COMPLETE,
+              _this.onLoadComplete,
+              !1
+            )
+            let _loadingImg = _this._target.querySelector('.stLoader')
+            _loadingImg.parentNode.removeChild(_loadingImg),
+              (_loadingImg = void 0),
+              _this._target.insertAdjacentHTML(
+                'beforeend',
+                _this._loader.content
               )
-              var _loadingImg = _this._target.querySelector('.stLoader')
-              _loadingImg.parentNode.removeChild(_loadingImg),
-                (_loadingImg = void 0),
-                _this._target.insertAdjacentHTML(
-                  'beforeend',
-                  _this._loader.content
-                )
-              var _contents = _this._target.querySelector('.genreNaviDetail02')
-              ;(_contents.style.opacity = 0),
-                Velocity(
-                  _contents,
-                  { opacity: 1 },
-                  { duration: 300, delay: 0, easing: Ease.EaseOutSine }
-                )
-              var i = 0,
-                _item = _this._target.querySelectorAll('.stBookItem')
-              for (i = 0; i < _item.length; i++) new BookItem(_item[i])
-            }),
-            (this._loader = new Loader())
-          var _date = new Date()
-          this._loader.addEventListener(
-            Event.COMPLETE,
-            this.onLoadComplete,
-            !1
-          ),
-            this._loader.load({
-              type: 'text',
-              url:
-                this._path +
-                '.html?rev_' +
-                _date.getDate() +
-                '_' +
-                _date.getHours()
-            })
-        }
-        return GenreNaviDetail
-      })()
+            const _contents = _this._target.querySelector('.genreNaviDetail02')
+            ;(_contents.style.opacity = 0),
+              Velocity(
+                _contents,
+                { opacity: 1 },
+                { duration: 300, delay: 0, easing: Ease.EaseOutSine }
+              )
+            let i = 0
+            const _item = _this._target.querySelectorAll('.stBookItem')
+            for (i = 0; i < _item.length; i++) new BookItem(_item[i])
+          }),
+          (this._loader = new Loader())
+        const _date = new Date()
+        this._loader.addEventListener(Event.COMPLETE, this.onLoadComplete, !1),
+          this._loader.load({
+            type: 'text',
+            url:
+              this._path +
+              '.html?rev_' +
+              _date.getDate() +
+              '_' +
+              _date.getHours()
+          })
+      }
+      return GenreNaviDetail
+    })()
     module.exports = GenreNaviDetail
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var Event = __webpack_require__(5),
-      BookShelfLiquidItem = __webpack_require__(33),
-      BookShelfLiquid = (function() {
-        function BookShelfLiquid(_node) {
-          var _this = this
-          ;(this._node = _node),
-            (this.onResizeHD = function() {
-              _this._ul.removeAttribute('style')
-              var _itemCount = Math.floor(_this._ul.offsetWidth / 119)
-              _this._ul.style.width = 119 * _itemCount + 20 + 'px'
-            }),
-            (this._ul = this._node.querySelector('ul'))
-          var _li = this._ul.querySelectorAll('li'),
-            i = 0
-          for (i = 0; i < _li.length; i++) new BookShelfLiquidItem(_li[i])
-          window.addEventListener(Event.RESIZE, this.onResizeHD, !1),
-            this.onResizeHD()
-        }
-        return BookShelfLiquid
-      })()
+    const Event = __webpack_require__(5)
+    const BookShelfLiquidItem = __webpack_require__(33)
+    const BookShelfLiquid = (function() {
+      function BookShelfLiquid(_node) {
+        const _this = this
+        ;(this._node = _node),
+          (this.onResizeHD = function() {
+            _this._ul.removeAttribute('style')
+            const _itemCount = Math.floor(_this._ul.offsetWidth / 119)
+            _this._ul.style.width = 119 * _itemCount + 20 + 'px'
+          }),
+          (this._ul = this._node.querySelector('ul'))
+        const _li = this._ul.querySelectorAll('li')
+        let i = 0
+        for (i = 0; i < _li.length; i++) new BookShelfLiquidItem(_li[i])
+        window.addEventListener(Event.RESIZE, this.onResizeHD, !1),
+          this.onResizeHD()
+      }
+      return BookShelfLiquid
+    })()
     module.exports = BookShelfLiquid
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var Statics = __webpack_require__(2),
-      MouseEvent = __webpack_require__(3),
-      Ease = __webpack_require__(6),
-      BookShelfLiquidItem = (function() {
-        function BookShelfLiquidItem(_node) {
-          var _this = this
-          ;(this._node = _node),
-            (this.overHD = function() {
-              Statics.HAS_TOUCH ||
-                ((_this._contents.style.display = 'block'),
-                Velocity.hook(_this._contents, 'translateY', '10px'),
-                Velocity.hook(_this._contents, 'opacity', '0'),
-                Velocity(
-                  _this._contents,
-                  { opacity: 1, translateY: 0 },
-                  { duration: 300, delay: 0, easing: Ease.EaseOutCubic }
-                ))
-            }),
-            (this.outHD = function() {
-              Statics.HAS_TOUCH ||
-                Velocity(
-                  _this._contents,
-                  { opacity: 0, translateY: 10 },
-                  {
-                    duration: 300,
-                    delay: 0,
-                    easing: Ease.EaseOutCubic,
-                    complete: _this.hideComplete
-                  }
-                )
-            }),
-            (this.hideComplete = function() {
-              _this._contents.style.display = 'none'
-            }),
-            (this._contents = this._node.querySelector('.stContents')),
-            this._contents &&
-              (this._node.addEventListener(
-                MouseEvent.MOUSE_ENTER,
-                this.overHD,
-                !1
-              ),
-              this._node.addEventListener(
-                MouseEvent.MOUSE_LEAVE,
-                this.outHD,
-                !1
+    const Statics = __webpack_require__(2)
+    const MouseEvent = __webpack_require__(3)
+    const Ease = __webpack_require__(6)
+    const BookShelfLiquidItem = (function() {
+      function BookShelfLiquidItem(_node) {
+        const _this = this
+        ;(this._node = _node),
+          (this.overHD = function() {
+            Statics.HAS_TOUCH ||
+              ((_this._contents.style.display = 'block'),
+              Velocity.hook(_this._contents, 'translateY', '10px'),
+              Velocity.hook(_this._contents, 'opacity', '0'),
+              Velocity(
+                _this._contents,
+                { opacity: 1, translateY: 0 },
+                { duration: 300, delay: 0, easing: Ease.EaseOutCubic }
               ))
-        }
-        return BookShelfLiquidItem
-      })()
-    module.exports = BookShelfLiquidItem
-  },
-  function(module, exports, __webpack_require__) {
-    'use strict'
-    var Event = __webpack_require__(5),
-      StBoxStore = (function() {
-        function StBoxStore(_node) {
-          var _this = this
-          ;(this._node = _node),
-            (this._targets = []),
-            (this.onResizeHD = function() {
-              var _height = 0,
-                i = 0
-              for (_this._targets = [], i = 0; i < _this._items.length; i++)
-                _this._targets.push(_this._items[i].querySelector('p'))
-              for (i = 0; i < _this._targets.length; i++)
-                _height = Math.max(_height, _this._targets[i].offsetHeight)
-              for (i = 0; i < _this._targets.length; i++)
-                _this._targets[i].style.height = _height + 'px'
-            })
-          var i = 0
-          for (
-            this._items = this._node.querySelectorAll('.stBlockInner'), i = 0;
-            i < this._items.length;
-            i++
-          )
-            this._targets.push(this._items[i].querySelector('p'))
-          window.addEventListener(Event.RESIZE, this.onResizeHD, !1),
-            this.onResizeHD()
-        }
-        return StBoxStore
-      })()
-    module.exports = StBoxStore
-  },
-  function(module, exports, __webpack_require__) {
-    'use strict'
-    var _s = __webpack_require__(1),
-      Event = __webpack_require__(5),
-      MouseEvent = __webpack_require__(3),
-      Ease = __webpack_require__(6),
-      MoreAccordion = (function() {
-        function MoreAccordion(_node) {
-          var _this = this
-          ;(this._node = _node),
-            (this._isOpen = !1),
-            (this.toggleHD = function() {
-              ;(_this._isOpen = !_this._isOpen),
-                _this._isOpen ? _this.show() : _this.hide()
-            }),
-            (this.show = function() {
-              _s.addClass(_this._node, 'stCurrent'),
-                (_this._trigger.innerHTML = '閉じる'),
-                Velocity(_this._view, 'stop'),
-                Velocity(
-                  _this._view,
-                  { height: _this._inner.offsetHeight },
-                  { duration: 600, delay: 0, easing: Ease.EaseOutCubic }
-                )
-            }),
-            (this.hide = function() {
-              _s.removeClass(_this._node, 'stCurrent'),
-                (_this._trigger.innerHTML = '続きを読む'),
-                Velocity(_this._view, 'stop'),
-                Velocity(
-                  _this._view,
-                  { height: 72 },
-                  { duration: 600, delay: 0, easing: Ease.EaseOutCubic }
-                )
-            }),
-            (this.onResizeHD = function() {
-              var _height = _this._inner.offsetHeight
-              ;(_this._isOpen = !1),
-                _s.removeClass(_this._node, 'stCurrent'),
-                Velocity.hook(_this._view, 'height', '72px'),
-                (_this._trigger.style.display =
-                  _height <= _this._view.offsetHeight ? 'none' : 'block')
-            }),
-            (this._view = this._node.querySelector('.stAccordionView')),
-            (this._inner = this._node.querySelector('.stAccordionInner')),
-            (this._trigger = this._node.querySelector('.stTrigger')),
-            window.addEventListener(Event.RESIZE, this.onResizeHD, !1),
-            this.onResizeHD(),
-            this._trigger.addEventListener(MouseEvent.CLICK, this.toggleHD, !1)
-        }
-        return MoreAccordion
-      })()
-    module.exports = MoreAccordion
-  },
-  function(module, exports, __webpack_require__) {
-    'use strict'
-    var MouseEvent = __webpack_require__(3),
-      JapanMap = (function() {
-        function JapanMap(_node) {
-          var _this = this
-          ;(this._node = _node),
-            (this.overHD = function(e) {
-              switch (
-                Array.prototype.indexOf.call(_this._imageMap, e.currentTarget)
-              ) {
-                case 0:
-                  _this._node.style.backgroundPosition = '0px -3204px'
-                  break
-                case 1:
-                  _this._node.style.backgroundPosition = '0px -2670px'
-                  break
-                case 2:
-                  _this._node.style.backgroundPosition = '0px -3738px'
-                  break
-                case 3:
-                  _this._node.style.backgroundPosition = '0px -4272px'
-                  break
-                case 4:
-                  _this._node.style.backgroundPosition = '0px -4806px'
-                  break
-                case 5:
-                  _this._node.style.backgroundPosition = '0px -2136px'
-                  break
-                case 6:
-                  _this._node.style.backgroundPosition = '0px -1602px'
-                  break
-                case 7:
-                  _this._node.style.backgroundPosition = '0px -534px'
-                  break
-                case 8:
-                  _this._node.style.backgroundPosition = '0px -1068px'
-                  break
-                case 9:
-                  _this._node.style.backgroundPosition = '0px 0px'
-                  break
-                case 10:
-                  _this._node.style.backgroundPosition = '0px -5874px'
-              }
-            }),
-            (this.outHD = function(e) {}),
-            (this._imageMap = this._node.querySelectorAll('area'))
-          var i = 0
-          for (i = 0; i < this._imageMap.length; i++)
-            this._imageMap[i].addEventListener(
+          }),
+          (this.outHD = function() {
+            Statics.HAS_TOUCH ||
+              Velocity(
+                _this._contents,
+                { opacity: 0, translateY: 10 },
+                {
+                  duration: 300,
+                  delay: 0,
+                  easing: Ease.EaseOutCubic,
+                  complete: _this.hideComplete
+                }
+              )
+          }),
+          (this.hideComplete = function() {
+            _this._contents.style.display = 'none'
+          }),
+          (this._contents = this._node.querySelector('.stContents')),
+          this._contents &&
+            (this._node.addEventListener(
               MouseEvent.MOUSE_ENTER,
               this.overHD,
               !1
             ),
-              this._imageMap[i].addEventListener(
-                MouseEvent.MOUSE_LEAVE,
-                this.outHD,
-                !1
+            this._node.addEventListener(MouseEvent.MOUSE_LEAVE, this.outHD, !1))
+      }
+      return BookShelfLiquidItem
+    })()
+    module.exports = BookShelfLiquidItem
+  },
+  function(module, exports, __webpack_require__) {
+    'use strict'
+    const Event = __webpack_require__(5)
+    const StBoxStore = (function() {
+      function StBoxStore(_node) {
+        const _this = this
+        ;(this._node = _node),
+          (this._targets = []),
+          (this.onResizeHD = function() {
+            let _height = 0
+            let i = 0
+            for (_this._targets = [], i = 0; i < _this._items.length; i++)
+              _this._targets.push(_this._items[i].querySelector('p'))
+            for (i = 0; i < _this._targets.length; i++)
+              _height = Math.max(_height, _this._targets[i].offsetHeight)
+            for (i = 0; i < _this._targets.length; i++)
+              _this._targets[i].style.height = _height + 'px'
+          })
+        let i = 0
+        for (
+          this._items = this._node.querySelectorAll('.stBlockInner'), i = 0;
+          i < this._items.length;
+          i++
+        )
+          this._targets.push(this._items[i].querySelector('p'))
+        window.addEventListener(Event.RESIZE, this.onResizeHD, !1),
+          this.onResizeHD()
+      }
+      return StBoxStore
+    })()
+    module.exports = StBoxStore
+  },
+  function(module, exports, __webpack_require__) {
+    'use strict'
+    const _s = __webpack_require__(1)
+    const Event = __webpack_require__(5)
+    const MouseEvent = __webpack_require__(3)
+    const Ease = __webpack_require__(6)
+    const MoreAccordion = (function() {
+      function MoreAccordion(_node) {
+        const _this = this
+        ;(this._node = _node),
+          (this._isOpen = !1),
+          (this.toggleHD = function() {
+            ;(_this._isOpen = !_this._isOpen),
+              _this._isOpen ? _this.show() : _this.hide()
+          }),
+          (this.show = function() {
+            _s.addClass(_this._node, 'stCurrent'),
+              (_this._trigger.innerHTML = '閉じる'),
+              Velocity(_this._view, 'stop'),
+              Velocity(
+                _this._view,
+                { height: _this._inner.offsetHeight },
+                { duration: 600, delay: 0, easing: Ease.EaseOutCubic }
               )
-        }
-        return JapanMap
-      })()
+          }),
+          (this.hide = function() {
+            _s.removeClass(_this._node, 'stCurrent'),
+              (_this._trigger.innerHTML = '続きを読む'),
+              Velocity(_this._view, 'stop'),
+              Velocity(
+                _this._view,
+                { height: 72 },
+                { duration: 600, delay: 0, easing: Ease.EaseOutCubic }
+              )
+          }),
+          (this.onResizeHD = function() {
+            const _height = _this._inner.offsetHeight
+            ;(_this._isOpen = !1),
+              _s.removeClass(_this._node, 'stCurrent'),
+              Velocity.hook(_this._view, 'height', '72px'),
+              (_this._trigger.style.display =
+                _height <= _this._view.offsetHeight ? 'none' : 'block')
+          }),
+          (this._view = this._node.querySelector('.stAccordionView')),
+          (this._inner = this._node.querySelector('.stAccordionInner')),
+          (this._trigger = this._node.querySelector('.stTrigger')),
+          window.addEventListener(Event.RESIZE, this.onResizeHD, !1),
+          this.onResizeHD(),
+          this._trigger.addEventListener(MouseEvent.CLICK, this.toggleHD, !1)
+      }
+      return MoreAccordion
+    })()
+    module.exports = MoreAccordion
+  },
+  function(module, exports, __webpack_require__) {
+    'use strict'
+    const MouseEvent = __webpack_require__(3)
+    const JapanMap = (function() {
+      function JapanMap(_node) {
+        const _this = this
+        ;(this._node = _node),
+          (this.overHD = function(e) {
+            switch (
+              Array.prototype.indexOf.call(_this._imageMap, e.currentTarget)
+            ) {
+              case 0:
+                _this._node.style.backgroundPosition = '0px -3204px'
+                break
+              case 1:
+                _this._node.style.backgroundPosition = '0px -2670px'
+                break
+              case 2:
+                _this._node.style.backgroundPosition = '0px -3738px'
+                break
+              case 3:
+                _this._node.style.backgroundPosition = '0px -4272px'
+                break
+              case 4:
+                _this._node.style.backgroundPosition = '0px -4806px'
+                break
+              case 5:
+                _this._node.style.backgroundPosition = '0px -2136px'
+                break
+              case 6:
+                _this._node.style.backgroundPosition = '0px -1602px'
+                break
+              case 7:
+                _this._node.style.backgroundPosition = '0px -534px'
+                break
+              case 8:
+                _this._node.style.backgroundPosition = '0px -1068px'
+                break
+              case 9:
+                _this._node.style.backgroundPosition = '0px 0px'
+                break
+              case 10:
+                _this._node.style.backgroundPosition = '0px -5874px'
+            }
+          }),
+          (this.outHD = function(e) {}),
+          (this._imageMap = this._node.querySelectorAll('area'))
+        let i = 0
+        for (i = 0; i < this._imageMap.length; i++)
+          this._imageMap[i].addEventListener(
+            MouseEvent.MOUSE_ENTER,
+            this.overHD,
+            !1
+          ),
+            this._imageMap[i].addEventListener(
+              MouseEvent.MOUSE_LEAVE,
+              this.outHD,
+              !1
+            )
+      }
+      return JapanMap
+    })()
     module.exports = JapanMap
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var _d = __webpack_require__(1),
-      CarouselEngine = __webpack_require__(18),
-      BookItem = __webpack_require__(13),
-      BookTreeCarousel = (function() {
-        function BookTreeCarousel(_node) {
-          var _this = this
-          ;(this._node = _node),
-            (this._list = []),
-            (this._isSet = !1),
-            (this.addClass = function() {
-              var i = 0
-              for (i = 0; i < _this._list.length; i = (i + 1) | 0) {
-                var _class = 'stCount' + ((i % 8) + 1)
-                _d.addClass(_this._list[i], _class)
-              }
-            }),
-            (this.carc = function() {
-              var i = 0,
-                _x = 0,
-                _y = 0,
-                _spacePoint = null,
-                _maxX = 0
-              for (i = 0; i < _this._list.length; i = (i + 1) | 0) {
-                var _gotoX = _x,
-                  _gotoY = _y
-                _spacePoint
-                  ? ((_gotoX = _spacePoint.x),
-                    (_gotoY = _spacePoint.y),
-                    (_spacePoint = null))
-                  : _gotoY + _this._list[i].offsetHeight > 300 &&
-                    ((_spacePoint = { x: _gotoX, y: _gotoY }),
-                    (_gotoX += 196),
-                    (_gotoY = 0))
-                var _style = _this._list[i].style
-                ;(_style.position = 'absolute'),
-                  (_style.left = _gotoX + 'px'),
-                  (_style.top = _gotoY + 'px'),
-                  (_y = _gotoY + _this._list[i].offsetHeight),
-                  _y >= 298 &&
-                    ((_y = 0),
-                    (_x += _this._list[i].offsetWidth),
-                    i % 8 === 6 && (_y += 122)),
-                  (_maxX = Math.max(_maxX, _x))
-              }
-              ;(_this._ul.style.width = _maxX + 'px'), _this.setup(_maxX)
-            }),
-            (this.setup = function(_maxX) {
-              new CarouselEngine({
-                _node: _this._node,
-                slideSpan: 1260,
-                loop: !0,
-                snap: !0,
-                auto: !1,
-                hasItems: !0
-              })
-              var _item = _this._node.querySelectorAll('.stBookItem'),
-                i = 0
-              for (i = 0; i < _item.length; i = (i + 1) | 0)
-                new BookItem(_item[i])
-            }),
-            (this._ul = this._node.getElementsByTagName('li')[0]),
-            this._ul &&
-              ((this._list = this._ul.querySelectorAll('.stBookTreeItem')),
-              this._list.length && (this.addClass(), this.carc()))
-        }
-        return BookTreeCarousel
-      })()
+    const _d = __webpack_require__(1)
+    const CarouselEngine = __webpack_require__(18)
+    const BookItem = __webpack_require__(13)
+    const BookTreeCarousel = (function() {
+      function BookTreeCarousel(_node) {
+        const _this = this
+        ;(this._node = _node),
+          (this._list = []),
+          (this._isSet = !1),
+          (this.addClass = function() {
+            let i = 0
+            for (i = 0; i < _this._list.length; i = (i + 1) | 0) {
+              const _class = 'stCount' + ((i % 8) + 1)
+              _d.addClass(_this._list[i], _class)
+            }
+          }),
+          (this.carc = function() {
+            let i = 0
+            let _x = 0
+            let _y = 0
+            let _spacePoint = null
+            let _maxX = 0
+            for (i = 0; i < _this._list.length; i = (i + 1) | 0) {
+              let _gotoX = _x
+              let _gotoY = _y
+              _spacePoint
+                ? ((_gotoX = _spacePoint.x),
+                  (_gotoY = _spacePoint.y),
+                  (_spacePoint = null))
+                : _gotoY + _this._list[i].offsetHeight > 300 &&
+                  ((_spacePoint = { x: _gotoX, y: _gotoY }),
+                  (_gotoX += 196),
+                  (_gotoY = 0))
+              const _style = _this._list[i].style
+              ;(_style.position = 'absolute'),
+                (_style.left = _gotoX + 'px'),
+                (_style.top = _gotoY + 'px'),
+                (_y = _gotoY + _this._list[i].offsetHeight),
+                _y >= 298 &&
+                  ((_y = 0),
+                  (_x += _this._list[i].offsetWidth),
+                  i % 8 === 6 && (_y += 122)),
+                (_maxX = Math.max(_maxX, _x))
+            }
+            ;(_this._ul.style.width = _maxX + 'px'), _this.setup(_maxX)
+          }),
+          (this.setup = function(_maxX) {
+            new CarouselEngine({
+              _node: _this._node,
+              slideSpan: 1260,
+              loop: !0,
+              snap: !0,
+              auto: !1,
+              hasItems: !0
+            })
+            const _item = _this._node.querySelectorAll('.stBookItem')
+            let i = 0
+            for (i = 0; i < _item.length; i = (i + 1) | 0)
+              new BookItem(_item[i])
+          }),
+          (this._ul = this._node.getElementsByTagName('li')[0]),
+          this._ul &&
+            ((this._list = this._ul.querySelectorAll('.stBookTreeItem')),
+            this._list.length && (this.addClass(), this.carc()))
+      }
+      return BookTreeCarousel
+    })()
     module.exports = BookTreeCarousel
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var __extends =
-        (this && this.__extends) ||
-        function(d, b) {
-          function __() {
-            this.constructor = d
-          }
-          for (var p in b) b.hasOwnProperty(p) && (d[p] = b[p])
-          d.prototype =
-            null === b
-              ? Object.create(b)
-              : ((__.prototype = b.prototype), new __())
-        },
-      CarouselEngine = __webpack_require__(18),
-      BookTreeDetailCarousel = (function(_super) {
-        function BookTreeDetailCarousel(_node) {
-          _super.call(this, {
-            _node: _node,
-            slideSpan: 874,
-            loop: !0,
-            snap: !0,
-            auto: !1
-          })
+    const __extends =
+      (this && this.__extends) ||
+      function(d, b) {
+        function __() {
+          this.constructor = d
         }
-        return __extends(BookTreeDetailCarousel, _super), BookTreeDetailCarousel
-      })(CarouselEngine)
+        for (const p in b) b.hasOwnProperty(p) && (d[p] = b[p])
+        d.prototype =
+          b === null
+            ? Object.create(b)
+            : ((__.prototype = b.prototype), new __())
+      }
+    const CarouselEngine = __webpack_require__(18)
+    const BookTreeDetailCarousel = (function(_super) {
+      function BookTreeDetailCarousel(_node) {
+        _super.call(this, {
+          _node,
+          slideSpan: 874,
+          loop: !0,
+          snap: !0,
+          auto: !1
+        })
+      }
+      return __extends(BookTreeDetailCarousel, _super), BookTreeDetailCarousel
+    })(CarouselEngine)
     module.exports = BookTreeDetailCarousel
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var Statics = __webpack_require__(2),
-      MouseEvent = __webpack_require__(3),
-      Ease = __webpack_require__(6),
-      _s = __webpack_require__(1),
-      PullDown = (function() {
-        function PullDown(_node) {
-          var _this = this
-          ;(this._node = _node),
-            (this._isOpen = !1),
-            (this._isOver = !1),
-            (this._hasWrapper = !1),
-            (this.toggleHD = function(e) {
-              _this._isOpen ? _this.hideHD(e) : _this.showHD(e)
-            }),
-            (this.showHD = function(e) {
-              ;(_this._contents.style.display = 'block'),
-                (_this._contents.style.zIndex = 100),
+    const Statics = __webpack_require__(2)
+    const MouseEvent = __webpack_require__(3)
+    const Ease = __webpack_require__(6)
+    const _s = __webpack_require__(1)
+    const PullDown = (function() {
+      function PullDown(_node) {
+        const _this = this
+        ;(this._node = _node),
+          (this._isOpen = !1),
+          (this._isOver = !1),
+          (this._hasWrapper = !1),
+          (this.toggleHD = function(e) {
+            _this._isOpen ? _this.hideHD(e) : _this.showHD(e)
+          }),
+          (this.showHD = function(e) {
+            ;(_this._contents.style.display = 'block'),
+              (_this._contents.style.zIndex = 100),
+              Velocity(_this._contents, 'stop'),
+              Velocity(
+                _this._contents,
+                { opacity: 1 },
+                {
+                  duration: 500,
+                  delay: 0,
+                  easing: Ease.EaseOutCubic,
+                  complete: _this.outHD
+                }
+              )
+          }),
+          (this.hideHD = function(e) {
+            _this._isOver ||
+              ((_this._isOpen = !1),
+              (!Statics.HAS_TOUCH ||
+                (e.target !== _this._node &&
+                  e.target.parentNode !== _this._node)) &&
+                ((_this._contents.style.zIndex = 'initial'),
                 Velocity(_this._contents, 'stop'),
                 Velocity(
                   _this._contents,
-                  { opacity: 1 },
+                  { opacity: 0 },
                   {
-                    duration: 500,
+                    duration: 200,
                     delay: 0,
                     easing: Ease.EaseOutCubic,
-                    complete: _this.outHD
+                    complete: _this.hide
                   }
-                )
-            }),
-            (this.hideHD = function(e) {
-              _this._isOver ||
-                ((_this._isOpen = !1),
-                (!Statics.HAS_TOUCH ||
-                  (e.target !== _this._node &&
-                    e.target.parentNode !== _this._node)) &&
-                  ((_this._contents.style.zIndex = 'initial'),
-                  Velocity(_this._contents, 'stop'),
-                  Velocity(
-                    _this._contents,
-                    { opacity: 0 },
-                    {
-                      duration: 200,
-                      delay: 0,
-                      easing: Ease.EaseOutCubic,
-                      complete: _this.hide
-                    }
-                  )))
-            }),
-            (this.hide = function() {
-              ;(_this._contents.style.display = 'none'),
-                (_this._isOpen = !1),
-                (_this._isOver = !0)
-            }),
-            (this.overHD = function(e) {
-              _this._isOver = !0
-            }),
-            (this.outHD = function(e) {
-              _this._isOver = !1
-            }),
-            (this._nav = this._node.querySelector('.stPullDownHook')),
-            (this._contents = this._node.querySelector('.stPullDownList')),
-            (this._list = this._contents.querySelectorAll('li')),
-            (this._wrapper = this._node.parentNode),
+                )))
+          }),
+          (this.hide = function() {
+            ;(_this._contents.style.display = 'none'),
+              (_this._isOpen = !1),
+              (_this._isOver = !0)
+          }),
+          (this.overHD = function(e) {
+            _this._isOver = !0
+          }),
+          (this.outHD = function(e) {
+            _this._isOver = !1
+          }),
+          (this._nav = this._node.querySelector('.stPullDownHook')),
+          (this._contents = this._node.querySelector('.stPullDownList')),
+          (this._list = this._contents.querySelectorAll('li')),
+          (this._wrapper = this._node.parentNode),
+          (this._hasWrapper = _s.hasClass(this._wrapper, 'pbNestedWrapper'))
+        for (let i = 0; this._list.length > i; i++)
+          _s.hasClass(this._list[i], 'stCurrent') &&
+            (this._nav.textContent = this._list[i].textContent)
+        for (; !this._hasWrapper; )
+          (this._wrapper = this._wrapper.parentNode),
             (this._hasWrapper = _s.hasClass(this._wrapper, 'pbNestedWrapper'))
-          for (var i = 0; this._list.length > i; i++)
-            _s.hasClass(this._list[i], 'stCurrent') &&
-              (this._nav.innerText = this._list[i].innerText)
-          for (; !this._hasWrapper; )
-            (this._wrapper = this._wrapper.parentNode),
-              (this._hasWrapper = _s.hasClass(this._wrapper, 'pbNestedWrapper'))
-          ;(this._wrapper.style.overflow = 'visible'),
-            this._nav.addEventListener(MouseEvent.CLICK, this.toggleHD, !1),
-            document.body.addEventListener(MouseEvent.CLICK, this.hideHD, !1),
-            this._node.addEventListener(MouseEvent.MOUSE_OVER, this.overHD, !1),
-            this._node.addEventListener(MouseEvent.MOUSE_LEAVE, this.outHD, !1)
-        }
-        return PullDown
-      })()
+        ;(this._wrapper.style.overflow = 'visible'),
+          this._nav.addEventListener(MouseEvent.CLICK, this.toggleHD, !1),
+          document.body.addEventListener(MouseEvent.CLICK, this.hideHD, !1),
+          this._node.addEventListener(MouseEvent.MOUSE_OVER, this.overHD, !1),
+          this._node.addEventListener(MouseEvent.MOUSE_LEAVE, this.outHD, !1)
+      }
+      return PullDown
+    })()
     module.exports = PullDown
   },
   function(module, exports, __webpack_require__) {
     'use strict'
-    var _s = __webpack_require__(1),
-      MouseEvent = __webpack_require__(3),
-      Ease = __webpack_require__(6),
-      CouponDetailAccordion = (function() {
-        function CouponDetailAccordion(_node) {
-          var _this = this
-          ;(this._node = _node),
-            (this._isOpen = !1),
-            (this.toggleHD = function() {
-              ;(_this._isOpen = !_this._isOpen),
-                _this._isOpen ? _this.show() : _this.hide()
-            }),
-            (this.hideHD = function() {
-              ;(_this._isOpen = !1), _this.hide()
-            }),
-            (this.show = function() {
-              var _toHeight = _this._inner.offsetHeight
-              ;(_this._spd = (1e3 * _toHeight) / 1500),
-                _s.addClass(_this._trigger, 'current'),
-                (_this._trigger.innerHTML = '閉じる'),
-                Velocity(_this._view, 'stop'),
-                Velocity(
-                  _this._view,
-                  { height: _toHeight },
-                  { duration: _this._spd, delay: 0, easing: Ease.EaseOutCubic }
-                )
-            }),
-            (this.hide = function() {
-              _s.removeClass(_this._trigger, 'current'),
-                (_this._trigger.innerHTML = 'クーポン詳細'),
-                Velocity(_this._view, 'stop'),
-                Velocity(
-                  _this._view,
-                  { height: 0 },
-                  { duration: _this._spd, delay: 0, easing: Ease.EaseOutCubic }
-                )
-            }),
-            (this._trigger = this._node.querySelector(
-              '.coupon-detail-accordion__trigger'
-            )),
-            (this._view = this._node.querySelector(
-              '.coupon-detail-accordion__view'
-            )),
-            (this._inner = this._node.querySelector(
-              '.coupon-detail-accordion__inner'
-            )),
-            this._trigger.addEventListener(MouseEvent.CLICK, this.toggleHD, !1)
-        }
-        return CouponDetailAccordion
-      })()
+    const _s = __webpack_require__(1)
+    const MouseEvent = __webpack_require__(3)
+    const Ease = __webpack_require__(6)
+    const CouponDetailAccordion = (function() {
+      function CouponDetailAccordion(_node) {
+        const _this = this
+        ;(this._node = _node),
+          (this._isOpen = !1),
+          (this.toggleHD = function() {
+            ;(_this._isOpen = !_this._isOpen),
+              _this._isOpen ? _this.show() : _this.hide()
+          }),
+          (this.hideHD = function() {
+            ;(_this._isOpen = !1), _this.hide()
+          }),
+          (this.show = function() {
+            const _toHeight = _this._inner.offsetHeight
+            ;(_this._spd = (1e3 * _toHeight) / 1500),
+              _s.addClass(_this._trigger, 'current'),
+              (_this._trigger.innerHTML = '閉じる'),
+              Velocity(_this._view, 'stop'),
+              Velocity(
+                _this._view,
+                { height: _toHeight },
+                { duration: _this._spd, delay: 0, easing: Ease.EaseOutCubic }
+              )
+          }),
+          (this.hide = function() {
+            _s.removeClass(_this._trigger, 'current'),
+              (_this._trigger.innerHTML = 'クーポン詳細'),
+              Velocity(_this._view, 'stop'),
+              Velocity(
+                _this._view,
+                { height: 0 },
+                { duration: _this._spd, delay: 0, easing: Ease.EaseOutCubic }
+              )
+          }),
+          (this._trigger = this._node.querySelector(
+            '.coupon-detail-accordion__trigger'
+          )),
+          (this._view = this._node.querySelector(
+            '.coupon-detail-accordion__view'
+          )),
+          (this._inner = this._node.querySelector(
+            '.coupon-detail-accordion__inner'
+          )),
+          this._trigger.addEventListener(MouseEvent.CLICK, this.toggleHD, !1)
+      }
+      return CouponDetailAccordion
+    })()
     module.exports = CouponDetailAccordion
   },
   function(module, exports) {
     'use strict'
-    var HdgSearch = (function() {
+    const HdgSearch = (function() {
       function HdgSearch(_node, _ajax) {
-        var _this = this
+        const _this = this
         return (
           (this._node = _node),
           (this._ajax = _ajax),
@@ -10748,7 +10674,7 @@ var registStateManage = {
               (_this._textbox = _this._node.querySelector(
                 '.stHdgSearchTextbox'
               ))
-            for (var i = 0; i < _this._keyword.length; i++)
+            for (let i = 0; i < _this._keyword.length; i++)
               _this._keyword[i].addEventListener(
                 'click',
                 _this.clickKeyword,
@@ -10760,15 +10686,15 @@ var registStateManage = {
           }),
           (this.changeLabel = function(_select, _label, _limit) {
             for (
-              var elements = _select.options, i = 0;
+              let elements = _select.options, i = 0;
               i < elements.length;
               i++
             )
               if (elements[i].selected) {
-                var output = elements[i].textContent
+                let output = elements[i].textContent
                 elements[i].textContent.length > _limit &&
                   (output = elements[i].textContent.substring(0, _limit)),
-                  '並び順の変更' === elements[i].textContent &&
+                  elements[i].textContent === '並び順の変更' &&
                     (output = '並び順'),
                   (_label.textContent = output)
                 break
@@ -10805,7 +10731,7 @@ var registStateManage = {
               (_this._keyword = _this._node.querySelectorAll(
                 '.stHdgSearchKeyword'
               ))
-            for (var i = 0; i < _this._keyword.length; i++)
+            for (let i = 0; i < _this._keyword.length; i++)
               _this._keyword[i].addEventListener(
                 'click',
                 _this.clickKeywordAndReload,
@@ -10838,7 +10764,7 @@ var registStateManage = {
               i++
             )
               if (orderElements[i].selected) {
-                var orderParam = orderElements[i].value
+                const orderParam = orderElements[i].value
                 objParam.srt = orderParam
                 break
               }
@@ -10848,15 +10774,15 @@ var registStateManage = {
               i++
             )
               if (genreElements[i].selected) {
-                var genreParam = genreElements[i].value
+                const genreParam = genreElements[i].value
                 objParam.gnrcd = genreParam
                 break
               }
             objParam.k = _this._textbox.value
-            var pageBlockElement = document.querySelector(
-                '#pbBlock' + _this._pageBlockId
-              ),
-              elementHeight = pageBlockElement.clientHeight
+            const pageBlockElement = document.querySelector(
+              '#pbBlock' + _this._pageBlockId
+            )
+            const elementHeight = pageBlockElement.clientHeight
             ;(pageBlockElement.style.height = elementHeight + 'px'),
               window.HC.Ajax.update(
                 _this._pageBlockId,
@@ -10881,166 +10807,165 @@ var registStateManage = {
 ])
 /*! lazysizes - v4.0.1 */
 !(function(a, b) {
-  var c = b(a, a.document)
+  const c = b(a, a.document)
   ;(a.lazySizes = c),
-    'object' == typeof module && module.exports && (module.exports = c)
+    typeof module === 'object' && module.exports && (module.exports = c)
 })(window, function(a, b) {
   'use strict'
   if (b.getElementsByClassName) {
-    var c,
-      d,
-      e = b.documentElement,
-      f = a.Date,
-      g = a.HTMLPictureElement,
-      h = 'addEventListener',
-      i = 'getAttribute',
-      j = a[h],
-      k = a.setTimeout,
-      l = a.requestAnimationFrame || k,
-      m = a.requestIdleCallback,
-      n = /^picture$/i,
-      o = ['load', 'error', 'lazyincluded', '_lazyloaded'],
-      p = {},
-      q = Array.prototype.forEach,
-      r = function(a, b) {
-        return (
-          p[b] || (p[b] = new RegExp('(\\s|^)' + b + '(\\s|$)')),
-          p[b].test(a[i]('class') || '') && p[b]
-        )
-      },
-      s = function(a, b) {
-        r(a, b) ||
-          a.setAttribute('class', (a[i]('class') || '').trim() + ' ' + b)
-      },
-      t = function(a, b) {
-        var c
-        ;(c = r(a, b)) &&
-          a.setAttribute('class', (a[i]('class') || '').replace(c, ' '))
-      },
-      u = function(a, b, c) {
-        var d = c ? h : 'removeEventListener'
-        c && u(a, b),
-          o.forEach(function(c) {
-            a[d](c, b)
-          })
-      },
-      v = function(a, d, e, f, g) {
-        var h = b.createEvent('CustomEvent')
-        return (
-          e || (e = {}),
-          (e.instance = c),
-          h.initCustomEvent(d, !f, !g, e),
-          a.dispatchEvent(h),
-          h
-        )
-      },
-      w = function(b, c) {
-        var e
-        !g && (e = a.picturefill || d.pf)
-          ? e({ reevaluate: !0, elements: [b] })
-          : c && c.src && (b.src = c.src)
-      },
-      x = function(a, b) {
-        return (getComputedStyle(a, null) || {})[b]
-      },
-      y = function(a, b, c) {
-        for (c = c || a.offsetWidth; c < d.minSize && b && !a._lazysizesWidth; )
-          (c = b.offsetWidth), (b = b.parentNode)
-        return c
-      },
-      z = (function() {
-        var a,
-          c,
-          d = [],
-          e = [],
-          f = d,
-          g = function() {
-            var b = f
-            for (f = d.length ? e : d, a = !0, c = !1; b.length; ) b.shift()()
-            a = !1
-          },
-          h = function(d, e) {
-            a && !e
-              ? d.apply(this, arguments)
-              : (f.push(d), c || ((c = !0), (b.hidden ? k : l)(g)))
-          }
-        return (h._lsFlush = g), h
-      })(),
-      A = function(a, b) {
-        return b
-          ? function() {
-              z(a)
-            }
-          : function() {
-              var b = this,
-                c = arguments
-              z(function() {
-                a.apply(b, c)
-              })
-            }
-      },
-      B = function(a) {
-        var b,
-          c = 0,
-          e = 125,
-          g = d.ricTimeout,
-          h = function() {
-            ;(b = !1), (c = f.now()), a()
-          },
-          i =
-            m && d.ricTimeout
-              ? function() {
-                  m(h, { timeout: g }), g !== d.ricTimeout && (g = d.ricTimeout)
-                }
-              : A(function() {
-                  k(h)
-                }, !0)
-        return function(a) {
-          var d
-          ;(a = a === !0) && (g = 33),
-            b ||
-              ((b = !0),
-              (d = e - (f.now() - c)),
-              0 > d && (d = 0),
-              a || (9 > d && m) ? i() : k(i, d))
-        }
-      },
-      C = function(a) {
-        var b,
-          c,
-          d = 99,
-          e = function() {
-            ;(b = null), a()
-          },
-          g = function() {
-            var a = f.now() - c
-            d > a ? k(g, d - a) : (m || e)(e)
-          }
-        return function() {
-          ;(c = f.now()), b || (b = k(g, d))
-        }
+    let c
+    let d
+    const e = b.documentElement
+    const f = a.Date
+    const g = a.HTMLPictureElement
+    const h = 'addEventListener'
+    const i = 'getAttribute'
+    const j = a[h]
+    const k = a.setTimeout
+    const l = a.requestAnimationFrame || k
+    const m = a.requestIdleCallback
+    const n = /^picture$/i
+    const o = ['load', 'error', 'lazyincluded', '_lazyloaded']
+    const p = {}
+    const q = Array.prototype.forEach
+    const r = function(a, b) {
+      return (
+        p[b] || (p[b] = new RegExp('(\\s|^)' + b + '(\\s|$)')),
+        p[b].test(a[i]('class') || '') && p[b]
+      )
+    }
+    const s = function(a, b) {
+      r(a, b) || a.setAttribute('class', (a[i]('class') || '').trim() + ' ' + b)
+    }
+    const t = function(a, b) {
+      let c
+      ;(c = r(a, b)) &&
+        a.setAttribute('class', (a[i]('class') || '').replace(c, ' '))
+    }
+    var u = function(a, b, c) {
+      const d = c ? h : 'removeEventListener'
+      c && u(a, b),
+        o.forEach(function(c) {
+          a[d](c, b)
+        })
+    }
+    const v = function(a, d, e, f, g) {
+      const h = b.createEvent('CustomEvent')
+      return (
+        e || (e = {}),
+        (e.instance = c),
+        h.initCustomEvent(d, !f, !g, e),
+        a.dispatchEvent(h),
+        h
+      )
+    }
+    const w = function(b, c) {
+      let e
+      !g && (e = a.picturefill || d.pf)
+        ? e({ reevaluate: !0, elements: [b] })
+        : c && c.src && (b.src = c.src)
+    }
+    const x = function(a, b) {
+      return (getComputedStyle(a, null) || {})[b]
+    }
+    const y = function(a, b, c) {
+      for (c = c || a.offsetWidth; c < d.minSize && b && !a._lazysizesWidth; )
+        (c = b.offsetWidth), (b = b.parentNode)
+      return c
+    }
+    const z = (function() {
+      let a
+      let c
+      const d = []
+      const e = []
+      let f = d
+      const g = function() {
+        const b = f
+        for (f = d.length ? e : d, a = !0, c = !1; b.length; ) b.shift()()
+        a = !1
       }
+      const h = function(d, e) {
+        a && !e
+          ? d.apply(this, arguments)
+          : (f.push(d), c || ((c = !0), (b.hidden ? k : l)(g)))
+      }
+      return (h._lsFlush = g), h
+    })()
+    const A = function(a, b) {
+      return b
+        ? function() {
+            z(a)
+          }
+        : function() {
+            const b = this
+            const c = arguments
+            z(function() {
+              a.apply(b, c)
+            })
+          }
+    }
+    const B = function(a) {
+      let b
+      let c = 0
+      const e = 125
+      let g = d.ricTimeout
+      const h = function() {
+        ;(b = !1), (c = f.now()), a()
+      }
+      const i =
+        m && d.ricTimeout
+          ? function() {
+              m(h, { timeout: g }), g !== d.ricTimeout && (g = d.ricTimeout)
+            }
+          : A(function() {
+              k(h)
+            }, !0)
+      return function(a) {
+        let d
+        ;(a = a === !0) && (g = 33),
+          b ||
+            ((b = !0),
+            (d = e - (f.now() - c)),
+            d < 0 && (d = 0),
+            a || (d < 9 && m) ? i() : k(i, d))
+      }
+    }
+    const C = function(a) {
+      let b
+      let c
+      const d = 99
+      const e = function() {
+        ;(b = null), a()
+      }
+      var g = function() {
+        const a = f.now() - c
+        d > a ? k(g, d - a) : (m || e)(e)
+      }
+      return function() {
+        ;(c = f.now()), b || (b = k(g, d))
+      }
+    }
     !(function() {
-      var b,
-        c = {
-          lazyClass: 'lazyload',
-          loadedClass: 'lazyloaded',
-          loadingClass: 'lazyloading',
-          preloadClass: 'lazypreload',
-          errorClass: 'lazyerror',
-          autosizesClass: 'lazyautosizes',
-          srcAttr: 'data-src',
-          srcsetAttr: 'data-srcset',
-          sizesAttr: 'data-sizes',
-          minSize: 40,
-          customMedia: {},
-          init: !0,
-          expFactor: 1.5,
-          hFac: 0.8,
-          loadMode: 2,
-          loadHidden: !0,
-          ricTimeout: 300
-        }
+      let b
+      const c = {
+        lazyClass: 'lazyload',
+        loadedClass: 'lazyloaded',
+        loadingClass: 'lazyloading',
+        preloadClass: 'lazypreload',
+        errorClass: 'lazyerror',
+        autosizesClass: 'lazyautosizes',
+        srcAttr: 'data-src',
+        srcsetAttr: 'data-srcset',
+        sizesAttr: 'data-sizes',
+        minSize: 40,
+        customMedia: {},
+        init: !0,
+        expFactor: 1.5,
+        hFac: 0.8,
+        loadMode: 2,
+        loadHidden: !0,
+        ricTimeout: 300
+      }
       d = a.lazySizesConfig || a.lazysizesConfig || {}
       for (b in c) b in d || (d[b] = c[b])
       ;(a.lazySizesConfig = d),
@@ -11048,290 +10973,284 @@ var registStateManage = {
           d.init && F()
         })
     })()
-    var D = (function() {
-        var g,
-          l,
-          m,
-          o,
-          p,
-          y,
-          D,
-          F,
-          G,
-          H,
-          I,
-          J,
-          K,
-          L,
-          M = /^img$/i,
-          N = /^iframe$/i,
-          O = 'onscroll' in a && !/glebot/.test(navigator.userAgent),
-          P = 0,
-          Q = 0,
-          R = 0,
-          S = -1,
-          T = function(a) {
-            R--,
-              a && a.target && u(a.target, T),
-              (!a || 0 > R || !a.target) && (R = 0)
-          },
-          U = function(a, c) {
-            var d,
-              f = a,
-              g =
-                'hidden' == x(b.body, 'visibility') ||
-                'hidden' != x(a, 'visibility')
-            for (
-              F -= c, I += c, G -= c, H += c;
-              g && (f = f.offsetParent) && f != b.body && f != e;
-
-            )
-              (g = (x(f, 'opacity') || 1) > 0),
-                g &&
-                  'visible' != x(f, 'overflow') &&
-                  ((d = f.getBoundingClientRect()),
-                  (g =
-                    H > d.left &&
-                    G < d.right &&
-                    I > d.top - 1 &&
-                    F < d.bottom + 1))
-            return g
-          },
-          V = function() {
-            var a,
-              f,
-              h,
-              j,
-              k,
-              m,
-              n,
-              p,
-              q,
-              r = c.elements
-            if ((o = d.loadMode) && 8 > R && (a = r.length)) {
-              ;(f = 0),
-                S++,
-                null == K &&
-                  ('expand' in d ||
-                    (d.expand =
-                      e.clientHeight > 500 && e.clientWidth > 500 ? 500 : 370),
-                  (J = d.expand),
-                  (K = J * d.expFactor)),
-                K > Q && 1 > R && S > 2 && o > 2 && !b.hidden
-                  ? ((Q = K), (S = 0))
-                  : (Q = o > 1 && S > 1 && 6 > R ? J : P)
-              for (; a > f; f++)
-                if (r[f] && !r[f]._lazyRace)
-                  if (O)
-                    if (
-                      (((p = r[f][i]('data-expand')) && (m = 1 * p)) || (m = Q),
-                      q !== m &&
-                        ((y = innerWidth + m * L),
-                        (D = innerHeight + m),
-                        (n = -1 * m),
-                        (q = m)),
-                      (h = r[f].getBoundingClientRect()),
-                      (I = h.bottom) >= n &&
-                        (F = h.top) <= D &&
-                        (H = h.right) >= n * L &&
-                        (G = h.left) <= y &&
-                        (I || H || G || F) &&
-                        (d.loadHidden || 'hidden' != x(r[f], 'visibility')) &&
-                        ((l && 3 > R && !p && (3 > o || 4 > S)) || U(r[f], m)))
-                    ) {
-                      if ((ba(r[f]), (k = !0), R > 9)) break
-                    } else
-                      !k &&
-                        l &&
-                        !j &&
-                        4 > R &&
-                        4 > S &&
-                        o > 2 &&
-                        (g[0] || d.preloadAfterLoad) &&
-                        (g[0] ||
-                          (!p &&
-                            (I ||
-                              H ||
-                              G ||
-                              F ||
-                              'auto' != r[f][i](d.sizesAttr)))) &&
-                        (j = g[0] || r[f])
-                  else ba(r[f])
-              j && !k && ba(j)
-            }
-          },
-          W = B(V),
-          X = function(a) {
-            s(a.target, d.loadedClass),
-              t(a.target, d.loadingClass),
-              u(a.target, Z),
-              v(a.target, 'lazyloaded')
-          },
-          Y = A(X),
-          Z = function(a) {
-            Y({ target: a.target })
-          },
-          $ = function(a, b) {
-            try {
-              a.contentWindow.location.replace(b)
-            } catch (c) {
-              a.src = b
-            }
-          },
-          _ = function(a) {
-            var b,
-              c = a[i](d.srcsetAttr)
-            ;(b = d.customMedia[a[i]('data-media') || a[i]('media')]) &&
-              a.setAttribute('media', b),
-              c && a.setAttribute('srcset', c)
-          },
-          aa = A(function(a, b, c, e, f) {
-            var g, h, j, l, o, p
-            ;(o = v(a, 'lazybeforeunveil', b)).defaultPrevented ||
-              (e && (c ? s(a, d.autosizesClass) : a.setAttribute('sizes', e)),
-              (h = a[i](d.srcsetAttr)),
-              (g = a[i](d.srcAttr)),
-              f && ((j = a.parentNode), (l = j && n.test(j.nodeName || ''))),
-              (p = b.firesLoad || ('src' in a && (h || g || l))),
-              (o = { target: a }),
-              p &&
-                (u(a, T, !0),
-                clearTimeout(m),
-                (m = k(T, 2500)),
-                s(a, d.loadingClass),
-                u(a, Z, !0)),
-              l && q.call(j.getElementsByTagName('source'), _),
-              h
-                ? a.setAttribute('srcset', h)
-                : g && !l && (N.test(a.nodeName) ? $(a, g) : (a.src = g)),
-              f && (h || l) && w(a, { src: g })),
-              a._lazyRace && delete a._lazyRace,
-              t(a, d.lazyClass),
-              z(function() {
-                ;(!p || (a.complete && a.naturalWidth > 1)) &&
-                  (p ? T(o) : R--, X(o))
-              }, !0)
-          }),
-          ba = function(a) {
-            var b,
-              c = M.test(a.nodeName),
-              e = c && (a[i](d.sizesAttr) || a[i]('sizes')),
-              f = 'auto' == e
-            ;((!f && l) ||
-              !c ||
-              (!a[i]('src') && !a.srcset) ||
-              a.complete ||
-              r(a, d.errorClass) ||
-              !r(a, d.lazyClass)) &&
-              ((b = v(a, 'lazyunveilread').detail),
-              f && E.updateElem(a, !0, a.offsetWidth),
-              (a._lazyRace = !0),
-              R++,
-              aa(a, b, f, e, c))
-          },
-          ca = function() {
-            if (!l) {
-              if (f.now() - p < 999) return void k(ca, 999)
-              var a = C(function() {
-                ;(d.loadMode = 3), W()
-              })
-              ;(l = !0),
-                (d.loadMode = 3),
-                W(),
-                j(
-                  'scroll',
-                  function() {
-                    3 == d.loadMode && (d.loadMode = 2), a()
-                  },
-                  !0
-                )
-            }
-          }
-        return {
-          _: function() {
-            ;(p = f.now()),
-              (c.elements = b.getElementsByClassName(d.lazyClass)),
-              (g = b.getElementsByClassName(
-                d.lazyClass + ' ' + d.preloadClass
-              )),
-              (L = d.hFac),
-              j('scroll', W, !0),
-              j('resize', W, !0),
-              a.MutationObserver
-                ? new MutationObserver(W).observe(e, {
-                    childList: !0,
-                    subtree: !0,
-                    attributes: !0
-                  })
-                : (e[h]('DOMNodeInserted', W, !0),
-                  e[h]('DOMAttrModified', W, !0),
-                  setInterval(W, 999)),
-              j('hashchange', W, !0),
-              [
-                'focus',
-                'mouseover',
-                'click',
-                'load',
-                'transitionend',
-                'animationend',
-                'webkitAnimationEnd'
-              ].forEach(function(a) {
-                b[h](a, W, !0)
-              }),
-              /d$|^c/.test(b.readyState)
-                ? ca()
-                : (j('load', ca), b[h]('DOMContentLoaded', W), k(ca, 2e4)),
-              c.elements.length ? (V(), z._lsFlush()) : W()
-          },
-          checkElems: W,
-          unveil: ba
-        }
-      })(),
-      E = (function() {
-        var a,
-          c = A(function(a, b, c, d) {
-            var e, f, g
-            if (
-              ((a._lazysizesWidth = d),
-              (d += 'px'),
-              a.setAttribute('sizes', d),
-              n.test(b.nodeName || ''))
-            )
-              for (
-                e = b.getElementsByTagName('source'), f = 0, g = e.length;
-                g > f;
-                f++
-              )
-                e[f].setAttribute('sizes', d)
-            c.detail.dataAttr || w(a, c.detail)
-          }),
-          e = function(a, b, d) {
-            var e,
-              f = a.parentNode
-            f &&
-              ((d = y(a, f, d)),
-              (e = v(a, 'lazybeforesizes', { width: d, dataAttr: !!b })),
-              e.defaultPrevented ||
-                ((d = e.detail.width),
-                d && d !== a._lazysizesWidth && c(a, f, e, d)))
-          },
-          f = function() {
-            var b,
-              c = a.length
-            if (c) for (b = 0; c > b; b++) e(a[b])
-          },
-          g = C(f)
-        return {
-          _: function() {
-            ;(a = b.getElementsByClassName(d.autosizesClass)), j('resize', g)
-          },
-          checkElems: g,
-          updateElem: e
-        }
-      })(),
-      F = function() {
-        F.i || ((F.i = !0), E._(), D._())
+    const D = (function() {
+      let g
+      let l
+      let m
+      let o
+      let p
+      let y
+      let D
+      let F
+      let G
+      let H
+      let I
+      let J
+      let K
+      let L
+      const M = /^img$/i
+      const N = /^iframe$/i
+      const O = 'onscroll' in a && !/glebot/.test(navigator.userAgent)
+      const P = 0
+      let Q = 0
+      let R = 0
+      let S = -1
+      var T = function(a) {
+        R--,
+          a && a.target && u(a.target, T),
+          (!a || R < 0 || !a.target) && (R = 0)
       }
+      const U = function(a, c) {
+        let d
+        let f = a
+        let g =
+          x(b.body, 'visibility') == 'hidden' || x(a, 'visibility') != 'hidden'
+        for (
+          F -= c, I += c, G -= c, H += c;
+          g && (f = f.offsetParent) && f != b.body && f != e;
+
+        )
+          (g = (x(f, 'opacity') || 1) > 0),
+            g &&
+              x(f, 'overflow') != 'visible' &&
+              ((d = f.getBoundingClientRect()),
+              (g =
+                H > d.left && G < d.right && I > d.top - 1 && F < d.bottom + 1))
+        return g
+      }
+      const V = function() {
+        let a
+        let f
+        let h
+        let j
+        let k
+        let m
+        let n
+        let p
+        let q
+        const r = c.elements
+        if ((o = d.loadMode) && R < 8 && (a = r.length)) {
+          ;(f = 0),
+            S++,
+            K == null &&
+              ('expand' in d ||
+                (d.expand =
+                  e.clientHeight > 500 && e.clientWidth > 500 ? 500 : 370),
+              (J = d.expand),
+              (K = J * d.expFactor)),
+            K > Q && R < 1 && S > 2 && o > 2 && !b.hidden
+              ? ((Q = K), (S = 0))
+              : (Q = o > 1 && S > 1 && R < 6 ? J : P)
+          for (; a > f; f++)
+            if (r[f] && !r[f]._lazyRace)
+              if (O)
+                if (
+                  (((p = r[f][i]('data-expand')) && (m = 1 * p)) || (m = Q),
+                  q !== m &&
+                    ((y = innerWidth + m * L),
+                    (D = innerHeight + m),
+                    (n = -1 * m),
+                    (q = m)),
+                  (h = r[f].getBoundingClientRect()),
+                  (I = h.bottom) >= n &&
+                    (F = h.top) <= D &&
+                    (H = h.right) >= n * L &&
+                    (G = h.left) <= y &&
+                    (I || H || G || F) &&
+                    (d.loadHidden || x(r[f], 'visibility') != 'hidden') &&
+                    ((l && R < 3 && !p && (o < 3 || S < 4)) || U(r[f], m)))
+                ) {
+                  if ((ba(r[f]), (k = !0), R > 9)) break
+                } else
+                  !k &&
+                    l &&
+                    !j &&
+                    R < 4 &&
+                    S < 4 &&
+                    o > 2 &&
+                    (g[0] || d.preloadAfterLoad) &&
+                    (g[0] ||
+                      (!p &&
+                        (I ||
+                          H ||
+                          G ||
+                          F ||
+                          r[f][i](d.sizesAttr) != 'auto'))) &&
+                    (j = g[0] || r[f])
+              else ba(r[f])
+          j && !k && ba(j)
+        }
+      }
+      const W = B(V)
+      const X = function(a) {
+        s(a.target, d.loadedClass),
+          t(a.target, d.loadingClass),
+          u(a.target, Z),
+          v(a.target, 'lazyloaded')
+      }
+      const Y = A(X)
+      var Z = function(a) {
+        Y({ target: a.target })
+      }
+      const $ = function(a, b) {
+        try {
+          a.contentWindow.location.replace(b)
+        } catch (c) {
+          a.src = b
+        }
+      }
+      const _ = function(a) {
+        let b
+        const c = a[i](d.srcsetAttr)
+        ;(b = d.customMedia[a[i]('data-media') || a[i]('media')]) &&
+          a.setAttribute('media', b),
+          c && a.setAttribute('srcset', c)
+      }
+      const aa = A(function(a, b, c, e, f) {
+        let g, h, j, l, o, p
+        ;(o = v(a, 'lazybeforeunveil', b)).defaultPrevented ||
+          (e && (c ? s(a, d.autosizesClass) : a.setAttribute('sizes', e)),
+          (h = a[i](d.srcsetAttr)),
+          (g = a[i](d.srcAttr)),
+          f && ((j = a.parentNode), (l = j && n.test(j.nodeName || ''))),
+          (p = b.firesLoad || ('src' in a && (h || g || l))),
+          (o = { target: a }),
+          p &&
+            (u(a, T, !0),
+            clearTimeout(m),
+            (m = k(T, 2500)),
+            s(a, d.loadingClass),
+            u(a, Z, !0)),
+          l && q.call(j.getElementsByTagName('source'), _),
+          h
+            ? a.setAttribute('srcset', h)
+            : g && !l && (N.test(a.nodeName) ? $(a, g) : (a.src = g)),
+          f && (h || l) && w(a, { src: g })),
+          a._lazyRace && delete a._lazyRace,
+          t(a, d.lazyClass),
+          z(function() {
+            ;(!p || (a.complete && a.naturalWidth > 1)) &&
+              (p ? T(o) : R--, X(o))
+          }, !0)
+      })
+      var ba = function(a) {
+        let b
+        const c = M.test(a.nodeName)
+        const e = c && (a[i](d.sizesAttr) || a[i]('sizes'))
+        const f = e == 'auto'
+        ;((!f && l) ||
+          !c ||
+          (!a[i]('src') && !a.srcset) ||
+          a.complete ||
+          r(a, d.errorClass) ||
+          !r(a, d.lazyClass)) &&
+          ((b = v(a, 'lazyunveilread').detail),
+          f && E.updateElem(a, !0, a.offsetWidth),
+          (a._lazyRace = !0),
+          R++,
+          aa(a, b, f, e, c))
+      }
+      var ca = function() {
+        if (!l) {
+          if (f.now() - p < 999) return void k(ca, 999)
+          const a = C(function() {
+            ;(d.loadMode = 3), W()
+          })
+          ;(l = !0),
+            (d.loadMode = 3),
+            W(),
+            j(
+              'scroll',
+              function() {
+                d.loadMode == 3 && (d.loadMode = 2), a()
+              },
+              !0
+            )
+        }
+      }
+      return {
+        _() {
+          ;(p = f.now()),
+            (c.elements = b.getElementsByClassName(d.lazyClass)),
+            (g = b.getElementsByClassName(d.lazyClass + ' ' + d.preloadClass)),
+            (L = d.hFac),
+            j('scroll', W, !0),
+            j('resize', W, !0),
+            a.MutationObserver
+              ? new MutationObserver(W).observe(e, {
+                  childList: !0,
+                  subtree: !0,
+                  attributes: !0
+                })
+              : (e[h]('DOMNodeInserted', W, !0),
+                e[h]('DOMAttrModified', W, !0),
+                setInterval(W, 999)),
+            j('hashchange', W, !0),
+            [
+              'focus',
+              'mouseover',
+              'click',
+              'load',
+              'transitionend',
+              'animationend',
+              'webkitAnimationEnd'
+            ].forEach(function(a) {
+              b[h](a, W, !0)
+            }),
+            /d$|^c/.test(b.readyState)
+              ? ca()
+              : (j('load', ca), b[h]('DOMContentLoaded', W), k(ca, 2e4)),
+            c.elements.length ? (V(), z._lsFlush()) : W()
+        },
+        checkElems: W,
+        unveil: ba
+      }
+    })()
+    var E = (function() {
+      let a
+      const c = A(function(a, b, c, d) {
+        let e, f, g
+        if (
+          ((a._lazysizesWidth = d),
+          (d += 'px'),
+          a.setAttribute('sizes', d),
+          n.test(b.nodeName || ''))
+        )
+          for (
+            e = b.getElementsByTagName('source'), f = 0, g = e.length;
+            g > f;
+            f++
+          )
+            e[f].setAttribute('sizes', d)
+        c.detail.dataAttr || w(a, c.detail)
+      })
+      const e = function(a, b, d) {
+        let e
+        const f = a.parentNode
+        f &&
+          ((d = y(a, f, d)),
+          (e = v(a, 'lazybeforesizes', { width: d, dataAttr: !!b })),
+          e.defaultPrevented ||
+            ((d = e.detail.width),
+            d && d !== a._lazysizesWidth && c(a, f, e, d)))
+      }
+      const f = function() {
+        let b
+        const c = a.length
+        if (c) for (b = 0; c > b; b++) e(a[b])
+      }
+      const g = C(f)
+      return {
+        _() {
+          ;(a = b.getElementsByClassName(d.autosizesClass)), j('resize', g)
+        },
+        checkElems: g,
+        updateElem: e
+      }
+    })()
+    var F = function() {
+      F.i || ((F.i = !0), E._(), D._())
+    }
     return (c = {
       cfg: d,
       autoSizer: E,
@@ -11350,28 +11269,28 @@ var registStateManage = {
 !(function(t) {
   t.fn.customSocialButton = function(a) {
     function e(a) {
-      var e = a.attr('data-url'),
-        r = encodeURIComponent(e),
-        n = a.attr('class')
-      'stFacebook' === n || 'stCpFacebook' === n
+      const e = a.attr('data-url')
+      const r = encodeURIComponent(e)
+      const n = a.attr('class')
+      n === 'stFacebook' || n === 'stCpFacebook'
         ? t.ajax({
             url: '//graph.facebook.com/' + r,
             dataType: 'jsonp',
             timeout: 5e3,
-            success: function(t) {
-              var e = t.stShares
+            success(t) {
+              const e = t.stShares
               s(a, n, r, e)
             },
-            error: function(t) {
+            error(t) {
               s(a, n, r, 0)
             }
           })
         : s(a, n, r)
     }
     function s(a, e, s, r) {
-      var n,
-        i,
-        c = (a.attr('data-url'), encodeURIComponent(o))
+      let n
+      let i
+      const c = (a.attr('data-url'), encodeURIComponent(o))
       switch (((r = r || 0), e)) {
         case 'stTwitter':
         case 'stCpTwitter':
@@ -11411,7 +11330,7 @@ var registStateManage = {
             s),
             (i = 'シェア')
       }
-      'stCpMail' === e
+      e === 'stCpMail'
         ? a.append(
             t('<a>')
               .addClass('stShareBtn')
@@ -11438,9 +11357,9 @@ var registStateManage = {
               .wrapInner('<span>')
           ))
     }
-    var r = this,
-      n = location.href,
-      o = document.title
+    const r = this
+    let n = location.href
+    var o = document.title
     return (
       (n = n.match('help.honto.jp/')
         ? n
@@ -11448,13 +11367,13 @@ var registStateManage = {
         ? n.replace(/\/index\.html?/, '.html').replace(/(\?|#).*$/, '')
         : n.replace(/(\?|#).*$/, '')),
       r.find('li').each(function() {
-        var a = t(this)
+        const a = t(this)
         a.attr('data-url') || a.attr('data-url', n).attr('data-title', o), e(a)
       }),
       (function() {
         r.on('click', 'a', function(a) {
-          var e = t(this).attr('href'),
-            s = t(this).hasClass('stCount')
+          const e = t(this).attr('href')
+          const s = t(this).hasClass('stCount')
           if (
             !t(this)
               .closest('li')

@@ -4,17 +4,17 @@
  */
 jQuery.noConflict()
 
-var prdReviewList = {
+const prdReviewList = {
   /**
    * ブクログレビューをすべて開く.
    */
-  openBooklogReview: function() {
+  openBooklogReview() {
     // ブクログレビューをすべて開く
     jQuery('.dyBklgReviewText').fadeIn()
     // 「レビューを見る」リンクを削除
     jQuery('.dyBklgOpenLink').hide()
     // 「ブクログレビュー表示フラグ」をcookieに追加
-    var expires = new Date()
+    const expires = new Date()
     expires.setFullYear(expires.getFullYear() + 1)
     document.cookie = 'bklgRevDispFlg=1; path=/; expires=' + expires
   }

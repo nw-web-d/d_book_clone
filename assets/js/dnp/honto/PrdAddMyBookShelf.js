@@ -42,7 +42,7 @@ var prdAddMyBookShelf = {
    * @param displayType 表示タイプ(pcList:PCの一覧系画面 pcDetail:PCの詳細画面 spList:SPの一覧画面 spDetail:SPの詳細画面)
    * @param ebookFlg 電子書籍であることを表すフラグ
    */
-  add: function(pageBlockId, productId, haveProductId, displayType, ebookFlg) {
+  add(pageBlockId, productId, haveProductId, displayType, ebookFlg) {
     if (!HC.isSubmitted) {
       // 多重実行を防止
       HC.isSubmitted = true
@@ -52,7 +52,7 @@ var prdAddMyBookShelf = {
       // ローディング画像出しわけ設定
       this._setLoadingImage()
 
-      var prefix = 'dy_addShelfBtnDisp_'
+      let prefix = 'dy_addShelfBtnDisp_'
 
       if (displayType === 'pcDetailHbPrdList') {
         prefix = 'dy_addShelfBtnDisp_hbPrdList_'
@@ -82,13 +82,7 @@ var prdAddMyBookShelf = {
    * @param displayType 表示タイプ(pcList:PCの一覧系画面 pcDetail:PCの詳細画面 sp:SPの画面)
    * @param ebookFlg 電子書籍であることを表すフラグ
    */
-  _init: function(
-    pageBlockId,
-    productId,
-    haveProductId,
-    displayType,
-    ebookFlg
-  ) {
+  _init(pageBlockId, productId, haveProductId, displayType, ebookFlg) {
     this.productId = productId
     this.haveProductId = haveProductId
     this.pageBlockId = pageBlockId
@@ -109,7 +103,7 @@ var prdAddMyBookShelf = {
    *
    * @param json APIからのレスポンス
    */
-  complete: function(json) {
+  complete(json) {
     if (!json) {
       prdAddMyBookShelf.error()
       return
@@ -141,16 +135,14 @@ var prdAddMyBookShelf = {
       }
       // 後処理
       prdAddMyBookShelf._term()
+    } else if (prdAddMyBookShelf.displayType === 'pcDetailHbPrdList') {
+      // 処理失敗時、ローディング画像を登録リンクに戻す
+      jQuery(prdAddMyBookShelf.selecterHbPrdList).html(
+        prdAddMyBookShelf.linkClone
+      )
     } else {
-      if (prdAddMyBookShelf.displayType === 'pcDetailHbPrdList') {
-        // 処理失敗時、ローディング画像を登録リンクに戻す
-        jQuery(prdAddMyBookShelf.selecterHbPrdList).html(
-          prdAddMyBookShelf.linkClone
-        )
-      } else {
-        // 処理失敗時、ローディング画像を持っているボタンに戻す
-        jQuery(prdAddMyBookShelf.selecter).html(prdAddMyBookShelf.buttonClone)
-      }
+      // 処理失敗時、ローディング画像を持っているボタンに戻す
+      jQuery(prdAddMyBookShelf.selecter).html(prdAddMyBookShelf.buttonClone)
     }
 
     // PCの場合はローディング画像の定義を初期設定に戻す
@@ -168,18 +160,18 @@ var prdAddMyBookShelf = {
    * @param textStatus エラー内容("timeout", "error", "notmodified", "parsererror"など)
    * @param errorThrown 補足的な例外オブジェクト
    */
-  error: function(xhr, textStatus, errorThrown) {
+  error(xhr, textStatus, errorThrown) {
     // 現在のURLについているパラメータを付加
-    var newParameters = []
-    var parameters = window.location.search.substring(1).split('&')
-    for (var i = 0; i < parameters.length; i++) {
+    const newParameters = []
+    const parameters = window.location.search.substring(1).split('&')
+    for (let i = 0; i < parameters.length; i++) {
       if (!parameters[i].match(/^(having=|prdid=|havePrdId=|wantPrdId=)/)) {
         newParameters.push(parameters[i])
       }
     }
 
     // リダイレクトされた場合、リダイレクト先URLを取得できないため自画面遷移
-    var linkUrl =
+    let linkUrl =
       window.location.pathname +
       '?prdid=' +
       prdAddMyBookShelf.productId +
@@ -196,11 +188,11 @@ var prdAddMyBookShelf = {
    *
    * @return linkObj My本棚へのリンク要素
    */
-  _createShelfLinkPcList: function() {
-    var linkObj = jQuery('<li/>').append(
+  _createShelfLinkPcList() {
+    const linkObj = jQuery('<li/>').append(
       jQuery('<a/>', { href: '/my/shelf.html' }).append('<span/>')
     )
-    var linkText = 'My本棚を見る'
+    const linkText = 'My本棚を見る'
 
     linkObj
       .children()
@@ -216,11 +208,11 @@ var prdAddMyBookShelf = {
    *
    * @return linkObj My本棚へのリンク要素
    */
-  _createShelfLinkPcDetail: function() {
-    var linkObj = jQuery('<li/>').append(
+  _createShelfLinkPcDetail() {
+    const linkObj = jQuery('<li/>').append(
       jQuery('<span/>').append(jQuery('<a/>', { href: '/my/shelf.html' }))
     )
-    var linkText = 'My本棚を見る'
+    const linkText = 'My本棚を見る'
 
     linkObj.children().addClass('stListLink08 stShelf stCurrent')
     linkObj
@@ -236,9 +228,9 @@ var prdAddMyBookShelf = {
    *
    * @return linkObj My本棚へのリンク要素
    */
-  _createShelfLinkPcDetailHbPrdList: function() {
-    var linkText = 'My本棚を見る'
-    var linkUrl = '/my/shelf.html'
+  _createShelfLinkPcDetailHbPrdList() {
+    const linkText = 'My本棚を見る'
+    const linkUrl = '/my/shelf.html'
 
     return jQuery('<span/>').append(
       jQuery('<a/>', { href: linkUrl }).text(linkText)
@@ -250,11 +242,11 @@ var prdAddMyBookShelf = {
    *
    * @return linkObj My本棚へのリンク要素
    */
-  _createShelfLinkSp: function() {
-    var linkObj = jQuery('<p/>').append(
+  _createShelfLinkSp() {
+    const linkObj = jQuery('<p/>').append(
       jQuery('<a/>', { href: '/my/shelf.html' })
     )
-    var linkText = 'My本棚を見る'
+    const linkText = 'My本棚を見る'
 
     linkObj.addClass('stShelf')
     linkObj.children().text(linkText)
@@ -265,10 +257,10 @@ var prdAddMyBookShelf = {
   /**
    * 後処理
    */
-  _term: function() {
+  _term() {
     // 「ほしい本に追加する」ボタンの復活
     if (jQuery('#dy_addWntBk_' + prdAddMyBookShelf.haveProductId).size()) {
-      //「ほしい本の一覧を見る」リンクが存在する場合 →  「ほしい本に追加する」ボタンの復活
+      // 「ほしい本の一覧を見る」リンクが存在する場合 →  「ほしい本に追加する」ボタンの復活
       if (prdAddMyBookShelf.displayType === 'spList') {
         jQuery('#dy_addWntBk_' + prdAddMyBookShelf.haveProductId).replaceWith(
           prdAddMyBookShelf._createWantButtonSpList()
@@ -300,7 +292,7 @@ var prdAddMyBookShelf = {
   /**
    * ほしい本の既存メッセージを除去.
    */
-  _clearMessage: function() {
+  _clearMessage() {
     // ページ上部に表示されているメッセージがあれば除去(SPのみ)
     if (jQuery('#dy_wntBkMsg').size()) {
       jQuery('#dy_wntBkMsg').hide()
@@ -323,8 +315,8 @@ var prdAddMyBookShelf = {
    *
    * @return button ほしい本に追加するボタン要素
    */
-  _createWantButtonPcList: function() {
-    var innerA = jQuery('<a/>')
+  _createWantButtonPcList() {
+    const innerA = jQuery('<a/>')
     innerA.attr('id', 'dy_a_' + prdAddMyBookShelf.haveProductId)
     innerA.attr(
       'href',
@@ -338,14 +330,14 @@ var prdAddMyBookShelf = {
         "');"
     )
 
-    var innerImg = jQuery('<img/>')
+    const innerImg = jQuery('<img/>')
     innerImg.attr('src', '/library/img/pc/btn_list_03_o.png')
     innerImg.attr('alt', '欲しい本に追加する')
     innerImg.attr('height', '22')
     innerImg.attr('width', '152')
     innerImg.attr('id', 'dy_img_' + prdAddMyBookShelf.haveProductId)
 
-    var button = jQuery('<li/>')
+    const button = jQuery('<li/>')
     button.attr('id', 'dy_addWntBk_' + prdAddMyBookShelf.haveProductId)
 
     innerA.append(innerImg)
@@ -358,11 +350,11 @@ var prdAddMyBookShelf = {
    *
    * @return button 欲しい本に追加するボタン要素
    */
-  _createWantButtonPcDetail: function() {
-    var button = jQuery('<p/>')
+  _createWantButtonPcDetail() {
+    const button = jQuery('<p/>')
     button.attr('id', 'dy_addWntBk_' + prdAddMyBookShelf.haveProductId)
 
-    var wantBookText = 'ほしい本に追加'
+    let wantBookText = 'ほしい本に追加'
     // 電子書籍の場合
     if (prdAddMyBookShelf.ebookFlg === 'true') {
       wantBookText = wantBookText + '（値下がりすると通知がきます）'
@@ -419,8 +411,8 @@ var prdAddMyBookShelf = {
    *
    * @return link ほしい本に追加するリンク要素
    */
-  _createWantButtonPcDetailHbPrdList: function() {
-    var link = jQuery('<span/>')
+  _createWantButtonPcDetailHbPrdList() {
+    const link = jQuery('<span/>')
     link.attr('id', 'dy_addWntBk_hbPrdList_' + prdAddMyBookShelf.haveProductId)
 
     if (prdAddMyBookShelf.displayType === 'pcDetailHbPrdList') {
@@ -477,8 +469,8 @@ var prdAddMyBookShelf = {
    *
    * @return button ほしい本に追加するボタン要素
    */
-  _createWantButtonSpList: function() {
-    var inner = jQuery('<button/>')
+  _createWantButtonSpList() {
+    const inner = jQuery('<button/>')
     inner.attr('id', 'dy_img_' + prdAddMyBookShelf.haveProductId)
     inner.attr('type', 'submit')
     inner.attr('name', 'regWant')
@@ -495,10 +487,10 @@ var prdAddMyBookShelf = {
     )
     inner.addClass('stBtn stUserAction stWish dyPreventDoubleSubmit')
 
-    var innerHtml = '欲しい本に追加'
+    const innerHtml = '欲しい本に追加'
     inner.text(innerHtml)
 
-    var button = jQuery('<p/>')
+    const button = jQuery('<p/>')
     button.attr('id', 'dy_addWntBk_' + prdAddMyBookShelf.haveProductId)
 
     button.append(inner)
@@ -510,8 +502,8 @@ var prdAddMyBookShelf = {
    *
    * @return button ほしい本に追加するボタン要素
    */
-  _createWantButtonSpDetail: function() {
-    var inner = jQuery('<button/>')
+  _createWantButtonSpDetail() {
+    const inner = jQuery('<button/>')
     inner.attr('type', 'button')
     inner.attr(
       'onclick',
@@ -526,7 +518,7 @@ var prdAddMyBookShelf = {
     )
     inner.addClass('stBtn stUserAction stWish')
 
-    var innerHtml = 'ほしい本に追加'
+    const innerHtml = 'ほしい本に追加'
     inner.text(innerHtml)
 
     // 電子書籍の場合
@@ -534,7 +526,7 @@ var prdAddMyBookShelf = {
       inner.append('<span>（値下がりすると通知がきます）</span>')
     }
 
-    var button = jQuery('<p/>')
+    const button = jQuery('<p/>')
     button.attr('id', 'dy_addWntBk_' + prdAddMyBookShelf.haveProductId)
 
     button.append(inner)
@@ -544,7 +536,7 @@ var prdAddMyBookShelf = {
   /**
    * ローディング画像を設定する.
    */
-  _setLoadingImage: function() {
+  _setLoadingImage() {
     // PCの場合
     if (this.displayType.match(/^pc/)) {
       HC.Ajax.loadingImage = '/library/img/pc/loading_01.gif'

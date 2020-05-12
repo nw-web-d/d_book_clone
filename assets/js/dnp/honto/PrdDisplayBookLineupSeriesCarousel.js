@@ -4,7 +4,7 @@
  */
 
 function putReserveMessage() {
-  var dyRsrvMsg = document.getElementById('dy_rsrv_msg')
+  const dyRsrvMsg = document.getElementById('dy_rsrv_msg')
   dyRsrvMsg.innerHTML =
     '価格は予価のため、お支払額が変更となる場合がございます。'
 }

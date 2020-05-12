@@ -174,11 +174,11 @@
                         style="right: -56px; top: -56px;"
                         ><span></span
                         ><span></span
-                        >プリ☆ハニ～１６歳妻は“焦らされ”中～　分冊版（６）</span
+                        >プリ☆ハニ～１６歳妻は“焦らされ”中～&emsp;分冊版（６）</span
                       >
                       <div class="stSummary">
                         <p class="stTitle">
-                          プリ☆ハニ～１６歳妻は“焦らされ”中～　分冊版（６）
+                          プリ☆ハニ～１６歳妻は“焦らされ”中～&emsp;分冊版（６）
                         </p>
                         <p class="stAuthor">秋元奈美（著）</p>
                         <!-- /stSummary -->
@@ -189,7 +189,7 @@
                         class="lazyloaded"
                         src="~/assets/img/dnp/product/29962546_1BL.png"
                         data-src="https://image.honto.jp/item/1/133/2996/2546/29962546_1BL.png"
-                        alt="プリ☆ハニ～１６歳妻は“焦らされ”中～　分冊版（６）"
+                        alt="プリ☆ハニ～１６歳妻は“焦らされ”中～&emsp;分冊版（６）"
                         width="133"
                         height="180"
                       />
@@ -380,12 +380,13 @@
                       ><span
                         class="stBtn stFav"
                         style="right: -56px; top: -56px;"
-                        ><span></span><span></span>新　呪いの招待状（分冊版）
+                        ><span></span
+                        ><span></span>新&emsp;呪いの招待状（分冊版）
                         【第20話】</span
                       >
                       <div class="stSummary">
                         <p class="stTitle">
-                          新　呪いの招待状（分冊版） 【第20話】
+                          新&emsp;呪いの招待状（分冊版） 【第20話】
                         </p>
                         <p class="stAuthor">曽祢まさこ</p>
                         <!-- /stSummary -->
@@ -396,7 +397,7 @@
                         class="lazyloaded"
                         src="~/assets/img/dnp/product/29956875_1BL.png"
                         data-src="https://image.honto.jp/item/1/133/2995/6875/29956875_1BL.png"
-                        alt="新　呪いの招待状（分冊版） 【第20話】"
+                        alt="新&emsp;呪いの招待状（分冊版） 【第20話】"
                         width="133"
                         height="180"
                       />
@@ -406,7 +407,7 @@
                 <p class="stTitle">
                   <a
                     href="https://honto.jp/ebook/pd_29956875.html?deqid=9561827614&amp;recid=002002"
-                    >新　呪いの招待状（分冊版） 【第20...</a
+                    >新&emsp;呪いの招待状（分冊版） 【第20...</a
                   >
                 </p>
                 <p class="stAuthor">
@@ -524,11 +525,12 @@
                         class="stBtn stFav"
                         style="right: -56px; top: -56px;"
                         ><span></span
-                        ><span></span>改元　島耕作（１）　～昭和５８年～</span
+                        ><span></span
+                        >改元&emsp;島耕作（１）&emsp;～昭和５８年～</span
                       >
                       <div class="stSummary">
                         <p class="stTitle">
-                          改元　島耕作（１）　～昭和５８年～
+                          改元&emsp;島耕作（１）&emsp;～昭和５８年～
                         </p>
                         <p class="stAuthor">弘兼憲史（著）</p>
                         <!-- /stSummary -->
@@ -539,7 +541,7 @@
                         class="lazyloaded"
                         src="~/assets/img/dnp/product/29651690_1BL.png"
                         data-src="https://image.honto.jp/item/1/133/2965/1690/29651690_1BL.png"
-                        alt="改元　島耕作（１）　～昭和５８年～"
+                        alt="改元&emsp;島耕作（１）&emsp;～昭和５８年～"
                         width="133"
                         height="180"
                       />
@@ -549,7 +551,7 @@
                 <p class="stTitle">
                   <a
                     href="https://honto.jp/ebook/pd_29651690.html?deqid=9561827957&amp;recid=002002"
-                    >改元　島耕作（１）　～昭和５８年～</a
+                    >改元&emsp;島耕作（１）&emsp;～昭和５８年～</a
                   >
                 </p>
                 <p class="stAuthor">
@@ -591,11 +593,11 @@
                         class="stBtn stFav"
                         style="right: -56px; top: -56px;"
                         ><span></span
-                        ><span></span>モトカレマニア　プチキス（20）</span
+                        ><span></span>モトカレマニア&emsp;プチキス（20）</span
                       >
                       <div class="stSummary">
                         <p class="stTitle">
-                          モトカレマニア　プチキス（20）
+                          モトカレマニア&emsp;プチキス（20）
                         </p>
                         <p class="stAuthor">瀧波ユカリ（著）</p>
                         <!-- /stSummary -->
@@ -606,7 +608,7 @@
                         class="lazyloaded"
                         src="~/assets/img/dnp/product/29790024_1BL.png"
                         data-src="https://image.honto.jp/item/1/133/2979/0024/29790024_1BL.png"
-                        alt="モトカレマニア　プチキス（20）"
+                        alt="モトカレマニア&emsp;プチキス（20）"
                         width="133"
                         height="180"
                       />
@@ -616,7 +618,7 @@
                 <p class="stTitle">
                   <a
                     href="https://honto.jp/ebook/pd_29790024.html?deqid=9561827451&amp;recid=002002"
-                    >モトカレマニア　プチキス（20）</a
+                    >モトカレマニア&emsp;プチキス（20）</a
                   >
                 </p>
                 <p class="stAuthor">
@@ -661,11 +663,11 @@
                         class="stBtn stFav"
                         style="right: -56px; top: -56px;"
                         ><span></span
-                        ><span></span>カレシがいるのに【分冊版】　６</span
+                        ><span></span>カレシがいるのに【分冊版】&emsp;６</span
                       >
                       <div class="stSummary">
                         <p class="stTitle">
-                          カレシがいるのに【分冊版】　６
+                          カレシがいるのに【分冊版】&emsp;６
                         </p>
                         <p class="stAuthor">柚木N’</p>
                         <!-- /stSummary -->
@@ -676,7 +678,7 @@
                         class="lazyloaded"
                         src="~/assets/img/dnp/product/30239889_1BL.png"
                         data-src="https://image.honto.jp/item/1/133/3023/9889/30239889_1BL.png"
-                        alt="カレシがいるのに【分冊版】　６"
+                        alt="カレシがいるのに【分冊版】&emsp;６"
                         width="133"
                         height="180"
                       />
@@ -686,7 +688,7 @@
                 <p class="stTitle">
                   <a
                     href="https://honto.jp/ebook/pd_30239889.html?deqid=9561827626&amp;recid=002002"
-                    >カレシがいるのに【分冊版】　６</a
+                    >カレシがいるのに【分冊版】&emsp;６</a
                   >
                 </p>
                 <p class="stAuthor">
@@ -732,11 +734,11 @@
                         style="right: -56px; top: -56px;"
                         ><span></span
                         ><span></span
-                        >鉄のラインバレル　完全版　18【完】（ヒーローズコミックス）</span
+                        >鉄のラインバレル&emsp;完全版&emsp;18【完】（ヒーローズコミックス）</span
                       >
                       <div class="stSummary">
                         <p class="stTitle">
-                          鉄のラインバレル　完全版　18【完】（ヒーローズコミックス）
+                          鉄のラインバレル&emsp;完全版&emsp;18【完】（ヒーローズコミックス）
                         </p>
                         <p class="stAuthor">清水栄一（著）</p>
                         <!-- /stSummary -->
@@ -747,7 +749,7 @@
                         class="lazyloaded"
                         src="~/assets/img/dnp/product/29659767_1BL.png"
                         data-src="https://image.honto.jp/item/1/133/2965/9767/29659767_1BL.png"
-                        alt="鉄のラインバレル　完全版　18【完】（ヒーローズコミックス）"
+                        alt="鉄のラインバレル&emsp;完全版&emsp;18【完】（ヒーローズコミックス）"
                         width="133"
                         height="180"
                       />
@@ -757,7 +759,7 @@
                 <p class="stTitle">
                   <a
                     href="https://honto.jp/ebook/pd_29659767.html?deqid=9561827797&amp;recid=002002"
-                    >鉄のラインバレル　完全版　18【完】...</a
+                    >鉄のラインバレル&emsp;完全版&emsp;18【完】...</a
                   >
                 </p>
                 <p class="stAuthor">
@@ -852,11 +854,11 @@
                         style="right: -56px; top: -56px;"
                         ><span></span
                         ><span></span
-                        >我間乱～ＧＡＭＡＲＡＮ～　超合本版（１）</span
+                        >我間乱～ＧＡＭＡＲＡＮ～&emsp;超合本版（１）</span
                       >
                       <div class="stSummary">
                         <p class="stTitle">
-                          我間乱～ＧＡＭＡＲＡＮ～　超合本版（１）
+                          我間乱～ＧＡＭＡＲＡＮ～&emsp;超合本版（１）
                         </p>
                         <p class="stAuthor">中丸洋介（著）</p>
                         <!-- /stSummary -->
@@ -867,7 +869,7 @@
                         class="lazyload"
                         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEHAAEALAAAAAABAAEAAAICTAEAOw=="
                         data-src="https://image.honto.jp/item/1/133/2905/8719/29058719_1BL.png"
-                        alt="我間乱～ＧＡＭＡＲＡＮ～　超合本版（１）"
+                        alt="我間乱～ＧＡＭＡＲＡＮ～&emsp;超合本版（１）"
                         width="133"
                         height="180"
                       />
@@ -877,7 +879,7 @@
                 <p class="stTitle">
                   <a
                     href="https://honto.jp/ebook/pd_29058719.html?deqid=9561827463&amp;recid=002002"
-                    >我間乱～ＧＡＭＡＲＡＮ～　超合本版（...</a
+                    >我間乱～ＧＡＭＡＲＡＮ～&emsp;超合本版（...</a
                   >
                 </p>
                 <p class="stAuthor">
@@ -913,12 +915,12 @@
                         class="stBtn stFav"
                         style="right: -56px; top: -56px;"
                         ><span></span><span></span>≪期間限定
-                        20％OFF≫【セット商品】異世界魔王と召喚少女の奴隷魔術　1-11巻セット</span
+                        20％OFF≫【セット商品】異世界魔王と召喚少女の奴隷魔術&emsp;1-11巻セット</span
                       >
                       <div class="stSummary">
                         <p class="stTitle">
                           ≪期間限定
-                          20％OFF≫【セット商品】異世界魔王と召喚少女の奴隷魔術　1-11巻セット
+                          20％OFF≫【セット商品】異世界魔王と召喚少女の奴隷魔術&emsp;1-11巻セット
                         </p>
                         <p class="stAuthor">
                           むらさきゆきや（原作）
@@ -931,7 +933,7 @@
                         class="lazyload"
                         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEHAAEALAAAAAABAAEAAAICTAEAOw=="
                         data-src="https://image.honto.jp/item/1/133/3030/5306/30305306_1BL.png"
-                        alt="≪期間限定 20％OFF≫【セット商品】異世界魔王と召喚少女の奴隷魔術　1-11巻セット"
+                        alt="≪期間限定 20％OFF≫【セット商品】異世界魔王と召喚少女の奴隷魔術&emsp;1-11巻セット"
                         width="133"
                         height="180"
                       />

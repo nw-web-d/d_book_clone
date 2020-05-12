@@ -176,11 +176,7 @@
   </div>
 </template>
 <script>
-import StarRating from '~/components/common/StarRating'
 export default {
-  components: {
-    StarRating
-  },
   props: {
     product: {
       type: Object,

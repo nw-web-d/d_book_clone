@@ -3,7 +3,7 @@
  * @name BrowserPushConfig.js
  */
 
-var browserPushConfig = {
+const browserPushConfig = {
   /** 送信者ID **/
   config: {
     messagingSenderId: '28373353814'

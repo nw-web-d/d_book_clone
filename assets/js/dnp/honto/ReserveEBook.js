@@ -49,7 +49,7 @@ var reserveEBook = {
   continuationButtonId: '',
 
   /** 多重実行抑止 **/
-  setDoubleClickFlg: function(flg) {
+  setDoubleClickFlg(flg) {
     HC.isSubmitted = flg
   },
 
@@ -76,7 +76,7 @@ var reserveEBook = {
    * @param continuationModalFlg 続刊予約モーダルウィンドウ表示フラグ
    * @param continuationButtonId 続刊予約申し込みボタンID(シリーズID＋連番)
    */
-  reserve: function(
+  reserve(
     pageBlockId,
     identifier,
     productId,
@@ -109,7 +109,7 @@ var reserveEBook = {
       // サイトカタリストへ分析用データを送信
       reserveEBook.sendCatalystData(productId)
 
-      var queryString =
+      const queryString =
         'reserveEbkPrdId=' + reserveEBook.productId + '&reserveEBook=1'
 
       HC.Ajax.json(
@@ -149,13 +149,7 @@ var reserveEBook = {
    *                               spCampaign :SPのキャンペーン画面)
    * @param cid キャンペーンID
    */
-  reservePlusCid: function(
-    pageBlockId,
-    identifier,
-    productId,
-    displayType,
-    cid
-  ) {
+  reservePlusCid(pageBlockId, identifier, productId, displayType, cid) {
     if (!HC.isSubmitted) {
       // 多重実行を防止
       reserveEBook.setDoubleClickFlg(true)
@@ -176,7 +170,7 @@ var reserveEBook = {
       // サイトカタリストへ分析用データを送信
       reserveEBook.sendCatalystData(productId)
 
-      var queryString =
+      const queryString =
         'reserveEbkPrdId=' + reserveEBook.productId + '&reserveEBook=1'
 
       HC.Ajax.json(
@@ -205,7 +199,7 @@ var reserveEBook = {
    * @param continuationModalFlg 続刊予約モーダルウィンドウ表示フラグ
    * @param continuationButtonId 続刊予約申し込みボタンID
    */
-  init: function(
+  init(
     pageBlockId,
     identifier,
     productId,
@@ -244,17 +238,17 @@ var reserveEBook = {
    *
    * @param json APIからのレスポンス
    */
-  complete: function(json) {
+  complete(json) {
     if (!json) {
       reserveEBook.error()
       return
     }
 
-    var resPrdId = reserveEBook.areaSelecterId
+    let resPrdId = reserveEBook.areaSelecterId
 
     resPrdId = json.prdId
 
-    if ('true' === json.result || 'ERROR_RESERVED' === json.code) {
+    if (json.result === 'true' || json.code === 'ERROR_RESERVED') {
       // 予約済みボタンに変更
       if (reserveEBook.displayType.match(/^pc/)) {
         // PCの場合
@@ -492,15 +486,15 @@ var reserveEBook = {
 
     // メッセージ表示
     if (
-      ('false' === json.result &&
+      (json.result === 'false' &&
         json.message != null &&
         json.message.length > 0) ||
-      ('true' === json.result &&
+      (json.result === 'true' &&
         json.message != null &&
         json.message.length > 0 &&
         reserveEBook.isAlert(json.code))
     ) {
-      var message = reserveEBook.createMessage(json.message)
+      const message = reserveEBook.createMessage(json.message)
 
       if (
         reserveEBook.displayType.match(/^pcList/) ||
@@ -528,12 +522,10 @@ var reserveEBook = {
           .parent()
           .parent()
           .prepend(message)
+      } else if (!reserveEBook.identifier) {
+        jQuery('#dy_reserve_ebook_' + resPrdId).before(message)
       } else {
-        if (!reserveEBook.identifier) {
-          jQuery('#dy_reserve_ebook_' + resPrdId).before(message)
-        } else {
-          jQuery(reserveEBook.actionAreaSelecter).before(message)
-        }
+        jQuery(reserveEBook.actionAreaSelecter).before(message)
       }
     }
 
@@ -556,11 +548,11 @@ var reserveEBook = {
    * @param code json.code
    * @return boolean codeがアラートの場合true、アラートでない場合false
    */
-  isAlert: function(code) {
+  isAlert(code) {
     if (
-      'ALERT_ALL_TERMINAL_UNSUPPORTED' === code ||
-      'ALERT_TERMINAL_UPDATE' === code ||
-      'ALERT_SOME_TERMINAL_UNSUPPORTED' === code
+      code === 'ALERT_ALL_TERMINAL_UNSUPPORTED' ||
+      code === 'ALERT_TERMINAL_UPDATE' ||
+      code === 'ALERT_SOME_TERMINAL_UNSUPPORTED'
     ) {
       return true
     }
@@ -570,7 +562,7 @@ var reserveEBook = {
   /**
    * 既存メッセージを除去.
    */
-  clearMessage: function() {
+  clearMessage() {
     // 上部に表示されているメッセージがあれば除去
     if (jQuery("*[name='dy_reserve_ebook_msg_success']").size()) {
       jQuery("*[name='dy_reserve_ebook_msg_success']").hide()
@@ -593,11 +585,11 @@ var reserveEBook = {
    * @param textStatus エラー内容("timeout", "error", "notmodified", "parsererror"など)
    * @param errorThrown 補足的な例外オブジェクト
    */
-  error: function(xhr, textStatus, errorThrown) {
+  error(xhr, textStatus, errorThrown) {
     // 現在のURLについているパラメータを付加
-    var newParameters = []
-    var parameters = window.location.search.substring(1).split('&')
-    for (var i = 0; i < parameters.length; i++) {
+    const newParameters = []
+    const parameters = window.location.search.substring(1).split('&')
+    for (let i = 0; i < parameters.length; i++) {
       if (
         !parameters[i].match(/^(reserveEbkPrdId=|reserveEBook=|pageBlockId=)/)
       ) {
@@ -606,7 +598,7 @@ var reserveEBook = {
     }
 
     // リダイレクトされた場合、リダイレクト先URLを取得できないため自画面遷移
-    var linkUrl =
+    let linkUrl =
       window.location.pathname +
       '?reserveEbkPrdId=' +
       reserveEBook.productId +
@@ -625,8 +617,8 @@ var reserveEBook = {
    * @param message メッセージ
    * @return messageObj メッセージ要素
    */
-  createMessage: function(message) {
-    var messageObj = {}
+  createMessage(message) {
+    let messageObj = {}
 
     if (
       reserveEBook.displayType.match(/^pcList/) ||
@@ -670,7 +662,7 @@ var reserveEBook = {
   /**
    * ローディング画像を設定する.
    */
-  setLoadingImage: function() {
+  setLoadingImage() {
     // PCの場合
     if (reserveEBook.displayType.match(/^pc/)) {
       HC.Ajax.loadingImage = '/library/img/pc/loading_01.gif'
@@ -682,7 +674,7 @@ var reserveEBook = {
    *
    * @param catalystProperties 分析データ
    */
-  sendCatalystData: function(productId) {
+  sendCatalystData(productId) {
     try {
       s = s_gi(s_account)
       s.events = 'event47'

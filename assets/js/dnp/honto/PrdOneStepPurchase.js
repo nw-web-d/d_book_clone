@@ -15,14 +15,14 @@ var oneStepPurchase = {
   displayType: '',
 
   /** 多重実行抑止 **/
-  setDoubleClickFlg: function(flg) {
+  setDoubleClickFlg(flg) {
     HC.isSubmitted = flg
   },
 
   /**
    * ローディング画像を設定する.
    */
-  setLoadingImage: function() {
+  setLoadingImage() {
     // PCの場合
     if (oneStepPurchase.displayType.match(/^pc/)) {
       HC.Ajax.loadingImage = '/library/img/pc/loading_01.gif'
@@ -36,7 +36,7 @@ var oneStepPurchase = {
    * @param formIdentifier Form識別子
    * @param displayType 表示タイプ(pc:PC sp:SP)
    */
-  init: function(pageBlockId, formIdentifier, displayType) {
+  init(pageBlockId, formIdentifier, displayType) {
     oneStepPurchase.pageBlockId = pageBlockId
     oneStepPurchase.formIdentifier = formIdentifier
     oneStepPurchase.displayType = displayType
@@ -49,7 +49,7 @@ var oneStepPurchase = {
    * @param formIdentifier Form識別子
    * @param displayType 表示タイプ(pc:PC sp:SP)
    */
-  add: function(pageBlockId, formIdentifier, displayType) {
+  add(pageBlockId, formIdentifier, displayType) {
     if (!HC.isSubmitted) {
       // 多重実行を防止
       oneStepPurchase.setDoubleClickFlg(true)
@@ -57,8 +57,8 @@ var oneStepPurchase = {
       // ローディング画像出しわけ設定
       oneStepPurchase.setLoadingImage()
 
-      var oneStepForm = jQuery('#' + formIdentifier)
-      var oneStepblockData = Honto.Common.Ajax.blockData[pageBlockId]
+      const oneStepForm = jQuery('#' + formIdentifier)
+      const oneStepblockData = Honto.Common.Ajax.blockData[pageBlockId]
 
       // FWで必要なパラメータを設定
       oneStepForm.append(
@@ -78,7 +78,7 @@ var oneStepPurchase = {
 
       // EinsteinRecommendationsのtrackCart送信スクリプトを埋め込む
       try {
-        var productId = oneStepForm
+        const productId = oneStepForm
           .children('input[name="onestep-prdId"]')
           .val()
         oneStepForm.append(
