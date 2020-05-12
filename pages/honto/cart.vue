@@ -92,7 +92,7 @@
                               <dt><span>合計（税込）</span></dt>
                               <dd>
                                 <span class="stYen"
-                                  ><span id="ttlAmtUp">{{ getTotalPrice }}</span
+                                  ><span id="ttlAmtUp">{{ getCartTotalPrice }}</span
                                   >円</span
                                 >
                               </dd>
@@ -833,7 +833,7 @@ import { mapGetters } from 'vuex'
 export default {
   layout: 'honto',
   computed: {
-    ...mapGetters(['getCart', 'getTotalPrice', 'getCartLength'])
+    ...mapGetters(['getCart', 'getCartTotalPrice', 'getCartLength'])
   },
   methods: {
     onChangeQuantity(event, product) {

@@ -758,25 +758,11 @@
                     </ul>
                   </div>
                 </div>
-
-                <script
-                  type="text/javascript"
-                  src="~/assets/js/dnp/firebase-app.js"
-                ></script>
-                <script
-                  type="text/javascript"
-                  src="~/assets/js/dnp/firebase-messaging.js"
-                ></script>
-                <script type="text/javascript"></script>
               </div>
               <div class="pbNested pbNestedWrapper" id="pbBlock2641105">
                 <!-- Empty block -->
               </div>
               <div class="pbNested pbNestedWrapper" id="pbBlock2641106">
-                <script
-                  type="text/javascript"
-                  src="~/assets/js/dnp/s_code.min.js"
-                ></script>
                 <script type="text/javascript">
                   <!--
                   /**
@@ -854,11 +840,6 @@
                   })();
                   //-->
                 </script>
-                <script
-                  type="text/javascript"
-                  src="~/assets/js/dnp/vclp.js"
-                  async=""
-                ></script>
               </div>
             </div>
           </div>
@@ -868,3 +849,17 @@
   </footer>
   <!--/FOOTER-->
 </template>
+<script>
+export default {
+  head() {
+    return {
+      script: [
+        { src: '~/assets/js/dnp/lib/s_code.min.js' },
+        { src: '~/assets/js/dnp/lib/vclp.js' },
+        { src: '~/assets/js/dnp/lib/firebase-app.js' },
+        { src: '~/assets/js/dnp/lib/firebase-messaging.js' }
+      ]
+    }
+  }
+}
+</script>

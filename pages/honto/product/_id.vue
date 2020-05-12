@@ -270,7 +270,7 @@
     <!-- ページトラック処理_s -->
     <div style="display: none;">
       <img
-        src="./_files/track_page_view.gif"
+        src="~/assets/img/dnp/track_page_view.gif"
         width="0"
         height="0"
         title="blank image"
@@ -280,7 +280,7 @@
     </div>
     <div style="display: none;">
       <img
-        src="./_files/track_page_view_2.gif"
+        src="~/assets/img/dnp/track_page_view_2.gif"
         width="0"
         height="0"
         title="blank image"
@@ -317,7 +317,6 @@
         smnAdvertiserProductId: '[PRODUCT_ID]'
       })
     </script>
-    <script type="text/javascript" id="" src="./_files/sf.min.js"></script>
     <script type="text/javascript" id="">
       ;(function(d, g, h, l, e, k, c, a, b, f) {
         a = (d[e] || (d[e] = {}))[k] || (d[e][k] = {})
@@ -391,11 +390,6 @@
             { item_id: '', category_id: '', price: '', quantity: '' }
           ]
       </script>
-      <script
-        type="text/javascript"
-        language="javascript"
-        src="./_files/s_retargeting.js"
-      ></script>
     </div>
     <div style="display: none; visibility: hidden;">
       <script>
@@ -476,16 +470,6 @@
       </script>
       <noscript></noscript>
     </div>
-    <div style="display: none; visibility: hidden;">
-      <script type="text/javascript">
-        var yahoo_ss_retargeting_id = 1001085360,
-          yahoo_sstag_custom_params = window.yahoo_sstag_params,
-          yahoo_ss_retargeting = !0
-      </script>
-      <script type="text/javascript" src="./_files/conversion.js"></script>
-      <noscript></noscript>
-    </div>
-    <script src="./_files/uachecker.js"></script>
     <script type="text/javascript">
       ;(function(s, m, n, l, o, g, i, c, a, d) {
         c = (s[o] || (s[o] = {}))[g] || (s[o][g] = {})
@@ -514,7 +498,6 @@
         smnAdvertiserProductId: '25914816'
       })
     </script>
-    <script src="./_files/adsct" type="text/javascript"></script>
   </div>
 </template>
 <script>
